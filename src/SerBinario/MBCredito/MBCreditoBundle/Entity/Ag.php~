@@ -1,0 +1,46 @@
+<?php
+
+namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Ag
+ *
+ * @ORM\Table(name="ag")
+ * @ORM\Entity
+ */
+class Ag
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_ag", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idAg;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prefixo_ag", type="string", length=10, nullable=false)
+     */
+    private $prefixoAg;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nome_ag", type="string", length=50, nullable=false)
+     */
+    private $nomeAg;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cc_ag", type="string", length=10, nullable=false)
+     */
+    private $ccAg;
+
+
+}
