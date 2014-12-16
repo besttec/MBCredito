@@ -1,0 +1,170 @@
+<?php
+
+namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Clientes
+ *
+ * @ORM\Table(name="clientes", indexes={@ORM\Index(name="fk_clientes_sexos_idx", columns={"sexos_id_sexo"}), @ORM\Index(name="fk_clientes_super_estadual1_idx", columns={"super_estadual_id_super_estadual"}), @ORM\Index(name="fk_clientes_super_regional1_idx", columns={"super_regional_id_super_regional"}), @ORM\Index(name="fk_clientes_ag1_idx", columns={"ag_id_ag"})})
+ * @ORM\Entity
+ */
+class Clientes
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_cliente", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nome_cliente", type="string", length=50, nullable=false)
+     */
+    private $nomeCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mci_emp_cliente", type="string", length=10, nullable=true)
+     */
+    private $mciEmpCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cpf_cliente", type="string", length=11, nullable=false)
+     */
+    private $cpfCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ddd_fone_resid_cliente", type="string", length=5, nullable=true)
+     */
+    private $dddFoneResidCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fone_resid_cliente", type="string", length=10, nullable=true)
+     */
+    private $foneResidCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ddd_fone_comer_cliente", type="string", length=5, nullable=true)
+     */
+    private $dddFoneComerCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fone_comer_cliente", type="string", length=10, nullable=true)
+     */
+    private $foneComerCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ddd_fone_cel_cliente", type="string", length=5, nullable=true)
+     */
+    private $dddFoneCelCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fone_cel_cliente", type="string", length=10, nullable=true)
+     */
+    private $foneCelCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ddd_fone_pref_cliente", type="string", length=5, nullable=true)
+     */
+    private $dddFonePrefCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fone_pref_cliente", type="string", length=10, nullable=true)
+     */
+    private $fonePrefCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cod_cliente", type="string", length=20, nullable=true)
+     */
+    private $codCliente;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="data_nasc_cliente", type="datetime", nullable=true)
+     */
+    private $dataNascCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="num_beneficio_cliente", type="string", length=20, nullable=true)
+     */
+    private $numBeneficioCliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dv_cliente", type="string", length=45, nullable=true)
+     */
+    private $dvCliente;
+
+    /**
+     * @var \Sexos
+     *
+     * @ORM\ManyToOne(targetEntity="Sexos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="sexos_id_sexo", referencedColumnName="id_sexo")
+     * })
+     */
+    private $sexosSexo;
+
+    /**
+     * @var \SuperEstadual
+     *
+     * @ORM\ManyToOne(targetEntity="SuperEstadual")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="super_estadual_id_super_estadual", referencedColumnName="id_super_estadual")
+     * })
+     */
+    private $superEstadualSuperEstadual;
+
+    /**
+     * @var \SuperRegional
+     *
+     * @ORM\ManyToOne(targetEntity="SuperRegional")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="super_regional_id_super_regional", referencedColumnName="id_super_regional")
+     * })
+     */
+    private $superRegionalSuperRegional;
+
+    /**
+     * @var \Ag
+     *
+     * @ORM\ManyToOne(targetEntity="Ag")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ag_id_ag", referencedColumnName="id_ag")
+     * })
+     */
+    private $agAg;
+
+
+}

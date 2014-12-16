@@ -1,0 +1,46 @@
+<?php
+
+namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * SuperEstadual
+ *
+ * @ORM\Table(name="super_estadual")
+ * @ORM\Entity
+ */
+class SuperEstadual
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_super_estadual", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idSuperEstadual;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cod_super_estadual", type="string", length=10, nullable=false)
+     */
+    private $codSuperEstadual;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nome_super_estadual", type="string", length=50, nullable=false)
+     */
+    private $nomeSuperEstadual;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="uf", type="string", length=2, nullable=false)
+     */
+    private $uf;
+
+
+}
