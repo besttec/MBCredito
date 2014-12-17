@@ -32,6 +32,18 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/saveArquivo", name="saveArquivo")
+     */
+    public function saveArquivoAction(Request $request)
+    {
+        $uploadfile = $request->files->get("arquivo");
+        
+        if($uploadfile->isValid()) {
+            
+        }
+    }
+    
+    /**
      * @Route("/inserirDados")
      * @Template()
      */
@@ -109,4 +121,6 @@ class DefaultController extends Controller
         }
             
     }
+    
+    
 }
