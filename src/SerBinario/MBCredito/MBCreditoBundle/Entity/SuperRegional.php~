@@ -36,4 +36,60 @@ class SuperRegional
     private $nomeSuperRegional;
 
 
+
+    /**
+     * Get idSuperRegional
+     *
+     * @return integer 
+     */
+    public function getIdSuperRegional()
+    {
+        return $this->idSuperRegional;
+    }
+
+    /**
+     * Set codSuperRegional
+     *
+     * @param string $codSuperRegional
+     * @return SuperRegional
+     */
+    public function setCodSuperRegional($codSuperRegional)
+    {
+        $this->codSuperRegional = $codSuperRegional;
+
+        return $this;
+    }
+
+    /**
+     * Get codSuperRegional
+     *
+     * @return string 
+     */
+    public function getCodSuperRegional()
+    {
+        return $this->codSuperRegional;
+    }
+
+    /**
+     * Set nomeSuperRegional
+     *
+     * @param string $nomeSuperRegional
+     * @return SuperRegional
+     */
+    public function setNomeSuperRegional($nomeSuperRegional)
+    {
+        $this->nomeSuperRegional = $nomeSuperRegional;
+
+        return $this;
+    }
+
+    /**
+     * Get nomeSuperRegional
+     *
+     * @return string 
+     */
+    public function getNomeSuperRegional()
+    {
+        return $this->nomeSuperRegional;
+    }
 }

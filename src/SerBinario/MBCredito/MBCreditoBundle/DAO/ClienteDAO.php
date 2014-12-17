@@ -5,6 +5,9 @@ namespace SerBinario\MBCredito\MBCreditoBundle\DAO;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes;
 use Doctrine\ORM\EntityManager;
 
+/**
+ * 
+ */
 class ClienteDAO
 {   
     /**
@@ -17,17 +20,17 @@ class ClienteDAO
      * 
      * @param EntityManager $manager
      */
-    public function __construct(EntityManager $manager) {
-        
-        $this->manager = $manager;
-        
+    public function __construct(EntityManager $manager) 
+    {        
+        $this->manager = $manager;        
     }
     
     /**
      * 
      * @return boolean
      */
-    public function selectAllCliente() {
+    public function selectAllCliente() 
+    {
         try {
             
             $query = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes c");
@@ -44,7 +47,8 @@ class ClienteDAO
      * @param Clientes $entity
      * @return boolean
      */
-    public function insertCliente(Clientes $entity) {
+    public function insertCliente(Clientes $entity) 
+    {
         try {
             
             $this->manager->persist($entity);
@@ -62,7 +66,8 @@ class ClienteDAO
      * @param Clientes $entity
      * @return boolean
      */
-    public function updateCliente(Clientes $entity) {
+    public function updateCliente(Clientes $entity) 
+    {
         try {
             
             $this->manager->merge($entity);

@@ -24,7 +24,7 @@ class Sexos
     /**
      * @var string
      *
-     * @ORM\Column(name="nome_abreviatura_sexo", type="string", length=2, nullable=false)
+     * @ORM\Column(name="nome_abreviatura_sexo", type="string", length=2, nullable=true)
      */
     private $nomeAbreviaturaSexo;
 

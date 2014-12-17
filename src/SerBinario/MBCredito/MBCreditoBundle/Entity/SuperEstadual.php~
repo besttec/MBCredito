@@ -43,4 +43,83 @@ class SuperEstadual
     private $uf;
 
 
+
+    /**
+     * Get idSuperEstadual
+     *
+     * @return integer 
+     */
+    public function getIdSuperEstadual()
+    {
+        return $this->idSuperEstadual;
+    }
+
+    /**
+     * Set codSuperEstadual
+     *
+     * @param string $codSuperEstadual
+     * @return SuperEstadual
+     */
+    public function setCodSuperEstadual($codSuperEstadual)
+    {
+        $this->codSuperEstadual = $codSuperEstadual;
+
+        return $this;
+    }
+
+    /**
+     * Get codSuperEstadual
+     *
+     * @return string 
+     */
+    public function getCodSuperEstadual()
+    {
+        return $this->codSuperEstadual;
+    }
+
+    /**
+     * Set nomeSuperEstadual
+     *
+     * @param string $nomeSuperEstadual
+     * @return SuperEstadual
+     */
+    public function setNomeSuperEstadual($nomeSuperEstadual)
+    {
+        $this->nomeSuperEstadual = $nomeSuperEstadual;
+
+        return $this;
+    }
+
+    /**
+     * Get nomeSuperEstadual
+     *
+     * @return string 
+     */
+    public function getNomeSuperEstadual()
+    {
+        return $this->nomeSuperEstadual;
+    }
+
+    /**
+     * Set uf
+     *
+     * @param string $uf
+     * @return SuperEstadual
+     */
+    public function setUf($uf)
+    {
+        $this->uf = $uf;
+
+        return $this;
+    }
+
+    /**
+     * Get uf
+     *
+     * @return string 
+     */
+    public function getUf()
+    {
+        return $this->uf;
+    }
 }

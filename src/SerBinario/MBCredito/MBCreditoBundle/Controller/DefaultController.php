@@ -1,5 +1,4 @@
 <?php
-
 namespace SerBinario\MBCredito\MBCreditoBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -8,9 +7,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\Documento;
 use SerBinario\MBCredito\MBCreditoBundle\Util\GridClass;
 use SerBinario\MBCredito\MBCreditoBundle\Util\MBCreditoUtil;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes;
+use SerBinario\MBCredito\MBCreditoBundle\DAO\DocumentoDAO;
+use SerBinario\MBCredito\MBCreditoBundle\DAO\ClienteDAO;
 
 class DefaultController extends Controller
 {
@@ -24,7 +26,7 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/importarArquivo")
+     * @Route("/importarArquivo", name="importarArquivo")
      * @Template()
      */
     public function viewImportarArquivoAction()
@@ -38,10 +40,84 @@ class DefaultController extends Controller
     public function saveArquivoAction(Request $request)
     {
         $uploadfile = $request->files->get("arquivo");
+        $nameFile   = sha1(uniqid(mt_rand(), true));
+        $validator  = $this->get('validator');
         
-        if($uploadfile->isValid()) {
+        $documento = new Documento();
+        $documento->setName($nameFile);
+        $documento->setFile($uploadfile);
+        $documento->setData(new \DateTime("now", new \DateTimeZone("America/Recife")));
+        
+        $erros = $validator->validate($documento);
+        
+        if(! count($erros)) {
+            $documentoDAO = new DocumentoDAO($this->getDoctrine()->getManager());            
+            $documento->upload();
             
+            $result = $documentoDAO->save($documento);    
+            
+            if($result) {
+                $fileString = file($documento->getWebPath());
+     
+                for($i = 0; $i < count($fileString); $i++) {
+                    $columns = explode(";", $fileString[$i]);
+                    
+                    $cliente = new Clientes();
+                    
+                    $sexo = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Sexos();
+                    $sexo->setNomeExtensoSexo($columns[0]);
+                    
+                    $cliente->setSexosSexo($sexo);
+                    $cliente->setMciEmpCliente($columns[1]);
+                    $cliente->setLimteCredito($columns[2]);
+                    
+                    $superEstadual = new \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual();
+                    $superEstadual->setUf($columns[3]);
+                    $superEstadual->setCodSuperEstadual($columns[4]);
+                    $superEstadual->setNomeSuperEstadual($columns[5]);
+                    
+                    $cliente->setSuperEstadualSuperEstadual($superEstadual);
+                    
+                    $superRegional = new \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional();
+                    $superRegional->setCodSuperRegional($columns[6]);
+                    $superRegional->setNomeSuperRegional($columns[7]);
+                    
+                    $cliente->setSuperRegionalSuperRegional($superRegional);
+                    
+                    $ag = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag();
+                    $ag->setPrefixoAg($columns[8]);
+                    $ag->setNomeAg($columns[9]);
+                    $ag->setCcAg($columns[10]);
+                    
+                    $cliente->setAgAg($ag);
+                    $cliente->setNomeCliente($columns[11]);
+                    $cliente->setCpfCliente($columns[12]);
+                    $cliente->setDddFoneResidCliente($columns[13]);
+                    $cliente->setFoneResidCliente($columns[14]);
+                    $cliente->setDddFoneComerCliente($columns[15]);
+                    $cliente->setFoneComerCliente($columns[16]);
+                    $cliente->setDddFoneCelCliente($columns[17]);
+                    $cliente->setFoneCelCliente($columns[18]);
+                    $cliente->setDddFonePrefCliente($columns[19]);
+                    $cliente->setFonePrefCliente($columns[20]);
+                    $cliente->setCodCliente($columns[21]);
+                    $cliente->setDataNascCliente(new \DateTime("now",  new \DateTimeZone("America/Recife")));
+                    $cliente->setNumBeneficioCliente($columns[23]);
+                    $cliente->setDvCliente($columns[24]);
+                    
+                    $clienteDAO = new ClienteDAO($this->getDoctrine()->getManager());
+                    $clienteDAO->insertCliente($cliente);
+                }
+               
+               $this->get("session")->getFlashBag()->add('success', "Arquivo importado com sucesso!");              
+            } else {
+                $this->get("session")->getFlashBag()->add('error', "Error ao importar o arquivo!"); 
+            }
         }
+        
+        $this->get("session")->getFlashBag()->add('error', (string) $erros);
+        
+        return $this->redirect($this->generateUrl("importarArquivo"));
     }
     
     /**
