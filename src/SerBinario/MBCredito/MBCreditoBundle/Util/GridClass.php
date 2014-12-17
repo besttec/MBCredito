@@ -177,7 +177,7 @@ class GridClass
             $letras         = array('b', 'c', 'd', 'e');
             $entityJoin     = $this->entityJOIN;
             $sqlJoin        = "";
-            $entityJoinMain = $this->entityJOINWhereMain;
+            //$entityJoinMain = $this->entityJOINWhereMain;
 
             for($i = 0; $i < count($entityJoin); $i++) {
                 $verifyJoin = explode(".", $entityJoin[$i]);
