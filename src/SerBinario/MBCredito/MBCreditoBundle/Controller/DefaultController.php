@@ -73,37 +73,37 @@ class DefaultController extends Controller
                     
                     $superEstadual = new \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual();
                     $superEstadual->setUf($columns[3]);
-                    $superEstadual->setCodSuperEstadual($columns[3]);
-                    $superEstadual->setNomeSuperEstadual($columns[4]);
+                    $superEstadual->setCodSuperEstadual($columns[4]);
+                    $superEstadual->setNomeSuperEstadual($columns[5]);
                     
                     $cliente->setSuperEstadualSuperEstadual($superEstadual);
                     
                     $superRegional = new \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional();
-                    $superRegional->setCodSuperRegional($columns[4]);
-                    $superRegional->setNomeSuperRegional($columns[5]);
+                    $superRegional->setCodSuperRegional($columns[6]);
+                    $superRegional->setNomeSuperRegional($columns[7]);
                     
                     $cliente->setSuperRegionalSuperRegional($superRegional);
                     
                     $ag = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag();
-                    $ag->setPrefixoAg($columns[5]);
-                    $ag->setNomeAg($columns[6]);
-                    $ag->setCcAg($columns[7]);
+                    $ag->setPrefixoAg($columns[8]);
+                    $ag->setNomeAg($columns[9]);
+                    $ag->setCcAg($columns[10]);
                     
                     $cliente->setAgAg($ag);
-                    $cliente->setNomeCliente($columns[8]);
-                    $cliente->setCpfCliente($columns[9]);
-                    $cliente->setDddFoneResidCliente($columns[10]);
-                    $cliente->setFoneResidCliente($columns[11]);
-                    $cliente->setDddFoneComerCliente($columns[12]);
-                    $cliente->setFoneComerCliente($columns[13]);
-                    $cliente->setDddFoneCelCliente($columns[14]);
-                    $cliente->setFoneCelCliente($columns[15]);
-                    $cliente->setDddFonePrefCliente($columns[16]);
-                    $cliente->setFonePrefCliente($columns[17]);
-                    $cliente->setCodCliente($columns[18]);
+                    $cliente->setNomeCliente($columns[11]);
+                    $cliente->setCpfCliente($columns[12]);
+                    $cliente->setDddFoneResidCliente($columns[13]);
+                    $cliente->setFoneResidCliente($columns[14]);
+                    $cliente->setDddFoneComerCliente($columns[15]);
+                    $cliente->setFoneComerCliente($columns[16]);
+                    $cliente->setDddFoneCelCliente($columns[17]);
+                    $cliente->setFoneCelCliente($columns[18]);
+                    $cliente->setDddFonePrefCliente($columns[19]);
+                    $cliente->setFonePrefCliente($columns[20]);
+                    $cliente->setCodCliente($columns[21]);
                     $cliente->setDataNascCliente(new \DateTime("now",  new \DateTimeZone("America/Recife")));
-                    $cliente->setNumBeneficioCliente($columns[20]);
-                    $cliente->setDvCliente($columns[21]);
+                    $cliente->setNumBeneficioCliente($columns[22]);
+                    $cliente->setDvCliente($columns[23]);
                     
                     $clienteDAO = new ClienteDAO($this->getDoctrine()->getManager());
                     $clienteDAO->insertCliente($cliente);
