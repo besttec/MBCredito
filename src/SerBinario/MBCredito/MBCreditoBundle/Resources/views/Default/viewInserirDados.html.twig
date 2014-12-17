@@ -4,11 +4,37 @@
     {{parent()}}
     <style type="text/css" class="init">
         td.details-control {
-            background: url('/Versatil/app/src/resources/sistema/imagens/icone-produto-plus.png') no-repeat center center;
+            background: url({{asset("imagens/icone-produto-plus.png")}}) no-repeat center center;
             cursor: pointer;
         }
         tr.details td.details-control {
-            background: url('/Versatil/app/src/resources/sistema/imagens/icone-produto-minus.png') no-repeat center center;
+            background: url({{asset("imagens/icone-produto-minus.png")}}) no-repeat center center;
+        }
+
+        a.editar {
+            background: url({{asset("imagens/icone-editar.png")}}) no-repeat 0 0;
+            width: 22px;
+        }
+
+        a.visualizar {
+            background: url({{asset("imagens/icone-visualizar.png")}}) no-repeat 0 0;
+            width: 23px;
+        }
+
+        a.excluir {
+            background: url({{asset("imagens/icone-excluir.png")}}) no-repeat 0 0;
+            width: 21px;
+        }
+
+        td.bt {
+            padding: 10px 0;
+            width: 126px;
+        }
+
+        td.bt a {
+            float: left;
+            height: 22px;
+            margin: 0 10px;
         }
     </style>
 
@@ -25,18 +51,20 @@
                         <table id="example" class="display" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th>Casa</th>
-                                    <th>Carro</th>
-                                    <th>Ônibus</th>
+                                    <th>Detalhe</th>
+                                    <th>Nome</th>
+                                    <th>CPF</th>
+                                    <th>Número Benefício</th>
                                     <th>Acão</th>
                                 </tr>
                             </thead>
 
                             <tfoot>
                                 <tr>
-                                    <th>Casa</th>
-                                    <th>Carro</th>
-                                    <th>Ônibus</th>
+                                    <th>Detalhe</th>
+                                    <th>Nome</th>
+                                    <th>CPF</th>
+                                    <th>Número Benefício</th>
                                     <th>Acão</th>
                                 </tr>
                             </tfoot>
@@ -45,48 +73,51 @@
                 </div>
                 <div class="col-md-6 column" style="background-color: #F6F6F6; border-radius: 5px; padding: 10px;">
                     <div class="container-fluid">
-                    <form role="form">
-                        <div class="form-group col-lg-6">
-                            <label for="numBeneficio">Número do Benefício</label>
-                            <input type="text" disabled="" class="form-control" id="numBeneficio" />
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <label for="dtNascimento">Data Nascimento</label>
-                            <input type="text" disabled="" class="form-control" id="dtNascimento" />
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <label for="nomeNascimento">Nome do Beneficiário</label>
-                            <input type="text" disabled="" class="form-control" id="nomeNascimento" />
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <label for="cpf">CPF</label>
-                            <input type="text" disabled="" class="form-control" id="cpf" />
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <button type="submit" class="btn btn-primary">Consultar</button>
-                        </div>
-                        <br />
-                    </form>
+                        <form role="form">
+                            <div class="form-group col-lg-6">
+                                <label for="numBeneficio">Número do Benefício</label>
+                                <input type="text" disabled="" class="form-control" id="numBeneficio" />
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="dtNascimento">Data Nascimento</label>
+                                <input type="text" disabled="" class="form-control" id="dtNascimento" />
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="nomeNascimento">Nome do Beneficiário</label>
+                                <input type="text" disabled="" class="form-control" id="nome" />
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="cpf">CPF</label>
+                                <input type="text" disabled="" class="form-control" id="cpf" />
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <img id="captcha" name="captcha" src="http://www8.dataprev.gov.br//SipaINSS/faces/resource/1418823274447/CAPTCHA.xhtml?rsrc=captcha" style="width: 249px; height: 89px; border: 0px none;" />
+                                <input type="text" class="form-control" id="cpf" />
+                            </div><br />
+                            <div class="form-group col-lg-6">
+                                <button type="submit" class="btn btn-primary">Consultar</button>
+                            </div>
+                        </form>
                     </div>
                     <div class="container-fluid">
                         <fieldset>
                             <legend>Salvar Dados</legend>
-                        <form role="form">
-                            <div container-fluid>
-                                
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <label for="nomeNascimento">Nome do Beneficiário</label>
-                                <input type="text" class="form-control" id="nomeNascimento" />
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <label for="cpf">CPF</label>
-                                <input type="text" class="form-control" id="cpf" />
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <button type="submit" class="btn btn-primary">Salvar</button>
-                            </div>
-                        </form>
+                            <form role="form">
+                                <div container-fluid>
+
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="nomeNascimento">Nome do Beneficiário</label>
+                                    <input type="text" class="form-control" id="nomeNascimento" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="cpf">CPF</label>
+                                    <input type="text" class="form-control" id="cpf" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                </div>
+                            </form>
                         </fieldset>
                     </div>
                 </div>
@@ -99,8 +130,8 @@
     {{parent()}}
     <script type="text/javascript" language="javascript" class="init">
         function format(d) {
-            //return 'Grupo: ' + d.grupo + '<br>' +
-            //        'Marca: ' + d.marca + ' <br>';
+            return 'MCI: ' + d.mci + '<br>' +
+                    'Sexo: ' + d.Sexo + ' <br>';
         }
 
         $(document).ready(function ()
@@ -119,7 +150,7 @@
                 "serverSide": true,
                 "bFilter": true, //Ativa o Search global
                 "ajax": {
-                    "url": "testeGrid",
+                    "url": "grid",
                     "type": "POST"
                 },
                 "columns": [
@@ -130,8 +161,8 @@
                         "defaultContent": ""
                     },
                     {"data": "nome"},
-                    {"data": "mci"},
-                    {"data": "fone"},
+                    {"data": "cpf"},
+                    {"data": "numBeneficio"},
                     {
                         "class": "bt",
                         "orderable": false,
@@ -183,7 +214,7 @@
                     // Remove from the 'open' array
                     detailRows.splice(idx, 1);
                 }
-                
+
                 else {
                     tr.addClass('details');
                     row.child(format(row.data())).show();
@@ -193,6 +224,34 @@
                         detailRows.push(tr.attr('id'));
                     }
                 }
+            });
+
+            $('#example tbody').on('click', 'tr', function () {
+
+                var nome = $('td', this).eq(1).text();
+                var cpf = $('td', this).eq(2).text();
+                var num_beneficiario = $('td', this).eq(3).text();
+                var tr = $(this).closest('tr');
+                var row = dt.row(tr);
+                var data = row.data();
+                var dtNascimento = data.dtNascimento;
+                var condigo_prod = data.DT_RowId.replace("row_", "");
+
+                $('#numBeneficio').val(num_beneficiario);
+                $('#nome').val(nome);
+                $('#cpf').val(cpf);
+                $('#dtNascimento').val(dtNascimento);
+                $('#codigo_prod').val(condigo_prod);
+
+            });
+
+            $('#example tbody').on('click', 'tr', function () {
+               // jsf.util.chain(this, event, 'javascript: return reloadImg(\'img[id*=\\\'captcha\\\']\');',
+               //         'mojarra.jsfcljs(document.getElementById(\'j_idt36\'),{\'j_idt70\':\'j_idt70\'},\'\')');
+                //return false;
+                
+                var captcha = $('#captcha');
+                captcha.attr("src", "http://www8.dataprev.gov.br//SipaINSS/faces/resource/1418823274447/CAPTCHA.xhtml?rsrc=captcha")
             });
 
             // On each draw, loop over the `detailRows` array and show any child rows

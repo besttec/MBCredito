@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Documento;
 use SerBinario\MBCredito\MBCreditoBundle\Util\GridClass;
+use SerBinario\MBCredito\MBCreditoBundle\Util\MBCreditoUtil;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\DocumentoDAO;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\ClienteDAO;
@@ -125,31 +126,44 @@ class DefaultController extends Controller
      */
     public function viewInserirDadosAction()
     {
-        return array();
+        $mbCredito = new MBCreditoUtil("http://www8.dataprev.gov.br/SipaINSS/pages/hiscre/hiscreInicio.xhtml");
+        
+        
+        return array("img" => $mbCredito->get_captcha());
     }
     
     /**
      * @Route("/grid")
      * @Method({"POST"})
-     * @Template("")
+     * @Template("MBCreditoBundle:Default:viewInserirDados.html.twig")
      */
-    public function testeGridAction()
+    public function testeGridAction(Request $request)
     {
+        
         if(GridClass::isAjax()) {
             
             $columns = array("a.nomeCliente",
                 "a.mciEmpCliente",
                 "a.cpfCliente",
-                "a.dddFoneResidCliente"
+                "a.dddFoneResidCliente",
+                "a.foneResidCliente",
+                "a.dddFoneComerCliente",
+                "a.foneComerCliente",
+                "a.dddFoneCelCliente",
+                "a.foneCelCliente",
+                "a.foneCelCliente",
+                "a.numBeneficioCliente",
+                "a.sexosSexo",
+                "a.dataNascCliente"
                 );
 
-            $entityJOIN = array("tipoEvento", "noivos"); 
+            $entityJOIN = array(); 
 
             $eventosArray        = array();
-            $parametros          = $this->getParamsPost();        
+            $parametros          = $request->request->all();        
             $entity              = "SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes"; 
             $columnWhereMain     = "";
-            $whereValueMain      = ""; 
+            $whereValueMain      = "";
             
             $gridClass = new GridClass($this->getDoctrine()->getManager(), 
                     $parametros,
@@ -159,23 +173,25 @@ class DefaultController extends Controller
                     $columnWhereMain,
                     $whereValueMain);
 
-            $resultEvento  = $gridClass->builderQuery();    
-            $countTotal    = $gridClass->getCountByIdJoin("noivos", "idnoivos", $idNoivos);
-            $countEventos = count($resultEvento);
-
-
+            $resultCliente  = $gridClass->builderQuery();    
+            $countTotal     = $gridClass->getCount();
+            $countEventos   = count($resultCliente);
 
             for($i=0;$i < $countEventos; $i++)
             {
-                $eventosArray[$i]['DT_RowId']   =  "row_".$resultEvento[$i]->getIdeventos();
-                $eventosArray[$i]['info'] = utf8_encode($resultEvento[$i]->getInfo());
-                $eventosArray[$i]['titulo'] =  utf8_encode($resultEvento[$i]->getTitulo());
-                $eventosArray[$i]['endereco'] =  utf8_encode($resultEvento[$i]->getEndereco());
-                $eventosArray[$i]['cidade'] =  utf8_encode($resultEvento[$i]->getCidade());
-                $eventosArray[$i]['uf'] = $resultEvento[$i]->getUf();
-                $eventosArray[$i]['data'] = $resultEvento[$i]->getData()->format("d-m-Y");
-                $eventosArray[$i]['local'] = utf8_encode($resultEvento[$i]->getLocal());
-                $eventosArray[$i]['tipoEvento'] = utf8_encode($resultEvento[$i]->getTipoEvento()->getTipoEvento());
+                $eventosArray[$i]['DT_RowId']   =  "row_".$resultCliente[$i]->getIdCliente();
+                $eventosArray[$i]['nome']       =  $resultCliente[$i]->getNomeCliente();
+                $eventosArray[$i]['mci']        =  $resultCliente[$i]->getMciEmpCliente();
+                $eventosArray[$i]['cpf']        =  $resultCliente[$i]->getCpfCliente();
+                $eventosArray[$i]['dddFoneRes']       =  $resultCliente[$i]->getDddFoneResidCliente();
+                $eventosArray[$i]['FoneRes']       =  $resultCliente[$i]->getFoneResidCliente();
+                $eventosArray[$i]['dddFoneCom']       =  $resultCliente[$i]->getDddFoneComerCliente();
+                $eventosArray[$i]['FoneCom']       =  $resultCliente[$i]->getFoneComerCliente();
+                $eventosArray[$i]['dddFoneCel']       =  $resultCliente[$i]->getDddFoneCelCliente();
+                $eventosArray[$i]['FoneCel']       =  $resultCliente[$i]->getFoneCelCliente();
+                $eventosArray[$i]['numBeneficio']       =  $resultCliente[$i]->getNumBeneficioCliente();
+                $eventosArray[$i]['Sexo']       =  $resultCliente[$i]->getSexosSexo()->getNomeExtensoSexo();
+                $eventosArray[$i]['dtNascimento']       =  $resultCliente[$i]->getDataNascCliente();
             }
 
             //Se a variável $sqlFilter estiver vazio
@@ -183,20 +199,20 @@ class DefaultController extends Controller
                 $countEventos = $countTotal;
             }
 
-
             $columns = array(               
-                'draw' => $parametros['draw'],
-                'recordsTotal' => "{$countTotal}",
-                'recordsFiltered' => "{$countEventos}",
-                'data' => $eventosArray               
+                'draw'              => $parametros['draw'],
+                'recordsTotal'      => "{$countTotal}",
+                'recordsFiltered'   => "{$countEventos}",
+                'data'              => $eventosArray               
             );
 
              return new JsonResponse($columns);
-        } else {
-            $this->view("noivos/gridEventosNoivos", array('type' => $type, 'msg' => $msg));
+        }else{
+            
+            return array();
+            
         }
             
     }
-    
     
 }
