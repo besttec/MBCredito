@@ -7,7 +7,7 @@
             <div class="col-md-5 column">
                 <fieldset>
                     <legend>Importar Arquivo</legend>
-                    <form role="form" method="post" action="{{ path('saveArquivo') }}" enctype="multipart/form-data">
+                    <form role="form" method="post" action="{{ path('saveArquivo') }}" {{ form_enctype(form) }}>
                         <div class="form-group">
                             <label for="arquivo">Arquivo</label>
                             <input type="file" name="arquivo" id="arquivo">

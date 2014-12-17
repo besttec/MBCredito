@@ -167,4 +167,451 @@ class Clientes
     private $agAg;
 
 
+
+    /**
+     * Get idCliente
+     *
+     * @return integer 
+     */
+    public function getIdCliente()
+    {
+        return $this->idCliente;
+    }
+
+    /**
+     * Set nomeCliente
+     *
+     * @param string $nomeCliente
+     * @return Clientes
+     */
+    public function setNomeCliente($nomeCliente)
+    {
+        $this->nomeCliente = $nomeCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get nomeCliente
+     *
+     * @return string 
+     */
+    public function getNomeCliente()
+    {
+        return $this->nomeCliente;
+    }
+
+    /**
+     * Set mciEmpCliente
+     *
+     * @param string $mciEmpCliente
+     * @return Clientes
+     */
+    public function setMciEmpCliente($mciEmpCliente)
+    {
+        $this->mciEmpCliente = $mciEmpCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get mciEmpCliente
+     *
+     * @return string 
+     */
+    public function getMciEmpCliente()
+    {
+        return $this->mciEmpCliente;
+    }
+
+    /**
+     * Set cpfCliente
+     *
+     * @param string $cpfCliente
+     * @return Clientes
+     */
+    public function setCpfCliente($cpfCliente)
+    {
+        $this->cpfCliente = $cpfCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get cpfCliente
+     *
+     * @return string 
+     */
+    public function getCpfCliente()
+    {
+        return $this->cpfCliente;
+    }
+
+    /**
+     * Set dddFoneResidCliente
+     *
+     * @param string $dddFoneResidCliente
+     * @return Clientes
+     */
+    public function setDddFoneResidCliente($dddFoneResidCliente)
+    {
+        $this->dddFoneResidCliente = $dddFoneResidCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get dddFoneResidCliente
+     *
+     * @return string 
+     */
+    public function getDddFoneResidCliente()
+    {
+        return $this->dddFoneResidCliente;
+    }
+
+    /**
+     * Set foneResidCliente
+     *
+     * @param string $foneResidCliente
+     * @return Clientes
+     */
+    public function setFoneResidCliente($foneResidCliente)
+    {
+        $this->foneResidCliente = $foneResidCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get foneResidCliente
+     *
+     * @return string 
+     */
+    public function getFoneResidCliente()
+    {
+        return $this->foneResidCliente;
+    }
+
+    /**
+     * Set dddFoneComerCliente
+     *
+     * @param string $dddFoneComerCliente
+     * @return Clientes
+     */
+    public function setDddFoneComerCliente($dddFoneComerCliente)
+    {
+        $this->dddFoneComerCliente = $dddFoneComerCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get dddFoneComerCliente
+     *
+     * @return string 
+     */
+    public function getDddFoneComerCliente()
+    {
+        return $this->dddFoneComerCliente;
+    }
+
+    /**
+     * Set foneComerCliente
+     *
+     * @param string $foneComerCliente
+     * @return Clientes
+     */
+    public function setFoneComerCliente($foneComerCliente)
+    {
+        $this->foneComerCliente = $foneComerCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get foneComerCliente
+     *
+     * @return string 
+     */
+    public function getFoneComerCliente()
+    {
+        return $this->foneComerCliente;
+    }
+
+    /**
+     * Set dddFoneCelCliente
+     *
+     * @param string $dddFoneCelCliente
+     * @return Clientes
+     */
+    public function setDddFoneCelCliente($dddFoneCelCliente)
+    {
+        $this->dddFoneCelCliente = $dddFoneCelCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get dddFoneCelCliente
+     *
+     * @return string 
+     */
+    public function getDddFoneCelCliente()
+    {
+        return $this->dddFoneCelCliente;
+    }
+
+    /**
+     * Set foneCelCliente
+     *
+     * @param string $foneCelCliente
+     * @return Clientes
+     */
+    public function setFoneCelCliente($foneCelCliente)
+    {
+        $this->foneCelCliente = $foneCelCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get foneCelCliente
+     *
+     * @return string 
+     */
+    public function getFoneCelCliente()
+    {
+        return $this->foneCelCliente;
+    }
+
+    /**
+     * Set dddFonePrefCliente
+     *
+     * @param string $dddFonePrefCliente
+     * @return Clientes
+     */
+    public function setDddFonePrefCliente($dddFonePrefCliente)
+    {
+        $this->dddFonePrefCliente = $dddFonePrefCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get dddFonePrefCliente
+     *
+     * @return string 
+     */
+    public function getDddFonePrefCliente()
+    {
+        return $this->dddFonePrefCliente;
+    }
+
+    /**
+     * Set fonePrefCliente
+     *
+     * @param string $fonePrefCliente
+     * @return Clientes
+     */
+    public function setFonePrefCliente($fonePrefCliente)
+    {
+        $this->fonePrefCliente = $fonePrefCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get fonePrefCliente
+     *
+     * @return string 
+     */
+    public function getFonePrefCliente()
+    {
+        return $this->fonePrefCliente;
+    }
+
+    /**
+     * Set codCliente
+     *
+     * @param string $codCliente
+     * @return Clientes
+     */
+    public function setCodCliente($codCliente)
+    {
+        $this->codCliente = $codCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get codCliente
+     *
+     * @return string 
+     */
+    public function getCodCliente()
+    {
+        return $this->codCliente;
+    }
+
+    /**
+     * Set dataNascCliente
+     *
+     * @param \DateTime $dataNascCliente
+     * @return Clientes
+     */
+    public function setDataNascCliente($dataNascCliente)
+    {
+        $this->dataNascCliente = $dataNascCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get dataNascCliente
+     *
+     * @return \DateTime 
+     */
+    public function getDataNascCliente()
+    {
+        return $this->dataNascCliente;
+    }
+
+    /**
+     * Set numBeneficioCliente
+     *
+     * @param string $numBeneficioCliente
+     * @return Clientes
+     */
+    public function setNumBeneficioCliente($numBeneficioCliente)
+    {
+        $this->numBeneficioCliente = $numBeneficioCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get numBeneficioCliente
+     *
+     * @return string 
+     */
+    public function getNumBeneficioCliente()
+    {
+        return $this->numBeneficioCliente;
+    }
+
+    /**
+     * Set dvCliente
+     *
+     * @param string $dvCliente
+     * @return Clientes
+     */
+    public function setDvCliente($dvCliente)
+    {
+        $this->dvCliente = $dvCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get dvCliente
+     *
+     * @return string 
+     */
+    public function getDvCliente()
+    {
+        return $this->dvCliente;
+    }
+
+    /**
+     * Set sexosSexo
+     *
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\Sexos $sexosSexo
+     * @return Clientes
+     */
+    public function setSexosSexo(\SerBinario\MBCredito\MBCreditoBundle\Entity\Sexos $sexosSexo = null)
+    {
+        $this->sexosSexo = $sexosSexo;
+
+        return $this;
+    }
+
+    /**
+     * Get sexosSexo
+     *
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Sexos 
+     */
+    public function getSexosSexo()
+    {
+        return $this->sexosSexo;
+    }
+
+    /**
+     * Set superEstadualSuperEstadual
+     *
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual $superEstadualSuperEstadual
+     * @return Clientes
+     */
+    public function setSuperEstadualSuperEstadual(\SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual $superEstadualSuperEstadual = null)
+    {
+        $this->superEstadualSuperEstadual = $superEstadualSuperEstadual;
+
+        return $this;
+    }
+
+    /**
+     * Get superEstadualSuperEstadual
+     *
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual 
+     */
+    public function getSuperEstadualSuperEstadual()
+    {
+        return $this->superEstadualSuperEstadual;
+    }
+
+    /**
+     * Set superRegionalSuperRegional
+     *
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional $superRegionalSuperRegional
+     * @return Clientes
+     */
+    public function setSuperRegionalSuperRegional(\SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional $superRegionalSuperRegional = null)
+    {
+        $this->superRegionalSuperRegional = $superRegionalSuperRegional;
+
+        return $this;
+    }
+
+    /**
+     * Get superRegionalSuperRegional
+     *
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional 
+     */
+    public function getSuperRegionalSuperRegional()
+    {
+        return $this->superRegionalSuperRegional;
+    }
+
+    /**
+     * Set agAg
+     *
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag $agAg
+     * @return Clientes
+     */
+    public function setAgAg(\SerBinario\MBCredito\MBCreditoBundle\Entity\Ag $agAg = null)
+    {
+        $this->agAg = $agAg;
+
+        return $this;
+    }
+
+    /**
+     * Get agAg
+     *
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag 
+     */
+    public function getAgAg()
+    {
+        return $this->agAg;
+    }
 }
