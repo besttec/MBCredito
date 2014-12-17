@@ -102,8 +102,8 @@ class DefaultController extends Controller
                     $cliente->setFonePrefCliente($columns[20]);
                     $cliente->setCodCliente($columns[21]);
                     $cliente->setDataNascCliente(new \DateTime("now",  new \DateTimeZone("America/Recife")));
-                    $cliente->setNumBeneficioCliente($columns[22]);
-                    $cliente->setDvCliente($columns[23]);
+                    $cliente->setNumBeneficioCliente($columns[23]);
+                    $cliente->setDvCliente($columns[24]);
                     
                     $clienteDAO = new ClienteDAO($this->getDoctrine()->getManager());
                     $clienteDAO->insertCliente($cliente);
