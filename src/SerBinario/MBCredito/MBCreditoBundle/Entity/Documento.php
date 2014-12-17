@@ -3,6 +3,7 @@ namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity
@@ -29,12 +30,12 @@ class Documento
     private $path;
     
     /**
-     * @Assert\File(maxSize="6000000")
+     * @Assert\File(maxSize="600000000000")
      */
     private $file;
-    
+       
     /**
-     *
+     * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime(message="Esse valor não é uma data válida.")
      */
     private $data;
@@ -113,65 +114,73 @@ class Documento
         $this->data = $data;
     }
     
+     /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+    
+   /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+        // check if we have an old image path
+        if (isset($this->path)) {
+            // store the old name to delete after the update
+            $this->temp = $this->path;
+            $this->path = null;
+        } else {
+            $this->path = 'initial';
+        }
+    }
+
     /**
      * 
      * @return type
      */
-    function setFile($file) 
-    {
-        $this->file = $file;
-        
-        return $this;
-    }
-
-        
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload()
-    {
-        if (null !== $this->file) {
-            // do whatever you want to generate a unique name
-            $filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $filename.'.'.$this->file->guessExtension();
-        }
-    }
-        
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
     public function upload()
     {
+        // the file property can be empty if the field is not required
         if (null === $this->getFile()) {
             return;
         }
 
-        // if there is an error when moving the file, an exception will
-        // be automatically thrown by move(). This will properly prevent
-        // the entity from being persisted to the database on error
-        $this->getFile()->move($this->getUploadRootDir(), $this->path);
+        // use the original file name here but you should
+        // sanitize it at least to avoid any security issues
 
-        // check if we have an old image
-        if (isset($this->temp)) {
-            // delete the old image
-            unlink($this->getUploadRootDir().'/'.$this->temp);
-            // clear the temp image path
-            $this->temp = null;
-        }
+        // move takes the target directory and then the
+        // target filename to move to
+        $this->getFile()->move(
+            $this->getUploadRootDir(),
+            $this->getFile()->getClientOriginalName()
+        );
+
+        // set the path property to the filename where you've saved the file
+        $this->path = $this->getFile()->getClientOriginalName();
+
+        // clean up the file property as you won't need it anymore
         $this->file = null;
     }
-    
+
     /**
      * @ORM\PostRemove()
      */
     public function removeUpload()
     {
-        if ($file = $this->getAbsolutePath()) {
+        $file = $this->getAbsolutePath();
+        if ($file) {
             unlink($file);
         }
     }
+
 
     /**
      * 
@@ -203,7 +212,7 @@ class Documento
     {
         // the absolute directory path where uploaded
         // documents should be saved
-        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+        return __DIR__.'/../../../../../web/'.$this->getUploadDir();
     }
 
     /**

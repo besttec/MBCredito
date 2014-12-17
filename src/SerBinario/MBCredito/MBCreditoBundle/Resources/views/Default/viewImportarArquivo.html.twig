@@ -5,9 +5,16 @@
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-5 column">
+                {% for label, flashes in app.session.flashbag.all %}
+                    {% for flash in flashes %}
+                        <div class="alert alert-{{ label }}">
+                            {{ flash }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
                 <fieldset>
                     <legend>Importar Arquivo</legend>
-                    <form role="form" method="post" action="{{ path('saveArquivo') }}" {{ form_enctype(form) }}>
+                    <form role="form" method="post" action="{{ path('saveArquivo') }}" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="arquivo">Arquivo</label>
                             <input type="file" name="arquivo" id="arquivo">

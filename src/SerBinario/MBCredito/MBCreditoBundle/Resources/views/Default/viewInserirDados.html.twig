@@ -129,9 +129,9 @@
                         "data": null,
                         "defaultContent": ""
                     },
-                    {"data": "casa"},
-                    {"data": "Carro"},
-                    {"data": "onibus"},
+                    {"data": "nome"},
+                    {"data": "mci"},
+                    {"data": "fone"},
                     {
                         "class": "bt",
                         "orderable": false,
@@ -183,6 +183,7 @@
                     // Remove from the 'open' array
                     detailRows.splice(idx, 1);
                 }
+                
                 else {
                     tr.addClass('details');
                     row.child(format(row.data())).show();
