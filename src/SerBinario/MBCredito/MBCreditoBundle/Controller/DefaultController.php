@@ -49,11 +49,8 @@ class DefaultController extends Controller
      * @Template()
      */
     public function viewInserirDadosAction()
-    {
-        $mbCredito = new MBCreditoUtil("http://www8.dataprev.gov.br/SipaINSS/pages/hiscre/hiscreInicio.xhtml");
-        
-        
-        return array("img" => $mbCredito->get_captcha());
+    {      
+        return array();
     }
     
     /**
@@ -115,7 +112,7 @@ class DefaultController extends Controller
                 $eventosArray[$i]['FoneCel']       =  $resultCliente[$i]->getFoneCelCliente();
                 $eventosArray[$i]['numBeneficio']       =  $resultCliente[$i]->getNumBeneficioCliente();
                 $eventosArray[$i]['Sexo']       =  $resultCliente[$i]->getSexosSexo()->getNomeExtensoSexo();
-                $eventosArray[$i]['dtNascimento']       =  $resultCliente[$i]->getDataNascCliente();
+                $eventosArray[$i]['dtNascimento']       =  $resultCliente[$i]->getDataNascCliente()->format('d/m/Y');
             }
 
             //Se a variável $sqlFilter estiver vazio
@@ -137,6 +134,22 @@ class DefaultController extends Controller
             
         }
             
+    }
+    
+    /**
+     * @Route("/captcha")
+     * @Method({"POST"})
+     * @Template()
+     */
+    public function captchaAction()
+    {
+        $mbCredito = new MBCreditoUtil("http://www8.dataprev.gov.br/SipaINSS/pages/hiscre/hiscreInicio.xhtml");
+        
+        $result = array(
+            "img" => $mbCredito->get_captcha()
+        );
+        
+        return new JsonResponse($result);
     }
     
 }
