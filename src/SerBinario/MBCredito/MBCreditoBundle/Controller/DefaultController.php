@@ -234,4 +234,13 @@ class DefaultController extends Controller
         return new JsonResponse($result);
     }
     
+    /**
+     * @Route("/teste")
+     * @Template()
+     */
+    public function testeAction()
+    {
+        return array();
+    }
+    
 }
