@@ -6,7 +6,7 @@ use SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes;
 /**
  * Description of MBCreditoUtil
  *
- *  $url    = 'http://www8.dataprev.gov.br/SipaINSS/pages/hiscre/hiscreInicio.xhtml';
+ *  $url = 'http://www8.dataprev.gov.br/SipaINSS/pages/hiscre/hiscreInicio.xhtml';
  * 
  * @author andrey
  */
@@ -124,7 +124,7 @@ class MBCreditoUtil
         $viewState   = $this->get_view_state();
         
         $postdata = "nome={$nomeCliente}&DTPINFRA_TOKEN={$token}";        
-        $result = ServerUtil::submit($url, $postdata, $cookie);               
+        $result   = ServerUtil::submit($url, $postdata, $cookie);               
 
         return $result; 
     }
