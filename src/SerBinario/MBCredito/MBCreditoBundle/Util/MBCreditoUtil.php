@@ -116,15 +116,26 @@ class MBCreditoUtil
      * 
      * @param Clientes $cliente
      */
-    public function submitForm(Clientes $cliente, $url, $cookie = "")
+    public function submitForm(Clientes $cliente, $captcha, $cookie = "")
     {   
-        $nomeCliente = $cliente->getNomeCliente();
-        $cpfCliente  = $cliente->getCpfCliente();
-        $token       = $this->get_token();
-        $viewState   = $this->get_view_state();
+        $nomeCliente     = $cliente->getNomeCliente();
+        $cpfCliente      = $cliente->getCpfCliente();
+        $numBeneficio    = $cliente->getNumBeneficioCliente();
+        $dataNascimento  = $cliente->getDataNascCliente();
+        $ano             = $dataNascimento->format("Y");
+        $mes             = $dataNascimento->format("m");
+        $dia             = $dataNascimento->format("d");
         
-        $postdata = "nome={$nomeCliente}&DTPINFRA_TOKEN={$token}";        
-        $result   = ServerUtil::submit($url, $postdata, $cookie);               
+        $token           = $this->get_token();
+        $viewState       = $this->get_view_state();
+        $botaoConfirmar	 = "Visualizar";
+        $j_idt26	 = "j_idt26";
+        
+        $postdata = "nome={$nomeCliente}&DTPINFRA_TOKEN={$token}&cpfCliente={$cpfCliente}&"
+        . "numBeneficio={$numBeneficio}&ano={$ano}&mes={$mes}&dia={$dia}&"
+        . "javax.faces.ViewState={$viewState}&botaoConfirmar={$botaoConfirmar}&j_idt26={$j_idt26}";   
+        
+        $result   = ServerUtil::submit($this->url, $postdata, $cookie);               
 
         return $result; 
     }

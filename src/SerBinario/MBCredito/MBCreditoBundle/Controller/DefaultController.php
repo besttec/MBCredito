@@ -224,17 +224,53 @@ class DefaultController extends Controller
     /**
      * @Route("/captcha")
      * @Method({"POST"})
-     * @Template()
      */
     public function captchaAction()
     {
         $mbCredito = new MBCreditoUtil("http://www8.dataprev.gov.br/SipaINSS/pages/hiscre/hiscreInicio.xhtml");
+        $this->get("session")->set('objMBCredito', $mbCredito);
         
         $result = array(
             "img" => $mbCredito->get_captcha()
         );
         
         return new JsonResponse($result);
+    }
+    
+    /**
+     * @Route("/consultar", name="consultar")
+     * @Method({"POST"})
+     */
+    public function consultarAction(Request $request)
+    {
+        $dados        = $request->request->all();
+        $objMBCredito = $this->get("session")->get('objMBCredito');
+        
+        $numBeneficio = $dados['numBeneficio'];
+        $dtNascimento = $dados['dtNascimento'];
+        $nome         = $dados['nome'];
+        $cpf          = $dados['cpf'];
+        $captcha      = $dados['captcha'];
+        
+        $result = "";
+        
+        if($objMBCredito) {
+            $cliente = new Clientes();
+            $cliente->setNumBeneficioCliente($numBeneficio);
+            $cliente->setNomeCliente($nome);
+            $cliente->setCpfCliente($cpf);
+            $cliente->setDataNascCliente(\DateTime::createFromFormat("d/m/Y", $dtNascimento));
+            
+            $result = $objMBCredito->submitForm($cliente, $captcha);
+        } else {
+            $result = "Dados inválidos";
+        }
+        
+        $resultArray = array(
+            "result" => utf8_encode($result)
+        );
+        
+        return new JsonResponse($resultArray);
     }
     
 }

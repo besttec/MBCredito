@@ -13,7 +13,7 @@ class ServerUtil
      * @param type $url
      * @return type
      */
-    public static function open($url, $cookie = "")
+    public static function open($url, $cookie = "cookie.txt")
     {
         $ch     = curl_init();        
         
@@ -40,7 +40,7 @@ class ServerUtil
      * @param type $cookie
      * @return type
      */
-    public static function submit($url, $postdata, $cookie = "")
+    public static function submit($url, $postdata, $cookie = "cookie.txt")
     {
         $ch = curl_init();
         
