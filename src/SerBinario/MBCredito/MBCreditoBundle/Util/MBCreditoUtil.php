@@ -151,7 +151,7 @@ class MBCreditoUtil
         
         $postdata = "nome={$nomeCliente}&DTPINFRA_TOKEN={$token}&cpfCliente={$cpfCliente}&"
         . "nb={$numBeneficio}&ano={$ano}&mes={$mes}&dia={$dia}&"
-        . "javax.faces.ViewState={$viewState}&botaoConfirmar={$botaoConfirmar}&j_idt36=j_idt36&captchaId={$captcha}";   
+        . "javax.faces.ViewState={$viewState}&botaoConfirmar={$botaoConfirmar}&j_idt26=j_idt26&captchaId={$captcha}";   
  
         $result   = ServerUtil::submit($this->url, $postdata);               
 
