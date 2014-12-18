@@ -8,13 +8,13 @@ namespace SerBinario\MBCredito\MBCreditoBundle\Util;
  */
 class ServerUtil 
 {
-    private $ch;
+   
     /**
      * 
      * @param type $url
      * @return type
      */
-    public function open($url, $cookie = "cookie.txt")
+    public static function open($url, $cookie = "cookie.txt")
     {
         $ch     = curl_init();        
         
@@ -29,10 +29,8 @@ class ServerUtil
         curl_setopt ($ch, CURLOPT_REFERER, $url);
         
         $result = curl_exec($ch);  
-        //curl_close($ch);
+        curl_close($ch);
         
-        $this->ch = (int) $ch;
-
         return $result;
     }
     
@@ -43,10 +41,9 @@ class ServerUtil
      * @param type $cookie
      * @return type
      */
-    public function submit($url, $postdata, $cookie = "cookie.txt")
+    public static function submit($url, $postdata, $cookie = "cookie.txt")
     {
-       //$ch = curl_init();
-        $ch = $this->ch;
+        $ch = curl_init();      
         
         curl_setopt ($ch, CURLOPT_URL, $url); 
         curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
@@ -62,8 +59,6 @@ class ServerUtil
         curl_setopt ($ch, CURLOPT_POST, 1); 
         
         $result = curl_exec($ch); 
-        
-        curl_close($ch);
         
         return $result;
     }

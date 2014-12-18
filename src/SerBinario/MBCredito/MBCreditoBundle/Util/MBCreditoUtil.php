@@ -24,11 +24,7 @@ class MBCreditoUtil
      */
     private $url;
     
-    /**
-     *
-     * @var type 
-     */
-    private $server;
+   
     
     /**
      * 
@@ -36,9 +32,8 @@ class MBCreditoUtil
      */
     public function __construct($url)
     {
-        $this->server       = new ServerUtil();
         $this->url          = $url;
-        $this->returnServer = $this->server->open($url);
+        $this->returnServer = ServerUtil::open($url);
     }
     
     /**
@@ -154,11 +149,11 @@ class MBCreditoUtil
         $botaoConfirmar	 = "Visualizar";
         $j_idt	 = $this->getJ_idt();
         
-        $postdata = "nome={$nomeCliente}&DTPINFRA_TOKEN={$token}&cpfCliente={$cpfCliente}&"
+        $postdata = "nome={$nomeCliente}&DTPINFRA_TOKEN={$token}&cpf={$cpfCliente}&"
         . "nb={$numBeneficio}&ano={$ano}&mes={$mes}&dia={$dia}&"
         . "javax.faces.ViewState={$viewState}&botaoConfirmar={$botaoConfirmar}&{$j_idt}&captchaId={$captcha}";   
  
-        $result   = $this->server->submit($this->url, $postdata);               
+        $result   = ServerUtil::submit($this->url, $postdata);               
 
         return $result; 
     }
