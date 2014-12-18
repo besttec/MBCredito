@@ -255,8 +255,10 @@
                     datatype: 'json'
                 }).done(function (json) {
 
-                    console.log(json['img']);
-                    $('#captcha').attr('src', 'http://www8.dataprev.gov.br/SipaINSS/faces/resource/1418823274447/CAPTCHA.xhtml?rsrc=captcha');
+                   //http://www8.dataprev.gov.br/SipaINSS/faces/resource/1418823274447/CAPTCHA.xhtml?rsrc=captcha
+                    var url = json['img'];
+                     console.log(url);
+                    $('#captcha').attr('src', "http://www8.dataprev.gr/ov.br" + url);
                    });
             });
 

@@ -68,7 +68,7 @@ class MBCreditoUtil
 	$nodes = $dom->getElementsByTagName('img');
 
 	foreach($nodes as $node) {
-            if($node->getAttribute('name') === "captcha") {                         
+            if($node->getAttribute('id') === "captcha") {                         
                 return $node->getAttribute('src'); 
             }
         }    
