@@ -61,10 +61,17 @@ class MBCreditoUtil
      */
     public function get_captcha()
     {        
-        $returnServer = $this->returnServer;
-        $code         = $this->between($returnServer, "<img src='captcha.php'", '">');
+        $dom = new \DOMDocument;        
+	libxml_use_internal_errors(true);        
+	$dom->loadHTML($this->returnServer);
 
-        return 'http://127.0.0.1/Captcha_teste/captcha2/captcha.php' . $code;
+	$nodes = $dom->getElementsByTagName('img');
+
+	foreach($nodes as $node) {
+            if($node->getAttribute('name') === "captcha") {                         
+                return $node->getAttribute('src'); 
+            }
+        }    
     }
     
     /**
