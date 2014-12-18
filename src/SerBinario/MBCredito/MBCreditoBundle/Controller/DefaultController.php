@@ -228,7 +228,6 @@ class DefaultController extends Controller
     public function captchaAction()
     {
         $mbCredito = new MBCreditoUtil("http://www8.dataprev.gov.br/SipaINSS/pages/hiscre/hiscreInicio.xhtml");
-        
         $this->get("session")->set('objMBCredito', $mbCredito);
         
         $result = array(

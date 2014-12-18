@@ -31,7 +31,7 @@ class ServerUtil
         $result = curl_exec($ch);  
         //curl_close($ch);
         
-        $this->ch = $ch;
+        $this->ch = (int) $ch;
 
         return $result;
     }
