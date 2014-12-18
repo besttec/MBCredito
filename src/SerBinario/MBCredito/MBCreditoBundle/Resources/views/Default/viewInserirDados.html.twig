@@ -93,8 +93,6 @@
                             <div class="form-group col-lg-6">
                                 <img id="captcha" name="captcha" src="http://www8.dataprev.gov.br//SipaINSS/faces/resource/1418823274447/CAPTCHA.xhtml?rsrc=captcha" style="width: 249px; height: 89px; border: 0px none;" />
                                 <input type="text" class="form-control" id="cpf" />
-                                <a href="#" onclick="jsf.util.chain(this, event, 'javascript: return reloadImg(\'img[id*=\\\'captcha\\\']\');', 'mojarra.jsfcljs(document.getElementById(\'j_idt36\'),{\'j_idt70\':\'j_idt70\'},\'\')');
-                                        return false">clique aqui</a>
                             </div><br />
                             <div class="form-group col-lg-6">
                                 <button type="submit" class="btn btn-primary">Consultar</button>
@@ -255,11 +253,9 @@
                     datatype: 'json'
                 }).done(function (json) {
 
-                   //http://www8.dataprev.gov.br/SipaINSS/faces/resource/1418823274447/CAPTCHA.xhtml?rsrc=captcha
-                    var url = json['img'];
-                     console.log(url);
-                    $('#captcha').attr('src', "http://www8.dataprev.gr/ov.br" + url);
-                   });
+                    console.log("http://www8.dataprev.gov.br" + json['img']);
+                    $('#captcha').attr('src', 'http://www8.dataprev.gov.br' + json['img']);
+                });
             });
 
             // On each draw, loop over the `detailRows` array and show any child rows

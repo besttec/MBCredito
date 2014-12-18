@@ -176,19 +176,26 @@ class DefaultController extends Controller
 
             for($i=0;$i < $countEventos; $i++)
             {
-                $eventosArray[$i]['DT_RowId']   =  "row_".$resultCliente[$i]->getIdCliente();
-                $eventosArray[$i]['nome']       =  $resultCliente[$i]->getNomeCliente();
-                $eventosArray[$i]['mci']        =  $resultCliente[$i]->getMciEmpCliente();
-                $eventosArray[$i]['cpf']        =  $resultCliente[$i]->getCpfCliente();
-                $eventosArray[$i]['dddFoneRes']       =  $resultCliente[$i]->getDddFoneResidCliente();
-                $eventosArray[$i]['FoneRes']       =  $resultCliente[$i]->getFoneResidCliente();
-                $eventosArray[$i]['dddFoneCom']       =  $resultCliente[$i]->getDddFoneComerCliente();
-                $eventosArray[$i]['FoneCom']       =  $resultCliente[$i]->getFoneComerCliente();
-                $eventosArray[$i]['dddFoneCel']       =  $resultCliente[$i]->getDddFoneCelCliente();
-                $eventosArray[$i]['FoneCel']       =  $resultCliente[$i]->getFoneCelCliente();
-                $eventosArray[$i]['numBeneficio']       =  $resultCliente[$i]->getNumBeneficioCliente();
-                $eventosArray[$i]['Sexo']       =  $resultCliente[$i]->getSexosSexo()->getNomeExtensoSexo();
-                $eventosArray[$i]['dtNascimento']       =  $resultCliente[$i]->getDataNascCliente()->format('d/m/Y');
+                $eventosArray[$i]['DT_RowId']       =  "row_".$resultCliente[$i]->getIdCliente();
+                $eventosArray[$i]['nome']           =  $resultCliente[$i]->getNomeCliente();
+                $eventosArray[$i]['mci']            =  $resultCliente[$i]->getMciEmpCliente();
+                $eventosArray[$i]['cpf']            =  $resultCliente[$i]->getCpfCliente();
+                $eventosArray[$i]['dddFoneRes']     =  $resultCliente[$i]->getDddFoneResidCliente();
+                $eventosArray[$i]['FoneRes']        =  $resultCliente[$i]->getFoneResidCliente();
+                $eventosArray[$i]['dddFoneCom']     =  $resultCliente[$i]->getDddFoneComerCliente();
+                $eventosArray[$i]['FoneCom']        =  $resultCliente[$i]->getFoneComerCliente();
+                $eventosArray[$i]['dddFoneCel']     =  $resultCliente[$i]->getDddFoneCelCliente();
+                $eventosArray[$i]['FoneCel']        =  $resultCliente[$i]->getFoneCelCliente();
+                
+                $numBeneficio                       = $resultCliente[$i]->getNumBeneficioCliente();
+                $dvCliente                          = $resultCliente[$i]->getDvCliente();
+                $numBeneficio                       = $numBeneficio . $dvCliente;
+
+                $eventosArray[$i]['numBeneficio']   = strlen($numBeneficio);
+
+                
+                $eventosArray[$i]['Sexo']           =  $resultCliente[$i]->getSexosSexo()->getNomeExtensoSexo();
+                $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getDataNascCliente()->format('d/m/Y');
             }
 
             //Se a variável $sqlFilter estiver vazio
