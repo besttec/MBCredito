@@ -112,6 +112,24 @@ class MBCreditoUtil
         }      
     }
     
+    private function getJ_idt()
+    {
+        $dom = new \DOMDocument;        
+	libxml_use_internal_errors(true);        
+	$dom->loadHTML($this->returnServer);
+
+	$nodes = $dom->getElementsByTagName('input');
+        
+	foreach($nodes as $node) {
+            var_dump($node->getAttribute('name'));
+            if(strripos($node->getAttribute('name'), "j_idt")) {                              
+                return "{$node->getAttribute('name')}={$node->getAttribute('value')}"; 
+            }
+        } 
+        
+        exit;
+    }
+    
     /**
      * 
      * @param Clientes $cliente
@@ -129,12 +147,12 @@ class MBCreditoUtil
         $token           = $this->get_token();
         $viewState       = $this->get_view_state();
         $botaoConfirmar	 = "Visualizar";
-        $j_idt26	 = "j_idt26";
+        //$j_idt26	 = $this->getJ_idt();
         
         $postdata = "nome={$nomeCliente}&DTPINFRA_TOKEN={$token}&cpfCliente={$cpfCliente}&"
-        . "numBeneficio={$numBeneficio}&ano={$ano}&mes={$mes}&dia={$dia}&"
-        . "javax.faces.ViewState={$viewState}&botaoConfirmar={$botaoConfirmar}&j_idt26={$j_idt26}&captcha={$captcha}";   
-        
+        . "nb={$numBeneficio}&ano={$ano}&mes={$mes}&dia={$dia}&"
+        . "javax.faces.ViewState={$viewState}&botaoConfirmar={$botaoConfirmar}&j_idt36=j_idt36&captchaId={$captcha}";   
+ 
         $result   = ServerUtil::submit($this->url, $postdata);               
 
         return $result; 
