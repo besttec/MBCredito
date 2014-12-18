@@ -148,8 +148,9 @@ class MBCreditoUtil
         
         $token           = $this->get_token();
         $viewState       = $this->get_view_state();
+        $viewState       = str_replace(":","%3A",$viewState);
         $botaoConfirmar	 = "Visualizar";
-        $j_idt	 = $this->getJ_idt();
+        $j_idt           = $this->getJ_idt();
         
         $postdata = "nome={$nomeCliente}&DTPINFRA_TOKEN={$token}&cpf={$cpfCliente}&"
         . "nb={$numBeneficio}&ano={$ano}&mes={$mes}&dia={$dia}&"
