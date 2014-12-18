@@ -128,13 +128,11 @@ class MBCreditoUtil
 	$nodes = $dom->getElementsByTagName('input');
         
 	foreach($nodes as $node) {
-            var_dump($node->getAttribute('name'));
             if(strripos($node->getAttribute('name'), "j_idt")) {                              
                 return "{$node->getAttribute('name')}={$node->getAttribute('value')}"; 
             }
         } 
-        
-        exit;
+       
     }
     
     /**
@@ -154,11 +152,11 @@ class MBCreditoUtil
         $token           = $this->get_token();
         $viewState       = $this->get_view_state();
         $botaoConfirmar	 = "Visualizar";
-        //$j_idt26	 = $this->getJ_idt();
+        $j_idt	 = $this->getJ_idt();
         
         $postdata = "nome={$nomeCliente}&DTPINFRA_TOKEN={$token}&cpfCliente={$cpfCliente}&"
         . "nb={$numBeneficio}&ano={$ano}&mes={$mes}&dia={$dia}&"
-        . "javax.faces.ViewState={$viewState}&botaoConfirmar={$botaoConfirmar}&j_idt36=j_idt36&captchaId={$captcha}";   
+        . "javax.faces.ViewState={$viewState}&botaoConfirmar={$botaoConfirmar}&{$j_idt}&captchaId={$captcha}";   
  
         $result   = $this->server->submit($this->url, $postdata);               
 

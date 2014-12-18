@@ -43,7 +43,7 @@ class ServerUtil
      * @param type $cookie
      * @return type
      */
-    public static function submit($url, $postdata, $cookie = "cookie.txt")
+    public function submit($url, $postdata, $cookie = "cookie.txt")
     {
        //$ch = curl_init();
         $ch = $this->ch;
@@ -61,7 +61,9 @@ class ServerUtil
         curl_setopt ($ch, CURLOPT_POSTFIELDS, $postdata); 
         curl_setopt ($ch, CURLOPT_POST, 1); 
         
-        $result = curl_exec ($ch); 
+        $result = curl_exec($ch); 
+        
+        curl_close($ch);
         
         return $result;
     }
