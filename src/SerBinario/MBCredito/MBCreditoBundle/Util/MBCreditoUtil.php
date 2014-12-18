@@ -23,9 +23,7 @@ class MBCreditoUtil
      * @var type 
      */
     private $url;
-    
-   
-    
+        
     /**
      * 
      * @param type $url
@@ -114,6 +112,10 @@ class MBCreditoUtil
         }      
     }
     
+    /**
+     * 
+     * @return type
+     */
     private function getJ_idt()
     {
         $dom = new \DOMDocument;        
