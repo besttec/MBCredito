@@ -194,8 +194,8 @@ class DefaultController extends Controller
                 $eventosArray[$i]['numBeneficio']   = strlen($numBeneficio);
 
                 
-                $eventosArray[$i]['Sexo']       =  $resultCliente[$i]->getSexosSexo()->getNomeExtensoSexo();
-                $eventosArray[$i]['dtNascimento']       =  $resultCliente[$i]->getDataNascCliente()->format('d/m/Y');
+                $eventosArray[$i]['Sexo']           =  $resultCliente[$i]->getSexosSexo()->getNomeExtensoSexo();
+                $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getDataNascCliente()->format('d/m/Y');
             }
 
             //Se a variável $sqlFilter estiver vazio
