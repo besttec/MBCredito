@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"><head><link type="text/css" rel="stylesheet" href="/SipaINSS/javax.faces.resource/theme.css.xhtml?ln=primefaces-aristo" />
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+	<title>Extrato de Pagamentos</title>
+
+	<link rel="shortcut icon" href="/SipaINSS/images/icones/favicon.ico" />
+	<link type="text/css" rel="stylesheet" href="/SipaINSS/css/comum.css" />
+	<link type="text/css" rel="stylesheet" href="/SipaINSS/css/layout/layout1/layout1.css" />
+		<link type="text/css" rel="stylesheet" href="/SipaINSS/css/layout/layout1/imagemDeFundo1.css" />
+		<script type="text/javascript" src="/SipaINSS/js/jquery/jquery-core-1.8.0.min.js"></script>
+		<script type="text/javascript" src="/SipaINSS/js/comum.js"></script></head><body><table class="topo-pagina soTela" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td><a href="http://www.mpas.gov.br/"><img src="/SipaINSS/images/KO.gif" height="70" width="94" /></a></td>
+<td class="titulo-topo-pagina"><a href="http://www.mpas.gov.br/"><img src="/SipaINSS/images/previdencia.gif" height="41" width="290" /></a></td>
+<td><img src="/SipaINSS/images/padrao2girado.gif" height="62" width="70" /></td>
+</tr>
+</tbody>
+</table>
+<div class="titulo">
+		<h2>Extrato de Pagamentos</h2></div>
+	
+	<h3 class="msg-erro">
+	</h3><div class="formulario">
+<form id="j_idt26" name="j_idt26" method="post" action="/SipaINSS/pages/hiscre/hiscreInicio.xhtml" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="j_idt26" value="j_idt26" />
+<input type="hidden" name="DTPINFRA_TOKEN" value="1419273636918" /><table class="centralizado">
+<tbody>
+<tr>
+<td><table cellspacing="7" width="100%">
+<tbody>
+<tr>
+<td><span class="formulario-label">N�mero do Benef�cio:</span><input id="nb" type="text" name="nb" autocomplete="off" class="required" maxlength="10" onfocus="pararTAB()" onkeypress="checarTAB()" onkeyup="autotab(this, dia)" size="11" />
+						
+						<br /><span class="formulario-dica">Informe o n�mero do seu benef�cio sem pontos ou barras.</span></td>
+</tr>
+<tr>
+<td>
+					
+					<hr /></td>
+</tr>
+<tr>
+<td><span class="formulario-label">Data de Nascimento:</span><input id="dia" type="text" name="dia" autocomplete="off" class="required" maxlength="2" onfocus="pararTAB()" onkeypress="checarTAB()" onkeyup="autotab(this, mes)" size="3" /><span class="formulario-separador-data"> / </span><input id="mes" type="text" name="mes" autocomplete="off" class="required" maxlength="2" onfocus="pararTAB()" onkeypress="checarTAB()" onkeyup="autotab(this, ano)" size="3" /><span class="formulario-separador-data"> / </span><input id="ano" type="text" name="ano" autocomplete="off" class="required" maxlength="4" onfocus="pararTAB()" onkeypress="checarTAB()" onkeyup="autotab(this, nome)" size="5" />
+						
+						<br /><span class="formulario-dica">Informe sua Data de Nascimento com 4 algarismos no ano.<br/>Exemplo: 25/12/1986.</span></td>
+</tr>
+<tr>
+<td>
+					
+					<hr /></td>
+</tr>
+<tr>
+<td><table cellpadding="2" cellspacing="0" width="100%"><tbody>
+<tr><td class="recuado"><span class="formulario-label">Nome do Benefici�rio:</span><input id="nome" type="text" name="nome" autocomplete="off" class="required" maxlength="40" onfocus="pararTAB()" onkeypress="checarTAB()" onkeyup="autotab(this, cpf)" size="20" /></td><td><span class="formulario-label">CPF:</span><input id="cpf" type="text" name="cpf" autocomplete="off" class="required" maxlength="11" onfocus="pararTAB()" onkeypress="checarTAB()" onkeyup="autotab(this, captchaId)" size="11" /></td></tr>
+<tr><td class="recuado" colspan="2"><span class="formulario-dica">Informe o nome e CPF do benefici�rio (sem pontos, tra�os ou barras).</span></td></tr>
+</tbody>
+</table></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="centralizado" cellpadding="5" cellspacing="3">
+<tbody>
+<tr>
+<td class="coluna-dica-captcha"><span class="negrito">Por favor, digite no campo ao lado a sequ�ncia de caracteres exibida.</span>
+						<br /><span class="negrito">N�o � necess�rio diferenciar letras mai�sculas e min�sculas.</span>
+						<br /><br /><span class="negrito">Esse procedimento ajuda a evitar que este site seja utilizado por consultas automatizadas, o que prejudica o seu funcionamento.</span>
+						<br /><br />Se voc� n�o estiver conseguindo ver as letras na imagem, 
+						
+<script type="text/javascript" src="/SipaINSS/javax.faces.resource/jsf.js.xhtml?ln=javax.faces"></script>
+<a href="#" onclick="jsf.util.chain(this,event,'javascript: return reloadImg(\'img[id*=\\\'captcha\\\']\');','mojarra.jsfcljs(document.getElementById(\'j_idt26\'),{\'j_idt66\':\'j_idt66\'},\'\')');return false">clique aqui</a>.
+					</td>
+<td class="coluna-img-captcha"><span style="position: relative;"><div style="border: 1px solid black; float: left;width: 249px; height: 89px;"><img id="captcha" name="captcha" src="/SipaINSS/faces/resource/1418909744247/CAPTCHA.xhtml?rsrc=captcha" style="width: 249px; height: 89px; border: 0px none;" title="Imagem com c�digo para interpreta��o humana e evitar acessos automatizados por rob�s" alt="Imagem com c�digo para interpreta��o humana e evitar acessos automatizados por rob�s" /></div></span><input id="captchaId" type="text" name="captchaId" autocomplete="off" class="required" /></td>
+</tr>
+</tbody>
+</table>
+
+				<p><input id="botaoConfirmar" type="submit" name="botaoConfirmar" value="Visualizar" class="botao" />
+				</p><input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="-8701409979938240428:-8812732428267934335" autocomplete="off" />
+</form></div><table class="rodape-pagina soTela" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td><img src="/SipaINSS/images/esquerda3b.gif" height="62" width="70" /></td>
+<td class="width-100"><img src="/SipaINSS/images/rodape_dtp.gif" height="34" width="93" />
+			<br /><img src="/SipaINSS/images/bluebottom2.gif" height="10" width="42" /><img src="/SipaINSS/images/dtpextenso2d.gif" /></td>
+<td><img src="/SipaINSS/images/padrao1girado.gif" height="62" width="70" /></td>
+</tr>
+</tbody>
+</table>
+</body>
+
+</html>{"result":"\u003C?xml version=\u00221.0\u0022 encoding=\u0022ISO-8859-1\u0022?\u003E\n\u003C!DOCTYPE html PUBLIC \u0022-\/\/W3C\/\/DTD XHTML 1.0 Transitional\/\/EN\u0022 \u0022http:\/\/www.w3.org\/TR\/xhtml1\/DTD\/xhtml1-transitional.dtd\u0022\u003E\n\u003Chtml lang=\u0022pt-br\u0022 xmlns=\u0022http:\/\/www.w3.org\/1999\/xhtml\u0022\u003E\u003Chead\u003E\u003Clink type=\u0022text\/css\u0022 rel=\u0022stylesheet\u0022 href=\u0022\/SipaINSS\/javax.faces.resource\/theme.css.xhtml?ln=primefaces-aristo\u0022 \/\u003E\n\t\u003Cmeta http-equiv=\u0022Content-Type\u0022 content=\u0022text\/html; charset=iso-8859-1\u0022 \/\u003E\n\n\t\u003Ctitle\u003EExtrato de Pagamentos\u003C\/title\u003E\n\n\t\u003Clink rel=\u0022shortcut icon\u0022 href=\u0022\/SipaINSS\/images\/icones\/favicon.ico\u0022 \/\u003E\n\t\u003Clink type=\u0022text\/css\u0022 rel=\u0022stylesheet\u0022 href=\u0022\/SipaINSS\/css\/comum.css\u0022 \/\u003E\n\t\u003Clink type=\u0022text\/css\u0022 rel=\u0022stylesheet\u0022 href=\u0022\/SipaINSS\/css\/layout\/layout1\/layout1.css\u0022 \/\u003E\n\t\t\u003Clink type=\u0022text\/css\u0022 rel=\u0022stylesheet\u0022 href=\u0022\/SipaINSS\/css\/layout\/layout1\/imagemDeFundo1.css\u0022 \/\u003E\n\t\t\u003Cscript type=\u0022text\/javascript\u0022 src=\u0022\/SipaINSS\/js\/jquery\/jquery-core-1.8.0.min.js\u0022\u003E\u003C\/script\u003E\n\t\t\u003Cscript type=\u0022text\/javascript\u0022 src=\u0022\/SipaINSS\/js\/comum.js\u0022\u003E\u003C\/script\u003E\u003C\/head\u003E\u003Cbody\u003E\u003Ctable class=\u0022topo-pagina soTela\u0022 cellpadding=\u00220\u0022 cellspacing=\u00220\u0022\u003E\n\u003Ctbody\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E\u003Ca href=\u0022http:\/\/www.mpas.gov.br\/\u0022\u003E\u003Cimg src=\u0022\/SipaINSS\/images\/KO.gif\u0022 height=\u002270\u0022 width=\u002294\u0022 \/\u003E\u003C\/a\u003E\u003C\/td\u003E\n\u003Ctd class=\u0022titulo-topo-pagina\u0022\u003E\u003Ca href=\u0022http:\/\/www.mpas.gov.br\/\u0022\u003E\u003Cimg src=\u0022\/SipaINSS\/images\/previdencia.gif\u0022 height=\u002241\u0022 width=\u0022290\u0022 \/\u003E\u003C\/a\u003E\u003C\/td\u003E\n\u003Ctd\u003E\u003Cimg src=\u0022\/SipaINSS\/images\/padrao2girado.gif\u0022 height=\u002262\u0022 width=\u002270\u0022 \/\u003E\u003C\/td\u003E\n\u003C\/tr\u003E\n\u003C\/tbody\u003E\n\u003C\/table\u003E\n\u003Cdiv class=\u0022titulo\u0022\u003E\n\t\t\u003Ch2\u003EExtrato de Pagamentos\u003C\/h2\u003E\u003C\/div\u003E\n\t\n\t\u003Ch3 class=\u0022msg-erro\u0022\u003E\n\t\u003C\/h3\u003E\u003Cdiv class=\u0022formulario\u0022\u003E\n\u003Cform id=\u0022j_idt26\u0022 name=\u0022j_idt26\u0022 method=\u0022post\u0022 action=\u0022\/SipaINSS\/pages\/hiscre\/hiscreInicio.xhtml\u0022 enctype=\u0022application\/x-www-form-urlencoded\u0022\u003E\n\u003Cinput type=\u0022hidden\u0022 name=\u0022j_idt26\u0022 value=\u0022j_idt26\u0022 \/\u003E\n\u003Cinput type=\u0022hidden\u0022 name=\u0022DTPINFRA_TOKEN\u0022 value=\u00221419273636918\u0022 \/\u003E\u003Ctable class=\u0022centralizado\u0022\u003E\n\u003Ctbody\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E\u003Ctable cellspacing=\u00227\u0022 width=\u0022100%\u0022\u003E\n\u003Ctbody\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E\u003Cspan class=\u0022formulario-label\u0022\u003EN\u00famero do Benef\u00edcio:\u003C\/span\u003E\u003Cinput id=\u0022nb\u0022 type=\u0022text\u0022 name=\u0022nb\u0022 autocomplete=\u0022off\u0022 class=\u0022required\u0022 maxlength=\u002210\u0022 onfocus=\u0022pararTAB()\u0022 onkeypress=\u0022checarTAB()\u0022 onkeyup=\u0022autotab(this, dia)\u0022 size=\u002211\u0022 \/\u003E\n\t\t\t\t\t\t\n\t\t\t\t\t\t\u003Cbr \/\u003E\u003Cspan class=\u0022formulario-dica\u0022\u003EInforme o n\u00famero do seu benef\u00edcio sem pontos ou barras.\u003C\/span\u003E\u003C\/td\u003E\n\u003C\/tr\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E\n\t\t\t\t\t\n\t\t\t\t\t\u003Chr \/\u003E\u003C\/td\u003E\n\u003C\/tr\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E\u003Cspan class=\u0022formulario-label\u0022\u003EData de Nascimento:\u003C\/span\u003E\u003Cinput id=\u0022dia\u0022 type=\u0022text\u0022 name=\u0022dia\u0022 autocomplete=\u0022off\u0022 class=\u0022required\u0022 maxlength=\u00222\u0022 onfocus=\u0022pararTAB()\u0022 onkeypress=\u0022checarTAB()\u0022 onkeyup=\u0022autotab(this, mes)\u0022 size=\u00223\u0022 \/\u003E\u003Cspan class=\u0022formulario-separador-data\u0022\u003E \/ \u003C\/span\u003E\u003Cinput id=\u0022mes\u0022 type=\u0022text\u0022 name=\u0022mes\u0022 autocomplete=\u0022off\u0022 class=\u0022required\u0022 maxlength=\u00222\u0022 onfocus=\u0022pararTAB()\u0022 onkeypress=\u0022checarTAB()\u0022 onkeyup=\u0022autotab(this, ano)\u0022 size=\u00223\u0022 \/\u003E\u003Cspan class=\u0022formulario-separador-data\u0022\u003E \/ \u003C\/span\u003E\u003Cinput id=\u0022ano\u0022 type=\u0022text\u0022 name=\u0022ano\u0022 autocomplete=\u0022off\u0022 class=\u0022required\u0022 maxlength=\u00224\u0022 onfocus=\u0022pararTAB()\u0022 onkeypress=\u0022checarTAB()\u0022 onkeyup=\u0022autotab(this, nome)\u0022 size=\u00225\u0022 \/\u003E\n\t\t\t\t\t\t\n\t\t\t\t\t\t\u003Cbr \/\u003E\u003Cspan class=\u0022formulario-dica\u0022\u003EInforme sua Data de Nascimento com 4 algarismos no ano.\u003Cbr\/\u003EExemplo: 25\/12\/1986.\u003C\/span\u003E\u003C\/td\u003E\n\u003C\/tr\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E\n\t\t\t\t\t\n\t\t\t\t\t\u003Chr \/\u003E\u003C\/td\u003E\n\u003C\/tr\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E\u003Ctable cellpadding=\u00222\u0022 cellspacing=\u00220\u0022 width=\u0022100%\u0022\u003E\u003Ctbody\u003E\n\u003Ctr\u003E\u003Ctd class=\u0022recuado\u0022\u003E\u003Cspan class=\u0022formulario-label\u0022\u003ENome do Benefici\u00e1rio:\u003C\/span\u003E\u003Cinput id=\u0022nome\u0022 type=\u0022text\u0022 name=\u0022nome\u0022 autocomplete=\u0022off\u0022 class=\u0022required\u0022 maxlength=\u002240\u0022 onfocus=\u0022pararTAB()\u0022 onkeypress=\u0022checarTAB()\u0022 onkeyup=\u0022autotab(this, cpf)\u0022 size=\u002220\u0022 \/\u003E\u003C\/td\u003E\u003Ctd\u003E\u003Cspan class=\u0022formulario-label\u0022\u003ECPF:\u003C\/span\u003E\u003Cinput id=\u0022cpf\u0022 type=\u0022text\u0022 name=\u0022cpf\u0022 autocomplete=\u0022off\u0022 class=\u0022required\u0022 maxlength=\u002211\u0022 onfocus=\u0022pararTAB()\u0022 onkeypress=\u0022checarTAB()\u0022 onkeyup=\u0022autotab(this, captchaId)\u0022 size=\u002211\u0022 \/\u003E\u003C\/td\u003E\u003C\/tr\u003E\n\u003Ctr\u003E\u003Ctd class=\u0022recuado\u0022 colspan=\u00222\u0022\u003E\u003Cspan class=\u0022formulario-dica\u0022\u003EInforme o nome e CPF do benefici\u00e1rio (sem pontos, tra\u00e7os ou barras).\u003C\/span\u003E\u003C\/td\u003E\u003C\/tr\u003E\n\u003C\/tbody\u003E\n\u003C\/table\u003E\u003C\/td\u003E\n\u003C\/tr\u003E\n\u003C\/tbody\u003E\n\u003C\/table\u003E\n\u003C\/td\u003E\n\u003C\/tr\u003E\n\u003C\/tbody\u003E\n\u003C\/table\u003E\n\u003Ctable class=\u0022centralizado\u0022 cellpadding=\u00225\u0022 cellspacing=\u00223\u0022\u003E\n\u003Ctbody\u003E\n\u003Ctr\u003E\n\u003Ctd class=\u0022coluna-dica-captcha\u0022\u003E\u003Cspan class=\u0022negrito\u0022\u003EPor favor, digite no campo ao lado a sequ\u00eancia de caracteres exibida.\u003C\/span\u003E\n\t\t\t\t\t\t\u003Cbr \/\u003E\u003Cspan class=\u0022negrito\u0022\u003EN\u00e3o \u00e9 necess\u00e1rio diferenciar letras mai\u00fasculas e min\u00fasculas.\u003C\/span\u003E\n\t\t\t\t\t\t\u003Cbr \/\u003E\u003Cbr \/\u003E\u003Cspan class=\u0022negrito\u0022\u003EEsse procedimento ajuda a evitar que este site seja utilizado por consultas automatizadas, o que prejudica o seu funcionamento.\u003C\/span\u003E\n\t\t\t\t\t\t\u003Cbr \/\u003E\u003Cbr \/\u003ESe voc\u00ea n\u00e3o estiver conseguindo ver as letras na imagem, \n\t\t\t\t\t\t\n\u003Cscript type=\u0022text\/javascript\u0022 src=\u0022\/SipaINSS\/javax.faces.resource\/jsf.js.xhtml?ln=javax.faces\u0022\u003E\u003C\/script\u003E\r\n\u003Ca href=\u0022#\u0022 onclick=\u0022jsf.util.chain(this,event,\u0027javascript: return reloadImg(\\\u0027img[id*=\\\\\\\u0027captcha\\\\\\\u0027]\\\u0027);\u0027,\u0027mojarra.jsfcljs(document.getElementById(\\\u0027j_idt26\\\u0027),{\\\u0027j_idt66\\\u0027:\\\u0027j_idt66\\\u0027},\\\u0027\\\u0027)\u0027);return false\u0022\u003Eclique aqui\u003C\/a\u003E.\n\t\t\t\t\t\u003C\/td\u003E\n\u003Ctd class=\u0022coluna-img-captcha\u0022\u003E\u003Cspan style=\u0022position: relative;\u0022\u003E\u003Cdiv style=\u0022border: 1px solid black; float: left;width: 249px; height: 89px;\u0022\u003E\u003Cimg id=\u0022captcha\u0022 name=\u0022captcha\u0022 src=\u0022\/SipaINSS\/faces\/resource\/1418909744247\/CAPTCHA.xhtml?rsrc=captcha\u0022 style=\u0022width: 249px; height: 89px; border: 0px none;\u0022 title=\u0022Imagem com c\u00f3digo para interpreta\u00e7\u00e3o humana e evitar acessos automatizados por rob\u00f4s\u0022 alt=\u0022Imagem com c\u00f3digo para interpreta\u00e7\u00e3o humana e evitar acessos automatizados por rob\u00f4s\u0022 \/\u003E\u003C\/div\u003E\u003C\/span\u003E\u003Cinput id=\u0022captchaId\u0022 type=\u0022text\u0022 name=\u0022captchaId\u0022 autocomplete=\u0022off\u0022 class=\u0022required\u0022 \/\u003E\u003C\/td\u003E\n\u003C\/tr\u003E\n\u003C\/tbody\u003E\n\u003C\/table\u003E\n\n\t\t\t\t\u003Cp\u003E\u003Cinput id=\u0022botaoConfirmar\u0022 type=\u0022submit\u0022 name=\u0022botaoConfirmar\u0022 value=\u0022Visualizar\u0022 class=\u0022botao\u0022 \/\u003E\n\t\t\t\t\u003C\/p\u003E\u003Cinput type=\u0022hidden\u0022 name=\u0022javax.faces.ViewState\u0022 id=\u0022javax.faces.ViewState\u0022 value=\u0022-8701409979938240428:-8812732428267934335\u0022 autocomplete=\u0022off\u0022 \/\u003E\n\u003C\/form\u003E\u003C\/div\u003E\u003Ctable class=\u0022rodape-pagina soTela\u0022 cellpadding=\u00220\u0022 cellspacing=\u00220\u0022\u003E\n\u003Ctbody\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E\u003Cimg src=\u0022\/SipaINSS\/images\/esquerda3b.gif\u0022 height=\u002262\u0022 width=\u002270\u0022 \/\u003E\u003C\/td\u003E\n\u003Ctd class=\u0022width-100\u0022\u003E\u003Cimg src=\u0022\/SipaINSS\/images\/rodape_dtp.gif\u0022 height=\u002234\u0022 width=\u002293\u0022 \/\u003E\n\t\t\t\u003Cbr \/\u003E\u003Cimg src=\u0022\/SipaINSS\/images\/bluebottom2.gif\u0022 height=\u002210\u0022 width=\u002242\u0022 \/\u003E\u003Cimg src=\u0022\/SipaINSS\/images\/dtpextenso2d.gif\u0022 \/\u003E\u003C\/td\u003E\n\u003Ctd\u003E\u003Cimg src=\u0022\/SipaINSS\/images\/padrao1girado.gif\u0022 height=\u002262\u0022 width=\u002270\u0022 \/\u003E\u003C\/td\u003E\n\u003C\/tr\u003E\n\u003C\/tbody\u003E\n\u003C\/table\u003E\n\u003C\/body\u003E\n\n\u003C\/html\u003E"}
