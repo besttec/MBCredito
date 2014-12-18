@@ -255,8 +255,8 @@
                     datatype: 'json'
                 }).done(function (json) {
 
-                    console.log(json['img']);
-                    $('#captcha').attr('src', 'http://www8.dataprev.gov.br/SipaINSS/faces/resource/1418823274447/CAPTCHA.xhtml?rsrc=captcha');
+                    console.log("http://www8.dataprev.gov.br" + json['img']);
+                    $('#captcha').attr('src', 'http://www8.dataprev.gov.br' + json['img'] );
                    });
             });
 
