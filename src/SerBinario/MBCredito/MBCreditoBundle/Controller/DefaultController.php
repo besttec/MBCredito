@@ -186,17 +186,12 @@ class DefaultController extends Controller
                 $eventosArray[$i]['dddFoneCel']     =  $resultCliente[$i]->getDddFoneCelCliente();
                 $eventosArray[$i]['FoneCel']        =  $resultCliente[$i]->getFoneCelCliente();
                 
-                $numBeneficio                       = $resultCliente[$i]->getNumBeneficioCliente();
-                $dvCliente                          = $resultCliente[$i]->getDvCliente();
-                $numBeneficio                       = $numBeneficio . $dvCliente;
-                $qtdNumBeneficio                    = strlen($numBeneficio);
-                
-                if($qtdNumBeneficio < 10) {
-                    $numBeneficio = str_repeat("0", 10 - $qtdNumBeneficio) .  $numBeneficio;
-                }
-                
-                $eventosArray[$i]['numBeneficio']   = $numBeneficio;
-                
+                $numBeneficio                       =  $resultCliente[$i]->getNumBeneficioCliente();
+                $dvCliente                          =  $resultCliente[$i]->getDvCliente();
+                $numBeneficio                       =  $numBeneficio . $dvCliente;
+
+                $eventosArray[$i]['numBeneficio']   =  strlen($numBeneficio);
+
                 
                 $eventosArray[$i]['Sexo']           =  $resultCliente[$i]->getSexosSexo()->getNomeExtensoSexo();
                 $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getDataNascCliente()->format('d/m/Y');

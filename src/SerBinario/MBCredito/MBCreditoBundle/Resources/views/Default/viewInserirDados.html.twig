@@ -93,8 +93,6 @@
                             <div class="form-group col-lg-6">
                                 <img id="captcha" name="captcha" src="http://www8.dataprev.gov.br//SipaINSS/faces/resource/1418823274447/CAPTCHA.xhtml?rsrc=captcha" style="width: 249px; height: 89px; border: 0px none;" />
                                 <input type="text" class="form-control" id="cpf" />
-                                <a href="#" onclick="jsf.util.chain(this, event, 'javascript: return reloadImg(\'img[id*=\\\'captcha\\\']\');', 'mojarra.jsfcljs(document.getElementById(\'j_idt36\'),{\'j_idt70\':\'j_idt70\'},\'\')');
-                                        return false">clique aqui</a>
                             </div><br />
                             <div class="form-group col-lg-6">
                                 <button type="submit" class="btn btn-primary">Consultar</button>
@@ -103,19 +101,11 @@
                     </div>
                     <div class="container-fluid">
                         <fieldset>
-                            <legend>Salvar Dados</legend>
+                            <legend>Resultado da Consulta</legend>
                             <form role="form">
                                 <div container-fluid>
-
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="nomeNascimento">Nome do Beneficiário</label>
-                                    <input type="text" class="form-control" id="nomeNascimento" />
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="cpf">CPF</label>
-                                    <input type="text" class="form-control" id="cpf" />
-                                </div>
+                                    
+                                </div>                              
                                 <div class="form-group col-lg-6">
                                     <button type="submit" class="btn btn-primary">Salvar</button>
                                 </div>
@@ -256,8 +246,8 @@
                 }).done(function (json) {
 
                     console.log("http://www8.dataprev.gov.br" + json['img']);
-                    $('#captcha').attr('src', 'http://www8.dataprev.gov.br' + json['img'] );
-                   });
+                    $('#captcha').attr('src', 'http://www8.dataprev.gov.br' + json['img']);
+                });
             });
 
             // On each draw, loop over the `detailRows` array and show any child rows
