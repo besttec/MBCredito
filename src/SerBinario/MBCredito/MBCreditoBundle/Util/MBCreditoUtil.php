@@ -147,10 +147,11 @@ class MBCreditoUtil
         
         $token           = $this->get_token();
         $viewState       = $this->get_view_state();
-        $viewState       = str_replace(":","%3A",$viewState);
+        //$viewState       = str_replace(":","%3A",$viewState);
         $botaoConfirmar	 = "Visualizar";
         $j_idt           = $this->getJ_idt();
-        
+        $captcha         = trim($captcha);
+                
         $postdata = "nome={$nomeCliente}&DTPINFRA_TOKEN={$token}&cpf={$cpfCliente}&"
         . "nb={$numBeneficio}&ano={$ano}&mes={$mes}&dia={$dia}&"
         . "javax.faces.ViewState={$viewState}&botaoConfirmar={$botaoConfirmar}&{$j_idt}&captchaId={$captcha}";   
