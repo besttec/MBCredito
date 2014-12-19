@@ -125,11 +125,10 @@ class MBCreditoUtil
 	$nodes = $dom->getElementsByTagName('input');
         
 	foreach($nodes as $node) {
-            if(strripos($node->getAttribute('name'), "j_idt")) {                              
+            if(strstr($node->getAttribute('name'), "j_idt")) {                              
                 return "{$node->getAttribute('name')}={$node->getAttribute('value')}"; 
             }
-        } 
-       
+        }
     }
     
     /**
