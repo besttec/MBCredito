@@ -23,6 +23,12 @@ class MBCreditoUtil
      * @var type 
      */
     private $url;
+    
+    /**
+     *
+     * @var type 
+     */
+    private $serverUtil;
         
     /**
      * 
@@ -30,8 +36,11 @@ class MBCreditoUtil
      */
     public function __construct($url)
     {
-        $this->url          = $url;
-        $this->returnServer = ServerUtil::open($url);
+        $serverUtil         = new ServerUtil();
+        
+        $this->url          = $url;        
+        $this->serverUtil   = $serverUtil;
+        $this->returnServer = $serverUtil->open($url);
     }
     
     /**
@@ -156,7 +165,7 @@ class MBCreditoUtil
         . "nb={$numBeneficio}&ano={$ano}&mes={$mes}&dia={$dia}&"
         . "javax.faces.ViewState={$viewState}&botaoConfirmar={$botaoConfirmar}&{$j_idt}&captchaId={$captcha}";   
  
-        $result   = ServerUtil::submit($this->url, $postdata);               
+        $result   = $this->serverUtil->submit($this->url, $postdata);               
 
         return $result; 
     }
