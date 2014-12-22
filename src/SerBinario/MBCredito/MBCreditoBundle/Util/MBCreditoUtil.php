@@ -16,22 +16,31 @@ class MBCreditoUtil
      *
      * @var type 
      */
-    public $returnServer;
+    private $returnServer;
     
     /**
      *
      * @var type 
      */
-    public $url;
+    private $url;
     
+    /**
+     *
+     * @var type 
+     */
+    private $serverUtil;
+        
     /**
      * 
      * @param type $url
      */
     public function __construct($url)
     {
-        $this->url          = $url;
-        $this->returnServer = ServerUtil::open($url);
+        $serverUtil         = new ServerUtil();
+        
+        $this->url          = $url;        
+        $this->serverUtil   = $serverUtil;
+        $this->returnServer = $serverUtil->open($url);
     }
     
     /**
@@ -114,6 +123,25 @@ class MBCreditoUtil
     
     /**
      * 
+     * @return type
+     */
+    private function getJ_idt()
+    {
+        $dom = new \DOMDocument;        
+	libxml_use_internal_errors(true);        
+	$dom->loadHTML($this->returnServer);
+
+	$nodes = $dom->getElementsByTagName('input');
+        
+	foreach($nodes as $node) {
+            if(strstr($node->getAttribute('name'), "j_idt")) {                              
+                return "{$node->getAttribute('name')}={$node->getAttribute('value')}"; 
+            }
+        }
+    }
+    
+    /**
+     * 
      * @param Clientes $cliente
      */
     public function submitForm(Clientes $cliente, $captcha, $cookie = "")
@@ -128,14 +156,16 @@ class MBCreditoUtil
         
         $token           = $this->get_token();
         $viewState       = $this->get_view_state();
+        //$viewState       = str_replace(":","%3A",$viewState);
         $botaoConfirmar	 = "Visualizar";
-        $j_idt26	 = "j_idt26";
-        
-        $postdata = "nome={$nomeCliente}&DTPINFRA_TOKEN={$token}&cpfCliente={$cpfCliente}&"
-        . "numBeneficio={$numBeneficio}&ano={$ano}&mes={$mes}&dia={$dia}&"
-        . "javax.faces.ViewState={$viewState}&botaoConfirmar={$botaoConfirmar}&j_idt26={$j_idt26}&captcha={$captcha}";   
-        
-        $result   = ServerUtil::submit($this->url, $postdata);               
+        $j_idt           = $this->getJ_idt();
+        $captcha         = trim($captcha);
+                
+        $postdata = "nome={$nomeCliente}&DTPINFRA_TOKEN={$token}&cpf={$cpfCliente}&"
+        . "nb={$numBeneficio}&ano={$ano}&mes={$mes}&dia={$dia}&"
+        . "javax.faces.ViewState={$viewState}&botaoConfirmar={$botaoConfirmar}&{$j_idt}&captchaId={$captcha}";   
+ 
+        $result   = $this->serverUtil->submit($this->url, $postdata);               
 
         return $result; 
     }
