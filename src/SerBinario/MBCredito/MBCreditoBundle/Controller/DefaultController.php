@@ -120,7 +120,7 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/inserirDados")
+     * @Route("/inserirDados", name="inserirDados")
      * @Template()
      */
     public function viewInserirDadosAction()

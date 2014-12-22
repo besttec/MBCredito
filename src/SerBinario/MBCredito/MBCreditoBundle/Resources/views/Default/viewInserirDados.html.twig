@@ -378,14 +378,11 @@
                 success: function (data) {
                     $("#load").hide();
                     var resposta = $(data['result']).find("ul li.erro");
-                    var resposta2 = $(data['result']).find("title");
-
                     if (resposta.text()) {
                         alert('Ocorreu um erro, tente novamente');
                         $('#salvar').attr("disabled", true);
-                    }else if(resposta2.text()) {
-                        
-                    } else {
+                    }
+                    else {
                         //pega a página de retorno e atribui a uma div oculta
                         $('#result').html(data['result']);
 
