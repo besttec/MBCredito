@@ -182,7 +182,7 @@ class DefaultController extends Controller
                 $cpf                                = $resultCliente[$i]->getCpfCliente();
                 $cpfLen                             = strlen($cpf);
                 
-                if($cpfLen < 10) {
+                if($cpfLen < 11) {
                     $cpf = str_repeat("0", 11 - $cpfLen) .  $cpf;
                 }             
                 
