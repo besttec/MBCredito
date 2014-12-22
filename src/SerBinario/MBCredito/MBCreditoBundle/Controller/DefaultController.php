@@ -15,7 +15,7 @@ use SerBinario\MBCredito\MBCreditoBundle\DAO\DocumentoDAO;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\ClienteDAO;
 
 /**
- * 
+ *  
  */
 class DefaultController extends Controller
 {
