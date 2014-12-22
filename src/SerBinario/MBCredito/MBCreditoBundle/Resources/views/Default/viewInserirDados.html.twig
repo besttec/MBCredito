@@ -92,10 +92,10 @@
                             </div>
                             <div class="form-group col-lg-6">
                                 <img id="captcha" name="captcha" src="http://www8.dataprev.gov.br//SipaINSS/faces/resource/1418823274447/CAPTCHA.xhtml?rsrc=captcha" style="width: 249px; height: 89px; border: 0px none;" />
-                                <input type="text" class="form-control" id="cpf" />
+                                <input type="text" class="form-control" id="captchaInput" />
                             </div><br />
                             <div class="form-group col-lg-6">
-                                <button type="submit" class="btn btn-primary">Consultar</button>
+                                <button type="submit" id="submitConsultar" class="btn btn-primary">Consultar</button>
                             </div>
                         </form>
                     </div>
@@ -103,12 +103,10 @@
                         <fieldset>
                             <legend>Resultado da Consulta</legend>
                             <form role="form">
-                                <div container-fluid>
+                                <div class="container-fluid" id="result">
 
                                 </div>                              
-                                <div class="form-group col-lg-6">
-                                    <button type="submit" class="btn btn-primary">Salvar</button>
-                                </div>
+                                
                             </form>
                         </fieldset>
                     </div>
@@ -167,6 +165,7 @@
 
         $(document).ready(function ()
         {
+            $('#result').hide();
             /*
              * Desative estas linhas abaixo para ter a consulta individual
              * Setup - add a text input to each footer cell
@@ -307,6 +306,36 @@
             });
 
         });
-
+        
+        $(document).on("click", "#submitConsultar", function(event) {
+            event.preventDefault();
+            
+            var numBeneficio = $("#numBeneficio").val();
+            var dtNascimento = $("#dtNascimento").val();
+            var nome         = $("#nome").val();
+            var cpf          = $("#cpf").val();
+            var captcha      = $("#captchaInput").val();
+            
+            var dados = {
+                    nome         : nome,
+                    numBeneficio : numBeneficio,
+                    dtNascimento : dtNascimento,
+                    cpf          : cpf,
+                    captcha      : captcha
+                }
+                
+            $.ajax({
+                type: "POST",
+                url: "{{ path('consultar') }}",
+                dataType: "json",
+                data: dados,
+                success : function(data){
+                   //var table = data['result'].find("table.tabela-com-borda");
+                    console.log(data['result']);
+                    $('#result').html(data['result']);
+                }
+            });
+                
+        });
     </script>
 {% endblock %}

@@ -1,0 +1,184 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {{parent()}} 
+{% endblock %}
+
+{% block body %}
+    <?xml version="1.0" encoding="ISO-8859-1"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"><head><link type="text/css" rel="stylesheet" href="/SipaINSS/javax.faces.resource/theme.css.xhtml?ln=primefaces-aristo" />
+            <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+            <title>Extrato de Pagamentos</title>
+
+            <link rel="shortcut icon" href="/SipaINSS/images/icones/favicon.ico" />
+            <link type="text/css" rel="stylesheet" href="/SipaINSS/css/comum.css" />
+            <link type="text/css" rel="stylesheet" href="/SipaINSS/css/layout/layout1/layout1.css" />
+            <link type="text/css" rel="stylesheet" href="/SipaINSS/css/hiscre/hiscre.css" /></head><body><table class="topo-pagina soTela" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td><a href="http://www.mpas.gov.br/"><img src="/SipaINSS/images/KO.gif" height="70" width="94" /></a></td>
+                        <td class="titulo-topo-pagina"><a href="http://www.mpas.gov.br/"><img src="/SipaINSS/images/previdencia.gif" height="41" width="290" /></a></td>
+                        <td><img src="/SipaINSS/images/padrao2girado.gif" height="62" width="70" /></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="texto-centro">
+                <h1>Extrato de Pagamentos</h1>
+                <h2>Detalhamento de Crédito</h2><div class="centralizado resultado-hiscre"><table>
+                        <tbody>
+                            <tr class="cinzaP">
+                                <td>Número do Benefício:</td>
+                                <td>Nome do Segurado:</td>
+                            </tr>
+                            <tr class="grande">
+                                <td><span class="texto-centro block">169.300.165-6</span></td>
+                                <td>JULIETA MOURA DOS SANTOS</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <tbody>
+                            <tr class="cinzaP">
+                                <td>Competência:</td>
+                                <td>Período a que se refere o crédito:</td>
+                                <td>Pagamento através de:</td>
+                            </tr>
+                            <tr class="grande">
+                                <td><span class="texto-centro block">12/2014</span></td>
+                                <td><div class="texto-centro">01/12/2014 a 31/12/2014</div></td>
+                                <td>CONTA CORRENTE</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table><tbody>
+                            <tr class="cinzaP"><td colspan="2">Espécie:</td></tr>
+                            <tr class="grande"><td><span class="texto-centro block">41</span></td><td>APOSENTADORIA POR IDADE</td></tr>
+                        </tbody>
+                    </table><table>
+                        <tbody>
+                            <tr class="cinzaP">
+                                <td>Banco:</td>
+                                <td>Agência bancária:</td>
+                                <td>Código da agência:</td>
+                            </tr>
+                            <tr class="grande">
+                                <td>BRASIL         </td>
+                                <td>RUA DO LIVRAMENTO-MACEIO                </td>
+                                <td>408135</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <tbody>
+                            <tr class="cinzaP">
+                                <td>Endereço do banco:</td>
+                                <td>Disponível para recebimento de:</td>
+                            </tr>
+                            <tr class="grande">
+                                <td>RUA DO LIVRAMENTO, 120 - DO SUBSOLO AO 3 ANDAR         </td>
+                                <td><div class="texto-centro">30/12/2014 a 27/02/2015</div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <br /><table class="tabela-com-borda" border="1" cellpadding="3">
+                        <thead>
+                            <tr><th class="titulo-rubricas cinzaG" colspan="2" scope="colgroup">CRÉDITOS</th></tr>
+                            <tr>
+                                <th class="subtitulo-rubricas texto-esquerda" scope="col">Descrição das Rubricas</th>
+                                <th class="subtitulo-rubricas texto-direita" scope="col">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="width-80">Mens. reajustada</td>
+                                <td class="texto-direita">        724,00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="tabela-com-borda rubricas-negativas" border="1" cellpadding="3">
+                        <thead>
+                            <tr><th class="titulo-rubricas cinzaG" colspan="2" scope="colgroup">DÉBITOS</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="width-80">Consig. Emprest.</td>
+                                <td class="texto-direita">        199,82</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="tabela-com-borda" border="1" cellpadding="3">
+                        <tbody>
+                            <tr class="cinzaG">
+                                <td class="texto-direita width-33">Valor Bruto</td>
+                                <td class="texto-direita width-33">Valor dos Descontos</td>
+                                <td class="texto-direita width-33">Valor Líquido</td>
+                            </tr>
+                            <tr class="grande">
+                                <td class="texto-direita width-33">           724,00</td>
+                                <td class="texto-direita width-33">           199,82</td>
+                                <td class="texto-direita width-33">           524,18</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Este extrato vale para simples conferência</h3>
+                <form id="j_idt79" name="j_idt79" method="post" action="/SipaINSS/pages/hiscre/hiscreResultado.xhtml" enctype="application/x-www-form-urlencoded">
+                    <input type="hidden" name="j_idt79" value="j_idt79" />
+                    <input type="hidden" name="DTPINFRA_TOKEN" value="1419285219467" />
+                    <p class="soTela">
+                        <input type="button" onclick="window.print()" value="Imprimir" class="botao" /><span class="espaco-botoes"></span><input type="submit" name="j_idt79:j_idt82" value="Voltar" class="botao cancel" />
+                    </p><input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="-5970788240693542429:6404042226614612254" autocomplete="off" />
+                </form></div><table class="rodape-pagina soTela" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td><img src="/SipaINSS/images/esquerda3b.gif" height="62" width="70" /></td>
+                        <td class="width-100"><img src="/SipaINSS/images/rodape_dtp.gif" height="34" width="93" />
+                            <br /><img src="/SipaINSS/images/bluebottom2.gif" height="10" width="42" /><img src="/SipaINSS/images/dtpextenso2d.gif" /></td>
+                        <td><img src="/SipaINSS/images/padrao1girado.gif" height="62" width="70" /></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="tabela">
+
+            </div>
+        </body>
+
+    </html>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var countTabela = $("table.tabela-com-borda").length;
+            var Table = "";
+            for (var i = 0; i < countTabela; i++) {
+                Table += "<table class='tabela-com-borda' border='1' cellpadding='3'>";
+                Table += $("table.tabela-com-borda:eq(" + i + ")").html();
+                Table += "</table>";
+            }
+            $('#tabela').html(Table);
+
+            var debitos = "";
+            var countTR = $("table.rubricas-negativas tbody tr").length;
+            for (var i = 0; i < countTR; i++) {
+
+                var nome    = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(0)").text();
+                var valor   = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(1)").text();
+
+                debitos += nome + " " + valor;
+            }
+            
+            var valorBruto      = $('tr.grande:last td:eq(0)').text();
+            var valorDesconto   = $('tr.grande:last td:eq(1)').text();
+            var valorLiquido    = $('tr.grande:last td:eq(2)').text();
+            console.log(valorBruto, valorDesconto, valorLiquido);
+        });
+    </script>
+{% endblock %}
