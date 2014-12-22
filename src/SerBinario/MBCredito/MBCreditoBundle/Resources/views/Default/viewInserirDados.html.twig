@@ -93,7 +93,11 @@
                             <div class="form-group col-lg-6">
                                 <img id="captcha" name="captcha" src="" style="width: 249px; height: 89px; border: 0px none;" />
                                 <input type="text" class="form-control" id="captchaInput" />
-                            </div><br />
+                            </div>
+                            <div class="form-group col-lg-6" id="load" style="display: none">
+                                <img id="captcha" name="captcha" src="{{asset('imagens/loading.gif')}}" />
+                            </div>
+                            <br />
                             <div class="form-group col-lg-6">
                                 <button type="submit" id="submitConsultar" class="btn btn-primary">Consultar</button>
                             </div>
@@ -363,14 +367,16 @@
                 cpf: cpf,
                 captcha: captcha
             }
-
+            
+            $("#load").show();
+            
             $.ajax({
                 type: "POST",
                 url: "{{ path('consultar') }}",
                 dataType: "json",
                 data: dados,
                 success: function (data) {
-
+                    $("#load").hide();
                     var resposta = $(data['result']).find("ul li.erro");
 
                     if (resposta.text()) {

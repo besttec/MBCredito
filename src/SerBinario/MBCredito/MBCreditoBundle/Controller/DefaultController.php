@@ -149,11 +149,11 @@ class DefaultController extends Controller
                 "a.foneCelCliente",
                 "a.foneCelCliente",
                 "a.numBeneficioCliente",
-                "a.sexosSexo",
+                "b.nomeExtensoSexo",
                 "a.dataNascCliente"
                 );
 
-            $entityJOIN = array(); 
+            $entityJOIN = array("sexosSexo"); 
 
             $eventosArray        = array();
             $parametros          = $request->request->all();        
