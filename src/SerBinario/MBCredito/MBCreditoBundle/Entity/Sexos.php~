@@ -24,7 +24,7 @@ class Sexos
     /**
      * @var string
      *
-     * @ORM\Column(name="nome_abreviatura_sexo", type="string", length=2, nullable=false)
+     * @ORM\Column(name="nome_abreviatura_sexo", type="string", length=2, nullable=true)
      */
     private $nomeAbreviaturaSexo;
 
@@ -36,60 +36,4 @@ class Sexos
     private $nomeExtensoSexo;
 
 
-
-    /**
-     * Get idSexo
-     *
-     * @return integer 
-     */
-    public function getIdSexo()
-    {
-        return $this->idSexo;
-    }
-
-    /**
-     * Set nomeAbreviaturaSexo
-     *
-     * @param string $nomeAbreviaturaSexo
-     * @return Sexos
-     */
-    public function setNomeAbreviaturaSexo($nomeAbreviaturaSexo)
-    {
-        $this->nomeAbreviaturaSexo = $nomeAbreviaturaSexo;
-
-        return $this;
-    }
-
-    /**
-     * Get nomeAbreviaturaSexo
-     *
-     * @return string 
-     */
-    public function getNomeAbreviaturaSexo()
-    {
-        return $this->nomeAbreviaturaSexo;
-    }
-
-    /**
-     * Set nomeExtensoSexo
-     *
-     * @param string $nomeExtensoSexo
-     * @return Sexos
-     */
-    public function setNomeExtensoSexo($nomeExtensoSexo)
-    {
-        $this->nomeExtensoSexo = $nomeExtensoSexo;
-
-        return $this;
-    }
-
-    /**
-     * Get nomeExtensoSexo
-     *
-     * @return string 
-     */
-    public function getNomeExtensoSexo()
-    {
-        return $this->nomeExtensoSexo;
-    }
 }

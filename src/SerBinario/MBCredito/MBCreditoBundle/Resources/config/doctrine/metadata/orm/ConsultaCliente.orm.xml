@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="ConsultaCliente" table="consulta_cliente">
+    <id name="clientesCliente" association-key="true"/>
+    <field name="valorBruto" type="decimal" column="valor_bruto" precision="10" scale="2" nullable="false"/>
+    <field name="valorDescontos" type="decimal" column="valor_descontos" precision="10" scale="2" nullable="false"/>
+    <field name="valorLiquido" type="decimal" column="valor_liquido" precision="10" scale="2" nullable="false"/>
+    <field name="qtdEmprestimos" type="integer" column="qtd_emprestimos" nullable="true"/>
+    <one-to-one field="clientesCliente" target-entity="Clientes">
+      <join-columns>
+        <join-column name="clientes_id_cliente" referenced-column-name="id_cliente"/>
+      </join-columns>
+    </one-to-one>
+  </entity>
+</doctrine-mapping>

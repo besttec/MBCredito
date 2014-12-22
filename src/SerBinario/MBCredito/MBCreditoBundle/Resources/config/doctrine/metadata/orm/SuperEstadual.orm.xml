@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="SuperEstadual" table="super_estadual">
+    <id name="idSuperEstadual" type="integer" column="id_super_estadual">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="codSuperEstadual" type="string" column="cod_super_estadual" length="10" nullable="false"/>
+    <field name="nomeSuperEstadual" type="string" column="nome_super_estadual" length="50" nullable="false"/>
+    <field name="uf" type="string" column="uf" length="2" nullable="false"/>
+  </entity>
+</doctrine-mapping>

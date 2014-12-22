@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Clientes
  *
- * @ORM\Table(name="clientes", indexes={@ORM\Index(name="fk_clientes_sexos_idx", columns={"sexos_id_sexo"}), @ORM\Index(name="fk_clientes_super_estadual1_idx", columns={"super_estadual_id_super_estadual"}), @ORM\Index(name="fk_clientes_super_regional1_idx", columns={"super_regional_id_super_regional"}), @ORM\Index(name="fk_clientes_ag1_idx", columns={"ag_id_ag"})})
+ * @ORM\Table(name="clientes", indexes={@ORM\Index(name="IDX_50FE07D7A3EB2A0F", columns={"sexos_id_sexo"}), @ORM\Index(name="IDX_50FE07D7A892A8ED", columns={"super_estadual_id_super_estadual"}), @ORM\Index(name="IDX_50FE07D75B0025D3", columns={"super_regional_id_super_regional"}), @ORM\Index(name="IDX_50FE07D7221C05FD", columns={"ag_id_ag"})})
  * @ORM\Entity
  */
 class Clientes
@@ -41,13 +41,13 @@ class Clientes
      * @ORM\Column(name="cpf_cliente", type="string", length=11, nullable=false)
      */
     private $cpfCliente;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="limite_credito_cliente", type="string", length=50, nullable=false)
      */
-    private $limteCredito;
+    private $limiteCreditoCliente;
 
     /**
      * @var string
@@ -134,9 +134,29 @@ class Clientes
     private $dvCliente;
 
     /**
+     * @var \Ag
+     *
+     * @ORM\ManyToOne(targetEntity="Ag")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ag_id_ag", referencedColumnName="id_ag")
+     * })
+     */
+    private $agAg;
+
+    /**
+     * @var \SuperRegional
+     *
+     * @ORM\ManyToOne(targetEntity="SuperRegional")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="super_regional_id_super_regional", referencedColumnName="id_super_regional")
+     * })
+     */
+    private $superRegionalSuperRegional;
+
+    /**
      * @var \Sexos
      *
-     * @ORM\ManyToOne(targetEntity="Sexos",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Sexos")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="sexos_id_sexo", referencedColumnName="id_sexo")
      * })
@@ -146,32 +166,12 @@ class Clientes
     /**
      * @var \SuperEstadual
      *
-     * @ORM\ManyToOne(targetEntity="SuperEstadual",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="SuperEstadual")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="super_estadual_id_super_estadual", referencedColumnName="id_super_estadual")
      * })
      */
     private $superEstadualSuperEstadual;
-
-    /**
-     * @var \SuperRegional
-     *
-     * @ORM\ManyToOne(targetEntity="SuperRegional",cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="super_regional_id_super_regional", referencedColumnName="id_super_regional")
-     * })
-     */
-    private $superRegionalSuperRegional;
-
-    /**
-     * @var \Ag
-     *
-     * @ORM\ManyToOne(targetEntity="Ag",cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ag_id_ag", referencedColumnName="id_ag")
-     * })
-     */
-    private $agAg;
 
 
 
@@ -252,6 +252,29 @@ class Clientes
     public function getCpfCliente()
     {
         return $this->cpfCliente;
+    }
+
+    /**
+     * Set limiteCreditoCliente
+     *
+     * @param string $limiteCreditoCliente
+     * @return Clientes
+     */
+    public function setLimiteCreditoCliente($limiteCreditoCliente)
+    {
+        $this->limiteCreditoCliente = $limiteCreditoCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get limiteCreditoCliente
+     *
+     * @return string 
+     */
+    public function getLimiteCreditoCliente()
+    {
+        return $this->limiteCreditoCliente;
     }
 
     /**
@@ -531,6 +554,52 @@ class Clientes
     }
 
     /**
+     * Set agAg
+     *
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag $agAg
+     * @return Clientes
+     */
+    public function setAgAg(\SerBinario\MBCredito\MBCreditoBundle\Entity\Ag $agAg = null)
+    {
+        $this->agAg = $agAg;
+
+        return $this;
+    }
+
+    /**
+     * Get agAg
+     *
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag 
+     */
+    public function getAgAg()
+    {
+        return $this->agAg;
+    }
+
+    /**
+     * Set superRegionalSuperRegional
+     *
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional $superRegionalSuperRegional
+     * @return Clientes
+     */
+    public function setSuperRegionalSuperRegional(\SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional $superRegionalSuperRegional = null)
+    {
+        $this->superRegionalSuperRegional = $superRegionalSuperRegional;
+
+        return $this;
+    }
+
+    /**
+     * Get superRegionalSuperRegional
+     *
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional 
+     */
+    public function getSuperRegionalSuperRegional()
+    {
+        return $this->superRegionalSuperRegional;
+    }
+
+    /**
      * Set sexosSexo
      *
      * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\Sexos $sexosSexo
@@ -575,70 +644,4 @@ class Clientes
     {
         return $this->superEstadualSuperEstadual;
     }
-
-    /**
-     * Set superRegionalSuperRegional
-     *
-     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional $superRegionalSuperRegional
-     * @return Clientes
-     */
-    public function setSuperRegionalSuperRegional(\SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional $superRegionalSuperRegional = null)
-    {
-        $this->superRegionalSuperRegional = $superRegionalSuperRegional;
-
-        return $this;
-    }
-
-    /**
-     * Get superRegionalSuperRegional
-     *
-     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional 
-     */
-    public function getSuperRegionalSuperRegional()
-    {
-        return $this->superRegionalSuperRegional;
-    }
-
-    /**
-     * Set agAg
-     *
-     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag $agAg
-     * @return Clientes
-     */
-    public function setAgAg(\SerBinario\MBCredito\MBCreditoBundle\Entity\Ag $agAg = null)
-    {
-        $this->agAg = $agAg;
-
-        return $this;
-    }
-
-    /**
-     * Get agAg
-     *
-     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag 
-     */
-    public function getAgAg()
-    {
-        return $this->agAg;
-    }
-    
-    /**
-     * 
-     * @return type
-     */
-    function getLimteCredito() 
-    {
-        return $this->limteCredito;
-    }
-    
-    /**
-     * 
-     * @param type $limteCredito
-     */
-    function setLimteCredito($limteCredito) 
-    {
-        $this->limteCredito = $limteCredito;
-    }
-
-
 }

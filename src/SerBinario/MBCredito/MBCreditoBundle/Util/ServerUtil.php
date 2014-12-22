@@ -25,7 +25,8 @@ class ServerUtil
         $cookie    = realpath($cookie);
         
         $headers[] = 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8';
-        $headers[] = 'Accept-Language: en-US,en;q=0.5';                
+        $headers[] = 'Accept-Language: en-US,en;q=0.5';
+        $headers[] = "Pragma: ";
 
         curl_setopt($ch, CURLOPT_URL,$url);  
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
@@ -73,6 +74,7 @@ class ServerUtil
         $headers[] = 'Content-Type: application/x-www-form-urlencoded';
         $headers[] = 'Connection: keep-alive';
         $headers[] = 'Accept-Encoding: deflate';
+        $headers[] = "Pragma: ";
         
         
         curl_setopt ($ch, CURLOPT_URL, $url); 
