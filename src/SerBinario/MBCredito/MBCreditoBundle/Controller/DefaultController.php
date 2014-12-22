@@ -178,7 +178,15 @@ class DefaultController extends Controller
                 $eventosArray[$i]['DT_RowId']       =  "row_".$resultCliente[$i]->getIdCliente();
                 $eventosArray[$i]['nome']           =  $resultCliente[$i]->getNomeCliente();
                 $eventosArray[$i]['mci']            =  $resultCliente[$i]->getMciEmpCliente();
-                $eventosArray[$i]['cpf']            =  $resultCliente[$i]->getCpfCliente();
+                
+                $cpf                                = $resultCliente[$i]->getCpfCliente();
+                $cpfLen                             = strlen($cpf);
+                
+                if($cpfLen < 11) {
+                    $cpf = str_repeat("0", 11 - $cpfLen) .  $cpf;
+                }             
+                
+                $eventosArray[$i]['cpf']            =  $cpf;
                 $eventosArray[$i]['dddFoneRes']     =  $resultCliente[$i]->getDddFoneResidCliente();
                 $eventosArray[$i]['FoneRes']        =  $resultCliente[$i]->getFoneResidCliente();
                 $eventosArray[$i]['dddFoneCom']     =  $resultCliente[$i]->getDddFoneComerCliente();
