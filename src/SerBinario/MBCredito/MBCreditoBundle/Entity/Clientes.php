@@ -115,7 +115,7 @@ class Clientes
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="data_nasc_cliente", type="datetime", nullable=true)
+     * @ORM\Column(name="data_nasc_cliente", type="date", nullable=true)
      */
     private $dataNascCliente;
 
@@ -136,7 +136,7 @@ class Clientes
     /**
      * @var \Ag
      *
-     * @ORM\ManyToOne(targetEntity="Ag")
+     * @ORM\ManyToOne(targetEntity="Ag", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ag_id_ag", referencedColumnName="id_ag")
      * })
@@ -146,7 +146,7 @@ class Clientes
     /**
      * @var \SuperRegional
      *
-     * @ORM\ManyToOne(targetEntity="SuperRegional")
+     * @ORM\ManyToOne(targetEntity="SuperRegional", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="super_regional_id_super_regional", referencedColumnName="id_super_regional")
      * })
@@ -156,7 +156,7 @@ class Clientes
     /**
      * @var \Sexos
      *
-     * @ORM\ManyToOne(targetEntity="Sexos")
+     * @ORM\ManyToOne(targetEntity="Sexos", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="sexos_id_sexo", referencedColumnName="id_sexo")
      * })
@@ -166,7 +166,7 @@ class Clientes
     /**
      * @var \SuperEstadual
      *
-     * @ORM\ManyToOne(targetEntity="SuperEstadual")
+     * @ORM\ManyToOne(targetEntity="SuperEstadual", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="super_estadual_id_super_estadual", referencedColumnName="id_super_estadual")
      * })
