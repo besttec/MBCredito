@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Emprestimos" table="emprestimos">
+    <indexes>
+      <index name="fk_emprestimos_consulta_cliente1_idx" columns="consulta_cliente_clientes_id_cliente"/>
+    </indexes>
+    <id name="idEmprestimo" type="integer" column="id_emprestimo">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="emprestimo" type="string" column="emprestimo" length="50" nullable="false"/>
+    <field name="valor" type="decimal" column="valor_" precision="10" scale="2" nullable="false"/>
+    <many-to-one field="consultaClienteClientesCliente" target-entity="ConsultaCliente">
+      <join-columns>
+        <join-column name="consulta_cliente_clientes_id_cliente" referenced-column-name="clientes_id_cliente"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

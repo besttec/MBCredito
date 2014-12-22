@@ -1,5 +1,4 @@
 <?php
-
 namespace SerBinario\MBCredito\MBCreditoBundle\DAO;
 
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes;
