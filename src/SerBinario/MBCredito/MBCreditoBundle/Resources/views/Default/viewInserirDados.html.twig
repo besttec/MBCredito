@@ -99,41 +99,72 @@
                             </div>
                         </form>
                     </div>
-                    <div class="container-fluid">
-                        <fieldset>
-                            <legend>Resultado da Consulta</legend>
-                            <form role="form">
-                                <div class="container-fluid" id="result">
+                    <div class="container-fluid">                       
+                        <form role="form">                           
+                            <div class="container-fluid" id="result">
 
-                                </div>                              
-                                <div class="container-fluid" id="resposta">
-
-                                </div> 
-                            </form>
-                        </fieldset>
+                            </div> 
+                        </form>                        
                     </div>
                     <div class="container-fluid">
                         <fieldset>
                             <legend>Salvar Resultado</legend>
                             <form role="form">
-                                <div container-fluid>
-
+                                <div class="form-group col-lg-6">
+                                    <label for="nome">Nome Segurado</label>
+                                    <input type="text" readonly="" class="form-control" id="nomeSegurado" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="competencia">Competência</label>
+                                    <input type="text" readonly="" class="form-control" id="competencia" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="pCredito">Período Crédito</label>
+                                    <input type="text" readonly="" class="form-control" id="pCredito" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="numBeneficio">Pagamento através de:</label>
+                                    <input type="text" readonly="" class="form-control" id="tipoPagamento" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="numBeneficio">Espécie</label>
+                                    <input type="text" readonly="" class="form-control" id="especie" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="numBeneficio">Banco</label>
+                                    <input type="text" readonly="" class="form-control" id="banco" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="numBeneficio">Agência</label>
+                                    <input type="text" readonly="" class="form-control" id="agencia" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="numBeneficio">Codigo da agência</label>
+                                    <input type="text" readonly="" class="form-control" id="codAgencia" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="numBeneficio">Endereço do banco</label>
+                                    <input type="text" readonly="" class="form-control" id="endBanco" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="numBeneficio">Disponibilidade de recebimento</label>
+                                    <input type="text" readonly="" class="form-control" id="disRecebimento" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Valor Bruto</label>
-                                    <input type="text" class="form-control" id="vBruto" />
+                                    <input type="text" readonly="" class="form-control" id="vBruto" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="dtNascimento">Valor dos descontos</label>
-                                    <input type="text" class="form-control" id="vDesconto" />
+                                    <input type="text" readonly="" class="form-control" id="vDesconto" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="dtNascimento">Valor Líquido</label>
-                                    <input type="text" class="form-control" id="vLiquido" />
+                                    <input type="text" readonly="" class="form-control" id="vLiquido" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="dtNascimento">Quantidade de Empréstimos</label>
-                                    <input type="text" class="form-control" id="qtdEmprestimo" />
+                                    <input type="text" readonly="" class="form-control" id="qtdEmprestimo" />
                                 </div>
                                 <div class="form-group col-lg-12">
                                     <label for="dtNascimento">Valores do empréstimos</label>
@@ -189,8 +220,7 @@
                         "orderable": false,
                         "data": null,
                         "render": function (data, type, row, full, meta) {
-                            return '<a href="edit_' + row.DT_RowId + '" class="editar" title="Editar">\n\
-                                   <a href="remove_' + row.DT_RowId + '" class="excluir" title="Excluir">';
+                            return '<a href="" class="editar" title="Editar">'
                         }
                     },
                 ],
@@ -264,6 +294,25 @@
                 $('#dtNascimento').val(dtNascimento);
                 $('#codigo_prod').val(condigo_prod);
 
+                //Limpar caampos
+                $('#nomeSegurado').val("");
+                $('#competencia').val("");
+                $('#pCredito').val("");
+                $('#tipoPagamento').val("");
+                $('#especie').val("");
+                $('#banco').val("");
+                $('#agencia').val("");
+                $('#codAgencia').val("");
+                $('#endBanco').val("");
+                $('#disRecebimento').val("");
+
+                $('#listaDebitos').html("");
+
+                $('#vBruto').val("");
+                $('#vDesconto').val("");
+                $('#vLiquido').val("");
+                $('#qtdEmprestimo').val("");
+
             });
 
             $('#example tbody').on('click', 'tr', function () {
@@ -320,54 +369,71 @@
                 url: "{{ path('consultar') }}",
                 dataType: "json",
                 data: dados,
-                success: function (data) {                 
-                    // console.log(data['result']);
+                success: function (data) {
 
-                    // var resposta = $("ul li.erro").text();
                     var resposta = $(data['result']).find("ul li.erro");
 
                     if (resposta.text()) {
                         alert('Ocorreu um erro, tente novamente');
+                        $('#salvar').attr("disabled", true);
                     } else {
+                        //pega a página de retorno e atribui a uma div oculta
                         $('#result').html(data['result']);
-                        var countTabela = $("table.tabela-com-borda").length;
-                        var Table = "";
-                        for (var i = 0; i < countTabela; i++) {
-                            Table += "<table class='tabela-com-borda' border='1' cellpadding='3'>";
-                            Table += $("table.tabela-com-borda:eq(" + i + ")").html();
-                            Table += "</table>";
-                        }
-                        $('#tabela').html(Table);
 
-                        var debitos = "";
-                        var countTR = $("table.rubricas-negativas tbody tr").length;
-                        for (var i = 0; i < countTR; i++) {
 
-                            var nome = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(0)").text();
-                            var valor = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(1)").text();
+        {#var countTabela = $("table.tabeld-com-borda").length;
+        var Table = "";
+        for (var i = 0; i < countTabela; i++) {
+            Table += "<table class='tabela-com-borda' border='1' cellpadding='3'>";
+            Table += $("table.tabela-com-borda:eq(" + i + ")").html();
+            Table += "</table>";
+        }
+        $('#tabela').html(Table);#}
 
-                            debitos += "<li class='list-group-item'>" + nome + "\
+                            $('#nomeSegurado').val($('tr.grande:first td:eq(1)').text());
+                            $('#competencia').val($('tr.grande:eq(1) td:eq(0)').text());
+                            $('#pCredito').val($('tr.grande:eq(1) td:eq(1)').text());
+                            $('#tipoPagamento').val($('tr.grande:eq(1) td:eq(2)').text());
+                            $('#especie').val($('tr.grande:eq(2) td:eq(0) span').text() + " " + $('tr.grande:eq(2) td:eq(1)').text());
+                            $('#banco').val($('tr.grande:eq(3) td:eq(0)').text());
+                            $('#agencia').val($('tr.grande:eq(3) td:eq(1)').text());
+                            $('#codAgencia').val($('tr.grande:eq(3) td:eq(2)').text());
+                            $('#endBanco').val($('tr.grande:eq(4) td:eq(0)').text());
+                            $('#disRecebimento').val($('tr.grande:eq(4) td:eq(1) div').text());
+
+
+                            var debitos = "";
+                            //Conta quantos emprestimos o cliente possui
+                            var countTR = $("table.rubricas-negativas tbody tr").length;
+                            for (var i = 0; i < countTR; i++) {
+
+                                //pega os valores e nome de cada emprestimo
+                                var nome = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(0)").text();
+                                var valor = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(1)").text();
+
+                                debitos += "<li class='list-group-item'>" + nome + "\
                         ..........................................................\
                         ................................................" + valor + "</li>";
+                            }
+
+                            //Lista os débitos
+                            $('#listaDebitos').html(debitos);
+
+                            var valorBruto = $('tr.grande:last td:eq(0)').text();
+                            var valorDesconto = $('tr.grande:last td:eq(1)').text();
+                            var valorLiquido = $('tr.grande:last td:eq(2)').text();
+
+                            $('#vBruto').val(valorBruto);
+                            $('#vDesconto').val(valorDesconto);
+                            $('#vLiquido').val(valorLiquido);
+                            $('#qtdEmprestimo').val(countTR);
+
+                            $('#salvar').attr("disabled", false);
                         }
-
-                        //Lista os débitos
-                        $('#listaDebitos').html(debitos);
-
-                        var valorBruto = $('tr.grande:last td:eq(0)').text();
-                        var valorDesconto = $('tr.grande:last td:eq(1)').text();
-                        var valorLiquido = $('tr.grande:last td:eq(2)').text();
-
-                        $('#vBruto').val(valorBruto);
-                        $('#vDesconto').val(valorDesconto);
-                        $('#vLiquido').val(valorLiquido);
-                        $('#qtdEmprestimo').val(countTR);
-                        
-                        $('#salvar').attr("disabled", false);
                     }
-                }
+                });
+
             });
 
-        });
     </script>
 {% endblock %}
