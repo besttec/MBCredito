@@ -106,7 +106,9 @@
                                 <div class="container-fluid" id="result">
 
                                 </div>                              
-                                
+                                <div class="container-fluid" id="resposta">
+
+                                </div> 
                             </form>
                         </fieldset>
                     </div>
@@ -119,32 +121,28 @@
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Valor Bruto</label>
-                                    <input type="text" class="form-control" id="numBeneficio" />
+                                    <input type="text" class="form-control" id="vBruto" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="dtNascimento">Valor dos descontos</label>
-                                    <input type="text" class="form-control" id="dtNascimento" />
+                                    <input type="text" class="form-control" id="vDesconto" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="dtNascimento">Valor Líquido</label>
-                                    <input type="text" class="form-control" id="dtNascimento" />
+                                    <input type="text" class="form-control" id="vLiquido" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="dtNascimento">Quantidade de Empréstimos</label>
-                                    <input type="text" class="form-control" id="dtNascimento" />
+                                    <input type="text" class="form-control" id="qtdEmprestimo" />
                                 </div>
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-12">
                                     <label for="dtNascimento">Valores do empréstimos</label>
-                                    <ul class="list-group">
-                                        <li class="list-group-item">Cras justo odio</li>
-                                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                                        <li class="list-group-item">Morbi leo risus</li>
-                                        <li class="list-group-item">Porta ac consectetur ac</li>
-                                        <li class="list-group-item">Vestibulum at eros</li>
+                                    <ul class="list-group" id="listaDebitos">
+
                                     </ul>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                    <button type="submit" disabled="" id="salvar" class="btn btn-primary">Salvar</button>
                                 </div>
                             </form>
                         </fieldset>
@@ -166,14 +164,7 @@
         $(document).ready(function ()
         {
             $('#result').hide();
-            /*
-             * Desative estas linhas abaixo para ter a consulta individual
-             * Setup - add a text input to each footer cell
-             */
-            //$('#example tfoot th').each( function () {
-            //var title = $('#example thead th').eq( $(this).index() ).text();
-            //$(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-            //} );
+            //$('#salvar').attr("disabled", true);
 
             var dt = $('#example').DataTable({
                 "processing": true,
@@ -306,36 +297,77 @@
             });
 
         });
-        
-        $(document).on("click", "#submitConsultar", function(event) {
+
+        $(document).on("click", "#submitConsultar", function (event) {
             event.preventDefault();
-            
+
             var numBeneficio = $("#numBeneficio").val();
             var dtNascimento = $("#dtNascimento").val();
-            var nome         = $("#nome").val();
-            var cpf          = $("#cpf").val();
-            var captcha      = $("#captchaInput").val();
-            
+            var nome = $("#nome").val();
+            var cpf = $("#cpf").val();
+            var captcha = $("#captchaInput").val();
+
             var dados = {
-                    nome         : nome,
-                    numBeneficio : numBeneficio,
-                    dtNascimento : dtNascimento,
-                    cpf          : cpf,
-                    captcha      : captcha
-                }
-                
+                nome: nome,
+                numBeneficio: numBeneficio,
+                dtNascimento: dtNascimento,
+                cpf: cpf,
+                captcha: captcha
+            }
+
             $.ajax({
                 type: "POST",
                 url: "{{ path('consultar') }}",
                 dataType: "json",
                 data: dados,
-                success : function(data){
-                   //var table = data['result'].find("table.tabela-com-borda");
-                    console.log(data['result']);
-                    $('#result').html(data['result']);
+                success: function (data) {                 
+                    // console.log(data['result']);
+
+                    // var resposta = $("ul li.erro").text();
+                    var resposta = $(data['result']).find("ul li.erro");
+
+                    if (resposta.text()) {
+                        alert('Ocorreu um erro, tente novamente');
+                    } else {
+                        $('#result').html(data['result']);
+                        var countTabela = $("table.tabela-com-borda").length;
+                        var Table = "";
+                        for (var i = 0; i < countTabela; i++) {
+                            Table += "<table class='tabela-com-borda' border='1' cellpadding='3'>";
+                            Table += $("table.tabela-com-borda:eq(" + i + ")").html();
+                            Table += "</table>";
+                        }
+                        $('#tabela').html(Table);
+
+                        var debitos = "";
+                        var countTR = $("table.rubricas-negativas tbody tr").length;
+                        for (var i = 0; i < countTR; i++) {
+
+                            var nome = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(0)").text();
+                            var valor = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(1)").text();
+
+                            debitos += "<li class='list-group-item'>" + nome + "\
+                        ..........................................................\
+                        ................................................" + valor + "</li>";
+                        }
+
+                        //Lista os débitos
+                        $('#listaDebitos').html(debitos);
+
+                        var valorBruto = $('tr.grande:last td:eq(0)').text();
+                        var valorDesconto = $('tr.grande:last td:eq(1)').text();
+                        var valorLiquido = $('tr.grande:last td:eq(2)').text();
+
+                        $('#vBruto').val(valorBruto);
+                        $('#vDesconto').val(valorDesconto);
+                        $('#vLiquido').val(valorLiquido);
+                        $('#qtdEmprestimo').val(countTR);
+                        
+                        $('#salvar').attr("disabled", false);
+                    }
                 }
             });
-                
+
         });
     </script>
 {% endblock %}
