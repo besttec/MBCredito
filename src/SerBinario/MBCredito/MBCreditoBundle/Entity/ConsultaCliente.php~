@@ -41,6 +41,90 @@ class ConsultaCliente
     private $qtdEmprestimos;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="nome_segurado", type="string", length=50, nullable=true)
+     */
+    private $nomeSegurado;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="competencia", type="date", nullable=true)
+     */
+    private $competencia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pagto_atravez", type="string", length=50, nullable=true)
+     */
+    private $pagtoAtravez;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="periodo_ini", type="date", nullable=true)
+     */
+    private $periodoIni;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="periodo_fin", type="date", nullable=true)
+     */
+    private $periodoFin;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="especie", type="string", length=50, nullable=true)
+     */
+    private $especie;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="banco", type="string", length=50, nullable=true)
+     */
+    private $banco;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="agencia", type="string", length=50, nullable=true)
+     */
+    private $agencia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codigo_agencia", type="string", length=50, nullable=true)
+     */
+    private $codigoAgencia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="endereco_banco", type="string", length=50, nullable=true)
+     */
+    private $enderecoBanco;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="disponibilidade_ini", type="date", nullable=true)
+     */
+    private $disponibilidadeIni;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="disponibilidade_fin", type="date", nullable=true)
+     */
+    private $disponibilidadeFin;
+
+    /**
      * @var \Clientes
      *
      * @ORM\Id

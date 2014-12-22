@@ -6,6 +6,18 @@
     <field name="valorDescontos" type="decimal" column="valor_descontos" precision="10" scale="2" nullable="false"/>
     <field name="valorLiquido" type="decimal" column="valor_liquido" precision="10" scale="2" nullable="false"/>
     <field name="qtdEmprestimos" type="integer" column="qtd_emprestimos" nullable="true"/>
+    <field name="nomeSegurado" type="string" column="nome_segurado" length="50" nullable="true"/>
+    <field name="competencia" type="date" column="competencia" nullable="true"/>
+    <field name="pagtoAtravez" type="string" column="pagto_atravez" length="50" nullable="true"/>
+    <field name="periodoIni" type="date" column="periodo_ini" nullable="true"/>
+    <field name="periodoFin" type="date" column="periodo_fin" nullable="true"/>
+    <field name="especie" type="string" column="especie" length="50" nullable="true"/>
+    <field name="banco" type="string" column="banco" length="50" nullable="true"/>
+    <field name="agencia" type="string" column="agencia" length="50" nullable="true"/>
+    <field name="codigoAgencia" type="string" column="codigo_agencia" length="50" nullable="true"/>
+    <field name="enderecoBanco" type="string" column="endereco_banco" length="50" nullable="true"/>
+    <field name="disponibilidadeIni" type="date" column="disponibilidade_ini" nullable="true"/>
+    <field name="disponibilidadeFin" type="date" column="disponibilidade_fin" nullable="true"/>
     <one-to-one field="clientesCliente" target-entity="Clientes">
       <join-columns>
         <join-column name="clientes_id_cliente" referenced-column-name="id_cliente"/>

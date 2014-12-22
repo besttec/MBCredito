@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Clientes
  *
- * @ORM\Table(name="clientes", indexes={@ORM\Index(name="IDX_50FE07D7A3EB2A0F", columns={"sexos_id_sexo"}), @ORM\Index(name="IDX_50FE07D7A892A8ED", columns={"super_estadual_id_super_estadual"}), @ORM\Index(name="IDX_50FE07D75B0025D3", columns={"super_regional_id_super_regional"}), @ORM\Index(name="IDX_50FE07D7221C05FD", columns={"ag_id_ag"})})
+ * @ORM\Table(name="clientes", indexes={@ORM\Index(name="IDX_50FE07D7221C05FD", columns={"ag_id_ag"}), @ORM\Index(name="IDX_50FE07D75B0025D3", columns={"super_regional_id_super_regional"}), @ORM\Index(name="IDX_50FE07D7A3EB2A0F", columns={"sexos_id_sexo"}), @ORM\Index(name="IDX_50FE07D7A892A8ED", columns={"super_estadual_id_super_estadual"})})
  * @ORM\Entity
  */
 class Clientes
@@ -115,7 +115,7 @@ class Clientes
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="data_nasc_cliente", type="datetime", nullable=true)
+     * @ORM\Column(name="data_nasc_cliente", type="date", nullable=true)
      */
     private $dataNascCliente;
 
@@ -132,6 +132,16 @@ class Clientes
      * @ORM\Column(name="dv_cliente", type="string", length=45, nullable=true)
      */
     private $dvCliente;
+
+    /**
+     * @var \SuperEstadual
+     *
+     * @ORM\ManyToOne(targetEntity="SuperEstadual")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="super_estadual_id_super_estadual", referencedColumnName="id_super_estadual")
+     * })
+     */
+    private $superEstadualSuperEstadual;
 
     /**
      * @var \Ag
@@ -162,16 +172,6 @@ class Clientes
      * })
      */
     private $sexosSexo;
-
-    /**
-     * @var \SuperEstadual
-     *
-     * @ORM\ManyToOne(targetEntity="SuperEstadual")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="super_estadual_id_super_estadual", referencedColumnName="id_super_estadual")
-     * })
-     */
-    private $superEstadualSuperEstadual;
 
 
 }

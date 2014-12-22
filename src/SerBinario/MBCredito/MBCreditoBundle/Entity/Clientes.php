@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Clientes
  *
- * @ORM\Table(name="clientes", indexes={@ORM\Index(name="IDX_50FE07D7A3EB2A0F", columns={"sexos_id_sexo"}), @ORM\Index(name="IDX_50FE07D7A892A8ED", columns={"super_estadual_id_super_estadual"}), @ORM\Index(name="IDX_50FE07D75B0025D3", columns={"super_regional_id_super_regional"}), @ORM\Index(name="IDX_50FE07D7221C05FD", columns={"ag_id_ag"})})
+ * @ORM\Table(name="clientes", indexes={@ORM\Index(name="IDX_50FE07D7221C05FD", columns={"ag_id_ag"}), @ORM\Index(name="IDX_50FE07D75B0025D3", columns={"super_regional_id_super_regional"}), @ORM\Index(name="IDX_50FE07D7A3EB2A0F", columns={"sexos_id_sexo"}), @ORM\Index(name="IDX_50FE07D7A892A8ED", columns={"super_estadual_id_super_estadual"})})
  * @ORM\Entity
  */
 class Clientes
@@ -134,9 +134,19 @@ class Clientes
     private $dvCliente;
 
     /**
+     * @var \SuperEstadual
+     *
+     * @ORM\ManyToOne(targetEntity="SuperEstadual")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="super_estadual_id_super_estadual", referencedColumnName="id_super_estadual")
+     * })
+     */
+    private $superEstadualSuperEstadual;
+
+    /**
      * @var \Ag
      *
-     * @ORM\ManyToOne(targetEntity="Ag", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Ag")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ag_id_ag", referencedColumnName="id_ag")
      * })
@@ -146,7 +156,7 @@ class Clientes
     /**
      * @var \SuperRegional
      *
-     * @ORM\ManyToOne(targetEntity="SuperRegional", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="SuperRegional")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="super_regional_id_super_regional", referencedColumnName="id_super_regional")
      * })
@@ -156,22 +166,12 @@ class Clientes
     /**
      * @var \Sexos
      *
-     * @ORM\ManyToOne(targetEntity="Sexos", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Sexos")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="sexos_id_sexo", referencedColumnName="id_sexo")
      * })
      */
     private $sexosSexo;
-
-    /**
-     * @var \SuperEstadual
-     *
-     * @ORM\ManyToOne(targetEntity="SuperEstadual", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="super_estadual_id_super_estadual", referencedColumnName="id_super_estadual")
-     * })
-     */
-    private $superEstadualSuperEstadual;
 
 
 
@@ -554,6 +554,29 @@ class Clientes
     }
 
     /**
+     * Set superEstadualSuperEstadual
+     *
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual $superEstadualSuperEstadual
+     * @return Clientes
+     */
+    public function setSuperEstadualSuperEstadual(\SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual $superEstadualSuperEstadual = null)
+    {
+        $this->superEstadualSuperEstadual = $superEstadualSuperEstadual;
+
+        return $this;
+    }
+
+    /**
+     * Get superEstadualSuperEstadual
+     *
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual 
+     */
+    public function getSuperEstadualSuperEstadual()
+    {
+        return $this->superEstadualSuperEstadual;
+    }
+
+    /**
      * Set agAg
      *
      * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag $agAg
@@ -620,28 +643,5 @@ class Clientes
     public function getSexosSexo()
     {
         return $this->sexosSexo;
-    }
-
-    /**
-     * Set superEstadualSuperEstadual
-     *
-     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual $superEstadualSuperEstadual
-     * @return Clientes
-     */
-    public function setSuperEstadualSuperEstadual(\SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual $superEstadualSuperEstadual = null)
-    {
-        $this->superEstadualSuperEstadual = $superEstadualSuperEstadual;
-
-        return $this;
-    }
-
-    /**
-     * Get superEstadualSuperEstadual
-     *
-     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual 
-     */
-    public function getSuperEstadualSuperEstadual()
-    {
-        return $this->superEstadualSuperEstadual;
     }
 }

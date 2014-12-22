@@ -221,10 +221,8 @@ class DefaultController extends Controller
             );
 
             return new JsonResponse($columns);
-        }else{
-            
-            return array();
-            
+        }else{            
+            return array();            
         }
             
     }

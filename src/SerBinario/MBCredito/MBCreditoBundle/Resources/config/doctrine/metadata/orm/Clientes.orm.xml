@@ -2,10 +2,10 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
   <entity name="Clientes" table="clientes">
     <indexes>
+      <index name="IDX_50FE07D7221C05FD" columns="ag_id_ag"/>
+      <index name="IDX_50FE07D75B0025D3" columns="super_regional_id_super_regional"/>
       <index name="IDX_50FE07D7A3EB2A0F" columns="sexos_id_sexo"/>
       <index name="IDX_50FE07D7A892A8ED" columns="super_estadual_id_super_estadual"/>
-      <index name="IDX_50FE07D75B0025D3" columns="super_regional_id_super_regional"/>
-      <index name="IDX_50FE07D7221C05FD" columns="ag_id_ag"/>
     </indexes>
     <id name="idCliente" type="integer" column="id_cliente">
       <generator strategy="IDENTITY"/>
@@ -23,14 +23,9 @@
     <field name="dddFonePrefCliente" type="string" column="ddd_fone_pref_cliente" length="5" nullable="true"/>
     <field name="fonePrefCliente" type="string" column="fone_pref_cliente" length="10" nullable="true"/>
     <field name="codCliente" type="string" column="cod_cliente" length="20" nullable="true"/>
-    <field name="dataNascCliente" type="datetime" column="data_nasc_cliente" nullable="true"/>
+    <field name="dataNascCliente" type="date" column="data_nasc_cliente" nullable="true"/>
     <field name="numBeneficioCliente" type="string" column="num_beneficio_cliente" length="20" nullable="true"/>
     <field name="dvCliente" type="string" column="dv_cliente" length="45" nullable="true"/>
-    <many-to-one field="superEstadualSuperEstadual" target-entity="SuperEstadual">
-      <join-columns>
-        <join-column name="super_estadual_id_super_estadual" referenced-column-name="id_super_estadual"/>
-      </join-columns>
-    </many-to-one>
     <many-to-one field="sexosSexo" target-entity="Sexos">
       <join-columns>
         <join-column name="sexos_id_sexo" referenced-column-name="id_sexo"/>
@@ -44,6 +39,11 @@
     <many-to-one field="agAg" target-entity="Ag">
       <join-columns>
         <join-column name="ag_id_ag" referenced-column-name="id_ag"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="superEstadualSuperEstadual" target-entity="SuperEstadual">
+      <join-columns>
+        <join-column name="super_estadual_id_super_estadual" referenced-column-name="id_super_estadual"/>
       </join-columns>
     </many-to-one>
   </entity>
