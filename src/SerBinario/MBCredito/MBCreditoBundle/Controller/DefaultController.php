@@ -13,6 +13,7 @@ use SerBinario\MBCredito\MBCreditoBundle\Util\MBCreditoUtil;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\DocumentoDAO;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\ClienteDAO;
+use SerBinario\MBCredito\MBCreditoBundle\DAO\ConsultaClienteDAO;
 
 /**
  *  
@@ -136,6 +137,17 @@ class DefaultController extends Controller
                     $cliente->setDataNascCliente(\DateTime::createFromFormat("d/m/Y", $columns[22], new \DateTimeZone("America/Recife")));
                     $cliente->setNumBeneficioCliente($columns[23]);
                     $cliente->setDvCliente((int) $columns[24]);
+                    
+                    $numBeneficio                       = $columns[23] . ((int) $columns[24]);
+                    $qtdNumBeneficio                    = strlen($numBeneficio);
+
+                    if($qtdNumBeneficio < 10) {
+                        $numBeneficio = str_repeat("0", 10 - $qtdNumBeneficio) .  $numBeneficio;
+                    }                    
+                    
+                    $cliente->setNumBeneficioComp($numBeneficio);
+                    $cliente->setStatusConsulta(false);
+                    
                     $clienteDAO = new ClienteDAO($this->getDoctrine()->getManager());
                     $clienteDAO->insertCliente($cliente);
                 }
@@ -235,16 +247,10 @@ class DefaultController extends Controller
                 $eventosArray[$i]['dddFoneCel']     =  $resultCliente[$i]->getDddFoneCelCliente();
                 $eventosArray[$i]['FoneCel']        =  $resultCliente[$i]->getFoneCelCliente();
                 
-                $numBeneficio                       = $resultCliente[$i]->getNumBeneficioCliente();
-                $dvCliente                          = $resultCliente[$i]->getDvCliente();
-                $numBeneficio                       = $numBeneficio . $dvCliente;
-                $qtdNumBeneficio                    = strlen($numBeneficio);
-                
-                if($qtdNumBeneficio < 10) {
-                    $numBeneficio = str_repeat("0", 10 - $qtdNumBeneficio) .  $numBeneficio;
-                }
-                
-                $eventosArray[$i]['numBeneficio']   = $numBeneficio;                
+                $numBeneficio                       =  $resultCliente[$i]->getNumBeneficioCliente();
+                $dvCliente                          =  $resultCliente[$i]->getDvCliente();
+                             
+                $eventosArray[$i]['numBeneficio']   =  $resultCliente[$i]->getNumBeneficioComp();                
                 $eventosArray[$i]['Sexo']           =  $resultCliente[$i]->getSexosSexo()->getNomeExtensoSexo();
                 $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getDataNascCliente()->format('d/m/Y');
             }
@@ -278,26 +284,29 @@ class DefaultController extends Controller
         
         if(GridClass::isAjax()) {
             
-            $columns = array("a.nomeCliente",
-                "a.mciEmpCliente",
-                "a.cpfCliente",
-                "a.dddFoneResidCliente",
-                "a.foneResidCliente",
-                "a.dddFoneComerCliente",
-                "a.foneComerCliente",
-                "a.dddFoneCelCliente",
-                "a.foneCelCliente",
-                "a.foneCelCliente",
-                "a.numBeneficioCliente",
-                "b.nomeExtensoSexo",
-                "a.dataNascCliente"
+            $columns = array("a.valorBruto",
+                "a.valorDescontos",
+                "a.valorLiquido",
+                "a.qtdEmprestimos",
+                "a.nomeSegurado",
+                "a.competencia",
+                "a.pagtoAtravez",
+                "a.periodoIni",
+                "a.periodoFin",
+                "a.especie",
+                "a.banco",
+                "a.agencia",
+                "a.codigoAgencia",
+                "a.enderecoBanco",
+                "b.dataNascCliente",
+                "b.codCliente"
                 );
 
-            $entityJOIN = array("sexosSexo"); 
+            $entityJOIN = array("clientesCliente"); 
 
             $eventosArray        = array();
             $parametros          = $request->request->all();        
-            $entity              = "SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes"; 
+            $entity              = "SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente"; 
             $columnWhereMain     = "";
             $whereValueMain      = "";
             
@@ -312,42 +321,50 @@ class DefaultController extends Controller
             $resultCliente  = $gridClass->builderQuery();    
             $countTotal     = $gridClass->getCount();
             $countEventos   = count($resultCliente);
-
+            //print_r($resultCliente); exit;
             for($i=0;$i < $countEventos; $i++)
             {
-                $eventosArray[$i]['DT_RowId']       =  "row_".$resultCliente[$i]->getIdCliente();
-                $eventosArray[$i]['nome']           =  $resultCliente[$i]->getNomeCliente();
-                $eventosArray[$i]['mci']            =  $resultCliente[$i]->getMciEmpCliente();
+                $eventosArray[$i]['DT_RowId']       =  "row_".$resultCliente[$i]->getClientesCliente()->getIdCliente();
+                $eventosArray[$i]['nome']           =  $resultCliente[$i]->getNomeSegurado();
+                $eventosArray[$i]['valorBruto']     =  $resultCliente[$i]->getValorBruto();
                 
-                $cpf                                = $resultCliente[$i]->getCpfCliente();
+                $cpf                                = $resultCliente[$i]->getClientesCliente()->getCpfCliente();
                 $cpfLen                             = strlen($cpf);
                 
                 if($cpfLen < 11) {
                     $cpf = str_repeat("0", 11 - $cpfLen) .  $cpf;
                 }             
                 
-                $eventosArray[$i]['cpf']            =  $cpf;
-                $eventosArray[$i]['dddFoneRes']     =  $resultCliente[$i]->getDddFoneResidCliente();
-                $eventosArray[$i]['FoneRes']        =  $resultCliente[$i]->getFoneResidCliente();
-                $eventosArray[$i]['dddFoneCom']     =  $resultCliente[$i]->getDddFoneComerCliente();
-                $eventosArray[$i]['FoneCom']        =  $resultCliente[$i]->getFoneComerCliente();
-                $eventosArray[$i]['dddFoneCel']     =  $resultCliente[$i]->getDddFoneCelCliente();
-                $eventosArray[$i]['FoneCel']        =  $resultCliente[$i]->getFoneCelCliente();
+                $eventosArray[$i]['cpf']                    =  $cpf;
+                $eventosArray[$i]['valorDescontos']         =  $resultCliente[$i]->getValorDescontos();
+                $eventosArray[$i]['valorLiquido']           =  $resultCliente[$i]->getValorLiquido();
+                $eventosArray[$i]['qtdEmprestimos']         =  $resultCliente[$i]->getQtdEmprestimos();
+                $eventosArray[$i]['competencia']            =  $resultCliente[$i]->getCompetencia();
+                $eventosArray[$i]['pagtoAtravez']           =  $resultCliente[$i]->getPagtoAtravez();
+                $eventosArray[$i]['periodoIni']             =  $resultCliente[$i]->getPeriodoIni()->format('d/m/Y');
+                $eventosArray[$i]['periodoFin']             =  $resultCliente[$i]->getPeriodoFin()->format('d/m/Y');
+                $eventosArray[$i]['especie']                =  $resultCliente[$i]->getEspecie();
+                $eventosArray[$i]['banco']                  =  $resultCliente[$i]->getBanco();
+                $eventosArray[$i]['agencia']                =  $resultCliente[$i]->getAgencia();
+                $eventosArray[$i]['codigoAgencia']          =  $resultCliente[$i]->getCodigoAgencia();
+                $eventosArray[$i]['enderecoBanco']          =  $resultCliente[$i]->getEnderecoBanco();
                 
-                $numBeneficio                       = $resultCliente[$i]->getNumBeneficioCliente();
-                $dvCliente                          = $resultCliente[$i]->getDvCliente();
+                $numBeneficio                       = $resultCliente[$i]->getClientesCliente()->getNumBeneficioCliente();
+                $dvCliente                          = $resultCliente[$i]->getClientesCliente()->getDvCliente();
                 $numBeneficio                       = $numBeneficio . $dvCliente;
                 $qtdNumBeneficio                    = strlen($numBeneficio);
                 
-                if($qtdNumBeneficio < 10) {
+                 if($qtdNumBeneficio < 10) {
                     $numBeneficio = str_repeat("0", 10 - $qtdNumBeneficio) .  $numBeneficio;
                 }
                 
-                $eventosArray[$i]['numBeneficio']   = $numBeneficio;                
-                $eventosArray[$i]['Sexo']           =  $resultCliente[$i]->getSexosSexo()->getNomeExtensoSexo();
-                $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getDataNascCliente()->format('d/m/Y');
+                $eventosArray[$i]['numBeneficio']   =  $numBeneficio;                
+                $eventosArray[$i]['Sexo']           =  $resultCliente[$i]->getClientesCliente()->getSexosSexo()->getNomeExtensoSexo();
+                $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getClientesCliente()->getDataNascCliente()->format('d/m/Y');
             }
-
+            
+            //var_dump($eventosArray);
+            //exit();
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()){
                 $countEventos = $countTotal;
@@ -366,7 +383,7 @@ class DefaultController extends Controller
         }
             
     }
-    
+       
     /**
      * @Route("/captcha")
      * @Method({"POST"})
@@ -443,11 +460,17 @@ class DefaultController extends Controller
         $vDesconto      = $dados['vDesconto'];
         $vLiquido       = $dados['vLiquido'];
         $qtdEmprestimo  = $dados['qtdEmprestimo'];
+        $nomeEmp        = $dados['nomeEmprestimo'];
+        $valoresEmp     = $dados['valorEmprestimo'];
         
         $clienteDAO = new ClienteDAO($this->getDoctrine()->getManager());
+        $codBenefi  = str_replace(array(".","-"), "", $codBenefi);
+                
         $cliente    = $clienteDAO->findNumBeneficio($codBenefi);
         
         if(count($cliente) > 0) {
+            $cliente[0]->setStatusConsulta(true);
+            
             $consultaCliente = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente();
             
             $consultaCliente->setNomeSegurado($nomeSegurado);
@@ -455,8 +478,8 @@ class DefaultController extends Controller
             
             $arrayPeriodo = explode("a", $pCredito);
             
-            $consultaCliente->setPeriodoIni(\DateTime::createFromFormat("d/m/Y", $arrayPeriodo[0], new \DateTimeZone("America\Recife")));
-            $consultaCliente->setPeriodoFin(\DateTime::createFromFormat("d/m/Y", $arrayPeriodo[1], new \DateTimeZone("America\Recife")));
+            $consultaCliente->setPeriodoIni(\DateTime::createFromFormat("d/m/Y", trim($arrayPeriodo[0]), new \DateTimeZone("America/Recife")));
+            $consultaCliente->setPeriodoFin(\DateTime::createFromFormat("d/m/Y", trim($arrayPeriodo[1]), new \DateTimeZone("America/Recife")));
             $consultaCliente->setPagtoAtravez($tipoPagamento);
             $consultaCliente->setEspecie($especie);
             $consultaCliente->setBanco($banco);
@@ -466,20 +489,30 @@ class DefaultController extends Controller
             
             $arrayDisp = explode("a", $disRecebimento);
             
-            $consultaCliente->setDisponibilidadeIni(\DateTime::createFromFormat("d/m/Y", $arrayDisp[0], new \DateTimeZone("America\Recife")));
-            $consultaCliente->setDisponibilidadeFin(\DateTime::createFromFormat("d/m/Y", $arrayDisp[1], new \DateTimeZone("America\Recife")));
+            $consultaCliente->setDisponibilidadeIni(\DateTime::createFromFormat("d/m/Y", trim($arrayDisp[0]), new \DateTimeZone("America/Recife")));
+            $consultaCliente->setDisponibilidadeFin(\DateTime::createFromFormat("d/m/Y", trim($arrayDisp[1]), new \DateTimeZone("America/Recife")));
             $consultaCliente->setValorBruto($vBruto);
             $consultaCliente->setValorDescontos($vDesconto);
             $consultaCliente->setValorLiquido($vLiquido);
             $consultaCliente->setQtdEmprestimos($qtdEmprestimo);
+           
+            $emprestimos = array_combine(array_values($nomeEmp), array_values($valoresEmp));
+            
+            foreach ($emprestimos as $key => $value) {
+                $emprestimo = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos();
+                $emprestimo->setEmprestimo($key);
+                $emprestimo->setValor($value);
+                
+                $consultaCliente->addEmprestimo($emprestimo);
+            }
             
             $consultaCliente->setClientesCliente($cliente[0]);
             
-            $consultaClienteDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ConsultaClienteDAO($this->getDoctrine()->getManager());
+            $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
             $result = $consultaClienteDAO->insert($consultaCliente);
             
             if($result) {
-                 $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucessoS!");     
+                 $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");     
             } else {
                  $this->get("session")->getFlashBag()->add('error', "Error ao salvar os dados!");     
             }

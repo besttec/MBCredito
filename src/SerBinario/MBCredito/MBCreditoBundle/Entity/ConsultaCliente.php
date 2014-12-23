@@ -2,7 +2,9 @@
 
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos;
 
 /**
  * ConsultaCliente
@@ -129,7 +131,7 @@ class ConsultaCliente
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Clientes")
+     * @ORM\OneToOne(targetEntity="Clientes", inversedBy="consultas")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="clientes_id_cliente", referencedColumnName="id_cliente")
      * })
@@ -137,11 +139,17 @@ class ConsultaCliente
     private $clientesCliente;
     
     /**
-     * @OneToMany(targetEntity="Emprestimos", mappedBy="consultaClienteClientesCliente", cascade="{all}")
+     * @ORM\OneToMany(targetEntity="Emprestimos", mappedBy="consultaClienteClientesCliente",  cascade={"persist", "remove"})
      **/
     private $emprestimos;
 
-
+    /**
+     * 
+     */
+    public function __construct() 
+    {
+        $this->emprestimos = new ArrayCollection();
+    }
 
     /**
      * Set valorBruto
@@ -533,6 +541,20 @@ class ConsultaCliente
     {
         return $this->clientesCliente;
     }
+    
+    /**
+     * 
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos $emprestimo
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
+     */
+    public function addEmprestimo(Emprestimos $emprestimo)
+    {
+        $this->emprestimos[] = $emprestimo;
+        $emprestimo->setConsultaClienteClientesCliente($this);
+        
+        return $this;
+    }
+    
     
     /**
      * 

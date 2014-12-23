@@ -47,7 +47,7 @@ class ClienteDAO
     public function findNumBeneficio($numBeneficio)
     {
         try {
-            $query = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes c WHERE c.numBeneficioCliente = ?1")
+            $query = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes c WHERE c.numBeneficioComp = ?1")
                     ->setParameter(1, $numBeneficio);
             
             return $query->getResult();

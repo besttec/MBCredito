@@ -1,14 +1,16 @@
 <?php
 namespace SerBinario\MBCredito\MBCreditoBundle\DAO;
 
-use SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente;
 use Doctrine\ORM\EntityManager;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente;
 
 /**
- * 
+ * Description of ConsultaClienteDAO
+ *
+ * @author andrey
  */
-class ConsultaClienteDAO
-{   
+class ConsultaClienteDAO 
+{
     /**
      *
      * @var type 
@@ -63,4 +65,3 @@ class ConsultaClienteDAO
         }
     }
 }
-
