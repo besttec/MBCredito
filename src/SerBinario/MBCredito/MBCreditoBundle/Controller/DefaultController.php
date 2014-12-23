@@ -20,7 +20,7 @@ use SerBinario\MBCredito\MBCreditoBundle\DAO\ClienteDAO;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="homepage")
      * @Template()
      */
     public function indexAction()
@@ -29,6 +29,35 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/login", name="login")
+     * @Template()
+     */
+    public function loginAction(Request $request)
+    {
+        $req = $request->request->all();
+        
+        $login = $req['login'];
+        $senha = $req['senha'];
+        
+        if(($login === "mbcredito") && ($senha === "12345")) {
+            return $this->redirect($this->generateUrl("principal"));
+        } else {
+            $this->get("session")->getFlashBag()->add('error', "Erro ao fazer login e senha");
+            return $this->redirect($this->generateUrl("homepage"));
+        }
+               
+    }
+    
+    /**
+     * @Route("/principal", name="principal")
+     * @Template()
+     */
+    public function principalAction(Request $request)
+    {        
+        return array();
+    }
+     
+    /**
      * @Route("/importarArquivo", name="importarArquivo")
      * @Template()
      */
@@ -36,7 +65,7 @@ class DefaultController extends Controller
     {
         return array();
     }
-    
+      
     /**
      * @Route("/saveArquivo", name="saveArquivo")
      */

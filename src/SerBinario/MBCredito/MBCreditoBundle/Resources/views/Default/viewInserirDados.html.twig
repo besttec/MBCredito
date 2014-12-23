@@ -384,12 +384,11 @@
                 dataType: "json",
                 data: dados,
                 success: function (data) {
-                    $("#load").hide();
-                    var dados = data['result'];
+                    $("#load").hide();                  
                     
-                    var resposta = $(dados).find("ul li.erro");
+                    var resposta = $(data['result']).find("ul li.erro");
                     
-                    console.log($(dados).find("h3"));
+                    console.log($(data['result']).closest("h3").text());
                     
                     if (resposta.text()) {
                         
@@ -399,17 +398,17 @@
                     }
                     else {
                         //pega a página de retorno e atribui a uma div oculta
-                        $('#result').html(data['result']);
+                      $('#result').html(data['result']);
 
 
-        {#var countTabela = $("table.tabeld-com-borda").length;
-        var Table = "";
-        for (var i = 0; i < countTabela; i++) {
-            Table += "<table class='tabela-com-borda' border='1' cellpadding='3'>";
-            Table += $("table.tabela-com-borda:eq(" + i + ")").html();
-            Table += "</table>";
-        }
-        $('#tabela').html(Table);#}
+                    {#var countTabela = $("table.tabeld-com-borda").length;
+                    var Table = "";
+                    for (var i = 0; i < countTabela; i++) {
+                        Table += "<table class='tabela-com-borda' border='1' cellpadding='3'>";
+                        Table += $("table.tabela-com-borda:eq(" + i + ")").html();
+                        Table += "</table>";
+                    }
+                    $('#tabela').html(Table);#}
                             
                             $('#codBenefi').val($('tr.grande:first td:eq(0)').text());
                             $('#nomeSegurado').val($('tr.grande:first td:eq(1)').text());
