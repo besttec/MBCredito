@@ -131,7 +131,7 @@ class ConsultaCliente
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Clientes")
+     * @ORM\OneToOne(targetEntity="Clientes", inversedBy="consultas")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="clientes_id_cliente", referencedColumnName="id_cliente")
      * })

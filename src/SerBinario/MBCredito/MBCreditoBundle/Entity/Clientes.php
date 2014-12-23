@@ -3,6 +3,8 @@
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente;
 
 /**
  * Clientes
@@ -186,6 +188,19 @@ class Clientes
      * })
      */
     private $sexosSexo;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="ConsultaCliente", mappedBy="clientesCliente")
+     **/
+    private $consultas;
+    
+    /**
+     * 
+     */
+    public function __construct() 
+    {
+        $this->features = new ArrayCollection();
+    }
 
 
 
@@ -695,8 +710,25 @@ class Clientes
         $this->numBeneficioComp = $numBeneficioComp;
     }
     
+    /**
+     * 
+     * @return type
+     */
+    public function getConsultas() 
+    {
+        return $this->consultas;
+    }
+    
+    
+    /**
+     * 
+     * @param type $consultas
+     */
+    public function setConsultas($consultas) 
+    {
+        $this->consultas = $consultas;
+    }
     
 }
-
 
 

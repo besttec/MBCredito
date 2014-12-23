@@ -80,8 +80,21 @@
     {{parent()}}
     <script type="text/javascript" language="javascript" class="init">
         function format(d) {
-            return 'MCI: ' + d.mci + '<br>' +
-                    'Sexo: ' + d.Sexo + ' <br>';
+            return 'Sexo: ' + d.Sexo + ' <br>' +
+                   'Competência : ' + d.competencia + '<br>' +
+                   'Valor Descontos : ' + d.valorDescontos + '<br>' +
+                   'Valor Liquido :' + d.valorLiquido + '<br>' +
+                   'Quantidade Emprestimos : ' + d.qtdEmprestimos + '<br>' +
+                   'Pagamento Atravez : ' + d.pagtoAtravez + '<br>' +
+                   'Período Inicial : ' + d.periodoIni + '<br>' +
+                   'Período Final : ' + d.periodoFin + '<br>' +
+                   'Espécie : ' + d.especie + '<br>' +
+                   'Banco : ' + d.banco + '<br>' +
+                   'Agência : ' + d.agencia + '<br>' +
+                   'Código Agência : ' + d.codigoAgencia + '<br>' +
+                   'Endereço Banco : ' + d.enderecoBanco + '<br>' +
+                   'Data Nascimento : ' + d.dtNascimento + '<br>' ;
+                    
         }
 
         $(document).ready(function ()
