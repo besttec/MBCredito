@@ -72,6 +72,13 @@
                     </section>
                 </div>
                 <div class="col-md-6 column" style="background-color: #F6F6F6; border-radius: 5px; padding: 10px;">
+                    {% for label, flashes in app.session.flashbag.all %}
+                        {% for flash in flashes %}
+                            <div class="alert alert-{{ label }}">
+                                {{ flash }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
                     <div class="container-fluid">
                         <form role="form">
                             <div class="form-group col-lg-6">
@@ -113,65 +120,66 @@
                     <div class="container-fluid">
                         <fieldset>
                             <legend>Salvar Resultado</legend>
-                            <form role="form">
+                            <form role="form" method="POST" action="{{ path('savarConsultaCliente') }}">
                                 <div class="form-group col-lg-6">
                                     <label for="nome">Nome Segurado</label>
-                                    <input type="text" readonly="" class="form-control" id="nomeSegurado" />
+                                    <input type="text" name="nomeSegurado" readonly class="form-control" id="nomeSegurado" />
+                                    <input type="hidden" class="form-control" name="codBenefi" id="codBenefi" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="competencia">Competência</label>
-                                    <input type="text" readonly="" class="form-control" id="competencia" />
+                                    <input type="text" readonly class="form-control" name="competencia" id="competencia" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="pCredito">Período Crédito</label>
-                                    <input type="text" readonly="" class="form-control" id="pCredito" />
+                                    <input type="text" readonly class="form-control" name="pCredito" id="pCredito" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Pagamento através de:</label>
-                                    <input type="text" readonly="" class="form-control" id="tipoPagamento" />
+                                    <input type="text" readonly class="form-control" name="tipoPagamento" id="tipoPagamento" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Espécie</label>
-                                    <input type="text" readonly="" class="form-control" id="especie" />
+                                    <input type="text" readonly class="form-control" name="especie" id="especie" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Banco</label>
-                                    <input type="text" readonly="" class="form-control" id="banco" />
+                                    <input type="text" readonly class="form-control" name="banco" id="banco" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Agência</label>
-                                    <input type="text" readonly="" class="form-control" id="agencia" />
+                                    <input type="text" readonly class="form-control" name="agencia" id="agencia" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Codigo da agência</label>
-                                    <input type="text" readonly="" class="form-control" id="codAgencia" />
+                                    <input type="text" readonly class="form-control" name="codAgencia" id="codAgencia" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Endereço do banco</label>
-                                    <input type="text" readonly="" class="form-control" id="endBanco" />
+                                    <input type="text" readonly class="form-control" name="endBanco" id="endBanco" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Disponibilidade de recebimento</label>
-                                    <input type="text" readonly="" class="form-control" id="disRecebimento" />
+                                    <input type="text" readonly class="form-control" name="disRecebimento" id="disRecebimento" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Valor Bruto</label>
-                                    <input type="text" readonly="" class="form-control" id="vBruto" />
+                                    <input type="text" readonly class="form-control" name="vBruto" id="vBruto" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="dtNascimento">Valor dos descontos</label>
-                                    <input type="text" readonly="" class="form-control" id="vDesconto" />
+                                    <input type="text" readonly class="form-control" name="vDesconto" id="vDesconto" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="dtNascimento">Valor Líquido</label>
-                                    <input type="text" readonly="" class="form-control" id="vLiquido" />
+                                    <input type="text" readonly class="form-control" name="vLiquido" id="vLiquido" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="dtNascimento">Quantidade de Empréstimos</label>
-                                    <input type="text" readonly="" class="form-control" id="qtdEmprestimo" />
+                                    <input type="text" readonly class="form-control" name="qtdEmprestimo" id="qtdEmprestimo" />
                                 </div>
                                 <div class="form-group col-lg-12">
-                                    <label for="dtNascimento">Valores do empréstimos</label>
+                                    <label for="">Valores do empréstimos</label>
                                     <ul class="list-group" id="listaDebitos">
 
                                     </ul>
@@ -395,7 +403,7 @@
             Table += "</table>";
         }
         $('#tabela').html(Table);#}
-
+                            $('#codBenefi').val($('tr.grande:first td:eq(0)').text());
                             $('#nomeSegurado').val($('tr.grande:first td:eq(1)').text());
                             $('#competencia').val($('tr.grande:eq(1) td:eq(0)').text());
                             $('#pCredito').val($('tr.grande:eq(1) td:eq(1)').text());

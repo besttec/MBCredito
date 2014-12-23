@@ -48,9 +48,9 @@ class ConsultaCliente
     private $nomeSegurado;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="competencia", type="date", nullable=true)
+     * @ORM\Column(name="competencia", type="string", nullable=true)
      */
     private $competencia;
 
@@ -135,6 +135,11 @@ class ConsultaCliente
      * })
      */
     private $clientesCliente;
+    
+    /**
+     * @OneToMany(targetEntity="Emprestimos", mappedBy="consultaClienteClientesCliente", cascade="{all}")
+     **/
+    private $emprestimos;
 
 
 
@@ -256,7 +261,7 @@ class ConsultaCliente
     /**
      * Set competencia
      *
-     * @param \DateTime $competencia
+     * @param string $competencia
      * @return ConsultaCliente
      */
     public function setCompetencia($competencia)
@@ -269,7 +274,7 @@ class ConsultaCliente
     /**
      * Get competencia
      *
-     * @return \DateTime 
+     * @return string 
      */
     public function getCompetencia()
     {
@@ -528,4 +533,23 @@ class ConsultaCliente
     {
         return $this->clientesCliente;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getEmprestimos() 
+    {
+        return $this->emprestimos;
+    }
+
+    /**
+     * 
+     * @param type $emprestimos
+     */
+    public function setEmprestimos($emprestimos) 
+    {
+        $this->emprestimos = $emprestimos;
+    }
+
 }

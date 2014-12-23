@@ -38,7 +38,7 @@ class Emprestimos
     /**
      * @var \ConsultaCliente
      *
-     * @ORM\ManyToOne(targetEntity="ConsultaCliente")
+     * @ORM\ManyToOne(targetEntity="ConsultaCliente", inversedBy="emprestimos")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="consulta_cliente_clientes_id_cliente", referencedColumnName="clientes_id_cliente")
      * })

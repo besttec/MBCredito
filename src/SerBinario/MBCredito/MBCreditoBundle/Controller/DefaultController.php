@@ -113,7 +113,7 @@ class DefaultController extends Controller
                
                $this->get("session")->getFlashBag()->add('success', "Arquivo importado com sucesso!");              
             } else {
-                $this->get("session")->getFlashBag()->add('error', "Error ao importar o arquivo!"); 
+               $this->get("session")->getFlashBag()->add('error', "Error ao importar o arquivo!"); 
             }
         }
         
@@ -280,6 +280,78 @@ class DefaultController extends Controller
         );
         
         return new JsonResponse($resultArray);
+    }
+    
+    /**
+     * @Route("/savarConsultaCliente", name="savarConsultaCliente")
+     * @Template()
+     * @Method({"POST"})
+     */
+    public function savarConsultaClienteAction(Request $request)
+    {
+        $dados = $request->request->all(); 
+        
+        $nomeSegurado   = $dados['nomeSegurado'];
+        $codBenefi      = $dados['codBenefi'];
+        $competencia    = $dados['competencia'];
+        $pCredito       = $dados['pCredito'];
+        $tipoPagamento  = $dados['tipoPagamento'];
+        $especie        = $dados['especie'];
+        $banco          = $dados['banco'];
+        $agencia        = $dados['agencia'];
+        $codAgencia     = $dados['codAgencia'];
+        $endBanco       = $dados['endBanco'];
+        $disRecebimento = $dados['disRecebimento'];
+        $vBruto         = $dados['vBruto'];
+        $vDesconto      = $dados['vDesconto'];
+        $vLiquido       = $dados['vLiquido'];
+        $qtdEmprestimo  = $dados['qtdEmprestimo'];
+        
+        $clienteDAO = new ClienteDAO($this->getDoctrine()->getManager());
+        $cliente    = $clienteDAO->findNumBeneficio($codBenefi);
+        
+        if(count($cliente) > 0) {
+            $consultaCliente = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente();
+            
+            $consultaCliente->setNomeSegurado($nomeSegurado);
+            $consultaCliente->setCompetencia($competencia);
+            
+            $arrayPeriodo = explode("a", $pCredito);
+            
+            $consultaCliente->setPeriodoIni(\DateTime::createFromFormat("d/m/Y", $arrayPeriodo[0], new \DateTimeZone("America\Recife")));
+            $consultaCliente->setPeriodoFin(\DateTime::createFromFormat("d/m/Y", $arrayPeriodo[1], new \DateTimeZone("America\Recife")));
+            $consultaCliente->setPagtoAtravez($tipoPagamento);
+            $consultaCliente->setEspecie($especie);
+            $consultaCliente->setBanco($banco);
+            $consultaCliente->setAgencia($agencia);
+            $consultaCliente->setCodigoAgencia($codAgencia);
+            $consultaCliente->setEnderecoBanco($endBanco);
+            
+            $arrayDisp = explode("a", $disRecebimento);
+            
+            $consultaCliente->setDisponibilidadeIni(\DateTime::createFromFormat("d/m/Y", $arrayDisp[0], new \DateTimeZone("America\Recife")));
+            $consultaCliente->setDisponibilidadeFin(\DateTime::createFromFormat("d/m/Y", $arrayDisp[1], new \DateTimeZone("America\Recife")));
+            $consultaCliente->setValorBruto($vBruto);
+            $consultaCliente->setValorDescontos($vDesconto);
+            $consultaCliente->setValorLiquido($vLiquido);
+            $consultaCliente->setQtdEmprestimos($qtdEmprestimo);
+            
+            $consultaCliente->setClientesCliente($cliente[0]);
+            
+            $consultaClienteDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ConsultaClienteDAO($this->getDoctrine()->getManager());
+            $result = $consultaClienteDAO->insert($consultaCliente);
+            
+            if($result) {
+                 $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucessoS!");     
+            } else {
+                 $this->get("session")->getFlashBag()->add('error', "Error ao salvar os dados!");     
+            }
+            
+        } else {
+             $this->get("session")->getFlashBag()->add('error', "Cliente não encontrado!");     
+        }
+        
+        return $this->redirect($this->generateUrl("inserirDados"));
     }
     
      /**
