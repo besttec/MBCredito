@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}MBCrédito{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}" />
             <link rel="stylesheet" href="{{asset('css/dataTable.css')}}" />
@@ -33,6 +33,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{{path('importarArquivo')}}">Importar Arquivo</a></li>
                                     <li><a href="{{path('inserirDados')}}">Consulta DataPrev</a></li>
+                                    <li><a href="{{path('viewGridDados')}}">Visualizar Dados</a></li>
                                 </ul>
                             </li>
                         </ul>

@@ -132,11 +132,25 @@ class Clientes
      * @ORM\Column(name="dv_cliente", type="string", length=45, nullable=true)
      */
     private $dvCliente;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="num_beneficio_comp_cliente", type="string", length=45, nullable=true)
+     */
+    private $numBeneficioComp;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="$status_consulta_cliente", type="boolean")
+     */
+    private $statusConsulta;
 
     /**
      * @var \SuperEstadual
      *
-     * @ORM\ManyToOne(targetEntity="SuperEstadual")
+     * @ORM\ManyToOne(targetEntity="SuperEstadual", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="super_estadual_id_super_estadual", referencedColumnName="id_super_estadual")
      * })
@@ -146,7 +160,7 @@ class Clientes
     /**
      * @var \Ag
      *
-     * @ORM\ManyToOne(targetEntity="Ag")
+     * @ORM\ManyToOne(targetEntity="Ag", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ag_id_ag", referencedColumnName="id_ag")
      * })
@@ -156,7 +170,7 @@ class Clientes
     /**
      * @var \SuperRegional
      *
-     * @ORM\ManyToOne(targetEntity="SuperRegional")
+     * @ORM\ManyToOne(targetEntity="SuperRegional", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="super_regional_id_super_regional", referencedColumnName="id_super_regional")
      * })
@@ -166,7 +180,7 @@ class Clientes
     /**
      * @var \Sexos
      *
-     * @ORM\ManyToOne(targetEntity="Sexos")
+     * @ORM\ManyToOne(targetEntity="Sexos", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="sexos_id_sexo", referencedColumnName="id_sexo")
      * })
@@ -644,4 +658,45 @@ class Clientes
     {
         return $this->sexosSexo;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getStatusConsulta() 
+    {
+        return $this->statusConsulta;
+    }
+    
+    /**
+     * 
+     * @param type $statusConsulta
+     */
+    public function setStatusConsulta($statusConsulta) 
+    {
+        $this->statusConsulta = $statusConsulta;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getNumBeneficioComp() 
+    {
+        return $this->numBeneficioComp;
+    }
+
+    /**
+     * 
+     * @param type $numBeneficioComp
+     */
+    public function setNumBeneficioComp($numBeneficioComp) 
+    {
+        $this->numBeneficioComp = $numBeneficioComp;
+    }
+    
+    
 }
+
+
+
