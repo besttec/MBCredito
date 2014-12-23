@@ -30,14 +30,29 @@ class ClienteDAO
      */
     public function selectAllCliente() 
     {
-        try {
-            
+        try {            
             $query = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes c");
             
-            return $query->getResult();
-            
+            return $query->getResult();            
         } catch (Exception $ex) {
             return false;
+        }
+    }
+    
+    /**
+     * 
+     * @param type $numBeneficio
+     * @return type
+     */
+    public function findNumBeneficio($numBeneficio)
+    {
+        try {
+            $query = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes c WHERE c.numBeneficioCliente = ?1")
+                    ->setParameter(1, $numBeneficio);
+            
+            return $query->getResult();
+        } catch (Exception $ex) {
+
         }
     }
     
