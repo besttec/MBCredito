@@ -345,6 +345,105 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/gridDados")
+     * @Method({"POST"})
+     * @Template("MBCreditoBundle:Default:viewGridDados.html.twig")
+     */
+    public function dadosGridAction(Request $request)
+    {
+        
+        if(GridClass::isAjax()) {
+            
+            $columns = array("a.nomeCliente",
+                "a.mciEmpCliente",
+                "a.cpfCliente",
+                "a.dddFoneResidCliente",
+                "a.foneResidCliente",
+                "a.dddFoneComerCliente",
+                "a.foneComerCliente",
+                "a.dddFoneCelCliente",
+                "a.foneCelCliente",
+                "a.foneCelCliente",
+                "a.numBeneficioCliente",
+                "b.nomeExtensoSexo",
+                "a.dataNascCliente"
+                );
+
+            $entityJOIN = array("sexosSexo"); 
+
+            $eventosArray        = array();
+            $parametros          = $request->request->all();        
+            $entity              = "SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes"; 
+            $columnWhereMain     = "";
+            $whereValueMain      = "";
+            
+            $gridClass = new GridClass($this->getDoctrine()->getManager(), 
+                    $parametros,
+                    $columns,
+                    $entity,
+                    $entityJOIN,           
+                    $columnWhereMain,
+                    $whereValueMain);
+
+            $resultCliente  = $gridClass->builderQuery();    
+            $countTotal     = $gridClass->getCount();
+            $countEventos   = count($resultCliente);
+
+            for($i=0;$i < $countEventos; $i++)
+            {
+                $eventosArray[$i]['DT_RowId']       =  "row_".$resultCliente[$i]->getIdCliente();
+                $eventosArray[$i]['nome']           =  $resultCliente[$i]->getNomeCliente();
+                $eventosArray[$i]['mci']            =  $resultCliente[$i]->getMciEmpCliente();
+                
+                $cpf                                = $resultCliente[$i]->getCpfCliente();
+                $cpfLen                             = strlen($cpf);
+                
+                if($cpfLen < 11) {
+                    $cpf = str_repeat("0", 11 - $cpfLen) .  $cpf;
+                }             
+                
+                $eventosArray[$i]['cpf']            =  $cpf;
+                $eventosArray[$i]['dddFoneRes']     =  $resultCliente[$i]->getDddFoneResidCliente();
+                $eventosArray[$i]['FoneRes']        =  $resultCliente[$i]->getFoneResidCliente();
+                $eventosArray[$i]['dddFoneCom']     =  $resultCliente[$i]->getDddFoneComerCliente();
+                $eventosArray[$i]['FoneCom']        =  $resultCliente[$i]->getFoneComerCliente();
+                $eventosArray[$i]['dddFoneCel']     =  $resultCliente[$i]->getDddFoneCelCliente();
+                $eventosArray[$i]['FoneCel']        =  $resultCliente[$i]->getFoneCelCliente();
+                
+                $numBeneficio                       = $resultCliente[$i]->getNumBeneficioCliente();
+                $dvCliente                          = $resultCliente[$i]->getDvCliente();
+                $numBeneficio                       = $numBeneficio . $dvCliente;
+                $qtdNumBeneficio                    = strlen($numBeneficio);
+                
+                if($qtdNumBeneficio < 10) {
+                    $numBeneficio = str_repeat("0", 10 - $qtdNumBeneficio) .  $numBeneficio;
+                }
+                
+                $eventosArray[$i]['numBeneficio']   = $numBeneficio;                
+                $eventosArray[$i]['Sexo']           =  $resultCliente[$i]->getSexosSexo()->getNomeExtensoSexo();
+                $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getDataNascCliente()->format('d/m/Y');
+            }
+
+            //Se a variável $sqlFilter estiver vazio
+            if(!$gridClass->isFilter()){
+                $countEventos = $countTotal;
+            }
+
+            $columns = array(               
+                'draw'              => $parametros['draw'],
+                'recordsTotal'      => "{$countTotal}",
+                'recordsFiltered'   => "{$countEventos}",
+                'data'              => $eventosArray               
+            );
+
+            return new JsonResponse($columns);
+        }else{            
+            return array();            
+        }
+            
+    }
+    
+    /**
      * @Route("/captcha")
      * @Method({"POST"})
      */
