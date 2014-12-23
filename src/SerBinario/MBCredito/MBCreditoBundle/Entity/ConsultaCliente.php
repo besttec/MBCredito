@@ -41,6 +41,90 @@ class ConsultaCliente
     private $qtdEmprestimos;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="nome_segurado", type="string", length=50, nullable=true)
+     */
+    private $nomeSegurado;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="competencia", type="date", nullable=true)
+     */
+    private $competencia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pagto_atravez", type="string", length=50, nullable=true)
+     */
+    private $pagtoAtravez;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="periodo_ini", type="date", nullable=true)
+     */
+    private $periodoIni;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="periodo_fin", type="date", nullable=true)
+     */
+    private $periodoFin;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="especie", type="string", length=50, nullable=true)
+     */
+    private $especie;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="banco", type="string", length=50, nullable=true)
+     */
+    private $banco;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="agencia", type="string", length=50, nullable=true)
+     */
+    private $agencia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codigo_agencia", type="string", length=50, nullable=true)
+     */
+    private $codigoAgencia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="endereco_banco", type="string", length=50, nullable=true)
+     */
+    private $enderecoBanco;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="disponibilidade_ini", type="date", nullable=true)
+     */
+    private $disponibilidadeIni;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="disponibilidade_fin", type="date", nullable=true)
+     */
+    private $disponibilidadeFin;
+
+    /**
      * @var \Clientes
      *
      * @ORM\Id
@@ -144,6 +228,282 @@ class ConsultaCliente
     public function getQtdEmprestimos()
     {
         return $this->qtdEmprestimos;
+    }
+
+    /**
+     * Set nomeSegurado
+     *
+     * @param string $nomeSegurado
+     * @return ConsultaCliente
+     */
+    public function setNomeSegurado($nomeSegurado)
+    {
+        $this->nomeSegurado = $nomeSegurado;
+
+        return $this;
+    }
+
+    /**
+     * Get nomeSegurado
+     *
+     * @return string 
+     */
+    public function getNomeSegurado()
+    {
+        return $this->nomeSegurado;
+    }
+
+    /**
+     * Set competencia
+     *
+     * @param \DateTime $competencia
+     * @return ConsultaCliente
+     */
+    public function setCompetencia($competencia)
+    {
+        $this->competencia = $competencia;
+
+        return $this;
+    }
+
+    /**
+     * Get competencia
+     *
+     * @return \DateTime 
+     */
+    public function getCompetencia()
+    {
+        return $this->competencia;
+    }
+
+    /**
+     * Set pagtoAtravez
+     *
+     * @param string $pagtoAtravez
+     * @return ConsultaCliente
+     */
+    public function setPagtoAtravez($pagtoAtravez)
+    {
+        $this->pagtoAtravez = $pagtoAtravez;
+
+        return $this;
+    }
+
+    /**
+     * Get pagtoAtravez
+     *
+     * @return string 
+     */
+    public function getPagtoAtravez()
+    {
+        return $this->pagtoAtravez;
+    }
+
+    /**
+     * Set periodoIni
+     *
+     * @param \DateTime $periodoIni
+     * @return ConsultaCliente
+     */
+    public function setPeriodoIni($periodoIni)
+    {
+        $this->periodoIni = $periodoIni;
+
+        return $this;
+    }
+
+    /**
+     * Get periodoIni
+     *
+     * @return \DateTime 
+     */
+    public function getPeriodoIni()
+    {
+        return $this->periodoIni;
+    }
+
+    /**
+     * Set periodoFin
+     *
+     * @param \DateTime $periodoFin
+     * @return ConsultaCliente
+     */
+    public function setPeriodoFin($periodoFin)
+    {
+        $this->periodoFin = $periodoFin;
+
+        return $this;
+    }
+
+    /**
+     * Get periodoFin
+     *
+     * @return \DateTime 
+     */
+    public function getPeriodoFin()
+    {
+        return $this->periodoFin;
+    }
+
+    /**
+     * Set especie
+     *
+     * @param string $especie
+     * @return ConsultaCliente
+     */
+    public function setEspecie($especie)
+    {
+        $this->especie = $especie;
+
+        return $this;
+    }
+
+    /**
+     * Get especie
+     *
+     * @return string 
+     */
+    public function getEspecie()
+    {
+        return $this->especie;
+    }
+
+    /**
+     * Set banco
+     *
+     * @param string $banco
+     * @return ConsultaCliente
+     */
+    public function setBanco($banco)
+    {
+        $this->banco = $banco;
+
+        return $this;
+    }
+
+    /**
+     * Get banco
+     *
+     * @return string 
+     */
+    public function getBanco()
+    {
+        return $this->banco;
+    }
+
+    /**
+     * Set agencia
+     *
+     * @param string $agencia
+     * @return ConsultaCliente
+     */
+    public function setAgencia($agencia)
+    {
+        $this->agencia = $agencia;
+
+        return $this;
+    }
+
+    /**
+     * Get agencia
+     *
+     * @return string 
+     */
+    public function getAgencia()
+    {
+        return $this->agencia;
+    }
+
+    /**
+     * Set codigoAgencia
+     *
+     * @param string $codigoAgencia
+     * @return ConsultaCliente
+     */
+    public function setCodigoAgencia($codigoAgencia)
+    {
+        $this->codigoAgencia = $codigoAgencia;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoAgencia
+     *
+     * @return string 
+     */
+    public function getCodigoAgencia()
+    {
+        return $this->codigoAgencia;
+    }
+
+    /**
+     * Set enderecoBanco
+     *
+     * @param string $enderecoBanco
+     * @return ConsultaCliente
+     */
+    public function setEnderecoBanco($enderecoBanco)
+    {
+        $this->enderecoBanco = $enderecoBanco;
+
+        return $this;
+    }
+
+    /**
+     * Get enderecoBanco
+     *
+     * @return string 
+     */
+    public function getEnderecoBanco()
+    {
+        return $this->enderecoBanco;
+    }
+
+    /**
+     * Set disponibilidadeIni
+     *
+     * @param \DateTime $disponibilidadeIni
+     * @return ConsultaCliente
+     */
+    public function setDisponibilidadeIni($disponibilidadeIni)
+    {
+        $this->disponibilidadeIni = $disponibilidadeIni;
+
+        return $this;
+    }
+
+    /**
+     * Get disponibilidadeIni
+     *
+     * @return \DateTime 
+     */
+    public function getDisponibilidadeIni()
+    {
+        return $this->disponibilidadeIni;
+    }
+
+    /**
+     * Set disponibilidadeFin
+     *
+     * @param \DateTime $disponibilidadeFin
+     * @return ConsultaCliente
+     */
+    public function setDisponibilidadeFin($disponibilidadeFin)
+    {
+        $this->disponibilidadeFin = $disponibilidadeFin;
+
+        return $this;
+    }
+
+    /**
+     * Get disponibilidadeFin
+     *
+     * @return \DateTime 
+     */
+    public function getDisponibilidadeFin()
+    {
+        return $this->disponibilidadeFin;
     }
 
     /**
