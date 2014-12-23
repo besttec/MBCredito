@@ -378,10 +378,17 @@
                 data: dados,
                 success: function (data) {
                     $("#load").hide();
-                    var resposta = $(data['result']).find("ul li.erro");
+                    var dados = data['result'];
+                    
+                    var resposta = $(dados).find("ul li.erro");
+                    
+                    console.log($(dados).find("h3"));
+                    
                     if (resposta.text()) {
+                        
                         alert('Ocorreu um erro, tente novamente');
                         $('#salvar').attr("disabled", true);
+                        
                     }
                     else {
                         //pega a página de retorno e atribui a uma div oculta
@@ -396,6 +403,7 @@
             Table += "</table>";
         }
         $('#tabela').html(Table);#}
+                            
                             $('#codBenefi').val($('tr.grande:first td:eq(0)').text());
                             $('#nomeSegurado').val($('tr.grande:first td:eq(1)').text());
                             $('#competencia').val($('tr.grande:eq(1) td:eq(0)').text());
@@ -421,6 +429,9 @@
                                 debitos += "<li class='list-group-item'>" + nome + "\
                         ..........................................................\
                         ................................................" + valor + "</li>";
+                                
+                                debitos += "<input type='hidden' class='form-control' value='"+nome+"' name='nomeEmprestimo[]' />";
+                                debitos += "<input type='hidden' class='form-control' value='"+valor+"' name='valorEmprestimo[]' />";
                             }
 
                             //Lista os débitos
@@ -439,8 +450,6 @@
                         }
                     }
                 });
-
             });
-
     </script>
 {% endblock %}
