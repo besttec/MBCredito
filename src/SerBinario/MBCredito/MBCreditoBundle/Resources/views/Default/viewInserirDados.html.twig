@@ -388,13 +388,16 @@
                     
                     var resposta = $(data['result']).find("ul li.erro");
                     
-                    console.log($(data['result']).closest("h3").text());
+                    var resposta2 = $(data['result']).closest("h3");
                     
                     if (resposta.text()) {
                         
-                        alert('Ocorreu um erro, tente novamente');
+                        alert(resposta.text());
                         $('#salvar').attr("disabled", true);
                         
+                    } else if(resposta2.text()){
+                        alert(resposta2.text());
+                        $('#salvar').attr("disabled", true);
                     }
                     else {
                         //pega a página de retorno e atribui a uma div oculta
