@@ -21,34 +21,14 @@ use SerBinario\MBCredito\MBCreditoBundle\DAO\ConsultaClienteDAO;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/mbcredito", name="homepage")
      * @Template()
      */
     public function indexAction()
     {
         return array();
     }
-    
-    /**
-     * @Route("/login", name="login")
-     * @Template()
-     */
-    public function loginAction(Request $request)
-    {
-        $req = $request->request->all();
         
-        $login = $req['login'];
-        $senha = $req['senha'];
-        
-        if(($login === "mbcredito") && ($senha === "12345")) {
-            return $this->redirect($this->generateUrl("principal"));
-        } else {
-            $this->get("session")->getFlashBag()->add('error', "Erro ao fazer login e senha");
-            return $this->redirect($this->generateUrl("homepage"));
-        }
-               
-    }
-    
     /**
      * @Route("/principal", name="principal")
      * @Template()
@@ -97,10 +77,10 @@ class DefaultController extends Controller
                     
                     $cliente = new Clientes();
                     
-                    $sexo = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Sexos();
-                    $sexo->setNomeExtensoSexo($columns[0]);
+                    $sexoDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SexoDAO($this->getDoctrine()->getManager());
+                    $sexo    = $sexoDAO->findNomeExtenso($columns[0]);
                     
-                    $cliente->setSexosSexo($sexo);
+                    $cliente->setSexosSexo($sexo[0]);
                     $cliente->setMciEmpCliente($columns[1]);
                     $cliente->setLimiteCreditoCliente($columns[2]);
                     
