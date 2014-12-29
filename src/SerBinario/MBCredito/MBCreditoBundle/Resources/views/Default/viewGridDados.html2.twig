@@ -80,12 +80,6 @@
     {{parent()}}
     <script type="text/javascript" language="javascript" class="init">
         function format(d) {
-            var linhas = "";
-           
-            for(var i = 0; i < d.emprestimos.length; i++) {
-                linhas += d.emprestimos[i]['nome'] + " " + d.emprestimos[i]['valor'] + "<br />";
-            }
-            
             if(d.statusErro == '1') {
                 
                return  'Observação : ' + d.obsErro + '<br>' ;
@@ -105,11 +99,10 @@
                    'Agência : ' + d.agencia + '<br>' +
                    'Código Agência : ' + d.codigoAgencia + '<br>' +
                    'Endereço Banco : ' + d.enderecoBanco + '<br>' +
-                   'Data Nascimento : ' + d.dtNascimento + '<br>' +
-                   'Emprestimos : ' + linhas + '<br>';
-                    
+                   'Data Nascimento : ' + d.dtNascimento + '<br>' ;  
+            }
+                              
         }
-    }
 
         $(document).ready(function ()
         {
