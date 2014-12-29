@@ -348,8 +348,16 @@ class DefaultController extends Controller
                 $eventosArray[$i]['qtdEmprestimos']         =  $resultCliente[$i]->getQtdEmprestimos();
                 $eventosArray[$i]['competencia']            =  $resultCliente[$i]->getCompetencia();
                 $eventosArray[$i]['pagtoAtravez']           =  $resultCliente[$i]->getPagtoAtravez();
-                $eventosArray[$i]['periodoIni']             =  $resultCliente[$i]->getPeriodoIni()->format('d/m/Y');
-                $eventosArray[$i]['periodoFin']             =  $resultCliente[$i]->getPeriodoFin()->format('d/m/Y');
+                if($resultCliente[$i]->getPeriodoIni()){
+                    $eventosArray[$i]['periodoIni']         =  $resultCliente[$i]->getPeriodoIni()->format('d/m/Y');
+                }else {
+                    $eventosArray[$i]['periodoIni']         =  "";
+                }
+                if($resultCliente[$i]->getPeriodoFin()){
+                    $eventosArray[$i]['periodoFin']         =  $resultCliente[$i]->getPeriodoFin()->format('d/m/Y');
+                } else {
+                    $eventosArray[$i]['periodoFin']         = "";
+                }            
                 $eventosArray[$i]['especie']                =  $resultCliente[$i]->getEspecie();
                 $eventosArray[$i]['banco']                  =  $resultCliente[$i]->getBanco();
                 $eventosArray[$i]['agencia']                =  $resultCliente[$i]->getAgencia();
@@ -368,6 +376,8 @@ class DefaultController extends Controller
                 $eventosArray[$i]['numBeneficio']   =  $numBeneficio;                
                 $eventosArray[$i]['Sexo']           =  $resultCliente[$i]->getClientesCliente()->getSexosSexo()->getNomeExtensoSexo();
                 $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getClientesCliente()->getDataNascCliente()->format('d/m/Y');
+                $eventosArray[$i]['obsErro']        =  $resultCliente[$i]->getClientesCliente()->getObsErro();
+                $eventosArray[$i]['statusErro']     =  $resultCliente[$i]->getClientesCliente()->getStatusErro();
             }
             
             //var_dump($eventosArray);
@@ -467,18 +477,41 @@ class DefaultController extends Controller
         $vDesconto      = $dados['vDesconto'];
         $vLiquido       = $dados['vLiquido'];
         $qtdEmprestimo  = $dados['qtdEmprestimo'];
-        $nomeEmp        = $dados['nomeEmprestimo'];
-        $valoresEmp     = $dados['valorEmprestimo'];
+        if(isset($dados['nomeEmprestimo'])){
+            $nomeEmp        = $dados['nomeEmprestimo'];
+        }
+        if(isset($dados['valorEmprestimo'])){
+            $valoresEmp     = $dados['valorEmprestimo'];
+        }      
+        $statusErro     = $dados['erro'];
+        $obsErro        = $dados['msgerro'];
         
         $clienteDAO = new ClienteDAO($this->getDoctrine()->getManager());
         $codBenefi  = str_replace(array(".","-"), "", $codBenefi);
                 
         $cliente    = $clienteDAO->findNumBeneficio($codBenefi);
         
+        $consultaCliente = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente();
+        $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
+        
         if(count($cliente) > 0) {
             $cliente[0]->setStatusConsulta(true);
             
-            $consultaCliente = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente();
+            if($statusErro === '1') {
+                $cliente[0]->setStatusErro(true);
+                $cliente[0]->setObsErro($obsErro);
+                $consultaCliente->setNomeSegurado($nomeSegurado);
+                $consultaCliente->setClientesCliente($cliente[0]);
+                $conf =  $consultaClienteDAO->update($consultaCliente);
+                
+                if($conf) {
+                    $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");     
+                } else {
+                    $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");     
+                }
+                
+                return $this->redirect($this->generateUrl("inserirDados"));
+            }           
             
             $consultaCliente->setNomeSegurado($nomeSegurado);
             $consultaCliente->setCompetencia($competencia);
@@ -515,17 +548,16 @@ class DefaultController extends Controller
             
             $consultaCliente->setClientesCliente($cliente[0]);
             
-            $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
             $result = $consultaClienteDAO->insert($consultaCliente);
             
             if($result) {
                  $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");     
             } else {
-                 $this->get("session")->getFlashBag()->add('error', "Error ao salvar os dados!");     
+                 $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");     
             }
             
         } else {
-             $this->get("session")->getFlashBag()->add('error', "Cliente não encontrado!");     
+             $this->get("session")->getFlashBag()->add('danger', "Cliente não encontrado!");     
         }
         
         return $this->redirect($this->generateUrl("inserirDados"));

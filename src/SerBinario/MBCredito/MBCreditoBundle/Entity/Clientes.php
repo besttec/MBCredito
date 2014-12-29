@@ -148,6 +148,20 @@ class Clientes
      * @ORM\Column(name="$status_consulta_cliente", type="boolean")
      */
     private $statusConsulta;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="$status_erro_cliente", type="boolean")
+     */
+    private $statusErro;
+    
+    /**
+     * @var String
+     *
+     * @ORM\Column(name="$obs_erro_cliente", type="string", length=100, nullable=true)
+     */
+    private $obsErro;
 
     /**
      * @var \SuperEstadual
@@ -729,6 +743,41 @@ class Clientes
         $this->consultas = $consultas;
     }
     
+    /**
+     * 
+     * @param type $statusErro
+     */
+    public function setStatusErro($statusErro) 
+    {
+        $this->statusErro = $statusErro;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getStatusErro() 
+    {
+        return $this->statusErro;
+    }
+    
+    /**
+     * 
+     * @param type $obsErro
+     */
+    public function setObsErro($obsErro) 
+    {
+        $this->obsErro = $obsErro;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getObsErro() 
+    {
+        return $this->obsErro;
+    }
 }
 
 

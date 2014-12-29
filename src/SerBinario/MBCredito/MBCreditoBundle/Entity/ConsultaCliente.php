@@ -17,21 +17,21 @@ class ConsultaCliente
     /**
      * @var string
      *
-     * @ORM\Column(name="valor_bruto", type="decimal", precision=10, scale=2, nullable=false)
+     * @ORM\Column(name="valor_bruto", type="decimal", precision=10, scale=2, nullable=true)
      */
     private $valorBruto;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="valor_descontos", type="decimal", precision=10, scale=2, nullable=false)
+     * @ORM\Column(name="valor_descontos", type="decimal", precision=10, scale=2, nullable=true)
      */
     private $valorDescontos;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="valor_liquido", type="decimal", precision=10, scale=2, nullable=false)
+     * @ORM\Column(name="valor_liquido", type="decimal", precision=10, scale=2, nullable=true)
      */
     private $valorLiquido;
 

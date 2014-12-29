@@ -127,6 +127,8 @@
                                     <label for="nome">Nome Segurado</label>
                                     <input type="text" readonly="" class="form-control" name="nomeSegurado" id="nomeSegurado" />
                                     <input type="hidden" class="form-control" name="codBenefi" id="codBenefi" />
+                                    <input type="hidden" class="form-control" name="erro" id="erro" />
+                                    <input type="hidden" class="form-control" name="msgerro" id="msgerro" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="competencia">Competência</label>
@@ -396,11 +398,24 @@
                     if (resposta.text()) {
                         
                         alert(resposta.text());
-                        $('#salvar').attr("disabled", true);
-                        
+                        $('#salvar').attr("disabled", false);
+                        $('#erro').val("1");
+                        $('#msgerro').val(resposta.text());
+                        var numBen = $('#numBeneficio').val();
+                        var nome = $('#nome').val();
+
+                        $('#codBenefi').val(numBen);
+                        $('#nomeSegurado').val(nome);
                     } else if(resposta2.text()){
                         alert(resposta2.text());
-                        $('#salvar').attr("disabled", true);
+                        $('#salvar').attr("disabled", false);
+                        $('#erro').val("1");
+                        $('#msgerro').val(resposta2.text());
+                        var numBen = $('#numBeneficio').val();
+                        var nome = $('#nome').val();
+
+                        $('#codBenefi').val(numBen);
+                        $('#nomeSegurado').val(nome);
                     }
                     else {
                         //pega a página de retorno e atribui a uma div oculta
@@ -457,6 +472,7 @@
                             $('#vDesconto').val(valorDesconto);
                             $('#vLiquido').val(valorLiquido);
                             $('#qtdEmprestimo').val(countTR);
+                            $('#erro').text("0");
 
                             $('#salvar').attr("disabled", false);
                         }

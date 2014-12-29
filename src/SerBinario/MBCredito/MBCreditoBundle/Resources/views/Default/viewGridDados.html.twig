@@ -80,7 +80,13 @@
     {{parent()}}
     <script type="text/javascript" language="javascript" class="init">
         function format(d) {
-            return 'Sexo: ' + d.Sexo + ' <br>' +
+            if(d.statusErro == '1') {
+                
+               return  'Observação : ' + d.obsErro + '<br>' ;
+               
+            } else {
+                
+                return 'Sexo: ' + d.Sexo + ' <br>' +
                    'Competência : ' + d.competencia + '<br>' +
                    'Valor Descontos : ' + d.valorDescontos + '<br>' +
                    'Valor Liquido :' + d.valorLiquido + '<br>' +
@@ -93,8 +99,9 @@
                    'Agência : ' + d.agencia + '<br>' +
                    'Código Agência : ' + d.codigoAgencia + '<br>' +
                    'Endereço Banco : ' + d.enderecoBanco + '<br>' +
-                   'Data Nascimento : ' + d.dtNascimento + '<br>' ;
-                    
+                   'Data Nascimento : ' + d.dtNascimento + '<br>' ;  
+            }
+                              
         }
 
         $(document).ready(function ()
