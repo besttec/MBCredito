@@ -286,10 +286,12 @@ class DefaultController extends Controller
                 "a.codigoAgencia",
                 "a.enderecoBanco",
                 "b.dataNascCliente",
-                "b.codCliente"
+                "b.codCliente",
+                "b.agAg"
+               
                 );
 
-            $entityJOIN = array("clientesCliente"); 
+            $entityJOIN = array("clientesCliente",); 
 
             $eventosArray        = array();
             $parametros          = $request->request->all();        
@@ -366,6 +368,8 @@ class DefaultController extends Controller
                 $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getClientesCliente()->getDataNascCliente()->format('d/m/Y');
                 $eventosArray[$i]['obsErro']        =  $resultCliente[$i]->getClientesCliente()->getObsErro();
                 $eventosArray[$i]['statusErro']     =  $resultCliente[$i]->getClientesCliente()->getStatusErro();
+                $eventosArray[$i]['ag']             =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getCcAg();
+                $eventosArray[$i]['prefixo_ag']             =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
             }
             
             //var_dump($eventosArray);
