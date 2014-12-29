@@ -1,24 +1,5 @@
 {% extends "::base.html.twig" %}
 
 {% block body %}
-    <div class="container droppedHover">
-        <div class="row clearfix">
-            <div class="col-md-3 column">
-                {% for label, flashes in app.session.flashbag.all %}
-                    {% for flash in flashes %}
-                        <div class="alert alert-{{ label }}">
-                            {{ flash }}
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-                <form class="form-signin" role="form" method="post" action="{{path('login')}}">
-                    <h2 class="form-signin-heading" contenteditable="false">Por favor, forneça:</h2>
-
-                    <input type="text" class="form-control" name="login" placeholder="Login" required="" autofocus="" contenteditable="false">
-                    <input type="password" class="form-control" name="senha" placeholder="Senha" required="" contenteditable="false">
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Logar</button>
-                </form>
-            </div>
-        </div>
-    </div>
+    {{parent()}}
 {% endblock %}

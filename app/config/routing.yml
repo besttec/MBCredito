@@ -1,3 +1,8 @@
+user:
+    resource: "@UserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 ser_binario_mb_credito_mb_credito:
     resource: "@SerBinarioMBCreditoMBCreditoBundle/Controller/"
     type:     annotation
