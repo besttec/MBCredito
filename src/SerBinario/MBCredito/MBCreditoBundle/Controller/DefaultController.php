@@ -524,12 +524,12 @@ class DefaultController extends Controller
             $consultaCliente->setValorLiquido($vLiquido);
             $consultaCliente->setQtdEmprestimos($qtdEmprestimo);
            
-            $emprestimos = array_combine(array_values($nomeEmp), array_values($valoresEmp));
+            //$emprestimos = array_combine(array_values($nomeEmp), array_values($valoresEmp));
             
-            foreach ($emprestimos as $key => $value) {
+            for ($i = 0; $i < count($nomeEmp); $i++) {
                 $emprestimo = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos();
-                $emprestimo->setEmprestimo($key);
-                $emprestimo->setValor($value);
+                $emprestimo->setEmprestimo($nomeEmp[$i]);
+                $emprestimo->setValor($valoresEmp[$i]);
                 
                 $consultaCliente->addEmprestimo($emprestimo);
             }
