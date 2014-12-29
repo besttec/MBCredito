@@ -369,10 +369,18 @@ class DefaultController extends Controller
                 $numBeneficio                       = $numBeneficio . $dvCliente;
                 $qtdNumBeneficio                    = strlen($numBeneficio);
                 
-                 if($qtdNumBeneficio < 10) {
+                if($qtdNumBeneficio < 10) {
                     $numBeneficio = str_repeat("0", 10 - $qtdNumBeneficio) .  $numBeneficio;
                 }
                 
+                $emprestimos = array();
+                
+                foreach ($resultCliente[$i]->getEmprestimos() as $index => $emprestimo) {
+                   $emprestimos[$index]['nome']  =  $emprestimo->getEmprestimo();
+                   $emprestimos[$index]['valor']    =  $emprestimo->getValor();
+                }
+                
+                $eventosArray[$i]['emprestimos']    =  $emprestimos;
                 $eventosArray[$i]['numBeneficio']   =  $numBeneficio;                
                 $eventosArray[$i]['Sexo']           =  $resultCliente[$i]->getClientesCliente()->getSexosSexo()->getNomeExtensoSexo();
                 $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getClientesCliente()->getDataNascCliente()->format('d/m/Y');
