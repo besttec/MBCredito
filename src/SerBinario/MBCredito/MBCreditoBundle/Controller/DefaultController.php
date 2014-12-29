@@ -247,6 +247,13 @@ class DefaultController extends Controller
                 $eventosArray[$i]['dddFoneCel']     =  $resultCliente[$i]->getDddFoneCelCliente();
                 $eventosArray[$i]['FoneCel']        =  $resultCliente[$i]->getFoneCelCliente();
                 
+                $situacao = "Não consultado";
+                
+                if($resultCliente[$i]->getStatusConsulta()) {
+                    $situacao = "Consultado";
+                }
+                
+                $eventosArray[$i]['situacao']       =  $situacao;                
                 $numBeneficio                       =  $resultCliente[$i]->getNumBeneficioCliente();
                 $dvCliente                          =  $resultCliente[$i]->getDvCliente();
                              
