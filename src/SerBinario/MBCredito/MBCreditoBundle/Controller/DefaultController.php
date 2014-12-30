@@ -469,8 +469,18 @@ class DefaultController extends Controller
         $endBanco       = trim($dados['endBanco']);
         $disRecebimento = trim($dados['disRecebimento']);
         $vBruto         = trim($dados['vBruto']);
+        
+        $source         = array('.', ',');
+        $replace        = array('', '.');
+        
+        $vBruto         = str_replace($source, $replace, $vBruto);
+        
         $vDesconto      = trim($dados['vDesconto']);
+        $vDesconto      = str_replace($source, $replace, $vDesconto);
+        
         $vLiquido       = trim($dados['vLiquido']);
+        $vLiquido       = str_replace($source, $replace, $vLiquido);
+        
         $qtdEmprestimo  = trim($dados['qtdEmprestimo']);
         
         if(isset($dados['nomeEmprestimo'])) {
@@ -535,15 +545,17 @@ class DefaultController extends Controller
             //$emprestimos = array_combine(array_values($nomeEmp), array_values($valoresEmp));
             
             for ($i = 0; $i < count($nomeEmp); $i++) {
-                $emprestimo = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos();
+                $emprestimo     = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos();
                 $emprestimo->setEmprestimo($nomeEmp[$i]);
+                
+                $valoresEmp[$i] = str_replace($source, $replace, $valoresEmp[$i]);
                 $emprestimo->setValor($valoresEmp[$i]);
                 
                 $consultaCliente->addEmprestimo($emprestimo);
             }
             
             $consultaCliente->setClientesCliente($cliente[0]);
-            
+            var_dump($consultaCliente);exit;
             $result = $consultaClienteDAO->insert($consultaCliente);
             
             if($result) {
