@@ -202,13 +202,17 @@ class DefaultController extends Controller
                 "a.dataNascCliente"
                 );
 
-            $entityJOIN = array("sexosSexo"); 
+            $entityJOIN = array("sexosSexo");             
+            $eventosArray         = array();
+            $parametros           = $request->request->all();
+            
+            if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $parametros['length'] = 1;
+            }              
 
-            $eventosArray        = array();
-            $parametros          = $request->request->all();        
-            $entity              = "SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes"; 
-            $columnWhereMain     = "";
-            $whereValueMain      = "";
+            $entity               = "SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes"; 
+            $columnWhereMain      = "";
+            $whereValueMain       = "";
             
             $gridClass = new GridClass($this->getDoctrine()->getManager(), 
                     $parametros,
