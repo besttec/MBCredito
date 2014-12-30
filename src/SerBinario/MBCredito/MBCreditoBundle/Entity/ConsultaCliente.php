@@ -125,6 +125,13 @@ class ConsultaCliente
      * @ORM\Column(name="disponibilidade_fin", type="date", nullable=true)
      */
     private $disponibilidadeFin;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="obs_cliente", type="string", length=255, nullable=true)
+     */
+    private $obsCliente;
 
     /**
      * @var \Clientes
@@ -572,6 +579,24 @@ class ConsultaCliente
     public function setEmprestimos($emprestimos) 
     {
         $this->emprestimos = $emprestimos;
+    }
+    
+    /**
+     * 
+     * @param type $obsCliente
+     */
+    public function setObsCliente($obsCliente) 
+    {
+        $this->obsCliente = $obsCliente;
+    }
+    
+     /**
+     * 
+     * @return type
+     */
+    public function getObsCliente() 
+    {
+        return $this->obsCliente;
     }
 
 }

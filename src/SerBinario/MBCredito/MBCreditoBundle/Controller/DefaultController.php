@@ -571,12 +571,73 @@ class DefaultController extends Controller
         return $this->redirect($this->generateUrl("inserirDados"));
     }
     
-     /**
+    /**
      * @Route("/teste")
      * @Template("")
      */
     public function testeAction()
     {
         return array();
+    }
+    
+    /**
+     * @Route("/savarInfoAdicionais", name="savarInfoAdicionais")
+     * @Template()
+     * @Method({"POST"})
+     */
+    public function savarInfoAdicionaisAction(Request $request)
+    {
+        $req = $request->request->all();
+        
+        $obs          = trim($req['obs']);
+        $id          = trim($req['idCliente']);
+        
+        if(isset($req['emprestimo'])) {
+            $emprestimos  = $req['emprestimo'];
+        } else {
+            $emprestimos = null;
+        }
+        
+        $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
+        $emprestimoDAO      = new \SerBinario\MBCredito\MBCreditoBundle\DAO\EmprestimoDAO($this->getDoctrine()->getManager());
+        
+        if($obs || $emprestimos){
+            
+            $cliente = $consultaClienteDAO->findConsultaCliente($id);
+                        
+            if($cliente) {
+                
+                $cliente[0]->setObsCliente($obs);
+                $countEmp = count($emprestimos);
+                
+                if($countEmp >= 1) {
+                    
+                    for($i = 0; $i < $countEmp; $i++){
+                        $emp = $emprestimoDAO->findEmprestimo($emprestimos[$i]);
+                        $emp[0]->setStatusBBEmprestimo(true);
+                        $emprestimoDAO->update($emp[0]);
+                    }
+                   
+                }
+                
+                $result = $consultaClienteDAO->update($cliente[0]);
+                
+                if($result) {
+                     $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");
+                     echo "sucesso";
+                } else {
+                    $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");
+                     echo "falha";
+                }
+                
+            } else {
+                $this->get("session")->getFlashBag()->add('danger', "Cliente não encontrado!");  
+            }
+            
+        } else {
+            $this->get("session")->getFlashBag()->add('danger', "Pelo menos um campo deve ser preenchido");  
+        }
+        
+        return $this->redirect($this->generateUrl("viewGridDados"));
     }
 }
