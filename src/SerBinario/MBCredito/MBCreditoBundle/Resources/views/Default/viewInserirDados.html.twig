@@ -398,11 +398,11 @@
                     if (resposta.text()) {
                         
                         alert(resposta.text());
-                        $('#salvar').attr("disabled", false);
-                        $('#erro').val("1");
-                        $('#msgerro').val(resposta.text());
-                        var numBen = $('#numBeneficio').val();
-                        var nome = $('#nome').val();
+                        $('#salvar').attr("disabled", true);
+                        //$('#erro').val("1");
+                        //$('#msgerro').val(resposta.text());
+                        //var numBen = $('#numBeneficio').val();
+                        //var nome = $('#nome').val();
 
                         $('#codBenefi').val(numBen);
                         $('#nomeSegurado').val(nome);

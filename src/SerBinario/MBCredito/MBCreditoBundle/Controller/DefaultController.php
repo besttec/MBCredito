@@ -21,7 +21,7 @@ use SerBinario\MBCredito\MBCreditoBundle\DAO\ConsultaClienteDAO;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/mbcredito", name="homepage")
+     * @Route("/", name="homepage")
      * @Template()
      */
     public function indexAction()
@@ -286,10 +286,12 @@ class DefaultController extends Controller
                 "a.codigoAgencia",
                 "a.enderecoBanco",
                 "b.dataNascCliente",
-                "b.codCliente"
+                "b.codCliente",
+                "b.agAg"
+               
                 );
 
-            $entityJOIN = array("clientesCliente"); 
+            $entityJOIN = array("clientesCliente",); 
 
             $eventosArray        = array();
             $parametros          = $request->request->all();        
@@ -328,16 +330,19 @@ class DefaultController extends Controller
                 $eventosArray[$i]['qtdEmprestimos']         =  $resultCliente[$i]->getQtdEmprestimos();
                 $eventosArray[$i]['competencia']            =  $resultCliente[$i]->getCompetencia();
                 $eventosArray[$i]['pagtoAtravez']           =  $resultCliente[$i]->getPagtoAtravez();
+                
                 if($resultCliente[$i]->getPeriodoIni()){
                     $eventosArray[$i]['periodoIni']         =  $resultCliente[$i]->getPeriodoIni()->format('d/m/Y');
                 }else {
                     $eventosArray[$i]['periodoIni']         =  "";
                 }
+                
                 if($resultCliente[$i]->getPeriodoFin()){
                     $eventosArray[$i]['periodoFin']         =  $resultCliente[$i]->getPeriodoFin()->format('d/m/Y');
                 } else {
                     $eventosArray[$i]['periodoFin']         = "";
-                }            
+                }
+                
                 $eventosArray[$i]['especie']                =  $resultCliente[$i]->getEspecie();
                 $eventosArray[$i]['banco']                  =  $resultCliente[$i]->getBanco();
                 $eventosArray[$i]['agencia']                =  $resultCliente[$i]->getAgencia();
@@ -366,6 +371,8 @@ class DefaultController extends Controller
                 $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getClientesCliente()->getDataNascCliente()->format('d/m/Y');
                 $eventosArray[$i]['obsErro']        =  $resultCliente[$i]->getClientesCliente()->getObsErro();
                 $eventosArray[$i]['statusErro']     =  $resultCliente[$i]->getClientesCliente()->getStatusErro();
+                $eventosArray[$i]['ag']             =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getCcAg();
+                $eventosArray[$i]['prefixo_ag']     =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
             }
             
             //var_dump($eventosArray);
@@ -450,25 +457,26 @@ class DefaultController extends Controller
     {
         $dados = $request->request->all(); 
         
-        $nomeSegurado   = $dados['nomeSegurado'];
-        $codBenefi      = $dados['codBenefi'];
-        $competencia    = $dados['competencia'];
-        $pCredito       = $dados['pCredito'];
-        $tipoPagamento  = $dados['tipoPagamento'];
-        $especie        = $dados['especie'];
-        $banco          = $dados['banco'];
-        $agencia        = $dados['agencia'];
-        $codAgencia     = $dados['codAgencia'];
-        $endBanco       = $dados['endBanco'];
-        $disRecebimento = $dados['disRecebimento'];
-        $vBruto         = $dados['vBruto'];
-        $vDesconto      = $dados['vDesconto'];
-        $vLiquido       = $dados['vLiquido'];
-        $qtdEmprestimo  = $dados['qtdEmprestimo'];
-        if(isset($dados['nomeEmprestimo'])){
+        $nomeSegurado   = trim($dados['nomeSegurado']);
+        $codBenefi      = trim($dados['codBenefi']);
+        $competencia    = trim($dados['competencia']);
+        $pCredito       = trim($dados['pCredito']);
+        $tipoPagamento  = trim($dados['tipoPagamento']);
+        $especie        = trim($dados['especie']);
+        $banco          = trim($dados['banco']);
+        $agencia        = trim($dados['agencia']);
+        $codAgencia     = trim($dados['codAgencia']);
+        $endBanco       = trim($dados['endBanco']);
+        $disRecebimento = trim($dados['disRecebimento']);
+        $vBruto         = trim($dados['vBruto']);
+        $vDesconto      = trim($dados['vDesconto']);
+        $vLiquido       = trim($dados['vLiquido']);
+        $qtdEmprestimo  = trim($dados['qtdEmprestimo']);
+        
+        if(isset($dados['nomeEmprestimo'])) {
             $nomeEmp        = $dados['nomeEmprestimo'];
         }
-        if(isset($dados['valorEmprestimo'])){
+        if(isset($dados['valorEmprestimo'])) {
             $valoresEmp     = $dados['valorEmprestimo'];
         }      
         $statusErro     = $dados['erro'];
@@ -524,12 +532,12 @@ class DefaultController extends Controller
             $consultaCliente->setValorLiquido($vLiquido);
             $consultaCliente->setQtdEmprestimos($qtdEmprestimo);
            
-            $emprestimos = array_combine(array_values($nomeEmp), array_values($valoresEmp));
+            //$emprestimos = array_combine(array_values($nomeEmp), array_values($valoresEmp));
             
-            foreach ($emprestimos as $key => $value) {
+            for ($i = 0; $i < count($nomeEmp); $i++) {
                 $emprestimo = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos();
-                $emprestimo->setEmprestimo($key);
-                $emprestimo->setValor($value);
+                $emprestimo->setEmprestimo($nomeEmp[$i]);
+                $emprestimo->setValor($valoresEmp[$i]);
                 
                 $consultaCliente->addEmprestimo($emprestimo);
             }
