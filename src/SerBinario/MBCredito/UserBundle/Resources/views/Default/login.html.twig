@@ -7,7 +7,7 @@
                 {% if error %}
                     <div>{{ error.message }}</div>
                 {% endif %}
-                <form class="form-signin" role="form" method="post" action="{{path('login_check')}}">
+                <form class="form-signin" role="form" method="post" action="{{ path('login_check') }}">
                     <h2 class="form-signin-heading" contenteditable="false">Por favor, forneça:</h2>
 
                     <input type="text" class="form-control" name="_username" value="{{ last_username }}" placeholder="Login" required="" autofocus="" contenteditable="false">
