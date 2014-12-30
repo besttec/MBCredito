@@ -281,9 +281,10 @@
                 for (var i = 0; i < d.emprestimos.length; i++) {
                     emprestimmos += "<label><input type='checkbox' name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "</label>";
                     emprestimmos += "<br />"
+
+                    $('.checked').html(emprestimmos);
+                    $('#idCliente').val(d.DT_RowId.replace("row_", ""));
                 }
-                $('.checked').html(emprestimmos);
-                $('#idCliente').val(d.DT_RowId.replace("row_", ""));
             });
 
             // On each draw, loop over the `detailRows` array and show any child rows
@@ -306,3 +307,4 @@
         });
     </script>
 {% endblock %}
+

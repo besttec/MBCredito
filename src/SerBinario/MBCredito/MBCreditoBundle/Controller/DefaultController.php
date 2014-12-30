@@ -84,16 +84,32 @@ class DefaultController extends Controller
                     $cliente->setMciEmpCliente($columns[1]);
                     $cliente->setLimiteCreditoCliente($columns[2]);
                     
-                    $superEstadual = new \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual();
-                    $superEstadual->setUf($columns[3]);
-                    $superEstadual->setCodSuperEstadual($columns[4]);
-                    $superEstadual->setNomeSuperEstadual($columns[5]);
+                    $superEstadual    = null;
+                    $superEstadualDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperEstadualDAO($this->getDoctrine()->getEntityManager());
+                    $objEstadual      = $superEstadualDAO->findCod($columns[4]);
+                    
+                    if($objEstadual) {
+                        $superEstadual = $objEstadual[0];
+                    } else {
+                        $superEstadual = new \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual();
+                        $superEstadual->setUf($columns[3]);
+                        $superEstadual->setCodSuperEstadual($columns[4]);
+                        $superEstadual->setNomeSuperEstadual($columns[5]);
+                    }            
                     
                     $cliente->setSuperEstadualSuperEstadual($superEstadual);
                     
-                    $superRegional = new \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional();
-                    $superRegional->setCodSuperRegional($columns[6]);
-                    $superRegional->setNomeSuperRegional($columns[7]);
+                    $superRegional    = null;
+                    $superRegionalDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperRegionalDAO($this->getDoctrine()->getEntityManager());
+                    $objRegional      = $superRegionalDAO->findCod(trim($columns[6]));
+                    
+                    if($objRegional) {
+                       $superRegional =  $objRegional[0];
+                    } else {
+                        $superRegional = new \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional();
+                        $superRegional->setCodSuperRegional($columns[6]);
+                        $superRegional->setNomeSuperRegional($columns[7]);
+                    }           
                     
                     $cliente->setSuperRegionalSuperRegional($superRegional);
                     
@@ -186,13 +202,17 @@ class DefaultController extends Controller
                 "a.dataNascCliente"
                 );
 
-            $entityJOIN = array("sexosSexo"); 
+            $entityJOIN = array("sexosSexo");             
+            $eventosArray         = array();
+            $parametros           = $request->request->all();
+            
+            if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $parametros['length'] = 1;
+            }              
 
-            $eventosArray        = array();
-            $parametros          = $request->request->all();        
-            $entity              = "SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes"; 
-            $columnWhereMain     = "";
-            $whereValueMain      = "";
+            $entity               = "SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes"; 
+            $columnWhereMain      = "";
+            $whereValueMain       = "";
             
             $gridClass = new GridClass($this->getDoctrine()->getManager(), 
                     $parametros,
@@ -555,7 +575,7 @@ class DefaultController extends Controller
             }
             
             $consultaCliente->setClientesCliente($cliente[0]);
-            var_dump($consultaCliente);exit;
+            //var_dump($consultaCliente);exit;
             $result = $consultaClienteDAO->insert($consultaCliente);
             
             if($result) {

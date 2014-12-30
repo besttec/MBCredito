@@ -25,4 +25,4 @@ security:
                 target: /
             
     access_control:
-        - { path: ^/mbcredito, roles: ROLE_ADMIN }
+        - { path: ^/mbcredito, roles: ROLE_USER }
