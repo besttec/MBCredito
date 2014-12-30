@@ -82,24 +82,21 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                            <h4 class="modal-title" id="myModalLabel">Informações adicionais</h4>
                         </div>
-                        <form role="form">
+                        <form role="form" >
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Email address</label>
-                                    <textarea class="form-control" rows="4" cols="7"></textarea>
+                                    <label for="exampleInputEmail1">Observações</label>
+                                    <textarea class="form-control" name="obs" rows="4" cols="7"></textarea>
                                 </div>
                                 <div class="checkbox">
                                     <label for="exampleInputEmail1">Empréstimos</label><br /><br />
-                                    <label class="check">
-                                        
-                                    </label>
                                 </div>                             
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                                <input type="submit" class="btn btn-primary" value="Salvar" />
+                                <input type="reset" class="btn btn-default" value="Limpar" />
                             </div>
                         </form>
                     </div>
@@ -272,10 +269,10 @@
                 var d = row.data();
                 
                 for (var i = 0; i < d.emprestimos.length; i++) {
-                emprestimmos += "<input type='checkbox' value="+d.emprestimos[i]['valor']+"> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "";
+                emprestimmos += "<label><input type='checkbox' name='emprestimo[]' value="+d.emprestimos[i]['id']+"> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "</label>";
                 emprestimmos += "<br />"
             }
-                $('.check').html(emprestimmos);
+                $('.checkbox').append(emprestimmos);
             });
 
             // On each draw, loop over the `detailRows` array and show any child rows
