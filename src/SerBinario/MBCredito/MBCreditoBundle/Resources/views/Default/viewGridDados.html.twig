@@ -76,6 +76,35 @@
                     </section>
                 </div>
             </fieldset>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        </div>
+                        <form role="form">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Email address</label>
+                                    <textarea class="form-control" rows="4" cols="7"></textarea>
+                                </div>
+                                <div class="checkbox">
+                                    <label for="exampleInputEmail1">Empréstimos</label><br /><br />
+                                    <label class="check">
+                                        
+                                    </label>
+                                </div>                             
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -85,47 +114,47 @@
     <script type="text/javascript" language="javascript" class="init">
         function format(d) {
             var linhas = "";
-           
-            for(var i = 0; i < d.emprestimos.length; i++) {
+
+            for (var i = 0; i < d.emprestimos.length; i++) {
                 linhas += d.emprestimos[i]['nome'] + " " + d.emprestimos[i]['valor'] + "<br />";
             }
-            
-            if(d.statusErro == '1') {
-                
-               return  'Observação : ' + d.obsErro + '<br>' ;
-               
+
+            if (d.statusErro == '1') {
+
+                return  'Observação : ' + d.obsErro + '<br>';
+
             } else {
                 //Isso é um calculo que eles fazem, pega o valor bruto * 30% - valor dos descontos 
-                var nun = (parseFloat(d.valorBruto) * 0.3) - parseFloat(d.valorDescontos) ;
+                var nun = (parseFloat(d.valorBruto) * 0.3) - parseFloat(d.valorDescontos);
                 nun = nun.toFixed(2);
                 //Isso é um calculo que eles fazem, pega o valor bruto * 20% - valor dos descontos 
-                var nun1 = (parseFloat(d.valorBruto) * 0.2) - parseFloat(d.valorDescontos) ;
+                var nun1 = (parseFloat(d.valorBruto) * 0.2) - parseFloat(d.valorDescontos);
                 nun1 = nun1.toFixed(2);
-                
+
                 return '<b>Sexo: </b>' + d.Sexo + ' <br>' +
-                   '<b>Data Nascimento : </b>' + d.dtNascimento + '<br>' +
-                   '<b>Competência : </b>' + d.competencia + '<br>' +
-                   '<b>Valor Descontos :</b> ' + d.valorDescontos + '<br>' +
-                   '<b>Valor Liquido :</b> ' + d.valorLiquido + '<br>' +
-                   '<b>Valor Bruto :</b> ' + d.valorBruto + '<br>' +
-                   '<b>Margem 30% :</b> ' + nun + '<br>' +
-                   '<b>Margem 20% :</b> ' + nun1 + '<br>' +
-                   '<b>Emprestimos :</b> ' + '<br>' + 
-                   linhas + 
-                   //'Quantidade Emprestimos : ' + d.qtdEmprestimos + '<br>' +
-                   'Pagamento Atravez : ' + d.pagtoAtravez + '<br>' +
-                   'Período Inicial : ' + d.periodoIni + '<br>' +
-                   'Período Final : ' + d.periodoFin + '<br>' +
-                   'Espécie : ' + d.especie + '<br>' +
-                   //'Banco : ' + d.banco + '<br>' +
-                   'Agência : ' + d.agencia + '<br>';
-                   //'Código Agência : ' + d.codigoAgencia + '<br>' +
-                   //'Endereço Banco : ' + d.enderecoBanco + '<br>' +
-                   
-                   
-                    
+                        '<b>Data Nascimento : </b>' + d.dtNascimento + '<br>' +
+                        '<b>Competência : </b>' + d.competencia + '<br>' +
+                        '<b>Valor Descontos :</b> ' + d.valorDescontos + '<br>' +
+                        '<b>Valor Liquido :</b> ' + d.valorLiquido + '<br>' +
+                        '<b>Valor Bruto :</b> ' + d.valorBruto + '<br>' +
+                        '<b>Margem 30% :</b> ' + nun + '<br>' +
+                        '<b>Margem 20% :</b> ' + nun1 + '<br>' +
+                        '<b>Emprestimos :</b> ' + '<br>' +
+                        linhas +
+                        //'Quantidade Emprestimos : ' + d.qtdEmprestimos + '<br>' +
+                        'Pagamento Atravez : ' + d.pagtoAtravez + '<br>' +
+                        'Período Inicial : ' + d.periodoIni + '<br>' +
+                        'Período Final : ' + d.periodoFin + '<br>' +
+                        'Espécie : ' + d.especie + '<br>' +
+                        //'Banco : ' + d.banco + '<br>' +
+                        'Agência : ' + d.agencia + '<br>';
+                //'Código Agência : ' + d.codigoAgencia + '<br>' +
+                //'Endereço Banco : ' + d.enderecoBanco + '<br>' +
+
+
+
+            }
         }
-    }
 
         $(document).ready(function ()
         {
@@ -157,7 +186,7 @@
                         "orderable": false,
                         "data": null,
                         "render": function (data, type, row, full, meta) {
-                            return '<a href="" class="editar" title="Editar">'
+                            return '<a href="" class="editar" title="Editar" data-toggle="modal" data-target="#myModal">'
                         }
                     },
                 ],
@@ -230,6 +259,23 @@
                 $('#cpf').val(cpf);
                 $('#dtNascimento').val(dtNascimento);
                 $('#codigo_prod').val(condigo_prod);
+            });
+
+            $('#example tbody').on('click', '.editar', function () {
+                
+                var emprestimmos = ""; 
+                
+                var trClicked = $(this).parent();
+
+                var tr = $(trClicked).closest('tr');
+                var row = dt.row(tr);
+                var d = row.data();
+                
+                for (var i = 0; i < d.emprestimos.length; i++) {
+                emprestimmos += "<input type='checkbox' value="+d.emprestimos[i]['valor']+"> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "";
+                emprestimmos += "<br />"
+            }
+                $('.check').html(emprestimmos);
             });
 
             // On each draw, loop over the `detailRows` array and show any child rows
