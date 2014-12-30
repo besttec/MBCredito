@@ -152,7 +152,7 @@ class Clientes
     /**
      * @var boolean
      *
-     * @ORM\Column(name="$status_erro_cliente", type="boolean")
+     * @ORM\Column(name="$status_erro_cliente", type="boolean", nullable=false)
      */
     private $statusErro;
     
