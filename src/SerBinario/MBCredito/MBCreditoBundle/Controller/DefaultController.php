@@ -383,6 +383,7 @@ class DefaultController extends Controller
                    $emprestimos[$index]['nome']  =  $emprestimo->getEmprestimo();
                    $emprestimos[$index]['valor']    =  $emprestimo->getValor();
                    $emprestimos[$index]['id']    =  $emprestimo->getIdEmprestimo();
+                   $emprestimos[$index]['status']    =  $emprestimo->getStatusBBEmprestimo();
                 }
                 
                 $eventosArray[$i]['emprestimos']    =  $emprestimos;
