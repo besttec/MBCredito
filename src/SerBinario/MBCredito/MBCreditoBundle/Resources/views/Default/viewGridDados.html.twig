@@ -95,7 +95,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Observações</label>
-                                    <textarea class="form-control" name="obs" rows="4" cols="7"></textarea>
+                                    <textarea class="form-control" id="obs" name="obs" rows="4" cols="7"></textarea>
                                     <input type="hidden" class="form-control" name="idCliente" id="idCliente" />
                                 </div>
                                 <div class="checkbox">
@@ -125,7 +125,7 @@
             for (var i = 0; i < d.emprestimos.length; i++) {
                 
                 if(d.emprestimos[i]['status'] == '1') {
-                    linhas += d.emprestimos[i]['nome'] + " " + d.emprestimos[i]['valor'] + " - " +"BB<br />";
+                    linhas += d.emprestimos[i]['nome'] + " " + d.emprestimos[i]['valor'] + " - " +"<b>BB</b><br />";
                 } else {
                     linhas += d.emprestimos[i]['nome'] + " " + d.emprestimos[i]['valor'] + "<br />";
                 }
@@ -285,12 +285,19 @@
                 var d = row.data();
 
                 for (var i = 0; i < d.emprestimos.length; i++) {
-                    emprestimmos += "<label><input type='checkbox' name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "</label>";
-                    emprestimmos += "<br />";
-
-                    $('.checked').html(emprestimmos);
-                    $('#idCliente').val(d.DT_RowId.replace("row_", ""));
+                    if(d.emprestimos[i]['status'] == '1') {
+                        emprestimmos += "<label><input type='checkbox' checked name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "</label>";
+                        emprestimmos += "<br />";
+                    } else {
+                       emprestimmos += "<label><input type='checkbox' name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "</label>";
+                       emprestimmos += "<br />"; 
+                    }
+                                   
                 }
+                
+                $('.checked').html(emprestimmos);
+                $('#idCliente').val(d.DT_RowId.replace("row_", ""));
+                $('#obs').val(d.obsCliente);
             });
 
             // On each draw, loop over the `detailRows` array and show any child rows

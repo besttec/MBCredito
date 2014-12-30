@@ -367,6 +367,7 @@ class DefaultController extends Controller
                 $eventosArray[$i]['agencia']                =  $resultCliente[$i]->getAgencia();
                 $eventosArray[$i]['codigoAgencia']          =  $resultCliente[$i]->getCodigoAgencia();
                 $eventosArray[$i]['enderecoBanco']          =  $resultCliente[$i]->getEnderecoBanco();
+                $eventosArray[$i]['obsCliente']             =  $resultCliente[$i]->getObsCliente();
                 
                 $numBeneficio                       = $resultCliente[$i]->getClientesCliente()->getNumBeneficioCliente();
                 $dvCliente                          = $resultCliente[$i]->getClientesCliente()->getDvCliente();
