@@ -307,8 +307,7 @@ class DefaultController extends Controller
                 "a.enderecoBanco",
                 "b.dataNascCliente",
                 "b.codCliente",
-                "b.agAg"
-               
+                "b.agAg"        
                 );
 
             $entityJOIN = array("clientesCliente",); 
@@ -383,6 +382,7 @@ class DefaultController extends Controller
                 foreach ($resultCliente[$i]->getEmprestimos() as $index => $emprestimo) {
                    $emprestimos[$index]['nome']  =  $emprestimo->getEmprestimo();
                    $emprestimos[$index]['valor']    =  $emprestimo->getValor();
+                   $emprestimos[$index]['id']    =  $emprestimo->getIdEmprestimo();
                 }
                 
                 $eventosArray[$i]['emprestimos']    =  $emprestimos;
