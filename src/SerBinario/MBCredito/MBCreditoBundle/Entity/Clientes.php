@@ -145,21 +145,28 @@ class Clientes
     /**
      * @var boolean
      *
-     * @ORM\Column(name="$status_consulta_cliente", type="boolean", nullable=true)
+     * @ORM\Column(name="status_consulta_cliente", type="boolean", nullable=true)
      */
     private $statusConsulta;
     
     /**
      * @var boolean
      *
-     * @ORM\Column(name="$status_erro_cliente", type="boolean", nullable=true)
+     * @ORM\Column(name="status_erro_cliente", type="boolean", nullable=true)
      */
     private $statusErro;
     
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status_chamada", type="boolean", nullable=true)
+     */
+    private $statusChamada;
+    
+    /**
      * @var String
      *
-     * @ORM\Column(name="$obs_erro_cliente", type="string", length=100, nullable=true)
+     * @ORM\Column(name="obs_erro_cliente", type="string", length=100, nullable=true)
      */
     private $obsErro;
 
@@ -801,4 +808,24 @@ class Clientes
     {
         $this->consultas->removeElement($consultas);
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getStatusChamada() 
+    {
+        return $this->statusChamada;
+    }
+
+    /**
+     * 
+     * @param type $statusChamada
+     */
+    public function setStatusChamada($statusChamada) 
+    {
+        $this->statusChamada = $statusChamada;
+    }
+
+
 }

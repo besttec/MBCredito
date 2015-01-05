@@ -133,6 +133,8 @@ class DefaultController extends Controller
                     $cliente->setDataNascCliente(\DateTime::createFromFormat("d/m/Y", $columns[22], new \DateTimeZone("America/Recife")));
                     $cliente->setNumBeneficioCliente($columns[23]);
                     $cliente->setDvCliente((int) $columns[24]);
+                    $cliente->setStatusChamada(false);
+                    $cliente->setStatusErro(false);
                     
                     $numBeneficio                       = $columns[23] . ((int) $columns[24]);
                     $qtdNumBeneficio                    = strlen($numBeneficio);

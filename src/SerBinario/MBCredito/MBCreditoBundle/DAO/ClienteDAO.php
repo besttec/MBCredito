@@ -56,6 +56,22 @@ class ClienteDAO
         }
     }
     
+    /*
+     * 
+     */
+    public function findNotUse()
+    {
+        try {
+            $query = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes c WHERE c.statusChamada = ?1")
+                    ->setParameter(1, false)
+                    ->setMaxResults(1);
+            
+            return $query->getResult();
+        } catch (Exception $ex) {
+
+        }
+    }
+    
     /**
      * 
      * @param Clientes $entity
