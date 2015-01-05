@@ -34,6 +34,13 @@ class Emprestimos
      * @ORM\Column(name="valor_", type="decimal", precision=10, scale=2, nullable=false)
      */
     private $valor;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="$status_bb_emprestimo", type="boolean", nullable=true)
+     */
+    private $statusBBEmprestimo;
 
     /**
      * @var \ConsultaCliente
@@ -101,6 +108,29 @@ class Emprestimos
     public function getValor()
     {
         return $this->valor;
+    }
+    
+    /**
+     * Set statusBBEmprestimo
+     *
+     * @param string $statusBBEmprestimo
+     * @return Emprestimos
+     */
+    public function setStatusBBEmprestimo($statusBBEmprestimo)
+    {
+        $this->statusBBEmprestimo = $statusBBEmprestimo;
+
+        return $this;
+    }
+    
+     /**
+     * Get statusBBEmprestimo
+     *
+     * @return string 
+     */
+    public function getStatusBBEmprestimo()
+    {
+        return $this->statusBBEmprestimo;
     }
 
     /**

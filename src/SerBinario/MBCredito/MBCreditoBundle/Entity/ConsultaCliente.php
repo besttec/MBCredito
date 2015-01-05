@@ -125,6 +125,13 @@ class ConsultaCliente
      * @ORM\Column(name="disponibilidade_fin", type="date", nullable=true)
      */
     private $disponibilidadeFin;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="obs_cliente", type="string", length=255, nullable=true)
+     */
+    private $obsCliente;
 
     /**
      * @var \Clientes
@@ -573,5 +580,33 @@ class ConsultaCliente
     {
         $this->emprestimos = $emprestimos;
     }
+    
+    /**
+     * 
+     * @param type $obsCliente
+     */
+    public function setObsCliente($obsCliente) 
+    {
+        $this->obsCliente = $obsCliente;
+    }
+    
+     /**
+     * 
+     * @return type
+     */
+    public function getObsCliente() 
+    {
+        return $this->obsCliente;
+    }
 
+
+    /**
+     * Remove emprestimos
+     *
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos $emprestimos
+     */
+    public function removeEmprestimo(\SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos $emprestimos)
+    {
+        $this->emprestimos->removeElement($emprestimos);
+    }
 }

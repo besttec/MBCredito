@@ -1,0 +1,39 @@
+<?php
+
+namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Callcenter
+ *
+ * @ORM\Table(name="callcenter")
+ * @ORM\Entity
+ */
+class Callcenter
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_callcenter", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idCallcenter;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nome_callcenter", type="string", length=45, nullable=false)
+     */
+    private $nomeCallcenter;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="num_pa_callcenter", type="string", length=10, nullable=true)
+     */
+    private $numPaCallcenter;
+
+
+}

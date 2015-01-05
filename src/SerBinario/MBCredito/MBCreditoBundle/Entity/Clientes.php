@@ -778,6 +778,27 @@ class Clientes
     {
         return $this->obsErro;
     }
+
+    /**
+     * Add consultas
+     *
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente $consultas
+     * @return Clientes
+     */
+    public function addConsulta(\SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente $consultas)
+    {
+        $this->consultas[] = $consultas;
+
+        return $this;
+    }
+
+    /**
+     * Remove consultas
+     *
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente $consultas
+     */
+    public function removeConsulta(\SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente $consultas)
+    {
+        $this->consultas->removeElement($consultas);
+    }
 }
-
-
