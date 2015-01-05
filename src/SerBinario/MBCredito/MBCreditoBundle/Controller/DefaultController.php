@@ -206,9 +206,9 @@ class DefaultController extends Controller
             $eventosArray         = array();
             $parametros           = $request->request->all();
             
-            if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                $parametros['length'] = 1;
-            }              
+            //if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            //    $parametros['length'] = 1;
+            //}              
 
             $entity               = "SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes"; 
             $columnWhereMain      = "";
