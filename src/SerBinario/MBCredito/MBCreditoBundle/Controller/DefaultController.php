@@ -663,4 +663,12 @@ class DefaultController extends Controller
         return $this->redirect($this->generateUrl("viewGridDados"));
     }
     
+    /**
+     * @Route("/mbcredito/viewDiscagem", name="viewDiscagem")
+     * @Template()
+     */
+    public function viewDiscagemAction()
+    {
+        return array();
+    }
  }
