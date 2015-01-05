@@ -662,4 +662,5 @@ class DefaultController extends Controller
         
         return $this->redirect($this->generateUrl("viewGridDados"));
     }
-}
+    
+ }

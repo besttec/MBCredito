@@ -22,7 +22,7 @@ security:
                 check_path: /login_check
             logout:
                 path:   /logout
-                target: /
+                target: /mbcredito
             
     access_control:
         - { path: ^/mbcredito, roles: ROLE_USER }
