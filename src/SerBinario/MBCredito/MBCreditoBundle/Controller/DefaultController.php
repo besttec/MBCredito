@@ -133,6 +133,10 @@ class DefaultController extends Controller
                     $cliente->setDataNascCliente(\DateTime::createFromFormat("d/m/Y", $columns[22], new \DateTimeZone("America/Recife")));
                     $cliente->setNumBeneficioCliente($columns[23]);
                     $cliente->setDvCliente((int) $columns[24]);
+                    $cliente->setStatusErro(false);
+                    $cliente->setStatusEmChamada(false);
+                    $cliente->setStatusConsulta(false);
+                    $cliente->setStatusLigacao(false);
                     
                     $numBeneficio                       = $columns[23] . ((int) $columns[24]);
                     $qtdNumBeneficio                    = strlen($numBeneficio);
@@ -206,9 +210,9 @@ class DefaultController extends Controller
             $eventosArray         = array();
             $parametros           = $request->request->all();
             
-            if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                $parametros['length'] = 1;
-            }              
+            //if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            //    $parametros['length'] = 1;
+            //}              
 
             $entity               = "SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes"; 
             $columnWhereMain      = "";
@@ -329,7 +333,7 @@ class DefaultController extends Controller
             $resultCliente  = $gridClass->builderQuery();    
             $countTotal     = $gridClass->getCount();
             $countEventos   = count($resultCliente);
-            //print_r($resultCliente); exit;
+            
             for($i=0;$i < $countEventos; $i++)
             {
                 $eventosArray[$i]['DT_RowId']       =  "row_".$resultCliente[$i]->getClientesCliente()->getIdCliente();
@@ -397,8 +401,6 @@ class DefaultController extends Controller
                 $eventosArray[$i]['prefixo_ag']     =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
             }
             
-            //var_dump($eventosArray);
-            //exit();
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()){
                 $countEventos = $countTotal;
@@ -612,7 +614,7 @@ class DefaultController extends Controller
         $req = $request->request->all();
         
         $obs          = trim($req['obs']);
-        $id          = trim($req['idCliente']);
+        $id           = trim($req['idCliente']);
         
         if(isset($req['emprestimo'])) {
             $emprestimos  = $req['emprestimo'];
@@ -620,21 +622,39 @@ class DefaultController extends Controller
             $emprestimos = null;
         }
         
+        if(isset($req['statusAtivo'])) {
+            $statusAtivo  = $req['statusAtivo'];
+        } else {
+            $statusAtivo = null;
+        }
+        
         $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
         $emprestimoDAO      = new \SerBinario\MBCredito\MBCreditoBundle\DAO\EmprestimoDAO($this->getDoctrine()->getManager());
         
-        if($obs || $emprestimos){
+        if($obs || $emprestimos || $statusAtivo){
             
+            //Primeito o cliente é consultado
             $cliente = $consultaClienteDAO->findConsultaCliente($id);
-                        
+            
+            //Verifica se o cliente existe
             if($cliente) {
                 
+                if($statusAtivo){
+                    $cliente[0]->getClientesCliente()->setStatusLigacao(true);
+                } else {
+                    $cliente[0]->getClientesCliente()->setStatusLigacao(false);
+                }
+                //Seta o valor do campo observação para o cliente
                 $cliente[0]->setObsCliente($obs);
+                //Conta quantos emprestimos o cliete possue
                 $countEmp = count($emprestimos);
                 
+                //verifica se o cliente tem pelo menos 1 emprestimo
                 if($countEmp >= 1) {
                     
+                    //faz um loop para alterar o status do emprestimos para BB
                     for($i = 0; $i < $countEmp; $i++){
+                        //Seleciona os emprestimo a ser alterado
                         $emp = $emprestimoDAO->findEmprestimo($emprestimos[$i]);
                         $emp[0]->setStatusBBEmprestimo(true);
                         $emprestimoDAO->update($emp[0]);
@@ -642,6 +662,7 @@ class DefaultController extends Controller
                    
                 }
                 
+                //faz a atualização do cliente
                 $result = $consultaClienteDAO->update($cliente[0]);
                 
                 if($result) {
@@ -664,11 +685,48 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/mbcredito/viewDiscagem", name="viewDiscagem")
+     * @Route("/viewDiscagem", name="viewDiscagem")
      * @Template()
      */
     public function viewDiscagemAction()
     {
-        return array();
+        $usuario      = $this->get("security.context")->getToken()->getUser();
+        $clienteDAO   = new ClienteDAO($this->getDoctrine()->getManager());
+        $cliente      = null;
+        
+        $statusDAO    = new \SerBinario\MBCredito\MBCreditoBundle\DAO\StatusDAO($this->getDoctrine()->getManager());
+        $status       = $statusDAO->findAll();  
+        
+        $chamada      = $clienteDAO->findCallPen($usuario);
+        
+        if(! is_null($chamada)) {
+            $cliente = $chamada->getClientesCliente();
+        } else {
+            $cliente      = $clienteDAO->findNotUse();
+       
+            if($cliente) {
+                $cliente->setStatusEmChamada(true);                              
+                $clienteDAO->updateCliente($cliente);                
+
+                $chamadaCliente = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente();
+                $chamadaCliente->setStatusPendencia(true);
+                $chamadaCliente->setStatusChamada(false);
+                $chamadaCliente->setDataPendencia(new \DateTime("now", new \DateTimeZone("America/Recife")));
+                $chamadaCliente->setClientesCliente($cliente);
+                $chamadaCliente->setUser($usuario);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($chamadaCliente);
+                $em->flush();       
+            } else {
+                $this->get("session")->getFlashBag()->add('danger', "Não existe cliente disponível"); 
+                 
+                return $this->redirect($this->generateUrl("inserirDados"));
+            }
+        }      
+        
+        $calls   = $clienteDAO->findCallsCliente($cliente);
+        
+        return array("cliente" => $cliente, "status" => $status, "calls" => $calls);
     }
  }

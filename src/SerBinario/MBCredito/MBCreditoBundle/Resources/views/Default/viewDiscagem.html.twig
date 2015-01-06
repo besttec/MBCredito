@@ -27,28 +27,28 @@
                             <form role="form" method="POST" action="{{ path('savarConsultaCliente') }}">
                                 <div class="form-group col-lg-12">
                                     <label for="nome">Nome</label>
-                                    <input type="text" readonly="" class="form-control" name="nomeSegurado" id="nomeSegurado" />
+                                    <input value="{{ cliente.nomeCliente }}" type="text" readonly="" class="form-control" name="nomeSegurado" id="nomeSegurado" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="competencia">Sexo</label><br />
                                     <label class="radio-inline sexo">
-                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> M
+                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" {% if cliente.sexosSexo.nomeAbreviaturaSexo == "M" %} checked="checked" {% endif %} value="Masculino"> M
                                     </label>
                                     <label class="radio-inline sexo">
-                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> F
+                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" {% if cliente.sexosSexo.nomeAbreviaturaSexo == "F" %} checked="checked" {% endif %} value="Feminino"> F
                                     </label>
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="pCredito">Nome Contato</label>
-                                    <input type="text" readonly class="form-control" name="pCredito" id="pCredito" />
+                                    <input value="{{ cliente.nomeCliente }}" type="text" readonly class="form-control" name="pCredito" id="pCredito" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Agência</label>
-                                    <input type="text" readonly class="form-control" name="tipoPagamento" id="tipoPagamento" />
+                                    <input value="{{ cliente.agAg.prefixoAg }}" type="text" readonly class="form-control" name="tipoPagamento" id="tipoPagamento" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">CC - AG</label>
-                                    <input type="text" readonly class="form-control" name="especie" id="especie" />
+                                    <input value="{{ cliente.agAg.ccAg }}" type="text" readonly class="form-control" name="especie" id="especie" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Margem</label>
@@ -56,24 +56,16 @@
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Situação</label>
-                                    <select class="form-control">...</select>
+                                    <select class="form-control">
+                                        {% for st in status %}
+                                            <option value="{{ st.idStatus }}">{{ st.status }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Contato</label>
                                     <input type="text" readonly class="form-control" name="codAgencia" id="codAgencia" />
-                                </div>
-                                <div class="form-group col-lg-2">
-                                    <label for="numBeneficio">Hora</label>
-                                    <input type="text" readonly class="form-control" name="endBanco" id="endBanco" />
-                                </div>
-                                <div class="form-group col-lg-2">
-                                    <label for="numBeneficio">Dia</label>
-                                    <input type="text" readonly class="form-control" name="disRecebimento" id="disRecebimento" />
-                                </div>
-                                <div class="form-group col-lg-2">
-                                    <label for="numBeneficio">Ano</label>
-                                    <input type="text" readonly class="form-control" name="vBruto" id="vBruto" />
-                                </div>
+                                </div>                                
                                 <div class="form-group col-lg-12">
                                     <label for="dtNascimento">Observação</label>
                                     <textarea class="form-control" id="obs" name="obs" rows="4" cols="7"></textarea>
@@ -94,7 +86,7 @@
                                     <thead>
                                         <tr>
                                             <th>
-                                                Tentativas
+                                                Chamada
                                             </th>
                                             <th>
                                                 Data
@@ -105,17 +97,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                Exemplo
-                                            </td>
-                                            <td>
-                                                Exemplo
-                                            </td>
-                                            <td>
-                                                Exemplo
-                                            </td>
-                                        </tr>
+                                        {% for call in calls %}
+                                            <tr>
+                                                <td>
+                                                    {{ call.idChamadaCliente }}
+                                                </td>
+                                                <td>
+                                                    {{ call.dataChamada }}
+                                                </td>
+                                                <td>
+                                                    {{ call.statusStatus.status }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
                                     </tbody>
                                     <tfoot>
                                         <tr>

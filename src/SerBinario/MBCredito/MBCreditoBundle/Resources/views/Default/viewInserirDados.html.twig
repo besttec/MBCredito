@@ -380,23 +380,23 @@
                 cpf: cpf,
                 captcha: captcha
             }
-            
+
             $("#load").show();
-            
+
             $.ajax({
                 type: "POST",
                 url: "{{ path('consultar') }}",
                 dataType: "json",
                 data: dados,
                 success: function (data) {
-                    $("#load").hide();                  
-                    
+                    $("#load").hide();
+
                     var resposta = $(data['result']).find("ul li.erro");
-                    
+
                     var resposta2 = $(data['result']).closest("h3");
-                    
+
                     if (resposta.text()) {
-                        
+
                         alert(resposta.text());
                         $('#salvar').attr("disabled", true);
                         //$('#erro').val("1");
@@ -406,7 +406,7 @@
 
                         $('#codBenefi').val(numBen);
                         $('#nomeSegurado').val(nome);
-                    } else if(resposta2.text()){
+                    } else if (resposta2.text()) {
                         alert(resposta2.text());
                         $('#salvar').attr("disabled", false);
                         $('#erro').val("1");
@@ -419,18 +419,18 @@
                     }
                     else {
                         //pega a página de retorno e atribui a uma div oculta
-                      $('#result').html(data['result']);
+                        $('#result').html(data['result']);
 
 
-                    {#var countTabela = $("table.tabeld-com-borda").length;
-                    var Table = "";
-                    for (var i = 0; i < countTabela; i++) {
-                        Table += "<table class='tabela-com-borda' border='1' cellpadding='3'>";
-                        Table += $("table.tabela-com-borda:eq(" + i + ")").html();
-                        Table += "</table>";
-                    }
-                    $('#tabela').html(Table);#}
-                            
+        {#var countTabela = $("table.tabeld-com-borda").length;
+        var Table = "";
+        for (var i = 0; i < countTabela; i++) {
+            Table += "<table class='tabela-com-borda' border='1' cellpadding='3'>";
+            Table += $("table.tabela-com-borda:eq(" + i + ")").html();
+            Table += "</table>";
+        }
+        $('#tabela').html(Table);#}
+
                             $('#codBenefi').val($('tr.grande:first td:eq(0)').text());
                             $('#nomeSegurado').val($('tr.grande:first td:eq(1)').text());
                             $('#competencia').val($('tr.grande:eq(1) td:eq(0)').text());
@@ -447,18 +447,23 @@
                             var debitos = "";
                             //Conta quantos emprestimos o cliente possui
                             var countTR = $("table.rubricas-negativas tbody tr").length;
-                            for (var i = 0; i < countTR; i++) {
+                            if (countTR >= 1) {
+                                for (var i = 0; i < countTR; i++) {
 
-                                //pega os valores e nome de cada emprestimo
-                                var nome = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(0)").text();
-                                var valor = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(1)").text();
+                                    //pega os valores e nome de cada emprestimo
+                                    var nome = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(0)").text();
+                                    var valor = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(1)").text();
 
-                                debitos += "<li class='list-group-item'>" + nome + "\
+                                    if (nome && valor) {
+                                        debitos += "<li class='list-group-item'>" + nome + "\
                         ..........................................................\
                         ................................................" + valor + "</li>";
-                                
-                                debitos += "<input type='hidden' class='form-control' value='"+nome+"' name='nomeEmprestimo[]' />";
-                                debitos += "<input type='hidden' class='form-control' value='"+valor+"' name='valorEmprestimo[]' />";
+
+                                        debitos += "<input type='hidden' class='form-control' value='" + nome + "' name='nomeEmprestimo[]' />";
+                                        debitos += "<input type='hidden' class='form-control' value='" + valor + "' name='valorEmprestimo[]' />";
+                                    }
+
+                                }
                             }
 
                             //Lista os débitos

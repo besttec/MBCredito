@@ -2,6 +2,7 @@
 namespace SerBinario\MBCredito\MBCreditoBundle\DAO;
 
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes;
+use SerBinario\MBCredito\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -54,6 +55,74 @@ class ClienteDAO
         } catch (Exception $ex) {
 
         }
+    }
+    
+    /**
+     * 
+     * @param User $usuario
+     * @return type
+     */
+    public function findCallPen(User $usuario)
+    {
+       #Seleciona os Registros com Pendências.
+        $queryPendencia = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente a JOIN a.user c  WHERE a.statusPendencia =?1 AND c.id =?2")
+                            ->setParameter(1, true)
+                            ->setParameter(2, $usuario->getId())
+                            ->setMaxResults(1);
+
+        $resultPenden   = $queryPendencia->getResult();        
+        $chamada        = null;
+        
+        #Verifica se ha registros com Pendência, se houver retorna o registro encontrado.
+        if(count($resultPenden) > 0) {
+            $chamada =  $resultPenden[0];
+        }
+        
+       return $chamada;;
+    }
+    
+    /**
+     * 
+     * @param User $usuario
+     * @return type
+     */
+    public function findNotUse()
+    {
+        try {         
+            
+            #Seleciona os registro que não foram finalizados.
+            $query  = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes a WHERE a.statusEmChamada =?1 AND a.statusConsulta = ?2  AND a.statusErro = ?3 AND a.statusLigacao = ?4")
+                        ->setParameter(1, false)
+                        ->setParameter(2, true)
+                        ->setParameter(3, false)
+                        ->setParameter(4, true)
+                        ->setMaxResults(1);
+            
+            $result  =  $query->getResult();
+            $cliente = null; 
+            
+            if(count($result) > 0) {
+                $cliente =  $result[0];
+            }
+            
+            return $cliente;            
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
+    
+    /**
+     * 
+     * @param Clientes $cliente
+     * @return type
+     */
+    public function findCallsCliente(Clientes $cliente)
+    {
+        $query  = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente a JOIN a.clientesCliente c WHERE a.statusChamada =?1 AND c.idCliente = ?2")
+                        ->setParameter(1, true)
+                        ->setParameter(2, $cliente->getIdCliente());
+        
+        return $query->getResult();
     }
     
     /**

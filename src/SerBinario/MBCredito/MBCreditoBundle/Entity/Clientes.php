@@ -141,25 +141,39 @@ class Clientes
      * @ORM\Column(name="num_beneficio_comp_cliente", type="string", length=45, nullable=true)
      */
     private $numBeneficioComp;
+        
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status_erro_cliente", type="boolean", nullable=true, options={"comment":"Define o status em caso de erro ao consultar o cliente"})
+     */
+    private $statusErro;
     
     /**
      * @var boolean
      *
-     * @ORM\Column(name="$status_consulta_cliente", type="boolean", nullable=true)
+     * @ORM\Column(name="status_ligacao_cliente", type="boolean", nullable=true, options={"comment":"Define o status em caso de disponível"})
+     */
+    private $statusLigacao;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status_consulta", type="boolean", nullable=true)
      */
     private $statusConsulta;
     
     /**
      * @var boolean
      *
-     * @ORM\Column(name="$status_erro_cliente", type="boolean", nullable=true)
+     * @ORM\Column(name="status_emChamada", type="boolean", nullable=true)
      */
-    private $statusErro;
-    
+    private $statusEmChamada;
+            
     /**
      * @var String
      *
-     * @ORM\Column(name="$obs_erro_cliente", type="string", length=100, nullable=true)
+     * @ORM\Column(name="obs_erro_cliente", type="string", length=100, nullable=true)
      */
     private $obsErro;
 
@@ -207,6 +221,11 @@ class Clientes
      * @ORM\OneToMany(targetEntity="ConsultaCliente", mappedBy="clientesCliente")
      **/
     private $consultas;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="ChamadaCliente", mappedBy="clientesCliente")
+     **/
+    private $chamadasCliente;
     
     /**
      * 
@@ -778,6 +797,83 @@ class Clientes
     {
         return $this->obsErro;
     }
+
+    /**
+     * Add consultas
+     *
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente $consultas
+     * @return Clientes
+     */
+    public function addConsulta(\SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente $consultas)
+    {
+        $this->consultas[] = $consultas;
+
+        return $this;
+    }
+
+    /**
+     * Remove consultas
+     *
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente $consultas
+     */
+    public function removeConsulta(\SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente $consultas)
+    {
+        $this->consultas->removeElement($consultas);
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getChamadasCliente() 
+    {
+        return $this->chamadasCliente;
+    }
+    
+    /**
+     * 
+     * @param type $chamadasCliente
+     */
+    public function setChamadasCliente($chamadasCliente) 
+    {
+        $this->chamadasCliente = $chamadasCliente;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getStatusEmChamada() 
+    {
+        return $this->statusEmChamada;
+    }
+    
+    /**
+     * 
+     * @param type $statusEmChamada
+     */
+    public function setStatusEmChamada($statusEmChamada) 
+    {
+        $this->statusEmChamada = $statusEmChamada;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getStatusLigacao() {
+        return $this->statusLigacao;
+    }
+    
+    /**
+     * 
+     * @param type $statusLigacao
+     */
+    function setStatusLigacao($statusLigacao) {
+        $this->statusLigacao = $statusLigacao;
+    }
+
+
+
+        
 }
-
-

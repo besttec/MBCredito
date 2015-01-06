@@ -599,4 +599,14 @@ class ConsultaCliente
         return $this->obsCliente;
     }
 
+
+    /**
+     * Remove emprestimos
+     *
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos $emprestimos
+     */
+    public function removeEmprestimo(\SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos $emprestimos)
+    {
+        $this->emprestimos->removeElement($emprestimos);
+    }
 }
