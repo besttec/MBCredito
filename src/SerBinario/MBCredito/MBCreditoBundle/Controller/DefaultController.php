@@ -133,8 +133,9 @@ class DefaultController extends Controller
                     $cliente->setDataNascCliente(\DateTime::createFromFormat("d/m/Y", $columns[22], new \DateTimeZone("America/Recife")));
                     $cliente->setNumBeneficioCliente($columns[23]);
                     $cliente->setDvCliente((int) $columns[24]);
-                    $cliente->setStatusChamada(false);
                     $cliente->setStatusErro(false);
+                    $cliente->setStatusEmChamada(false);
+                    $cliente->setStatusConsulta(false);
                     
                     $numBeneficio                       = $columns[23] . ((int) $columns[24]);
                     $qtdNumBeneficio                    = strlen($numBeneficio);
@@ -331,7 +332,7 @@ class DefaultController extends Controller
             $resultCliente  = $gridClass->builderQuery();    
             $countTotal     = $gridClass->getCount();
             $countEventos   = count($resultCliente);
-            //print_r($resultCliente); exit;
+            
             for($i=0;$i < $countEventos; $i++)
             {
                 $eventosArray[$i]['DT_RowId']       =  "row_".$resultCliente[$i]->getClientesCliente()->getIdCliente();
@@ -399,8 +400,6 @@ class DefaultController extends Controller
                 $eventosArray[$i]['prefixo_ag']     =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
             }
             
-            //var_dump($eventosArray);
-            //exit();
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()){
                 $countEventos = $countTotal;
@@ -665,6 +664,49 @@ class DefaultController extends Controller
         return $this->redirect($this->generateUrl("viewGridDados"));
     }
     
-    
-    
+    /**
+     * @Route("/viewDiscagem", name="viewDiscagem")
+     * @Template()
+     */
+    public function viewDiscagemAction()
+    {
+        $usuario      = $this->get("security.context")->getToken()->getUser();
+        $clienteDAO   = new ClienteDAO($this->getDoctrine()->getManager());
+        $cliente      = null;
+        
+        $statusDAO    = new \SerBinario\MBCredito\MBCreditoBundle\DAO\StatusDAO($this->getDoctrine()->getManager());
+        $status       = $statusDAO->findAll();  
+        
+        $chamada      = $clienteDAO->findCallPen($usuario);
+        
+        if(! is_null($chamada)) {
+            $cliente = $chamada->getClientesCliente();
+        } else {
+            $cliente      = $clienteDAO->findNotUse();
+       
+            if($cliente) {
+                $cliente->setStatusEmChamada(true);                              
+                $clienteDAO->updateCliente($cliente);                
+
+                $chamadaCliente = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente();
+                $chamadaCliente->setStatusPendencia(true);
+                $chamadaCliente->setStatusChamada(false);
+                $chamadaCliente->setDataPendencia(new \DateTime("now", new \DateTimeZone("America/Recife")));
+                $chamadaCliente->setClientesCliente($cliente);
+                $chamadaCliente->setUser($usuario);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($chamadaCliente);
+                $em->flush();       
+            } else {
+                $this->get("session")->getFlashBag()->add('danger', "Não existe cliente disponível"); 
+                 
+                return $this->redirect($this->generateUrl("inserirDados"));
+            }
+        }      
+        
+        $calls   = $clienteDAO->findCallsCliente($cliente);
+        
+        return array("cliente" => $cliente, "status" => $status, "calls" => $calls);
+    }
  }

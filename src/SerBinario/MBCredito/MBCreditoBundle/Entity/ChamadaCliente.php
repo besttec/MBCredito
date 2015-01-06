@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ChamadaCliente
  *
- * @ORM\Table(name="chamada_cliente", indexes={@ORM\Index(name="fk_chamada_cliente_status1_idx", columns={"status_id_status"}), @ORM\Index(name="fk_chamada_cliente_callcenter1_idx", columns={"callcenter_id_callcenter"}), @ORM\Index(name="fk_chamada_cliente_clientes1_idx", columns={"clientes_id_cliente"}), @ORM\Index(name="fk_chamada_cliente_subrotinas1_idx", columns={"subrotinas_id_subrotina"})})
+ * @ORM\Table(name="chamada_cliente", indexes={@ORM\Index(name="fk_chamada_cliente_status1_idx", columns={"status_id_status"}), @ORM\Index(name="fk_chamada_cliente_user1_idx", columns={"user_id_user"}), @ORM\Index(name="fk_chamada_cliente_clientes1_idx", columns={"clientes_id_cliente"}), @ORM\Index(name="fk_chamada_cliente_subrotinas1_idx", columns={"subrotinas_id_subrotina"})})
  * @ORM\Entity
  */
 class ChamadaCliente
@@ -20,11 +20,39 @@ class ChamadaCliente
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idChamadaCliente;
+        
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status_pendencia", type="boolean", nullable=true)
+     */
+    private $statusPendencia;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status_chamada", type="boolean", nullable=true)
+     */
+    private $statusChamada;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="data_chamada", type="datetime", nullable=true)
+     */
+    private $dataChamada;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="data_pendencia", type="datetime", nullable=false)
+     */
+    private $dataPendencia;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="observacao", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="observacao", type="text", length=65535, nullable=true)
      */
     private $observacao;
 
@@ -41,17 +69,17 @@ class ChamadaCliente
     /**
      * @var \Callcenter
      *
-     * @ORM\ManyToOne(targetEntity="Callcenter")
+     * @ORM\ManyToOne(targetEntity="SerBinario\MBCredito\UserBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="callcenter_id_callcenter", referencedColumnName="id_callcenter")
+     *   @ORM\JoinColumn(name="user_id_user", referencedColumnName="id")
      * })
      */
-    private $callcenterCallcenter;
+    private $user;
 
     /**
      * @var \Clientes
      *
-     * @ORM\ManyToOne(targetEntity="Clientes")
+     * @ORM\ManyToOne(targetEntity="Clientes", inversedBy="chamadaCliente")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="clientes_id_cliente", referencedColumnName="id_cliente")
      * })
@@ -129,12 +157,12 @@ class ChamadaCliente
     /**
      * Set callcenterCallcenter
      *
-     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\Callcenter $callcenterCallcenter
+     * @param \SerBinario\MBCredito\UserBundle\Entity\User $user
      * @return ChamadaCliente
      */
-    public function setCallcenterCallcenter(\SerBinario\MBCredito\MBCreditoBundle\Entity\Callcenter $callcenterCallcenter = null)
+    public function setUser(\SerBinario\MBCredito\UserBundle\Entity\User $user = null)
     {
-        $this->callcenterCallcenter = $callcenterCallcenter;
+        $this->user = $user;
 
         return $this;
     }
@@ -142,11 +170,11 @@ class ChamadaCliente
     /**
      * Get callcenterCallcenter
      *
-     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Callcenter 
+     * @return \SerBinario\MBCredito\UserBundle\Entity\User
      */
-    public function getCallcenterCallcenter()
+    public function getUser()
     {
-        return $this->callcenterCallcenter;
+        return $this->user;
     }
 
     /**
@@ -194,4 +222,78 @@ class ChamadaCliente
     {
         return $this->subrotinasSubrotina;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getStatusPendencia() 
+    {
+        return $this->statusPendencia;
+    }
+
+    /**
+     * 
+     * @param type $statusPendencia
+     */
+    public function setStatusPendencia($statusPendencia) 
+    {
+        $this->statusPendencia = $statusPendencia;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getStatusChamada()
+    {
+        return $this->statusChamada;
+    }
+
+    /**
+     * 
+     * @param type $statusChamada
+     */
+    public function setStatusChamada($statusChamada) 
+    {
+        $this->statusChamada = $statusChamada;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getDataChamada() 
+    {
+        return $this->dataChamada;
+    }
+    
+    /**
+     * 
+     * @param type $dataChamada
+     */
+    public function setDataChamada($dataChamada) 
+    {
+        $this->dataChamada = $dataChamada;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getDataPendencia() 
+    {
+        return $this->dataPendencia;
+    }
+
+    /**
+     * 
+     * @param type $dataPendencia
+     */
+    public function setDataPendencia($dataPendencia) 
+    {
+        $this->dataPendencia = $dataPendencia;
+    }
+
+
 }

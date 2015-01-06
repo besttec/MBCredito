@@ -141,14 +141,7 @@ class Clientes
      * @ORM\Column(name="num_beneficio_comp_cliente", type="string", length=45, nullable=true)
      */
     private $numBeneficioComp;
-    
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="status_consulta_cliente", type="boolean", nullable=true)
-     */
-    private $statusConsulta;
-    
+        
     /**
      * @var boolean
      *
@@ -159,10 +152,17 @@ class Clientes
     /**
      * @var boolean
      *
-     * @ORM\Column(name="status_chamada", type="boolean", nullable=true)
+     * @ORM\Column(name="status_consulta", type="boolean", nullable=true)
      */
-    private $statusChamada;
+    private $statusConsulta;
     
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status_emChamada", type="boolean", nullable=true)
+     */
+    private $statusEmChamada;
+            
     /**
      * @var String
      *
@@ -214,6 +214,11 @@ class Clientes
      * @ORM\OneToMany(targetEntity="ConsultaCliente", mappedBy="clientesCliente")
      **/
     private $consultas;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="ChamadaCliente", mappedBy="clientesCliente")
+     **/
+    private $chamadasCliente;
     
     /**
      * 
@@ -813,19 +818,38 @@ class Clientes
      * 
      * @return type
      */
-    public function getStatusChamada() 
+    public function getChamadasCliente() 
     {
-        return $this->statusChamada;
+        return $this->chamadasCliente;
     }
-
+    
     /**
      * 
-     * @param type $statusChamada
+     * @param type $chamadasCliente
      */
-    public function setStatusChamada($statusChamada) 
+    public function setChamadasCliente($chamadasCliente) 
     {
-        $this->statusChamada = $statusChamada;
+        $this->chamadasCliente = $chamadasCliente;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getStatusEmChamada() 
+    {
+        return $this->statusEmChamada;
+    }
+    
+    /**
+     * 
+     * @param type $statusEmChamada
+     */
+    public function setStatusEmChamada($statusEmChamada) 
+    {
+        $this->statusEmChamada = $statusEmChamada;
     }
 
 
+        
 }
