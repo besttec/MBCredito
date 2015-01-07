@@ -90,7 +90,7 @@ class ClienteDAO
     {
         try {         
             
-            #Seleciona os registro que não foram finalizados.
+            #Seleciona os registro que estão disponíveis e não estã sendo atendidos.
             $query  = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes a WHERE a.statusEmChamada =?1 AND a.statusConsulta = ?2  AND a.statusErro = ?3")
                         ->setParameter(1, false)
                         ->setParameter(2, true)

@@ -48,14 +48,14 @@ class DefaultController extends Controller
     public function saveUserAction()
     {
         $user = new \SerBinario\MBCredito\UserBundle\Entity\User();
-        $user->setUsername("paulo");
-        $user->setEmail("paulo@gmail.com");
+        $user->setUsername("fabio");
+        $user->setEmail("fabio@gmail.com");
         $user->setIsActive(true);
         
         $factory = $this->get('security.encoder_factory');
         
         $encoder = $factory->getEncoder($user);
-        $password = $encoder->encodePassword('paulo', $user->getSalt());
+        $password = $encoder->encodePassword('fabio', $user->getSalt());
         $user->setPassword($password);        
                 
         $em = $this->getDoctrine()->getManager();

@@ -1,0 +1,7 @@
+Dia: 06/01/2014
+Author: Andrey Fernandes Bernardo da Silva
+Empresa: SerBinário
+
+Descrição: 
+
+	 Foi feito de forma funcional  as regras básicas das funcionalidades do sistema na parte de callcenter, onde foi terminado o controle de concorrência das chamadas aos clientes.   

@@ -670,20 +670,27 @@ class DefaultController extends Controller
      */
     public function viewDiscagemAction()
     {
+        #Recupera o usuário da sessão
         $usuario      = $this->get("security.context")->getToken()->getUser();
+        #Cria o DAO de Clientes
         $clienteDAO   = new ClienteDAO($this->getDoctrine()->getManager());
         $cliente      = null;
         
+        #Recupera todos os status do banco.
         $statusDAO    = new \SerBinario\MBCredito\MBCreditoBundle\DAO\StatusDAO($this->getDoctrine()->getManager());
         $status       = $statusDAO->findAll();  
         
+        #Recupera se houver chamadas pendentes.
         $chamada      = $clienteDAO->findCallPen($usuario);
         
+        #Verifica o retorno das chamadas pendentes
         if(! is_null($chamada)) {
             $cliente = $chamada->getClientesCliente();
         } else {
+            #Recupera um cliente que já foi consultado e não está sendo atendido por nenhum callcenter
             $cliente      = $clienteDAO->findNotUse();
-       
+            
+            #Verifica se existe cliente.
             if($cliente) {
                 $cliente->setStatusEmChamada(true);                              
                 $clienteDAO->updateCliente($cliente);                
@@ -699,14 +706,17 @@ class DefaultController extends Controller
                 $em->persist($chamadaCliente);
                 $em->flush();       
             } else {
+                #Caso não houver cliente disponível, mandara uma mensagem para o callcenter.
                 $this->get("session")->getFlashBag()->add('danger', "Não existe cliente disponível"); 
-                 
+                
+                #Retorno a página.
                 return $this->redirect($this->generateUrl("inserirDados"));
             }
         }      
-        
+        #Recupera todas as chamadas do cliente = $cliente
         $calls   = $clienteDAO->findCallsCliente($cliente);
         
+        #Retorno a página.
         return array("cliente" => $cliente, "status" => $status, "calls" => $calls);
     }
  }
