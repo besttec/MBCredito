@@ -1,0 +1,135 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <style>
+        .sexo{
+            cursor: pointer;
+            display: inline;
+            font-weight: normal;
+            margin-bottom: 0;
+            padding-left: 20px;
+            vertical-align: middle;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {{parent()}}
+
+    <div class="container">
+        <div class="row clearfix">
+            <fieldset>
+                <div class="container-fluid">
+                    <fieldset>
+                        <legend>Tela Discagem</legend>
+                        <div class="col-md-6 column">
+                            <form role="form" method="POST" action="{{ path('savarConsultaCliente') }}">
+                                <div class="form-group col-lg-12">
+                                    <label for="nome">Nome</label>
+                                    <input value="{{ cliente.nomeCliente }}" type="text" readonly="" class="form-control" name="nomeSegurado" id="nomeSegurado" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="competencia">Sexo</label><br />
+                                    <label class="radio-inline sexo">
+                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" {% if cliente.sexosSexo.nomeAbreviaturaSexo == "M" %} checked="checked" {% endif %} value="Masculino"> M
+                                    </label>
+                                    <label class="radio-inline sexo">
+                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" {% if cliente.sexosSexo.nomeAbreviaturaSexo == "F" %} checked="checked" {% endif %} value="Feminino"> F
+                                    </label>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="pCredito">Nome Contato</label>
+                                    <input value="{{ cliente.nomeCliente }}" type="text" readonly class="form-control" name="pCredito" id="pCredito" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="numBeneficio">Agência</label>
+                                    <input value="{{ cliente.agAg.prefixoAg }}" type="text" readonly class="form-control" name="tipoPagamento" id="tipoPagamento" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="numBeneficio">CC - AG</label>
+                                    <input value="{{ cliente.agAg.ccAg }}" type="text" readonly class="form-control" name="especie" id="especie" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="numBeneficio">Margem</label>
+                                    <input type="text" readonly class="form-control" name="banco" id="banco" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="numBeneficio">Situação</label>
+                                    <select class="form-control">
+                                        {% for st in status %}
+                                            <option value="{{ st.idStatus }}">{{ st.status }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="numBeneficio">Contato</label>
+                                    <input type="text" readonly class="form-control" name="codAgencia" id="codAgencia" />
+                                </div>                                
+                                <div class="form-group col-lg-12">
+                                    <label for="dtNascimento">Observação</label>
+                                    <textarea class="form-control" id="obs" name="obs" rows="4" cols="7"></textarea>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <button type="submit" disabled="" id="salvar" class="btn btn-primary">Salvar</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6 column">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">Hitórico de discagem</div>
+                                <div class="panel-body">
+                                    Tentativas de chamadas realizadas para este cliente.
+                                </div>
+                                <!-- Table -->
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Chamada
+                                            </th>
+                                            <th>
+                                                Data
+                                            </th>
+                                            <th>
+                                                Status
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for call in calls %}
+                                            <tr>
+                                                <td>
+                                                    {{ call.idChamadaCliente }}
+                                                </td>
+                                                <td>
+                                                    {{ call.dataChamada }}
+                                                </td>
+                                                <td>
+                                                    {{ call.statusStatus.status }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>
+                                                Tentativas
+                                            </th>
+                                            <th>
+                                                Data
+                                            </th>
+                                            <th>
+                                                Status
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+{% endblock %}

@@ -107,7 +107,7 @@
                                 <br />
                                 <div class="checkbox">
                                     <label for="exampleInputEmail1">Disponibilidade de ligação</label><br /><br />
-                                    <label><input type='checkbox' id="ativo" name='statusAtivo' value="1"> 
+                                    <label><input type='checkbox' name='statusAtivo' value="1"> 
                                         Ativo
                                     </label>
                                 </div>
@@ -301,10 +301,6 @@
                         emprestimmos += "<br />";
                     }
 
-                }
-                
-                if(d.statusLigacao == '1'){
-                    $('#ativo').attr('checked', true);
                 }
 
                 $('.checked').html(emprestimmos);

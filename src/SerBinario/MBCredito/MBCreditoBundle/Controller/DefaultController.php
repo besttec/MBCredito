@@ -401,6 +401,7 @@ class DefaultController extends Controller
                 $eventosArray[$i]['statusErro']     =  $resultCliente[$i]->getClientesCliente()->getStatusErro();
                 $eventosArray[$i]['ag']             =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getCcAg();
                 $eventosArray[$i]['prefixo_ag']     =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
+                $eventosArray[$i]['statusLigacao']     =  $resultCliente[$i]->getClientesCliente()->getStatusLigacao();
             }
             
             //Se a variável $sqlFilter estiver vazio
@@ -722,4 +723,5 @@ class DefaultController extends Controller
         
         return array("cliente" => $cliente, "status" => $status, "calls" => $calls);
     }
+    
  }

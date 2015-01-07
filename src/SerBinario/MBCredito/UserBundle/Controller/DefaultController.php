@@ -48,14 +48,14 @@ class DefaultController extends Controller
     public function saveUserAction()
     {
         $user = new \SerBinario\MBCredito\UserBundle\Entity\User();
-        $user->setUsername("paulo");
-        $user->setEmail("paulo@gmail.com");
+        $user->setUsername("fabio");
+        $user->setEmail("fabio@gmail.com");
         $user->setIsActive(true);
         
         $factory = $this->get('security.encoder_factory');
         
         $encoder = $factory->getEncoder($user);
-        $password = $encoder->encodePassword('paulo', $user->getSalt());
+        $password = $encoder->encodePassword('fabio', $user->getSalt());
         $user->setPassword($password);        
                 
         $em = $this->getDoctrine()->getManager();
@@ -63,6 +63,52 @@ class DefaultController extends Controller
         $em->flush();
         
         echo "dsadsa";
+    }
+    
+     /**
+     * @Route("/savePerfil", name="savePerfil")
+     */
+    public function savePerfilAction()
+    {      
+        $dados = array(
+            array('ADMIN', 'ROLE_ADMIN'),
+            array('USER', 'ROLE_USER')
+        );
+        
+        for($i = 0; $i < count($dados); $i++){
+            $perfil = new \SerBinario\MBCredito\UserBundle\Entity\Role();
+            $perfil->setName($dados[$i][0]);
+            $perfil->setRole($dados[$i][1]);
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($perfil);
+            $em->flush();
+        };
+        
+        echo "sucesso";
+    }
+    
+     /**
+     * @Route("/saveSexo", name="saveSexo")
+     */
+    public function saveSexoAction()
+    {      
+        $dados = array(
+            array('M', 'Masculino'),
+            array('F', 'Feminino')
+        );
+              
+        for($i = 0; $i < count($dados); $i++){
+            $sexo = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Sexos();
+            $sexo->setNomeAbreviaturaSexo($dados[$i][0]);
+            $sexo->setNomeExtensoSexo($dados[$i][1]);
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($sexo);
+            $em->flush();
+        };
+        
+        echo "sucesso";
     }
     
     /**
