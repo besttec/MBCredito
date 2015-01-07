@@ -385,10 +385,12 @@ class DefaultController extends Controller
                 $emprestimos = array();
                 
                 foreach ($resultCliente[$i]->getEmprestimos() as $index => $emprestimo) {
+                    
                    $emprestimos[$index]['nome']  =  $emprestimo->getEmprestimo();
                    $emprestimos[$index]['valor']    =  $emprestimo->getValor();
                    $emprestimos[$index]['id']    =  $emprestimo->getIdEmprestimo();
                    $emprestimos[$index]['status']    =  $emprestimo->getStatusBBEmprestimo();
+                   
                 }
                 
                 $eventosArray[$i]['emprestimos']    =  $emprestimos;
@@ -594,16 +596,7 @@ class DefaultController extends Controller
         
         return $this->redirect($this->generateUrl("inserirDados"));
     }
-    
-    /**
-     * @Route("/teste")
-     * @Template("")
-     */
-    public function testeAction()
-    {
-        return array();
-    }
-    
+      
     /**
      * @Route("/savarInfoAdicionais", name="savarInfoAdicionais")
      * @Template()
