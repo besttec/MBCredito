@@ -99,10 +99,17 @@
                                     <input type="hidden" class="form-control" name="idCliente" id="idCliente" />
                                 </div>
                                 <div class="checkbox">
-                                    <label for="exampleInputEmail1">Empréstimos</label><br /><br />
+                                    <label for="exampleInputEmail1">Empréstimos1</label><br /><br />
                                     <div class="checked">
                                     </div>
-                                </div>                             
+                                </div>
+                                <br />
+                                <div class="checkbox">
+                                    <label for="exampleInputEmail1">Disponibilidade de ligação</label><br /><br />
+                                    <label><input type='checkbox' name='statusAtivo' value="1"> 
+                                        Ativo
+                                    </label>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <input type="submit" class="btn btn-primary" value="Salvar" />
@@ -123,9 +130,9 @@
             var linhas = "";
 
             for (var i = 0; i < d.emprestimos.length; i++) {
-                
-                if(d.emprestimos[i]['status'] == '1') {
-                    linhas += d.emprestimos[i]['nome'] + " " + d.emprestimos[i]['valor'] + " - " +"<b>BB</b><br />";
+
+                if (d.emprestimos[i]['status'] == '1') {
+                    linhas += d.emprestimos[i]['nome'] + " " + d.emprestimos[i]['valor'] + " - " + "<b>BB</b><br />";
                 } else {
                     linhas += d.emprestimos[i]['nome'] + " " + d.emprestimos[i]['valor'] + "<br />";
                 }
@@ -285,16 +292,16 @@
                 var d = row.data();
 
                 for (var i = 0; i < d.emprestimos.length; i++) {
-                    if(d.emprestimos[i]['status'] == '1') {
+                    if (d.emprestimos[i]['status'] == '1') {
                         emprestimmos += "<label><input type='checkbox' checked name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "</label>";
                         emprestimmos += "<br />";
                     } else {
-                       emprestimmos += "<label><input type='checkbox' name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "</label>";
-                       emprestimmos += "<br />"; 
+                        emprestimmos += "<label><input type='checkbox' name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "</label>";
+                        emprestimmos += "<br />";
                     }
-                                   
+
                 }
-                
+
                 $('.checked').html(emprestimmos);
                 $('#idCliente').val(d.DT_RowId.replace("row_", ""));
                 $('#obs').val(d.obsCliente);

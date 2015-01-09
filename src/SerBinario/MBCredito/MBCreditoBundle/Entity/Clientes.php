@@ -145,9 +145,16 @@ class Clientes
     /**
      * @var boolean
      *
-     * @ORM\Column(name="status_erro_cliente", type="boolean", nullable=true)
+     * @ORM\Column(name="status_erro_cliente", type="boolean", nullable=true, options={"comment":"Define o status em caso de erro ao consultar o cliente"})
      */
     private $statusErro;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status_ligacao_cliente", type="boolean", nullable=true, options={"comment":"Define o status em caso de disponível"})
+     */
+    private $statusLigacao;
     
     /**
      * @var boolean
@@ -849,6 +856,23 @@ class Clientes
     {
         $this->statusEmChamada = $statusEmChamada;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getStatusLigacao() {
+        return $this->statusLigacao;
+    }
+    
+    /**
+     * 
+     * @param type $statusLigacao
+     */
+    function setStatusLigacao($statusLigacao) {
+        $this->statusLigacao = $statusLigacao;
+    }
+
 
 
         

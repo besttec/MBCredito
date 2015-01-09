@@ -136,6 +136,7 @@ class DefaultController extends Controller
                     $cliente->setStatusErro(false);
                     $cliente->setStatusEmChamada(false);
                     $cliente->setStatusConsulta(false);
+                    $cliente->setStatusLigacao(false);
                     
                     $numBeneficio                       = $columns[23] . ((int) $columns[24]);
                     $qtdNumBeneficio                    = strlen($numBeneficio);
@@ -593,16 +594,7 @@ class DefaultController extends Controller
         
         return $this->redirect($this->generateUrl("inserirDados"));
     }
-    
-    /**
-     * @Route("/teste")
-     * @Template("")
-     */
-    public function testeAction()
-    {
-        return array();
-    }
-    
+        
     /**
      * @Route("/savarInfoAdicionais", name="savarInfoAdicionais")
      * @Template()
@@ -613,7 +605,7 @@ class DefaultController extends Controller
         $req = $request->request->all();
         
         $obs          = trim($req['obs']);
-        $id          = trim($req['idCliente']);
+        $id           = trim($req['idCliente']);
         
         if(isset($req['emprestimo'])) {
             $emprestimos  = $req['emprestimo'];
@@ -621,21 +613,39 @@ class DefaultController extends Controller
             $emprestimos = null;
         }
         
+        if(isset($req['statusAtivo'])) {
+            $statusAtivo  = $req['statusAtivo'];
+        } else {
+            $statusAtivo = null;
+        }
+        
         $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
         $emprestimoDAO      = new \SerBinario\MBCredito\MBCreditoBundle\DAO\EmprestimoDAO($this->getDoctrine()->getManager());
         
-        if($obs || $emprestimos){
+        if($obs || $emprestimos || $statusAtivo){
             
+            //Primeito o cliente é consultado
             $cliente = $consultaClienteDAO->findConsultaCliente($id);
-                        
+            
+            //Verifica se o cliente existe
             if($cliente) {
                 
+                if($statusAtivo){
+                    $cliente[0]->getClientesCliente()->setStatusLigacao(true);
+                } else {
+                    $cliente[0]->getClientesCliente()->setStatusLigacao(false);
+                }
+                //Seta o valor do campo observação para o cliente
                 $cliente[0]->setObsCliente($obs);
+                //Conta quantos emprestimos o cliete possue
                 $countEmp = count($emprestimos);
                 
+                //verifica se o cliente tem pelo menos 1 emprestimo
                 if($countEmp >= 1) {
                     
+                    //faz um loop para alterar o status do emprestimos para BB
                     for($i = 0; $i < $countEmp; $i++){
+                        //Seleciona os emprestimo a ser alterado
                         $emp = $emprestimoDAO->findEmprestimo($emprestimos[$i]);
                         $emp[0]->setStatusBBEmprestimo(true);
                         $emprestimoDAO->update($emp[0]);
@@ -643,6 +653,7 @@ class DefaultController extends Controller
                    
                 }
                 
+                //faz a atualização do cliente
                 $result = $consultaClienteDAO->update($cliente[0]);
                 
                 if($result) {
@@ -683,9 +694,13 @@ class DefaultController extends Controller
         #Recupera se houver chamadas pendentes.
         $chamada      = $clienteDAO->findCallPen($usuario);
         
+        #Observação da consulta
+        $obsCosulta   = "";
+        
         #Verifica o retorno das chamadas pendentes
         if(! is_null($chamada)) {
-            $cliente = $chamada->getClientesCliente();
+            $cliente    = $chamada->getClientesCliente();
+            //$obsCosulta = $chamada-> 
         } else {
             #Recupera um cliente que já foi consultado e não está sendo atendido por nenhum callcenter
             $cliente      = $clienteDAO->findNotUse();
@@ -718,5 +733,23 @@ class DefaultController extends Controller
         
         #Retorno a página.
         return array("cliente" => $cliente, "status" => $status, "calls" => $calls);
+    }
+    
+     /**
+     * @Route("/getSubrotinas", name="getSubrotinas")
+     * @Method({"POST"})
+     */
+    public function getSubrotinasAction(Request $request)
+    {
+        $idStatus = $request->request->get("id");
+        
+        $subRotinasDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SubRotinasDAO($this->getDoctrine()->getManager());
+        $subRotinas    = $subRotinasDAO->findByIdStatus($idStatus);
+        
+        $result = array(
+            "subrotinas" => $subRotinas
+        );
+        
+        return new JsonResponse($result);
     }
  }

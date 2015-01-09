@@ -55,8 +55,9 @@
                                     <input type="text" readonly class="form-control" name="banco" id="banco" />
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <label for="numBeneficio">Situação</label>
-                                    <select class="form-control">
+                                    <label for="status">Situação</label>
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="">Selecione uma Situação</option>
                                         {% for st in status %}
                                             <option value="{{ st.idStatus }}">{{ st.status }}</option>
                                         {% endfor %}
@@ -65,7 +66,15 @@
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Contato</label>
                                     <input type="text" readonly class="form-control" name="codAgencia" id="codAgencia" />
-                                </div>                                
+                                </div>     
+                                <div class="form-group col-lg-6">
+                                    <label for="subrotinas">Sub-Resultados</label>
+                                    <select class="form-control" name="subrotinas" id="subrotinas">...</select>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="dataProxLiguacao">Data próxima ligação</label>
+                                    <input type="text" id="datepicker" readonly class="form-control" name="dataProxLiguacao">
+                                </div>                                                      
                                 <div class="form-group col-lg-12">
                                     <label for="dtNascimento">Observação</label>
                                     <textarea class="form-control" id="obs" name="obs" rows="4" cols="7"></textarea>
@@ -79,7 +88,7 @@
                             <div class="panel panel-primary">
                                 <div class="panel-heading">Hitórico de discagem</div>
                                 <div class="panel-body">
-                                    Panel content
+                                    Tentativas de chamadas realizadas para este cliente.
                                 </div>
                                 <!-- Table -->
                                 <table class="table table-bordered">
@@ -132,4 +141,42 @@
             </fieldset>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" language="javascript" class="init">       
+        $('#status').change(function() {
+            var valueOpcao = $('#status option:selected').attr("value");
+                 
+            if(valueOpcao == 2) {
+                $('#datepicker').removeAttr("readonly")
+                $('#datepicker').datetimepicker();
+            }
+            
+            
+            
+            
+            var dados = {
+                id: valueOpcao
+            }
+            
+            $.ajax({
+                type: "POST",
+                url: "{{ path('getSubrotinas') }}",
+                dataType: "json",
+                data: dados,
+                success: function (data) {
+                    var option = '<option value"">Selecione um Sub-resultado</option>';
+                    
+                    for (var i = 0; i < data.subrotinas.length; i++) {
+                        option += '<option value="'+ data.subrotinas[i]['idSubrotina'] +'">' + data.subrotinas[i]['subrotina'] +'</option>';
+                    }
+                    
+                    $('#subrotinas option').remove();
+                    $("#subrotinas").append(option);
+                }
+            });
+        });
+    </script>
 {% endblock %}

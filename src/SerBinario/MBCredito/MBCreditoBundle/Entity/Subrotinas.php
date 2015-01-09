@@ -20,6 +20,13 @@ class Subrotinas
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idSubrotina;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="codigo_subrotina", type="integer", nullable=false)
+     */
+    private $codigoSubrotina;
 
     /**
      * @var string
@@ -95,4 +102,24 @@ class Subrotinas
     {
         return $this->statusStatus;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getCodigoSubrotina() 
+    {
+        return $this->codigoSubrotina;
+    }
+    
+    /**
+     * 
+     * @param type $codigoSubrotina
+     */
+    public function setCodigoSubrotina($codigoSubrotina)
+    {
+        $this->codigoSubrotina = $codigoSubrotina;
+    }
+
+
 }
