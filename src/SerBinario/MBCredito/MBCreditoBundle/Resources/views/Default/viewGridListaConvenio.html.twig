@@ -1,0 +1,184 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <style type="text/css" class="init">
+        td.details-control {
+            background: url({{asset("imagens/icone-produto-plus.png")}}) no-repeat center center;
+            cursor: pointer;
+        }
+        tr.details td.details-control {
+            background: url({{asset("imagens/icone-produto-minus.png")}}) no-repeat center center;
+        }
+
+        a.editar {
+            background: url({{asset("imagens/icone-editar.png")}}) no-repeat 0 0;
+            width: 22px;
+        }
+
+        a.visualizar {
+            background: url({{asset("imagens/icone-visualizar.png")}}) no-repeat 0 0;
+            width: 23px;
+        }
+
+        a.excluir {
+            background: url({{asset("imagens/icone-excluir.png")}}) no-repeat 0 0;
+            width: 21px;
+        }
+
+        td.bt {
+            padding: 10px 0;
+            width: 126px;
+        }
+
+        td.bt a {
+            float: left;
+            height: 22px;
+            margin: 0 10px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body %}
+    {{parent()}}
+    <div class="container">
+        {% for label, flashes in app.session.flashbag.all %}
+            {% for flash in flashes %}
+                <div class="alert alert-{{ label }}">
+                    {{ flash }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <div class="row clearfix">
+            <fieldset>
+                <legend>Visualizar Dados dos Clientes</legend>
+                <div class="col-md-12 column">
+                    <section>
+                        <table id="example" class="display" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>                                    
+                                    <th>Número Convênio</th>
+                                    <th>Nome Convênio</th>                            
+                                    <th>Acão</th>
+                                </tr>
+                            </thead>
+
+                            <tfoot>
+                                <tr>                                    
+                                    <th>Número Convênio</th>
+                                    <th>Nome Convênio</th>                            
+                                    <th>Acão</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </section>
+                </div>
+            </fieldset>                      
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript" language="javascript" class="init">
+        function format(d) {
+            
+        }
+
+        $(document).ready(function ()
+        {
+            var dt = $('#example').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "bFilter": true, //Ativa o Search global
+                "ajax": {
+                    "url": "{{ path('viewGridListaConvenio') }}",
+                    "type": "POST"
+                },
+                "columns": [
+                    {"data": "numConvenio"},
+                    {"data": "nomeConvenio"},
+                    {
+                        "class": "bt",
+                        "orderable": false,
+                        "data": null,
+                        "render": function (data, type, row, full, meta) {
+                            return '<a href="viewUpdateConvenio/id/'+data.id +'" class="editar" title="Editar">'
+                        }
+                    },
+                ],
+                "order": [[0, 'asc']],
+                language: {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+
+            // Array to track the ids of the details displayed rows
+            var detailRows = [];
+
+            $('#example tbody').on('click', 'tr td:first-child', function () {
+                var tr = $(this).closest('tr');
+                var row = dt.row(tr);
+                var idx = $.inArray(tr.attr('id'), detailRows);
+
+                if (row.child.isShown()) {
+                    tr.removeClass('details');
+                    row.child.hide();
+
+                    // Remove from the 'open' array
+                    detailRows.splice(idx, 1);
+                }
+
+                else {
+                    tr.addClass('details');
+                    row.child(format(row.data())).show();
+
+                    // Add to the 'open' array
+                    if (idx === -1) {
+                        detailRows.push(tr.attr('id'));
+                    }
+                }
+            });
+            
+            // On each draw, loop over the `detailRows` array and show any child rows
+            dt.on('draw', function () {
+                $.each(detailRows, function (i, id) {
+                    $('#' + id + ' td:first-child').trigger('click');
+                });
+            });
+
+            // Apply the search -- EUUUUUUUUUUUUUUUUUUUUUUUUU
+            dt.columns().eq(0).each(function (colIdx) {
+                $('input', dt.column(colIdx).footer()).on('keyup change', function () {
+                    dt
+                            .column(colIdx)
+                            .search(this.value)
+                            .draw();
+                });
+            });
+
+        });
+    </script>
+{% endblock %}
+

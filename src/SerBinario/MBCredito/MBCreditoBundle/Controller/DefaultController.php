@@ -14,6 +14,11 @@ use SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\DocumentoDAO;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\ClienteDAO;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\ConsultaClienteDAO;
+use SerBinario\MBCredito\UserBundle\DAO\RoleDAO;
+use SerBinario\MBCredito\UserBundle\DAO\UserDAO;
+use SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioDAO;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio;
+use Respect\Validation\Validator as v;
 
 /**
  *  
@@ -81,7 +86,19 @@ class DefaultController extends Controller
                     $sexo    = $sexoDAO->findNomeExtenso($columns[0]);
                     
                     $cliente->setSexosSexo($sexo[0]);
-                    $cliente->setMciEmpCliente($columns[1]);
+                    
+                    $convenioDAO = new ConvenioDAO($this->getDoctrine()->getManager());
+                    $resultMCI   = $convenioDAO->finByNumConvenio($columns[1]);
+                    
+                    if($resultMCI) {
+                        $cliente->setConvenio($resultMCI[0]);
+                    } else {
+                        $convenio = new Convenio();
+                        $convenio->setMciEmpCliente($columns[1]);
+                        $convenio->setNomeConvenio($columns[1]);
+                        $cliente->setConvenio($convenio);
+                    }
+                   
                     $cliente->setLimiteCreditoCliente($columns[2]);
                     
                     $superEstadual    = null;
@@ -192,7 +209,6 @@ class DefaultController extends Controller
         if(GridClass::isAjax()) {
             
             $columns = array("a.nomeCliente",
-                "a.mciEmpCliente",
                 "a.cpfCliente",
                 "a.dddFoneResidCliente",
                 "a.foneResidCliente",
@@ -234,7 +250,7 @@ class DefaultController extends Controller
             {
                 $eventosArray[$i]['DT_RowId']       =  "row_".$resultCliente[$i]->getIdCliente();
                 $eventosArray[$i]['nome']           =  $resultCliente[$i]->getNomeCliente();
-                $eventosArray[$i]['mci']            =  $resultCliente[$i]->getMciEmpCliente();
+                $eventosArray[$i]['mci']            =  is_null($resultCliente[$i]->getConvenio()) ? null : $resultCliente[$i]->getConvenio()->getMciEmpCliente();
                 
                 $cpf                                = $resultCliente[$i]->getCpfCliente();
                 $cpfLen                             = strlen($cpf);
@@ -402,7 +418,7 @@ class DefaultController extends Controller
             }
             
             //Se a variável $sqlFilter estiver vazio
-            if(!$gridClass->isFilter()){
+            if(!$gridClass->isFilter()) {
                 $countEventos = $countTotal;
             }
 
@@ -657,11 +673,9 @@ class DefaultController extends Controller
                 $result = $consultaClienteDAO->update($cliente[0]);
                 
                 if($result) {
-                     $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");
-                     echo "sucesso";
+                     $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
                 } else {
-                    $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");
-                     echo "falha";
+                    $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");                     
                 }
                 
             } else {
@@ -683,6 +697,11 @@ class DefaultController extends Controller
     {
         #Recupera o usuário da sessão
         $usuario      = $this->get("security.context")->getToken()->getUser();
+        $convenioPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioPaDAO($this->getDoctrine()->getManager());
+        $objConvenioPA = $convenioPaDAO->findByUser($usuario);
+        
+        $objConvenio   = $objConvenioPA->getConvenio();
+        
         #Cria o DAO de Clientes
         $clienteDAO   = new ClienteDAO($this->getDoctrine()->getManager());
         $cliente      = null;
@@ -703,7 +722,7 @@ class DefaultController extends Controller
             //$obsCosulta = $chamada-> 
         } else {
             #Recupera um cliente que já foi consultado e não está sendo atendido por nenhum callcenter
-            $cliente      = $clienteDAO->findNotUse();
+            $cliente      = $clienteDAO->findNotUse($objConvenio->getId());
             
             #Verifica se existe cliente.
             if($cliente) {
@@ -735,7 +754,7 @@ class DefaultController extends Controller
         return array("cliente" => $cliente, "status" => $status, "calls" => $calls);
     }
     
-     /**
+    /**
      * @Route("/getSubrotinas", name="getSubrotinas")
      * @Method({"POST"})
      */
@@ -752,4 +771,296 @@ class DefaultController extends Controller
         
         return new JsonResponse($result);
     }
+    
+    /**
+     * @Route("/viewSaveUser", name="viewSaveUser")
+     * @Template("")
+     * @Method({"GET"})
+     */
+    public function viewSaveUserAction()
+    {
+        $roleDAO  = new RoleDAO($this->getDoctrine()->getManager());
+        $arrayObj = $roleDAO->getRoles();
+        
+        return array("roles" => $arrayObj);
+    }
+    
+    /**
+     * @Route("/saveUser", name="saveUser")
+     * @Method({"POST"})
+     */
+    public function saveUserAction(Request $request)
+    {
+        $dados = $request->request->all();
+        
+        $username = $dados['username'];
+        $senha    = $dados['senha'];
+        $email    = $dados['email'];
+        $roleId   = $dados['perfil'];
+               
+        $user = new \SerBinario\MBCredito\UserBundle\Entity\User();
+        $user->setUsername($username);
+        $user->setEmail($email);
+        $user->setIsActive(true);
+        
+        $factory = $this->get('security.encoder_factory');
+        
+        $encoder = $factory->getEncoder($user);
+        $password = $encoder->encodePassword($senha, $user->getSalt());
+        $user->setPassword($password);              
+        
+        $roleDAO  = new RoleDAO($this->getDoctrine()->getManager());        
+        $role     = $roleDAO->getRole($roleId);
+        
+        $user->addRole($role);
+        
+        $userDAO = new UserDAO($this->getDoctrine()->getManager());
+        $result  = $userDAO->save($user);
+        
+        if($result) {
+            $this->get("session")->getFlashBag()->add('success', "Usuário cadastrado com sucesso!"); 
+        } else {             
+            $this->get("session")->getFlashBag()->add('danger', "Erro ao cadastrar o usuário"); 
+        }        
+        
+        return $this->redirect($this->generateUrl("viewSaveUser"));
+    }
+    
+    /**
+     * @Route("/viewGridListaPa", name="viewGridListaPa")
+     * @Template()
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function viewGridListaPaAction(Request $request)
+    {   
+        if(GridClass::isAjax()) {
+            
+            $columns = array(  
+                    "a.username",
+                    "a.email"
+                );
+
+            $entityJOIN = array(); 
+
+            $userArray        = array();
+            $boolPa           = false;
+            $countBoolPa      = 0;
+            $count            = 0;
+            $parametros       = $request->request->all();        
+            $entity           = "SerBinario\MBCredito\UserBundle\Entity\User"; 
+            $columnWhereMain  = "";
+            $whereValueMain   = "";
+            
+            $gridClass = new GridClass($this->getDoctrine()->getManager(), 
+                    $parametros,
+                    $columns,
+                    $entity,
+                    $entityJOIN,           
+                    $columnWhereMain,
+                    $whereValueMain);
+
+            $resultUser     = $gridClass->builderQuery();    
+            $countTotal     = $gridClass->getCount();
+            $countUser      = count($resultUser);
+            
+            for($i=0;$i < $countUser; $i++)
+            {
+                $roles  = $resultUser[$i]->getRoles();
+       
+                foreach($roles as $role) {
+                   if($role->getRole() === "ROLE_PA") {
+                       $boolPa = true;
+                   }
+                }
+                
+                if($boolPa) {
+                    $userArray[$count]['DT_RowId']       =  "row_".$resultUser[$i]->getId();
+                    $userArray[$i]['id']                 =  $resultUser[$i]->getId();
+                    $userArray[$count]['nome']           =  $resultUser[$i]->getUsername();
+                    $userArray[$count]['email']          =  $resultUser[$i]->getEmail();  
+                    
+                    $convenioPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioPaDAO($this->getDoctrine()->getManager());
+                    $objConvenioPA = $convenioPaDAO->findByUserLast($resultUser[$i]);                     
+                    $nomeConvenio = "Nenhum convênio anterior";
+                   
+                    if($objConvenioPA) {
+                        $nomeConvenio  = $objConvenioPA->getConvenio()->getNomeConvenio();
+                    }
+                    
+                    $userArray[$count]['nomeConvenio']   =  $nomeConvenio;
+                                        
+                    $count++;
+                    $boolPa = false;
+                } else {
+                    $countBoolPa += 1;
+                }                
+                      
+            }
+            
+            $countTotal -= $countBoolPa;
+            
+            //Se a variável $sqlFilter estiver vazio
+            if(!$gridClass->isFilter()) {
+                $countUser = $countTotal;
+            } else {
+                $countUser -= $countBoolPa;
+            }
+            
+            $columns = array(               
+                'draw'              => $parametros['draw'],
+                'recordsTotal'      => "{$countTotal}",
+                'recordsFiltered'   => "{$countUser}",
+                'data'              => $userArray               
+            );
+
+            return new JsonResponse($columns);
+        }else{  
+            $convenioDAO = new ConvenioDAO($this->getDoctrine()->getManager());
+            $convenios   = $convenioDAO->findAll();
+            
+            return array("convenios" => $convenios);            
+        }
+    }
+    
+    /**
+     * @Route("/saveConvenioPa", name="saveConvenioPa")
+     */
+    public function saveConvenioPaAction(Request $request) 
+    {
+        #Recuperando dados da requisição
+        $dados = $request->request->all();
+        
+        $numConvenio = $dados['selectConvenio'];
+        $idPA        = $dados['idPa'];
+        
+        #Recuperando o usuário
+        $usuarioDAO = new UserDAO($this->getDoctrine()->getManager());
+        $usuario    = $usuarioDAO->findById($idPA);       
+                        
+        $convenioDAO = new ConvenioDAO($this->getDoctrine()->getManager());
+        $convenio = $convenioDAO->finByNumConvenio($numConvenio);
+        
+        $convenioPA = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ConvenioPA();
+        $convenioPA->setUser($usuario);
+        $convenioPA->setData(new \DateTime("now"));
+        $convenioPA->setConvenio($convenio[0]);
+        
+        $convenioPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioPaDAO($this->getDoctrine()->getManager());
+        $result     = $convenioPaDAO->save($convenioPA);
+        
+        if($result) {
+             $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
+        } else {
+            $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");                     
+        }
+        
+        return $this->redirect($this->generateUrl("viewGridListaPa"));
+        
+    }
+    
+    /**
+     * @Route("/viewGridListaConvenio", name="viewGridListaConvenio")
+     * @Template()
+     */
+    public function viewGridListaConvenioAction(Request $request)
+    {
+         if(GridClass::isAjax()) {
+            
+            $columns = array(  
+                    "a.mciEmpCliente",
+                    "a.nomeConvenio"
+                );
+
+            $entityJOIN = array(); 
+
+            $convenioArray    = array();
+            $parametros       = $request->request->all();        
+            $entity           = "SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio"; 
+            $columnWhereMain  = "";
+            $whereValueMain   = "";
+            
+            $gridClass = new GridClass($this->getDoctrine()->getManager(), 
+                    $parametros,
+                    $columns,
+                    $entity,
+                    $entityJOIN,           
+                    $columnWhereMain,
+                    $whereValueMain);
+
+            $resultConvenio     = $gridClass->builderQuery();    
+            $countTotal         = $gridClass->getCount();
+            $countConvenio      = count($resultConvenio);
+            
+            for($i=0;$i < $countConvenio; $i++)
+            {
+                $convenioArray[$i]['DT_RowId']       =  "row_".$resultConvenio[$i]->getId();
+                $convenioArray[$i]['id']             =  $resultConvenio[$i]->getId();
+                $convenioArray[$i]['numConvenio']    =  $resultConvenio[$i]->getMciEmpCliente();
+                $convenioArray[$i]['nomeConvenio']   =  $resultConvenio[$i]->getNomeConvenio();              
+                      
+            }
+                        
+            //Se a variável $sqlFilter estiver vazio
+            if(!$gridClass->isFilter()) {
+                $countConvenio = $countTotal;
+            } 
+            
+            $columns = array(               
+                'draw'              => $parametros['draw'],
+                'recordsTotal'      => "{$countTotal}",
+                'recordsFiltered'   => "{$countConvenio}",
+                'data'              => $convenioArray               
+            );
+
+            return new JsonResponse($columns);
+        }else {            
+            return array();            
+        }
+    }
+    
+    /**
+     * @Route("/viewUpdateConvenio/id/{id}", name="viewUpdateConvenio")
+     * @Template()
+     */
+    public function viewUpdateConvenioAction($id)
+    {   
+        $convenioDAO = new ConvenioDAO($this->getDoctrine()->getManager());
+        $convenio = $convenioDAO->findById($id);
+        
+        return array("convenio" => $convenio);
+    } 
+    
+    /**
+     * @Route("/updateConvenio", name="updateConvenio")
+     */
+    public function updateConvenioAction(Request $request)
+    {   
+        #Dados da requisição
+        $dados = $request->request->all();
+        
+        #recuperado os parametros
+        $numConvenio  = $dados['numConvenio'];
+        $nomeConvenio = $dados['nomeConvenio'];
+        
+        #Instânciando o DAO e recuperando o Convenio corrente
+        $convenioDAO = new ConvenioDAO($this->getDoctrine()->getManager());
+        $convenio = $convenioDAO->finByNumConvenio($numConvenio);
+        
+        #Alterando o nome do convênio
+        $convenio[0]->setNomeConvenio($nomeConvenio);
+        
+        #atualizando o convenio
+        $result = $convenioDAO->update($convenio[0]);
+        
+        if($result) {
+             $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
+        } else {
+            $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");                     
+        }
+        
+        return $this->redirect($this->generateUrl("viewGridListaConvenio"));
+    }    
+ 
  }

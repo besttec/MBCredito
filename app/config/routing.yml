@@ -1,3 +1,10 @@
+root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /mbcredito
+        permanent: true
+        
 user:
     resource: "@UserBundle/Controller/"
     type:     annotation

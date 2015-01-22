@@ -67,7 +67,7 @@ class ChamadaCliente
     private $statusStatus;
 
     /**
-     * @var \Callcenter
+     * @var \User
      *
      * @ORM\ManyToOne(targetEntity="SerBinario\MBCredito\UserBundle\Entity\User")
      * @ORM\JoinColumns({

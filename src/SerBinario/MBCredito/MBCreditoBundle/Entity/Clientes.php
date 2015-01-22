@@ -1,10 +1,10 @@
 <?php
-
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio;
 
 /**
  * Clientes
@@ -28,14 +28,7 @@ class Clientes
      *
      * @ORM\Column(name="nome_cliente", type="string", length=50, nullable=false)
      */
-    private $nomeCliente;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="mci_emp_cliente", type="string", length=10, nullable=true)
-     */
-    private $mciEmpCliente;
+    private $nomeCliente;    
 
     /**
      * @var string
@@ -218,6 +211,16 @@ class Clientes
     private $sexosSexo;
     
     /**
+     * @var Convenio
+     *
+     * @ORM\ManyToOne(targetEntity="Convenio", cascade={"persist"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="convenio_id", referencedColumnName="id")
+     * })
+     */
+    private $convenio;
+    
+    /**
      * @ORM\OneToMany(targetEntity="ConsultaCliente", mappedBy="clientesCliente")
      **/
     private $consultas;
@@ -268,29 +271,6 @@ class Clientes
     public function getNomeCliente()
     {
         return $this->nomeCliente;
-    }
-
-    /**
-     * Set mciEmpCliente
-     *
-     * @param string $mciEmpCliente
-     * @return Clientes
-     */
-    public function setMciEmpCliente($mciEmpCliente)
-    {
-        $this->mciEmpCliente = $mciEmpCliente;
-
-        return $this;
-    }
-
-    /**
-     * Get mciEmpCliente
-     *
-     * @return string 
-     */
-    public function getMciEmpCliente()
-    {
-        return $this->mciEmpCliente;
     }
 
     /**
@@ -861,7 +841,8 @@ class Clientes
      * 
      * @return type
      */
-    function getStatusLigacao() {
+    public function getStatusLigacao() 
+    {
         return $this->statusLigacao;
     }
     
@@ -869,11 +850,28 @@ class Clientes
      * 
      * @param type $statusLigacao
      */
-    function setStatusLigacao($statusLigacao) {
+    public function setStatusLigacao($statusLigacao) 
+    {
         $this->statusLigacao = $statusLigacao;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getConvenio() 
+    {
+        return $this->convenio;
+    }
 
+    /**
+     * 
+     * @param Convenio $convenio
+     */
+    public function setConvenio(Convenio $convenio) 
+    {
+        $this->convenio = $convenio;
+    }
 
-
-        
+   
 }

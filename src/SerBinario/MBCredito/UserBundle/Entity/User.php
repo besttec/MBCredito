@@ -246,5 +246,16 @@ class User implements AdvancedUserInterface, \Serializable
     {
         return $this->isActive;
     }
-
+    
+    /**
+     * 
+     * @param \SerBinario\MBCredito\UserBundle\Entity\Role $role
+     * @return \SerBinario\MBCredito\UserBundle\Entity\User
+     */
+    public function addRole(Role $role)
+    {       
+        $this->roles[] = $role;
+        
+        return $this;
+    }
 }

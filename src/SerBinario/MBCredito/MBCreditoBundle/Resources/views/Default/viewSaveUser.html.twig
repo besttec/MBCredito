@@ -1,0 +1,52 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    {{ parent() }}
+
+    <div class="container">
+        <div class="row clearfix">
+            <fieldset>
+                <div class="container-fluid">
+                    <fieldset>
+                        <legend>Cadastro de usuário</legend>
+                        {% for label, flashes in app.session.flashbag.all %}
+                            {% for flash in flashes %}
+                                <div class="alert alert-{{ label }}">
+                                    {{ flash }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        <div class="col-md-6 column">
+                            <form role="form" method="POST" action="{{ path('saveUser') }}">
+                                <div class="form-group col-lg-5">
+                                    <label for="username">Nome</label>
+                                    <input type="text" class="form-control" name="username" id="username" />
+                                </div>
+                                <div class="form-group col-lg-5">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" name="email" id="email" />
+                                </div>
+                                <div class="form-group col-lg-5">
+                                    <label for="senha">Senha</label>
+                                    <input type="password" class="form-control" name="senha" id="senha" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <select name="perfil">
+                                        <option>Selecione um perfil</option>
+                                        {% for role in roles %}
+                                            <option value="{{ role.id }}">{{ role.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group col-lg-6">
+                                    <button type="submit" id="salvar" class="btn btn-primary">Salvar</button>
+                                </div>
+                            </form>
+                        </div>                        
+                    </fieldset>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+{% endblock %}

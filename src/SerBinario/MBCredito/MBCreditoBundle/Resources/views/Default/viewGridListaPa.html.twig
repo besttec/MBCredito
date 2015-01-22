@@ -1,0 +1,230 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <style type="text/css" class="init">
+        td.details-control {
+            background: url({{asset("imagens/icone-produto-plus.png")}}) no-repeat center center;
+            cursor: pointer;
+        }
+        tr.details td.details-control {
+            background: url({{asset("imagens/icone-produto-minus.png")}}) no-repeat center center;
+        }
+
+        a.editar {
+            background: url({{asset("imagens/icone-editar.png")}}) no-repeat 0 0;
+            width: 22px;
+        }
+
+        a.visualizar {
+            background: url({{asset("imagens/icone-visualizar.png")}}) no-repeat 0 0;
+            width: 23px;
+        }
+
+        a.excluir {
+            background: url({{asset("imagens/icone-excluir.png")}}) no-repeat 0 0;
+            width: 21px;
+        }
+
+        td.bt {
+            padding: 10px 0;
+            width: 126px;
+        }
+
+        td.bt a {
+            float: left;
+            height: 22px;
+            margin: 0 10px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body %}
+    {{parent()}}
+    <div class="container">
+        {% for label, flashes in app.session.flashbag.all %}
+            {% for flash in flashes %}
+                <div class="alert alert-{{ label }}">
+                    {{ flash }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <div class="row clearfix">
+            <fieldset>
+                <legend>Visualizar Dados dos Clientes</legend>
+                <div class="col-md-12 column">
+                    <section>
+                        <table id="example" class="display" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>                                    
+                                    <th>Nome</th>
+                                    <th>Email</th>  
+                                    <th>Último convênio</th>
+                                    <th>Acão</th>
+                                </tr>
+                            </thead>
+
+                            <tfoot>
+                                <tr>                                    
+                                    <th>Nome</th>
+                                    <th>Email</th>  
+                                    <th>Último convênio</th>
+                                    <th>Acão</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </section>
+                </div>
+            </fieldset>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Delegação de convênio e estado</h4>
+                        </div>
+                        <form role="form" method="post" action="{{ path('saveConvenioPa') }}">
+                            <input type="hidden" id="idPa" name="idPa" value="" />
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="selectConvenio">Convênio</label>
+                                    <select class="form-control" name="selectConvenio">
+                                        <option>Selecione um convênio</option>
+                                        {% for convenio in convenios %}
+                                            <option value="{{ convenio.mciEmpCliente }}">{{ convenio.nomeConvenio }}</option>
+                                        {%endfor%}
+                                    </select>
+                                </div>                                
+                                <div class="modal-footer">
+                                    <input type="submit" class="btn btn-primary" value="Salvar" />
+                                    <input type="reset" class="btn btn-default" value="Limpar" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+                            
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript" language="javascript" class="init">
+        function format(d) {
+            
+        }
+
+        $(document).ready(function ()
+        {
+            var dt = $('#example').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "bFilter": true, //Ativa o Search global
+                "ajax": {
+                    "url": "{{ path('viewGridListaPa') }}",
+                    "type": "POST"
+                },
+                "columns": [
+                    {"data": "nome"},
+                    {"data": "email"},
+                    {"data": "nomeConvenio"},
+                    {
+                        "class": "bt",
+                        "orderable": false,
+                        "data": null,
+                        "render": function (data, type, row, full, meta) {
+                            return '<a href="" class="editar" title="Editar" data-toggle="modal" data-target="#myModal">'
+                        }
+                    },
+                ],
+                "order": [[0, 'asc']],
+                language: {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+
+            // Array to track the ids of the details displayed rows
+            var detailRows = [];
+
+            $('#example tbody').on('click', 'tr td:first-child', function () {
+                var tr = $(this).closest('tr');
+                var row = dt.row(tr);
+                var idx = $.inArray(tr.attr('id'), detailRows);
+
+                if (row.child.isShown()) {
+                    tr.removeClass('details');
+                    row.child.hide();
+
+                    // Remove from the 'open' array
+                    detailRows.splice(idx, 1);
+                }
+
+                else {
+                    tr.addClass('details');
+                    row.child(format(row.data())).show();
+
+                    // Add to the 'open' array
+                    if (idx === -1) {
+                        detailRows.push(tr.attr('id'));
+                    }
+                }
+            });
+            
+            // On each draw, loop over the `detailRows` array and show any child rows
+            dt.on('draw', function () {
+                $.each(detailRows, function (i, id) {
+                    $('#' + id + ' td:first-child').trigger('click');
+                });
+            });
+
+            // Apply the search -- EUUUUUUUUUUUUUUUUUUUUUUUUU
+            dt.columns().eq(0).each(function (colIdx) {
+                $('input', dt.column(colIdx).footer()).on('keyup change', function () {
+                    dt
+                            .column(colIdx)
+                            .search(this.value)
+                            .draw();
+                });
+            });
+            
+            $(document).on("click", "a.editar", function() {
+                var trClicked = $(this).parent();
+
+                var tr = $(trClicked).closest('tr');
+                var row = dt.row(tr);
+                var d = row.data();
+                
+                var id = d.id;
+                
+                $("#idPa").attr("value", id);
+            });
+
+        });
+    </script>
+{% endblock %}
+
