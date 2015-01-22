@@ -76,7 +76,8 @@
                 <div class="col-md-6 column" style="background-color: #F6F6F6; border-radius: 5px; padding: 10px;">
                     {% for label, flashes in app.session.flashbag.all %}
                         {% for flash in flashes %}
-                            <div class="alert alert-{{ label }}">
+                            <div class="alert alert-dismissable alert-{{ label }}">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
                                 {{ flash }}
                             </div>
                         {% endfor %}
@@ -391,22 +392,19 @@
                 success: function (data) {
                     $("#load").hide();
 
-                    var resposta = $(data['result']).find("ul li.erro");
+                    var resposta    = $(data['result']).find("ul li.erro");
 
-                    var resposta2 = $(data['result']).closest("h3");
+                    var resposta2   = $(data['result']).closest("h3");
 
                     if (resposta.text()) {
 
                         alert(resposta.text());
                         $('#salvar').attr("disabled", true);
-                        //$('#erro').val("1");
-                        //$('#msgerro').val(resposta.text());
-                        //var numBen = $('#numBeneficio').val();
-                        //var nome = $('#nome').val();
 
                         $('#codBenefi').val(numBen);
                         $('#nomeSegurado').val(nome);
                     } else if (resposta2.text()) {
+                        
                         alert(resposta2.text());
                         $('#salvar').attr("disabled", false);
                         $('#erro').val("1");
@@ -416,20 +414,21 @@
 
                         $('#codBenefi').val(numBen);
                         $('#nomeSegurado').val(nome);
+                        
                     }
                     else {
                         //pega a página de retorno e atribui a uma div oculta
                         $('#result').html(data['result']);
 
 
-        {#var countTabela = $("table.tabeld-com-borda").length;
-        var Table = "";
-        for (var i = 0; i < countTabela; i++) {
-            Table += "<table class='tabela-com-borda' border='1' cellpadding='3'>";
-            Table += $("table.tabela-com-borda:eq(" + i + ")").html();
-            Table += "</table>";
-        }
-        $('#tabela').html(Table);#}
+                            {#var countTabela = $("table.tabeld-com-borda").length;
+                            var Table = "";
+                            for (var i = 0; i < countTabela; i++) {
+                                Table += "<table class='tabela-com-borda' border='1' cellpadding='3'>";
+                                Table += $("table.tabela-com-borda:eq(" + i + ")").html();
+                                Table += "</table>";
+                            }
+                            $('#tabela').html(Table);#}
 
                             $('#codBenefi').val($('tr.grande:first td:eq(0)').text());
                             $('#nomeSegurado').val($('tr.grande:first td:eq(1)').text());
@@ -451,8 +450,8 @@
                                 for (var i = 0; i < countTR; i++) {
 
                                     //pega os valores e nome de cada emprestimo
-                                    var nome = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(0)").text();
-                                    var valor = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(1)").text();
+                                    var nome    = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(0)").text();
+                                    var valor   = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(1)").text();
 
                                     if (nome && valor) {
                                         debitos += "<li class='list-group-item'>" + nome + "\
@@ -468,10 +467,10 @@
 
                             //Lista os débitos
                             $('#listaDebitos').html(debitos);
-
-                            var valorBruto = $('tr.grande:last td:eq(0)').text();
-                            var valorDesconto = $('tr.grande:last td:eq(1)').text();
-                            var valorLiquido = $('tr.grande:last td:eq(2)').text();
+                            
+                            var valorBruto      = $('tr.grande:last td:eq(0)').text();
+                            var valorDesconto   = $('tr.grande:last td:eq(1)').text();
+                            var valorLiquido    = $('tr.grande:last td:eq(2)').text();
 
                             $('#vBruto').val(valorBruto);
                             $('#vDesconto').val(valorDesconto);

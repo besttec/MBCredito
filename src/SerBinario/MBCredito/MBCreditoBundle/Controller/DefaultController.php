@@ -401,10 +401,12 @@ class DefaultController extends Controller
                 $emprestimos = array();
                 
                 foreach ($resultCliente[$i]->getEmprestimos() as $index => $emprestimo) {
+                    
                    $emprestimos[$index]['nome']  =  $emprestimo->getEmprestimo();
                    $emprestimos[$index]['valor']    =  $emprestimo->getValor();
                    $emprestimos[$index]['id']    =  $emprestimo->getIdEmprestimo();
                    $emprestimos[$index]['status']    =  $emprestimo->getStatusBBEmprestimo();
+                   
                 }
                 
                 $eventosArray[$i]['emprestimos']    =  $emprestimos;
@@ -415,6 +417,7 @@ class DefaultController extends Controller
                 $eventosArray[$i]['statusErro']     =  $resultCliente[$i]->getClientesCliente()->getStatusErro();
                 $eventosArray[$i]['ag']             =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getCcAg();
                 $eventosArray[$i]['prefixo_ag']     =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
+                $eventosArray[$i]['statusLigacao']     =  $resultCliente[$i]->getClientesCliente()->getStatusLigacao();
             }
             
             //Se a variável $sqlFilter estiver vazio

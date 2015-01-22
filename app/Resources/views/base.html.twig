@@ -32,9 +32,15 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Opções <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{path('importarArquivo')}}">Importar Arquivo</a></li>
-                                    <li><a href="{{path('inserirDados')}}">Consulta DataPrev</a></li>
-                                    <li><a href="{{path('viewGridDados')}}">Visualizar Dados</a></li>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li><a href="{{path('importarArquivo')}}">Importar Arquivo</a></li>
+                                    {% endif %}
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li><a href="{{path('inserirDados')}}">Consulta DataPrev</a></li>
+                                    {% endif %}
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li><a href="{{path('viewGridDados')}}">Visualizar Dados</a></li>
+                                    {% endif %}
                                     <li><a href="{{path('viewDiscagem')}}">Tela Discagem</a></li>
                                 </ul>                                
                             </li>
