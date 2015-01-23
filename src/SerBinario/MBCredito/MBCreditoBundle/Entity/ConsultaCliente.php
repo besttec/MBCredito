@@ -141,6 +141,27 @@ class ConsultaCliente
      * @ORM\Column(name="obs_cliente", type="string", length=255, nullable=true)
      */
     private $obsCliente;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="margem_cliente", type="string", length=100, nullable=true)
+     */
+    private $margemCliente;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="valor_disponivel_cliente", type="string", length=100, nullable=true)
+     */
+    private $valorDisponivelCliente;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo_credito_cliente", type="string", length=1, nullable=true)
+     */
+    private $tipoCreditoCliente;
 
     /**
      * @var \Clientes
@@ -617,12 +638,69 @@ class ConsultaCliente
         $this->emprestimos->removeElement($emprestimos);
     }
     
+    /**
+     * 
+     * @return type
+     */
     function getId() {
         return $this->id;
     }
-
+    
+    /**
+     * 
+     * @param type $id
+     */
     function setId($id) {
         $this->id = $id;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getMargemCliente() {
+        return $this->margemCliente;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getValorDisponivelCliente() {
+        return $this->valorDisponivelCliente;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getTipoCreditoCliente() {
+        return $this->tipoCreditoCliente;
+    }
+    
+    /**
+     * 
+     * @param type $margemCliente
+     */
+    function setMargemCliente($margemCliente) {
+        $this->margemCliente = $margemCliente;
+    }
+    
+    /**
+     * 
+     * @param type $valorDisponivelCliente
+     */
+    function setValorDisponivelCliente($valorDisponivelCliente) {
+        $this->valorDisponivelCliente = $valorDisponivelCliente;
+    }
+    
+    /**
+     * 
+     * @param type $tipoCreditoCliente
+     * 
+     */
+    function setTipoCreditoCliente($tipoCreditoCliente) {
+        $this->tipoCreditoCliente = $tipoCreditoCliente;
     }
 
 

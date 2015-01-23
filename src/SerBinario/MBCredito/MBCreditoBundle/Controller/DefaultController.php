@@ -325,6 +325,9 @@ class DefaultController extends Controller
                 "a.agencia",
                 "a.codigoAgencia",
                 "a.enderecoBanco",
+                "a.margemCliente",
+                "a.valorDisponivelCliente",
+                "a.tipoCreditoCliente",
                 "b.dataNascCliente",
                 "b.codCliente",
                 "b.agAg"        
@@ -388,6 +391,10 @@ class DefaultController extends Controller
                 $eventosArray[$i]['codigoAgencia']          =  $resultCliente[$i]->getCodigoAgencia();
                 $eventosArray[$i]['enderecoBanco']          =  $resultCliente[$i]->getEnderecoBanco();
                 $eventosArray[$i]['obsCliente']             =  $resultCliente[$i]->getObsCliente();
+                $eventosArray[$i]['margem']                 =  $resultCliente[$i]->getMargemCliente();
+                $eventosArray[$i]['vDisponivel']            =  $resultCliente[$i]->getValorDisponivelCliente();
+                $eventosArray[$i]['tipoCredito']            =  $resultCliente[$i]->getTipoCreditoCliente();
+
                 
                 $numBeneficio                       = $resultCliente[$i]->getClientesCliente()->getNumBeneficioCliente();
                 $dvCliente                          = $resultCliente[$i]->getClientesCliente()->getDvCliente();
@@ -625,6 +632,9 @@ class DefaultController extends Controller
         
         $obs          = trim($req['obs']);
         $id           = trim($req['idCliente']);
+        $margem       = trim($req['margem']);
+        $vDisponivel  = trim($req['vDisponivel']);
+        $tCredito     = "";
         
         if(isset($req['emprestimo'])) {
             $emprestimos  = $req['emprestimo'];
@@ -638,10 +648,18 @@ class DefaultController extends Controller
             $statusAtivo = null;
         }
         
+        if(isset($req['tCreditoR'])) {
+            $tCredito  = $req['tCreditoR'];
+        } 
+        
+        if(isset($req['tCreditoN'])) {
+            $tCredito  = $req['tCreditoN'];
+        } 
+        
         $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
         $emprestimoDAO      = new \SerBinario\MBCredito\MBCreditoBundle\DAO\EmprestimoDAO($this->getDoctrine()->getManager());
         
-        if($obs || $emprestimos || $statusAtivo){
+        if($obs || $emprestimos || $statusAtivo || $margem || $vDisponivel || $tCredito){
             
             //Primeito o cliente é consultado
             $cliente = $consultaClienteDAO->findConsultaCliente($id);
@@ -656,6 +674,12 @@ class DefaultController extends Controller
                 }
                 //Seta o valor do campo observação para o cliente
                 $cliente[0]->setObsCliente($obs);
+                //
+                $cliente[0]->setMargemCliente($margem);
+                //
+                $cliente[0]->setValorDisponivelCliente($vDisponivel);
+                //
+                $cliente[0]->setTipoCreditoCliente($tCredito);
                 //Conta quantos emprestimos o cliete possue
                 $countEmp = count($emprestimos);
                 
@@ -850,6 +874,22 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/viewEditUser/id/{id}", name="viewEditUser")
+     * @Template("")
+     * @Method({"GET"})
+     */
+    public function viewEditUserAction($id)
+    {
+        $roleDAO  = new RoleDAO($this->getDoctrine()->getManager());
+        $arrayObj = $roleDAO->getRoles();
+        
+        $userDAO  = new UserDAO($this->getDoctrine()->getManager());
+        $user     = $userDAO->findById($id);
+        
+        return array("roles" => $arrayObj, "user" => $user);
+    }
+    
+    /**
      * @Route("/saveUser", name="saveUser")
      * @Method({"POST"})
      */
@@ -887,7 +927,120 @@ class DefaultController extends Controller
             $this->get("session")->getFlashBag()->add('danger', "Erro ao cadastrar o usuário"); 
         }        
         
-        return $this->redirect($this->generateUrl("viewSaveUser"));
+        return $this->redirect($this->generateUrl("viewGridListaUser"));
+    }
+    
+    /**
+     * @Route("/editUser", name="editUser")
+     * @Method({"POST"})
+     */
+    public function editUserAction(Request $request)
+    {
+        $dados = $request->request->all();
+        
+        $username = $dados['username'];
+        $senha    = $dados['senha'];
+        $email    = $dados['email'];
+        $roleId   = $dados['perfil'];
+        $idUser   = $dados['userid'];
+               
+        $userDAO  = new UserDAO($this->getDoctrine()->getManager());
+        
+        $user     = $userDAO->findById($idUser);
+        $user->setUsername($username);
+        $user->setEmail($email);
+        $user->setIsActive(true);
+        
+        $factory = $this->get('security.encoder_factory');
+        
+        $encoder = $factory->getEncoder($user);
+        $password = $encoder->encodePassword($senha, $user->getSalt());
+        $user->setPassword($password);              
+        
+        $roleDAO  = new RoleDAO($this->getDoctrine()->getManager());        
+        $role     = $roleDAO->getRole($roleId);
+        
+        $user->addRole($role);
+        
+        $result  = $userDAO->save($user);
+        
+        if($result) {
+            $this->get("session")->getFlashBag()->add('success', "Usuário cadastrado com sucesso!"); 
+        } else {             
+            $this->get("session")->getFlashBag()->add('danger', "Erro ao cadastrar o usuário"); 
+        }        
+        
+        return $this->redirect($this->generateUrl("viewGridListaUser"));
+    }
+    
+    /**
+     * @Route("/viewGridListaUser", name="viewGridListaUser")
+     * @Template()
+     */
+    public function viewGridListaUserAction(Request $request)
+    {
+         if(GridClass::isAjax()) {
+            
+            $columns = array(  
+                    "a.username",
+                    "a.email"
+                );
+
+            $entityJOIN = array(); 
+
+            $convenioArray    = array();
+            $parametros       = $request->request->all();        
+            $entity           = "SerBinario\MBCredito\UserBundle\Entity\User"; 
+            $columnWhereMain  = "";
+            $whereValueMain   = "";
+            
+            $gridClass = new GridClass($this->getDoctrine()->getManager(), 
+                    $parametros,
+                    $columns,
+                    $entity,
+                    $entityJOIN,           
+                    $columnWhereMain,
+                    $whereValueMain);
+
+            $resultConvenio     = $gridClass->builderQuery();    
+            $countTotal         = $gridClass->getCount();
+            $countConvenio      = count($resultConvenio);
+            
+            for($i=0;$i < $countConvenio; $i++)
+            {
+                $convenioArray[$i]['DT_RowId']       =  "row_".$resultConvenio[$i]->getId();
+                $convenioArray[$i]['id']             =  $resultConvenio[$i]->getId();
+                $convenioArray[$i]['name']           =  $resultConvenio[$i]->getUsername();
+                $convenioArray[$i]['email']          =  $resultConvenio[$i]->getEmail();
+                $convenioArray[$i]['roles']          = "";
+                
+                $countRoles = count($resultConvenio[$i]->getRoles());
+
+                for($j = 0; $j < $countRoles; $j++){
+                    $convenioArray[$i]['roles'] = $resultConvenio[$i]->getRoles()[$j]->getName();
+                }
+                
+            }          
+            
+            //var_dump($convenioArray);
+            //exit();
+            //                       
+            //Se a variável $sqlFilter estiver vazio
+            if(!$gridClass->isFilter()) {
+                $countConvenio = $countTotal;
+            } 
+            
+            $columns = array(               
+                'draw'              => $parametros['draw'],
+                'recordsTotal'      => "{$countTotal}",
+                'recordsFiltered'   => "{$countConvenio}",
+                'data'              => $convenioArray               
+            );
+
+            return new JsonResponse($columns);
+        }else {            
+            return array();            
+        }
     }
     
     /**
