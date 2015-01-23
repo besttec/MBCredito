@@ -954,7 +954,7 @@ class DefaultController extends Controller
         
         $factory = $this->get('security.encoder_factory');
         
-        $encoder = $factory->getEncoder($user);
+        $encoder  = $factory->getEncoder($user);
         $password = $encoder->encodePassword($senha, $user->getSalt());
         $user->setPassword($password);              
         
@@ -963,7 +963,7 @@ class DefaultController extends Controller
         
         $user->addRole($role);
         
-        $result  = $userDAO->save($user);
+        $result  = $userDAO->update($user);
         
         if($result) {
             $this->get("session")->getFlashBag()->add('success', "Usuário cadastrado com sucesso!"); 
