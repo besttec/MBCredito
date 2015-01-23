@@ -1158,8 +1158,7 @@ class DefaultController extends Controller
                       
             }
             
-            $countTotal -= $countBoolPa;
-            exit;
+            $countTotal -= $countBoolPa;            
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()) {
                 $countUser = $countTotal;
