@@ -146,7 +146,7 @@ class DefaultController extends Controller
                     $cliente->setDddFonePrefCliente($columns[19]);
                     $cliente->setFonePrefCliente($columns[20]);
                     $cliente->setCodCliente($columns[21]);
-                    $cliente->setDataNascCliente(\DateTime::createFromFormat("Y/m/d", $columns[22], new \DateTimeZone("America/Recife")));
+                    $cliente->setDataNascCliente(\DateTime::createFromFormat("Y-m-d", $columns[22], new \DateTimeZone("America/Recife")));
                     $cliente->setNumBeneficioCliente($columns[23]);
                     $cliente->setDvCliente((int) $columns[24]);
                     $cliente->setStatusErro(false);
