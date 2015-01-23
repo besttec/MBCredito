@@ -18,7 +18,6 @@ use SerBinario\MBCredito\UserBundle\DAO\RoleDAO;
 use SerBinario\MBCredito\UserBundle\DAO\UserDAO;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioDAO;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio;
-use Respect\Validation\Validator as v;
 
 /**
  *  
@@ -165,8 +164,18 @@ class DefaultController extends Controller
                     $cliente->setNumBeneficioComp($numBeneficio);
                     $cliente->setStatusConsulta(false);
                     
-                    $clienteDAO = new ClienteDAO($this->getDoctrine()->getManager());
-                    $clienteDAO->insertCliente($cliente);
+                    #Valida o cliente
+                    $clienteVal = $validator->validate($cliente);
+                    
+                    #Verifica se houve alguma violação na validação
+                    if(count($clienteVal) === 0) {
+                        $clienteDAO = new ClienteDAO($this->getDoctrine()->getManager());
+                        $clienteDAO->insertCliente($cliente);
+                    } else {
+                        $this->get("session")->getFlashBag()->add('danger', (string) $clienteVal);
+                        break;
+                    }                   
+                    
                 }
                
                $this->get("session")->getFlashBag()->add('success', "Arquivo importado com sucesso!");              
@@ -543,12 +552,10 @@ class DefaultController extends Controller
         $statusErro     = $dados['erro'];
         $obsErro        = $dados['msgerro'];
         
-        $clienteDAO = new ClienteDAO($this->getDoctrine()->getManager());
-        $codBenefi  = str_replace(array(".","-"), "", $codBenefi);
-                
-        $cliente    = $clienteDAO->findNumBeneficio($codBenefi);
-        
-        $consultaCliente = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente();
+        $clienteDAO         = new ClienteDAO($this->getDoctrine()->getManager());
+        $codBenefi          = str_replace(array(".","-"), "", $codBenefi);                
+        $cliente            = $clienteDAO->findNumBeneficio($codBenefi);        
+        $consultaCliente    = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente();
         $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
         
         if(count($cliente) > 0) {
@@ -560,7 +567,7 @@ class DefaultController extends Controller
                 $consultaCliente->setNomeSegurado($nomeSegurado);
                 $consultaCliente->setClientesCliente($cliente[0]);
                 $conf =  $consultaClienteDAO->update($consultaCliente);
-                
+                 
                 if($conf) {
                     $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");     
                 } else {
@@ -605,15 +612,25 @@ class DefaultController extends Controller
                 $consultaCliente->addEmprestimo($emprestimo);
             }
             
-            $consultaCliente->setClientesCliente($cliente[0]);
-            //var_dump($consultaCliente);exit;
-            $result = $consultaClienteDAO->insert($consultaCliente);
+            $consultaCliente->setClientesCliente($cliente[0]);            
             
-            if($result) {
-                 $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");     
+            
+            $validator = $this->get("validator");
+            $valResult = $validator->validate($consultaClienteDAO);
+            
+            if(count($valResult) == 0) {
+                $result = $consultaClienteDAO->insert($consultaCliente);
+                
+                if($result) {
+                    $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");     
+                } else {
+                    $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");     
+                }
             } else {
-                 $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");     
+                 $this->get("session")->getFlashBag()->add('danger', (string) $valResult);
             }
+            
+            
             
         } else {
              $this->get("session")->getFlashBag()->add('danger', "Cliente não encontrado!");     
@@ -766,10 +783,19 @@ class DefaultController extends Controller
                     $chamada->setDataPendencia(new \DateTime("now", new \DateTimeZone("America/Recife")));
                     $chamada->setClientesCliente($cliente);
                     $chamada->setUser($usuario);
-
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($chamada);
-                    $em->flush();       
+                    
+                    $validator = $this->get("validator");
+                    $valResult = $validator->validate($chamada);
+                    
+                    if(count($valResult) == 0) {
+                        $em = $this->getDoctrine()->getManager();
+                        $em->persist($chamada);
+                        $em->flush();
+                    } else {
+                       $this->get("session")->getFlashBag()->add('danger', (string) $valResult);  
+                    }
+                    
+                           
                 } else {
                     #Caso não houver cliente disponível, mandara uma mensagem para o callcenter.
                     $this->get("session")->getFlashBag()->add('danger', "Não existe cliente disponível"); 
@@ -780,7 +806,7 @@ class DefaultController extends Controller
             }      
             #Recupera todas as chamadas do cliente = $cliente
             $calls   = $clienteDAO->findCallsCliente($cliente);
-
+            
             #Retorno a página.
             return array("cliente" => $cliente, "status" => $status, "calls" => $calls, "chamadaAtual" => $chamada);
         } else {
@@ -810,7 +836,8 @@ class DefaultController extends Controller
         if($status != "" && $subrotina != "") {
             $chamadaDAO   = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ChamadaDAO($this->getDoctrine()->getManager());
             $objChamada   = $chamadaDAO->findById($chamadaAtual);
-
+            $objChamada->setStatusChamada(true);
+            
             $statusDAO    = new \SerBinario\MBCredito\MBCreditoBundle\DAO\StatusDAO($this->getDoctrine()->getManager());
             $status       = $statusDAO->findById($status);
 
@@ -818,8 +845,9 @@ class DefaultController extends Controller
             $subrotina    = $subrotinaDAO->findById($subrotina);
             
             if($status->getIdStatus() == 2) {
-                $date = \DateTime::createFromFormat("d/m/Y H:m", $dtProxLig);
+                $date = \DateTime::createFromFormat("Y/m/d H:m", $dtProxLig);
                 $objChamada->setDataChamada($date);
+                $objChamada->setStatusChamada(false);
             }
             
             
@@ -827,15 +855,23 @@ class DefaultController extends Controller
             $objChamada->setStatusStatus($status);
             $objChamada->setSubrotinasSubrotina($subrotina);
             $objChamada->setStatusPendencia(false);
-            $objChamada->setStatusChamada(true);
             
-            $result = $chamadaDAO->update($objChamada);
             
-            if($result) {
-                 $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
+            $validator = $this->get("validator");
+            $valResult = $validator->validate($objChamada);
+            
+            if(count($valResult) == 0) {
+                $result = $chamadaDAO->update($objChamada);
+            
+                if($result) {
+                     $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
+                } else {
+                    $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");                     
+                }
             } else {
-                $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");                     
+                $this->get("session")->getFlashBag()->add('danger', (string) $valResult);
             }
+            
         } else {
             $this->get("session")->getFlashBag()->add('danger', "Verifique se os dados foram digitados corretamente!");
         }
@@ -954,7 +990,7 @@ class DefaultController extends Controller
         
         $factory = $this->get('security.encoder_factory');
         
-        $encoder  = $factory->getEncoder($user);
+        $encoder = $factory->getEncoder($user);
         $password = $encoder->encodePassword($senha, $user->getSalt());
         $user->setPassword($password);              
         
@@ -1100,14 +1136,17 @@ class DefaultController extends Controller
                     $userArray[$count]['email']          =  $resultUser[$i]->getEmail();  
                     
                     $convenioPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioPaDAO($this->getDoctrine()->getManager());
-                    $objConvenioPA = $convenioPaDAO->findByUserLast($resultUser[$i]);                     
-                    $nomeConvenio = "Nenhum convênio anterior";
+                    $objConvenioPA = $convenioPaDAO->findByUserLast($resultUser[$i]); 
+                    $estado        = "Nenhum estado anterior";
+                    $nomeConvenio  = "Nenhum convênio anterior";
                    
                     if($objConvenioPA) {
                         $nomeConvenio  = $objConvenioPA->getConvenio()->getNomeConvenio();
+                        $estado        = $objConvenioPA->getEstado();
                     }
                     
                     $userArray[$count]['nomeConvenio']   =  $nomeConvenio;
+                    $userArray[$count]['estado']         =  $estado;
                                         
                     $count++;
                     $boolPa = false;
@@ -1156,28 +1195,40 @@ class DefaultController extends Controller
         $numConvenio = $dados['selectConvenio'];
         $estado      = $dados['selectUF'];
         $idPA        = $dados['idPa'];
-        
-        #Recuperando o usuário
-        $usuarioDAO = new UserDAO($this->getDoctrine()->getManager());
-        $usuario    = $usuarioDAO->findById($idPA);       
-                        
-        $convenioDAO = new ConvenioDAO($this->getDoctrine()->getManager());
-        $convenio = $convenioDAO->finByNumConvenio($numConvenio);
-        
-        $convenioPA = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ConvenioPA();
-        $convenioPA->setUser($usuario);
-        $convenioPA->setData(new \DateTime("now"));
-        $convenioPA->setConvenio($convenio[0]);
-        $convenioPA->setEstado($estado);
-        
-        $convenioPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioPaDAO($this->getDoctrine()->getManager());
-        $result     = $convenioPaDAO->save($convenioPA);
-        
-        if($result) {
-             $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
+      
+        if($numConvenio != "") {
+             #Recuperando o usuário
+            $usuarioDAO = new UserDAO($this->getDoctrine()->getManager());
+            $usuario    = $usuarioDAO->findById($idPA);       
+
+            $convenioDAO = new ConvenioDAO($this->getDoctrine()->getManager());
+            $convenio = $convenioDAO->finByNumConvenio($numConvenio);
+
+            $convenioPA = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ConvenioPA();
+            $convenioPA->setUser($usuario);
+            $convenioPA->setData(new \DateTime("now"));
+            $convenioPA->setConvenio($convenio[0]);
+            $convenioPA->setEstado($estado);
+
+            $convenioPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioPaDAO($this->getDoctrine()->getManager());
+
+            $validator = $this->get("validator");
+            $valResult = $validator->validate($convenioPA);
+
+            if(count($valResult) == 0) {
+                $result     = $convenioPaDAO->save($convenioPA);
+
+                if($result) {
+                     $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
+                } else {
+                    $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");                     
+                }
+            } else {
+                $this->get("session")->getFlashBag()->add('danger', (string) $valResult);
+            }
         } else {
-            $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");                     
-        }
+            $this->get("session")->getFlashBag()->add('danger', "Você deve informar o convênio");
+        }           
         
         return $this->redirect($this->generateUrl("viewGridListaPa"));
         
@@ -1274,14 +1325,22 @@ class DefaultController extends Controller
         #Alterando o nome do convênio
         $convenio[0]->setNomeConvenio($nomeConvenio);
         
-        #atualizando o convenio
-        $result = $convenioDAO->update($convenio[0]);
         
-        if($result) {
-             $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
+        $validator = $this->get("validator");
+        $valResult = $validator->validate($convenio[0]);
+        
+        if(count($valResult) == 0) {
+             #atualizando o convenio
+            $result = $convenioDAO->update($convenio[0]);
+
+            if($result) {
+                 $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
+            } else {
+                $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");                     
+            }
         } else {
-            $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");                     
-        }
+            $this->get("session")->getFlashBag()->add('danger', (string) $valResult);
+        }    
         
         return $this->redirect($this->generateUrl("viewGridListaConvenio"));
     }    

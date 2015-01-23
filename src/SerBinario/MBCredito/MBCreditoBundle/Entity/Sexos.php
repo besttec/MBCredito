@@ -2,6 +2,7 @@
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Sexos
@@ -14,6 +15,8 @@ class Sexos
     /**
      * @var integer
      *
+     * @Assert\Type(type="integer", message="Valor informado para id do sexo é inválido")
+     * 
      * @ORM\Column(name="id_sexo", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -22,6 +25,9 @@ class Sexos
 
     /**
      * @var string
+     * 
+     * @Assert\Length(max=2, maxMessage="Valor informado para nome abreviatura do sexo 
+     *  ultrapassa a quantidade máxima de caracteres permitidas")
      *
      * @ORM\Column(name="nome_abreviatura_sexo", type="string", length=2, nullable=true)
      */
@@ -29,6 +35,9 @@ class Sexos
 
     /**
      * @var string
+     * 
+     * @Assert\Length(max=9, maxMessage="Valor informado para nome por extenso do sexo 
+     *  ultrapassa a quantidade máxima de caracteres permitidas")
      *
      * @ORM\Column(name="nome_extenso_sexo", type="string", length=9, nullable=false)
      */

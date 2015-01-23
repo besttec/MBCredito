@@ -2,6 +2,7 @@
 
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,6 +15,8 @@ class Status
 {
     /**
      * @var integer
+     * 
+     * @Assert\Type(type="integer", message="Valor informado para id do status é inválido")
      *
      * @ORM\Column(name="id_status", type="integer", nullable=false)
      * @ORM\Id
@@ -24,12 +27,18 @@ class Status
     /**
      * @var string
      *
+     * @Assert\Length(max=45, maxMessage="Valor informado para do status 
+     *  ultrapassa a quantidade máxima de caracteres permitidas")
+     * 
      * @ORM\Column(name="status", type="string", length=45, nullable=false)
      */
     private $status;
 
     /**
      * @var string
+     * 
+     * @Assert\Length(max=2, maxMessage="Valor informado para código do status 
+     *  ultrapassa a quantidade máxima de caracteres permitidas")
      *
      * @ORM\Column(name="codigo", type="string", length=2, nullable=false)
      */

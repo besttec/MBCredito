@@ -1,6 +1,7 @@
 <?php
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,6 +23,9 @@ class Convenio
     
     /**
      * @var string
+     * 
+     * @Assert\Length(max=10, maxMessage="Valor informado para mciEmpCliente 
+     * ultrapassa a quantidade máxima de caracteres permitidas")
      *
      * @ORM\Column(name="mci_emp_cliente", type="string", length=10, nullable=true)
      */
@@ -29,8 +33,11 @@ class Convenio
     
     /**
      * @var string
+     * 
+     * @Assert\Length(max=20, maxMessage="Valor informado para nome do Convenio 
+     * ultrapassa a quantidade máxima de caracteres permitidas")
      *
-     * @ORM\Column(name="nome_convenio", type="string", nullable=true)
+     * @ORM\Column(name="nome_convenio", type="string", length=20, nullable=true)
      */
     private $nomeConvenio;
     

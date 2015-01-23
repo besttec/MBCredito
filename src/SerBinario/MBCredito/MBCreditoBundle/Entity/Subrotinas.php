@@ -1,7 +1,7 @@
 <?php
-
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +15,8 @@ class Subrotinas
     /**
      * @var integer
      *
+     * @Assert\Type(type="integer", message="Valor informado para id de subrotina é inválido")
+     * 
      * @ORM\Column(name="id_subrotina", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -23,6 +25,9 @@ class Subrotinas
     
     /**
      * @var integer
+     * 
+     * @Assert\NotBlank(message="Valor de código de subrotinas não informado")
+     * @Assert\Type(type="integer", message="Valor informado para código de subrotina é inválido")
      *
      * @ORM\Column(name="codigo_subrotina", type="integer", nullable=false)
      */
@@ -30,13 +35,19 @@ class Subrotinas
 
     /**
      * @var string
-     *
+     * 
+     * @Assert\Length(max=45, maxMessage="Valor informado para subrotina 
+     *  ultrapassa a quantidade máxima de caracteres permitidas")
+     * @Assert\NotBlank(message="Valor de subrotina não informado")
+     * 
      * @ORM\Column(name="subrotina", type="string", length=45, nullable=false)
      */
     private $subrotina;
 
     /**
      * @var \Status
+     * 
+     * @Assert\Type(type="object", message="Valor informado para Status não pe um objeto")
      *
      * @ORM\ManyToOne(targetEntity="Status")
      * @ORM\JoinColumns({

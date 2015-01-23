@@ -61,6 +61,7 @@
                                     <th>Nome</th>
                                     <th>Email</th>  
                                     <th>Último convênio</th>
+                                    <th>Último estado</th>
                                     <th>Acão</th>
                                 </tr>
                             </thead>
@@ -70,6 +71,7 @@
                                     <th>Nome</th>
                                     <th>Email</th>  
                                     <th>Último convênio</th>
+                                    <th>Último estado</th>
                                     <th>Acão</th>
                                 </tr>
                             </tfoot>
@@ -92,7 +94,7 @@
                                 <div class="form-group">
                                     <label for="selectConvenio">Convênio</label>
                                     <select class="form-control" name="selectConvenio">
-                                        <option>Selecione um convênio</option>
+                                        <option value="">Selecione um convênio</option>
                                         {% for convenio in convenios %}
                                             <option value="{{ convenio.mciEmpCliente }}">{{ convenio.nomeConvenio }}</option>
                                         {%endfor%}
@@ -101,7 +103,7 @@
                                 <div class="form-group">
                                     <label for="selectUF">Estado</label>
                                     <select class="form-control" name="selectUF">
-                                        <option>Selecione um estado</option>
+                                        <option value="">Selecione um estado</option>
                                         {% for estado in estados %}
                                             <option value="{{ estado.uf }}">{{ estado.uf }}</option>
                                         {%endfor%}
@@ -142,6 +144,7 @@
                     {"data": "nome"},
                     {"data": "email"},
                     {"data": "nomeConvenio"},
+                    {"data": "estado"},
                     {
                         "class": "bt",
                         "orderable": false,
