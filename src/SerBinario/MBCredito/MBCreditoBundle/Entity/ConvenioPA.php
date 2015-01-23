@@ -40,6 +40,13 @@ class ConvenioPA
      */
     private $convenio;
     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="estado", type="string",length = 2, nullable=true)
+     */
+    private $estado;
+    
      /**
      * @var User
      *
@@ -138,6 +145,24 @@ class ConvenioPA
     public function setConvenio(Convenio $convenio) 
     {
         $this->convenio = $convenio;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getEstado() 
+    {
+        return $this->estado;
+    }
+
+    /**
+     * 
+     * @param type $estado
+     */
+    public function setEstado($estado) 
+    {
+        $this->estado = $estado;
     }
 
 

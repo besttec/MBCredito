@@ -41,7 +41,9 @@
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <li><a href="{{path('viewGridDados')}}">Visualizar Dados</a></li>
                                     {% endif %}
+                                    {% if not is_granted('ROLE_ADMIN') and is_granted('ROLE_PA') %}
                                     <li><a href="{{path('viewDiscagem')}}">Tela Discagem</a></li>
+                                    {% endif %}
                                 </ul>                                
                             </li>
                         </ul>

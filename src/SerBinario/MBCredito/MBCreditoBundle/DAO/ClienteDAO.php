@@ -86,19 +86,21 @@ class ClienteDAO
      * @param type $idConvenio
      * @return type
      */
-    public function findNotUse($idConvenio)
+    public function findNotUse($idConvenio, $estado)
     {
         try {         
             
             #Seleciona os registro que não foram finalizados.
-            $query  = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes a JOIN a.convenio b "
+            $query  = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes a "
+                    . "JOIN a.superEstadualSuperEstadual c JOIN a.convenio b "
                     . "WHERE a.statusEmChamada =?1 AND a.statusConsulta = ?2  AND a.statusErro = ?3 AND a.statusLigacao = ?4 AND "
-                    . " b.id = ?5")
+                    . " b.id = ?5 AND c.uf = ?6")
                         ->setParameter(1, false)
                         ->setParameter(2, true)
                         ->setParameter(3, false)
                         ->setParameter(4, true)
                         ->setParameter(5, $idConvenio)
+                        ->setParameter(6, $estado)
                         ->setMaxResults(1);
             
             $result  =  $query->getResult();

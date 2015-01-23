@@ -61,4 +61,19 @@ class SuperEstadualDAO
             return false;
         }
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function findAll()
+    {
+        try {            
+            $arrayObj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual")->findAll();
+                        
+            return $arrayObj;            
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
 }

@@ -704,6 +704,7 @@ class DefaultController extends Controller
         $objConvenioPA = $convenioPaDAO->findByUser($usuario);
         
         $objConvenio   = $objConvenioPA->getConvenio();
+        $estado        = $objConvenioPA->getEstado();
         
         #Cria o DAO de Clientes
         $clienteDAO   = new ClienteDAO($this->getDoctrine()->getManager());
@@ -711,9 +712,10 @@ class DefaultController extends Controller
         
         #Recupera todos os status do banco.
         $statusDAO    = new \SerBinario\MBCredito\MBCreditoBundle\DAO\StatusDAO($this->getDoctrine()->getManager());
-        $status       = $statusDAO->findAll();  
+        $status       = $statusDAO->findAll();         
         
         #Recupera se houver chamadas pendentes.
+        $chamada      = null;
         $chamada      = $clienteDAO->findCallPen($usuario);
         
         #Observação da consulta
@@ -725,37 +727,89 @@ class DefaultController extends Controller
             //$obsCosulta = $chamada-> 
         } else {
             #Recupera um cliente que já foi consultado e não está sendo atendido por nenhum callcenter
-            $cliente      = $clienteDAO->findNotUse($objConvenio->getId());
+            $cliente      = $clienteDAO->findNotUse($objConvenio->getId(), $estado);
             
             #Verifica se existe cliente.
             if($cliente) {
                 $cliente->setStatusEmChamada(true);                              
                 $clienteDAO->updateCliente($cliente);                
 
-                $chamadaCliente = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente();
-                $chamadaCliente->setStatusPendencia(true);
-                $chamadaCliente->setStatusChamada(false);
-                $chamadaCliente->setDataPendencia(new \DateTime("now", new \DateTimeZone("America/Recife")));
-                $chamadaCliente->setClientesCliente($cliente);
-                $chamadaCliente->setUser($usuario);
+                $chamada = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente();
+                $chamada->setStatusPendencia(true);
+                $chamada->setStatusChamada(false);
+                $chamada->setDataPendencia(new \DateTime("now", new \DateTimeZone("America/Recife")));
+                $chamada->setClientesCliente($cliente);
+                $chamada->setUser($usuario);
 
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($chamadaCliente);
+                $em->persist($chamada);
                 $em->flush();       
             } else {
                 #Caso não houver cliente disponível, mandara uma mensagem para o callcenter.
                 $this->get("session")->getFlashBag()->add('danger', "Não existe cliente disponível"); 
                 
                 #Retorno a página.
-                return $this->redirect($this->generateUrl("inserirDados"));
+                return array();
             }
         }      
         #Recupera todas as chamadas do cliente = $cliente
         $calls   = $clienteDAO->findCallsCliente($cliente);
         
         #Retorno a página.
-        return array("cliente" => $cliente, "status" => $status, "calls" => $calls);
+        return array("cliente" => $cliente, "status" => $status, "calls" => $calls, "chamadaAtual" => $chamada);
     }
+    
+    /**
+     * @Route("/saveDiscagem", name="saveDiscagem")
+     * @Method({"POST"})
+     */
+    public function saveDiscagemAction(Request $request)
+    {
+        #Recupera a requisição
+        $dados  = $request->request->all();
+        
+        #Recupera os parâmetros da requisição
+        $status       = $dados['status'];
+        $subrotina    = $dados['subrotinas'];
+        $dtProxLig    = $dados['dataProxLiguacao'];
+        $obs          = $dados['obs'];
+        $chamadaAtual = $dados['chamadaAtual'];
+        
+        if($status != "" && $subrotina != "") {
+            $chamadaDAO   = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ChamadaDAO($this->getDoctrine()->getManager());
+            $objChamada   = $chamadaDAO->findById($chamadaAtual);
+
+            $statusDAO    = new \SerBinario\MBCredito\MBCreditoBundle\DAO\StatusDAO($this->getDoctrine()->getManager());
+            $status       = $statusDAO->findById($status);
+
+            $subrotinaDAO = new  \SerBinario\MBCredito\MBCreditoBundle\DAO\SubRotinasDAO($this->getDoctrine()->getManager());
+            $subrotina    = $subrotinaDAO->findById($subrotina);
+            
+            if($status->getIdStatus() == 2) {
+                $date = \DateTime::createFromFormat("d/m/Y H:m", $dtProxLig);
+                $objChamada->setDataChamada($date);
+            }
+            
+            
+            $objChamada->setObservacao($obs);
+            $objChamada->setStatusStatus($status);
+            $objChamada->setSubrotinasSubrotina($subrotina);
+            $objChamada->setStatusPendencia(false);
+            $objChamada->setStatusChamada(true);
+            
+            $result = $chamadaDAO->update($objChamada);
+            
+            if($result) {
+                 $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
+            } else {
+                $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");                     
+            }
+        } else {
+            $this->get("session")->getFlashBag()->add('danger', "Verifique se os dados foram digitados corretamente!");
+        }
+        
+        return $this->redirect($this->generateUrl("viewDiscagem"));     
+    }    
     
     /**
      * @Route("/getSubrotinas", name="getSubrotinas")
@@ -920,10 +974,13 @@ class DefaultController extends Controller
 
             return new JsonResponse($columns);
         }else{  
-            $convenioDAO = new ConvenioDAO($this->getDoctrine()->getManager());
-            $convenios   = $convenioDAO->findAll();
+            $convenioDAO      = new ConvenioDAO($this->getDoctrine()->getManager());
+            $convenios        = $convenioDAO->findAll();
             
-            return array("convenios" => $convenios);            
+            $superEstadualDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperEstadualDAO($this->getDoctrine()->getManager());
+            $seperEstaduais   = $superEstadualDAO->findAll();
+            
+            return array("convenios" => $convenios, "estados" => $seperEstaduais);            
         }
     }
     
@@ -936,6 +993,7 @@ class DefaultController extends Controller
         $dados = $request->request->all();
         
         $numConvenio = $dados['selectConvenio'];
+        $estado      = $dados['selectUF'];
         $idPA        = $dados['idPa'];
         
         #Recuperando o usuário
@@ -949,6 +1007,7 @@ class DefaultController extends Controller
         $convenioPA->setUser($usuario);
         $convenioPA->setData(new \DateTime("now"));
         $convenioPA->setConvenio($convenio[0]);
+        $convenioPA->setEstado($estado);
         
         $convenioPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioPaDAO($this->getDoctrine()->getManager());
         $result     = $convenioPaDAO->save($convenioPA);

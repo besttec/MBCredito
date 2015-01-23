@@ -42,4 +42,20 @@ class SubRotinasDAO
         
         return $result;
     }
+    
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
+    public function findById($id)
+    {
+        try {
+            $obj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\Subrotinas")->find($id);
+            
+            return $obj;
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
 }

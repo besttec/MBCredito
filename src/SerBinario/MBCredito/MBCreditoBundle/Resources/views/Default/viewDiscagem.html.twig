@@ -24,7 +24,17 @@
                     <fieldset>
                         <legend>Tela Discagem</legend>
                         <div class="col-md-6 column">
-                            <form role="form" method="POST" action="{{ path('savarConsultaCliente') }}">
+                            {% for label, flashes in app.session.flashbag.all %}
+                                {% for flash in flashes %}
+                                    <div class="alert alert-{{ label }}">
+                                        {{ flash }}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %} 
+                            
+                            {% if cliente is defined %}
+                            <form role="form" method="POST" action="{{ path('saveDiscagem') }}">
+                                <input type="hidden" name="chamadaAtual" value="{{ chamadaAtual.idChamadaCliente }}" />
                                 <div class="form-group col-lg-12">
                                     <label for="nome">Nome</label>
                                     <input value="{{ cliente.nomeCliente }}" type="text" readonly="" class="form-control" name="nomeSegurado" id="nomeSegurado" />
@@ -76,14 +86,17 @@
                                     <input type="text" id="datepicker" readonly class="form-control" name="dataProxLiguacao">
                                 </div>                                                      
                                 <div class="form-group col-lg-12">
-                                    <label for="dtNascimento">Observação</label>
+                                    <label for="obs">Observação</label>
                                     <textarea class="form-control" id="obs" name="obs" rows="4" cols="7"></textarea>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <button type="submit" disabled="" id="salvar" class="btn btn-primary">Salvar</button>
+                                    <button type="submit" id="salvar" class="btn btn-primary">Salvar</button>
                                 </div>
                             </form>
+                            {% endif %}
                         </div>
+                        
+                        {% if call is defined %}
                         <div class="col-md-6 column">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">Hitórico de discagem</div>
@@ -136,6 +149,7 @@
                                 </table>
                             </div>
                         </div>
+                        {% endif %}
                     </fieldset>
                 </div>
             </fieldset>
@@ -148,10 +162,12 @@
     <script type="text/javascript" language="javascript" class="init">       
         $('#status').change(function() {
             var valueOpcao = $('#status option:selected').attr("value");
-                 
+            
             if(valueOpcao == 2) {
-                $('#datepicker').removeAttr("readonly")
+                $('#datepicker').removeAttr("readonly");
                 $('#datepicker').datetimepicker();
+            } else if(valueOpcao == 1) {
+                $('#datepicker').attr("readonly", "");
             }
             
             

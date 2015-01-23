@@ -97,7 +97,16 @@
                                             <option value="{{ convenio.mciEmpCliente }}">{{ convenio.nomeConvenio }}</option>
                                         {%endfor%}
                                     </select>
-                                </div>                                
+                                </div>  
+                                <div class="form-group">
+                                    <label for="selectUF">Estado</label>
+                                    <select class="form-control" name="selectUF">
+                                        <option>Selecione um estado</option>
+                                        {% for estado in estados %}
+                                            <option value="{{ estado.uf }}">{{ estado.uf }}</option>
+                                        {%endfor%}
+                                    </select>
+                                </div>
                                 <div class="modal-footer">
                                     <input type="submit" class="btn btn-primary" value="Salvar" />
                                     <input type="reset" class="btn btn-default" value="Limpar" />
