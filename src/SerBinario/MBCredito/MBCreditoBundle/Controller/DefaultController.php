@@ -699,64 +699,71 @@ class DefaultController extends Controller
     public function viewDiscagemAction()
     {
         #Recupera o usuário da sessão
-        $usuario      = $this->get("security.context")->getToken()->getUser();
+        $usuario       = $this->get("security.context")->getToken()->getUser();
         $convenioPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioPaDAO($this->getDoctrine()->getManager());
         $objConvenioPA = $convenioPaDAO->findByUser($usuario);
         
-        $objConvenio   = $objConvenioPA->getConvenio();
-        $estado        = $objConvenioPA->getEstado();
-        
-        #Cria o DAO de Clientes
-        $clienteDAO   = new ClienteDAO($this->getDoctrine()->getManager());
-        $cliente      = null;
-        
-        #Recupera todos os status do banco.
-        $statusDAO    = new \SerBinario\MBCredito\MBCreditoBundle\DAO\StatusDAO($this->getDoctrine()->getManager());
-        $status       = $statusDAO->findAll();         
-        
-        #Recupera se houver chamadas pendentes.
-        $chamada      = null;
-        $chamada      = $clienteDAO->findCallPen($usuario);
-        
-        #Observação da consulta
-        $obsCosulta   = "";
-        
-        #Verifica o retorno das chamadas pendentes
-        if(! is_null($chamada)) {
-            $cliente    = $chamada->getClientesCliente();
-            //$obsCosulta = $chamada-> 
-        } else {
-            #Recupera um cliente que já foi consultado e não está sendo atendido por nenhum callcenter
-            $cliente      = $clienteDAO->findNotUse($objConvenio->getId(), $estado);
-            
-            #Verifica se existe cliente.
-            if($cliente) {
-                $cliente->setStatusEmChamada(true);                              
-                $clienteDAO->updateCliente($cliente);                
+        if($objConvenioPA) {
+            $objConvenio   = $objConvenioPA->getConvenio();
+            $estado        = $objConvenioPA->getEstado();
 
-                $chamada = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente();
-                $chamada->setStatusPendencia(true);
-                $chamada->setStatusChamada(false);
-                $chamada->setDataPendencia(new \DateTime("now", new \DateTimeZone("America/Recife")));
-                $chamada->setClientesCliente($cliente);
-                $chamada->setUser($usuario);
+            #Cria o DAO de Clientes
+            $clienteDAO   = new ClienteDAO($this->getDoctrine()->getManager());
+            $cliente      = null;
 
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($chamada);
-                $em->flush();       
+            #Recupera todos os status do banco.
+            $statusDAO    = new \SerBinario\MBCredito\MBCreditoBundle\DAO\StatusDAO($this->getDoctrine()->getManager());
+            $status       = $statusDAO->findAll();         
+
+            #Recupera se houver chamadas pendentes.
+            $chamada      = null;
+            $chamada      = $clienteDAO->findCallPen($usuario);
+
+            #Observação da consulta
+            $obsCosulta   = "";
+
+            #Verifica o retorno das chamadas pendentes
+            if(! is_null($chamada)) {
+                $cliente    = $chamada->getClientesCliente();
+                //$obsCosulta = $chamada-> 
             } else {
-                #Caso não houver cliente disponível, mandara uma mensagem para o callcenter.
-                $this->get("session")->getFlashBag()->add('danger', "Não existe cliente disponível"); 
-                
-                #Retorno a página.
-                return array();
-            }
-        }      
-        #Recupera todas as chamadas do cliente = $cliente
-        $calls   = $clienteDAO->findCallsCliente($cliente);
+                #Recupera um cliente que já foi consultado e não está sendo atendido por nenhum callcenter
+                $cliente      = $clienteDAO->findNotUse($objConvenio->getId(), $estado);
+
+                #Verifica se existe cliente.
+                if($cliente) {
+                    $cliente->setStatusEmChamada(true);                              
+                    $clienteDAO->updateCliente($cliente);                
+
+                    $chamada = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente();
+                    $chamada->setStatusPendencia(true);
+                    $chamada->setStatusChamada(false);
+                    $chamada->setDataPendencia(new \DateTime("now", new \DateTimeZone("America/Recife")));
+                    $chamada->setClientesCliente($cliente);
+                    $chamada->setUser($usuario);
+
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($chamada);
+                    $em->flush();       
+                } else {
+                    #Caso não houver cliente disponível, mandara uma mensagem para o callcenter.
+                    $this->get("session")->getFlashBag()->add('danger', "Não existe cliente disponível"); 
+
+                    #Retorno a página.
+                    return array();
+                }
+            }      
+            #Recupera todas as chamadas do cliente = $cliente
+            $calls   = $clienteDAO->findCallsCliente($cliente);
+
+            #Retorno a página.
+            return array("cliente" => $cliente, "status" => $status, "calls" => $calls, "chamadaAtual" => $chamada);
+        } else {
+            #Casa não haja convênio designado
+            $this->get("session")->getFlashBag()->add('danger', "Não existe convênio designado, contate o administrador!"); 
+            return array();
+        }
         
-        #Retorno a página.
-        return array("cliente" => $cliente, "status" => $status, "calls" => $calls, "chamadaAtual" => $chamada);
     }
     
     /**
