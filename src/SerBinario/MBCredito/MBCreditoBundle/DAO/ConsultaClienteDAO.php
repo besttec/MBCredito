@@ -73,7 +73,7 @@ class ConsultaClienteDAO
     public function findConsultaCliente($id)
     {
         try {
-            $query = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente c WHERE c.clientesCliente = ?1")
+            $query = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente c WHERE c.id = ?1")
                     ->setParameter(1, $id);
             
             return $query->getResult();

@@ -184,7 +184,7 @@
                                     <input type="text" readonly class="form-control" name="qtdEmprestimo" id="qtdEmprestimo" />
                                 </div>
                                 <div class="form-group col-lg-12">
-                                    <label for="">Valores do empréstimos</label>
+                                    <label for="">Valores dos empréstimos</label>
                                     <ul class="list-group" id="listaDebitos">
 
                                     </ul>
@@ -395,6 +395,8 @@
                     var resposta    = $(data['result']).find("ul li.erro");
 
                     var resposta2   = $(data['result']).closest("h3");
+                    
+                    var resposta3   = $(data['result']).closest("h1");
 
                     if (resposta.text()) {
 
@@ -415,6 +417,12 @@
                         $('#codBenefi').val(numBen);
                         $('#nomeSegurado').val(nome);
                         
+                    } else if (resposta3.text() === 'Service Temporarily Unavailable') {
+                        alert("O serviço de consulta do DATAPREV está temporariamente indisponível");
+                        $('#salvar').attr("disabled", true);
+
+                        $('#codBenefi').val(numBen);
+                        $('#nomeSegurado').val(nome);
                     }
                     else {
                         //pega a página de retorno e atribui a uma div oculta

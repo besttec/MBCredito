@@ -95,18 +95,35 @@
                         <form role="form" method="post" action="{{path('savarInfoAdicionais')}}">
                             <div class="modal-body">
                                 <div class="form-group">
+                                    <label for="margem">Margem</label>
+                                    <input type="text" class="form-control" name="margem" id="margem" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="vDisponivel">Valor Disponível</label>
+                                    <input type="text" class="form-control" name="vDisponivel" id="vDisponivel" />
+                                </div>
+                                <label for="vDisponivel">Tipo do crédito</label><br/>
+                                <div class="radio">                                   
+                                    <label><input type='radio' id="tCreditoR" name='tCredito' value="1"> 
+                                        Crédito Renovação
+                                    </label><br/><br/>
+                                    <label><input type='radio' id="tCreditoN" name='tCredito' value="2"> 
+                                        Crédito Novo
+                                    </label>                                  
+                                </div><br />
+                                <div class="form-group">
                                     <label for="exampleInputEmail1">Observações</label>
                                     <textarea class="form-control" id="obs" name="obs" rows="4" cols="7"></textarea>
                                     <input type="hidden" class="form-control" name="idCliente" id="idCliente" />
                                 </div>
-                                <div class="checkbox">
-                                    <label for="exampleInputEmail1">Empréstimos1</label><br /><br />
+                                <label for="exampleInputEmail1">Empréstimos</label><br />
+                                <div class="checkbox">                                   
                                     <div class="checked">
                                     </div>
                                 </div>
                                 <br />
-                                <div class="checkbox">
-                                    <label for="exampleInputEmail1">Disponibilidade de ligação</label><br /><br />
+                                <label for="exampleInputEmail1">Disponibilidade de ligação</label><br />
+                                <div class="checkbox">                                    
                                     <label><input type='checkbox' id="ativo" name='statusAtivo' value="1"> 
                                         Ativo
                                     </label>
@@ -156,9 +173,9 @@
                         '<b>Competência : </b>' + d.competencia + '<br>' +
                         '<b>Valor Descontos :</b> ' + d.valorDescontos + '<br>' +
                         '<b>Valor Liquido :</b> ' + d.valorLiquido + '<br>' +
-                        '<b>Valor Bruto :</b> ' + d.valorBruto + '<br>' +
+                        '<b>Valor Bruto :</b> ' + d.valorBruto + '<br>' +                       
                         '<b>Margem 30% :</b> ' + nun + '<br>' +
-                        '<b>Margem 20% :</b> ' + nun1 + '<br>' +
+                        '<b>Margem 20% :</b> ' + nun1 + '<br>' +                     
                         '<b>Emprestimos :</b> ' + '<br>' +
                         linhas +
                         //'Quantidade Emprestimos : ' + d.qtdEmprestimos + '<br>' +
@@ -294,22 +311,35 @@
 
                 for (var i = 0; i < d.emprestimos.length; i++) {
                     if (d.emprestimos[i]['status'] == '1') {
-                        emprestimmos += "<label><input type='checkbox' checked name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "</label>";
+                        emprestimmos += "<label><input type='checkbox' checked name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + "<b>"+ d.emprestimos[i]['nome'] + "</b>"+ ": $" + d.emprestimos[i]['valor'] + "</label>";
                         emprestimmos += "<br />";
                     } else {
-                        emprestimmos += "<label><input type='checkbox' name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "</label>";
+                        emprestimmos += "<label><input type='checkbox' name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + "<b>"+ d.emprestimos[i]['nome'] +"</b>"+ ":  $" + d.emprestimos[i]['valor'] + "</label>";
                         emprestimmos += "<br />";
                     }
 
                 }
                 
                 if(d.statusLigacao == '1'){
-                    $('#ativo').attr('checked', true);
+                    $('#ativo').prop('checked', true);
+                } else {
+                    $('#ativo').prop('checked', false);
                 }
 
                 $('.checked').html(emprestimmos);
                 $('#idCliente').val(d.DT_RowId.replace("row_", ""));
                 $('#obs').val(d.obsCliente);
+                $('#margem').val(d.margem);
+                $('#vDisponivel').val(d.vDisponivel);
+                
+                if(d.tipoCredito == '1') {
+                    $('#tCreditoR').prop('checked', true);
+                } else if (d.tipoCredito == '2') {
+                    $('#tCreditoN').prop('checked', true);                 
+                } else {
+                    $('#tCreditoN').prop('checked', false);
+                    $('#tCreditoR').prop('checked', false);
+                }
             });
 
             // On each draw, loop over the `detailRows` array and show any child rows
