@@ -759,7 +759,7 @@ class DefaultController extends Controller
             #Retorno a página.
             return array("cliente" => $cliente, "status" => $status, "calls" => $calls, "chamadaAtual" => $chamada);
         } else {
-            #Casa não haja convênio designado
+            #Casa não haja convênio designadoê 
             $this->get("session")->getFlashBag()->add('danger', "Não existe convênio designado, contate o administrador!"); 
             return array();
         }
