@@ -177,7 +177,7 @@ class Clientes
     /**
      * @var string
      * 
-     * @Assert\Length(max=10, maxMessage="Valor do número do benefício complementar do cliente
+     * @Assert\Length(max=45, maxMessage="Valor do número do benefício complementar do cliente
      *  ultrapassa a quantidade de caracteres permitidas")
      *
      * @ORM\Column(name="num_beneficio_comp_cliente", type="string", length=45, nullable=true)

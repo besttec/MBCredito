@@ -101,7 +101,7 @@ class DefaultController extends Controller
                     $cliente->setLimiteCreditoCliente($columns[2]);
                     
                     $superEstadual    = null;
-                    $superEstadualDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperEstadualDAO($this->getDoctrine()->getEntityManager());
+                    $superEstadualDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperEstadualDAO($this->getDoctrine()->getManager());
                     $objEstadual      = $superEstadualDAO->findCod($columns[4]);
                     
                     if($objEstadual) {
@@ -116,7 +116,7 @@ class DefaultController extends Controller
                     $cliente->setSuperEstadualSuperEstadual($superEstadual);
                     
                     $superRegional    = null;
-                    $superRegionalDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperRegionalDAO($this->getDoctrine()->getEntityManager());
+                    $superRegionalDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperRegionalDAO($this->getDoctrine()->getManager());
                     $objRegional      = $superRegionalDAO->findCod(trim($columns[6]));
                     
                     if($objRegional) {
