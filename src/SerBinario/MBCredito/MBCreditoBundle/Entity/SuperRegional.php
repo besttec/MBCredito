@@ -2,6 +2,7 @@
 
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +16,8 @@ class SuperRegional
     /**
      * @var integer
      *
+     * @Assert\Type(type="integer", message="Valor informado para id de SeperRegional é inválido")
+     * 
      * @ORM\Column(name="id_super_regional", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -24,12 +27,20 @@ class SuperRegional
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="Valor de código de SuperRegional não informado")
+     * @Assert\Length(max=10, maxMessage="Valor informado para código SuperRegional 
+     *  ultrapassa a quantidade máxima de caracteres permitidas")
+     * 
      * @ORM\Column(name="cod_super_regional", type="string", length=10, nullable=false)
      */
     private $codSuperRegional;
 
     /**
      * @var string
+     * 
+     * @Assert\NotBlank(message="Valor de nome de SuperRegional não informado")
+     * @Assert\Length(max=10, maxMessage="Valor informado para nome SuperRegional 
+     *  ultrapassa a quantidade máxima de caracteres permitidas")
      *
      * @ORM\Column(name="nome_super_regional", type="string", length=50, nullable=false)
      */

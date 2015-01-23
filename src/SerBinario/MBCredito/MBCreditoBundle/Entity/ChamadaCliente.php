@@ -3,7 +3,7 @@
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * ChamadaCliente
  *
@@ -23,7 +23,9 @@ class ChamadaCliente
         
     /**
      * @var boolean
-     *
+     * 
+     * @Assert\Type(type="bool", message="Valor inválido para status da pendência")
+     * 
      * @ORM\Column(name="status_pendencia", type="boolean", nullable=true)
      */
     private $statusPendencia;
@@ -31,20 +33,26 @@ class ChamadaCliente
     /**
      * @var boolean
      *
+     * @Assert\Type(type="bool", message="Valor inválido para status da chamada")
+     * 
      * @ORM\Column(name="status_chamada", type="boolean", nullable=true)
      */
     private $statusChamada;
     
     /**
-     * @var boolean
+     * @var datetime
+     * 
+     * @Assert\DateTime(message="Valor inválido para Data da Chamada")
      *
      * @ORM\Column(name="data_chamada", type="datetime", nullable=true)
      */
     private $dataChamada;
     
     /**
-     * @var boolean
+     * @var datetime
      *
+     * @Assert\DateTime(message="Valor inválido para Data da Pendência")
+     * 
      * @ORM\Column(name="data_pendencia", type="datetime", nullable=false)
      */
     private $dataPendencia;
@@ -52,13 +60,17 @@ class ChamadaCliente
     /**
      * @var string
      *
+     * @Assert\Length( max=65535, maxMessage="Valor ultrapassa o limete de caracteres em Observação")
+     * 
      * @ORM\Column(name="observacao", type="text", length=65535, nullable=true)
      */
     private $observacao;
 
     /**
      * @var \Status
-     *
+     * 
+     * @Assert\Type(type="object", message="Valor informado para Status não é um objeto")
+     * 
      * @ORM\ManyToOne(targetEntity="Status")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="status_id_status", referencedColumnName="id_status")
@@ -69,6 +81,9 @@ class ChamadaCliente
     /**
      * @var \User
      *
+     * @Assert\NotNull(message="Usuário não informado")
+     * @Assert\Type(type="object", message="Valor informado para User não é um objeto")
+     * 
      * @ORM\ManyToOne(targetEntity="SerBinario\MBCredito\UserBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id_user", referencedColumnName="id")
@@ -78,6 +93,9 @@ class ChamadaCliente
 
     /**
      * @var \Clientes
+     * 
+     * @Assert\NotNull(message="Cliente não informado")
+     * @Assert\Type(type="object", message="Valor informado para Clientes não é um objeto")
      *
      * @ORM\ManyToOne(targetEntity="Clientes", inversedBy="chamadaCliente")
      * @ORM\JoinColumns({
@@ -88,6 +106,8 @@ class ChamadaCliente
 
     /**
      * @var \Subrotinas
+     * 
+     * @Assert\Type(type="object", message="Valor informado para SubRotinas não é um objeto")
      *
      * @ORM\ManyToOne(targetEntity="Subrotinas")
      * @ORM\JoinColumns({

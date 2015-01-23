@@ -1,8 +1,9 @@
 <?php
-
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+
 
 /**
  * Ag
@@ -24,6 +25,9 @@ class Ag
     /**
      * @var string
      *
+     * @Assert\Type(type="string", message="Valor inválido para prefixo ag")
+     * @Assert\NotBlank(message="Perfixo ag não informado")
+     * 
      * @ORM\Column(name="prefixo_ag", type="string", length=10, nullable=false)
      */
     private $prefixoAg;
@@ -31,6 +35,9 @@ class Ag
     /**
      * @var string
      *
+     * @Assert\Type(type="string", message="Valor inválido para Nome ag")
+     * @Assert\NotBlank(message="Nome ag não informado")
+     * 
      * @ORM\Column(name="nome_ag", type="string", length=50, nullable=false)
      */
     private $nomeAg;
@@ -38,6 +45,9 @@ class Ag
     /**
      * @var string
      *
+     * @Assert\Type(type="string", message="Valor inválido para cc ag")
+     * @Assert\NotBlank(message="cc ag não informado")
+     * 
      * @ORM\Column(name="cc_ag", type="string", length=10, nullable=false)
      */
     private $ccAg;

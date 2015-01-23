@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Clientes
@@ -26,6 +27,10 @@ class Clientes
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="Nome do cliente não informado")
+     * @Assert\Length(max=50, maxMessage="Valor ultrapassa limete de caracteres em nome do cliente")
+     * @Assert\Type(type="string", message="Valor inválido para nome do cliente")
+     * 
      * @ORM\Column(name="nome_cliente", type="string", length=50, nullable=false)
      */
     private $nomeCliente;    
@@ -33,6 +38,9 @@ class Clientes
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="Cpf do cliente não informado")
+     * @Assert\Length(max=11, min=11, exactMessage="Cpf do cliente inválido")
+     * 
      * @ORM\Column(name="cpf_cliente", type="string", length=11, nullable=false)
      */
     private $cpfCliente;
@@ -40,6 +48,9 @@ class Clientes
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="limite de crédito do cliente não informado")
+     * @Assert\Length(max=50, maxMessage="Valor de limite ultrapassa a quantidade de caracteres permitidas")
+     * 
      * @ORM\Column(name="limite_credito_cliente", type="string", length=50, nullable=false)
      */
     private $limiteCreditoCliente;
@@ -47,6 +58,9 @@ class Clientes
     /**
      * @var string
      *
+     * @Assert\Length(max=5, maxMessage="Valor do ddd do fone residencial do cliente
+     *  ultrapassa a quantidade de caracteres permitidas")
+     * 
      * @ORM\Column(name="ddd_fone_resid_cliente", type="string", length=5, nullable=true)
      */
     private $dddFoneResidCliente;
@@ -54,6 +68,9 @@ class Clientes
     /**
      * @var string
      *
+     * @Assert\Length(max=10, maxMessage="Valor do fone residencial do cliente
+     *  ultrapassa a quantidade de caracteres permitidas")
+     * 
      * @ORM\Column(name="fone_resid_cliente", type="string", length=10, nullable=true)
      */
     private $foneResidCliente;
@@ -61,12 +78,18 @@ class Clientes
     /**
      * @var string
      *
+     * @Assert\Length(max=5, maxMessage="Valor do ddd do fone comercial do cliente
+     *  ultrapassa a quantidade de caracteres permitidas")
+     * 
      * @ORM\Column(name="ddd_fone_comer_cliente", type="string", length=5, nullable=true)
      */
     private $dddFoneComerCliente;
 
     /**
      * @var string
+     * 
+     * @Assert\Length(max=10, maxMessage="Valor do fone comercial do cliente
+     *  ultrapassa a quantidade de caracteres permitidas")     * 
      *
      * @ORM\Column(name="fone_comer_cliente", type="string", length=10, nullable=true)
      */
@@ -74,6 +97,9 @@ class Clientes
 
     /**
      * @var string
+     * 
+     * @Assert\Length(max=5, maxMessage="Valor do ddd do fone celular do cliente
+     *  ultrapassa a quantidade de caracteres permitidas")
      *
      * @ORM\Column(name="ddd_fone_cel_cliente", type="string", length=5, nullable=true)
      */
@@ -81,6 +107,9 @@ class Clientes
 
     /**
      * @var string
+     *  
+     * @Assert\Length(max=10, maxMessage="Valor do fone celular do cliente
+     *  ultrapassa a quantidade de caracteres permitidas")
      *
      * @ORM\Column(name="fone_cel_cliente", type="string", length=10, nullable=true)
      */
@@ -88,6 +117,9 @@ class Clientes
 
     /**
      * @var string
+     * 
+     * @Assert\Length(max=5, maxMessage="Valor do ddd do fone preferencial do cliente
+     *  ultrapassa a quantidade de caracteres permitidas")
      *
      * @ORM\Column(name="ddd_fone_pref_cliente", type="string", length=5, nullable=true)
      */
@@ -95,6 +127,9 @@ class Clientes
 
     /**
      * @var string
+     * 
+     * @Assert\Length(max=10, maxMessage="Valor do fone preferencial do cliente
+     *  ultrapassa a quantidade de caracteres permitidas")
      *
      * @ORM\Column(name="fone_pref_cliente", type="string", length=10, nullable=true)
      */
@@ -102,6 +137,9 @@ class Clientes
 
     /**
      * @var string
+     * 
+     * @Assert\Length(max=20, maxMessage="Valor do código do cliente
+     *  ultrapassa a quantidade de caracteres permitidas")
      *
      * @ORM\Column(name="cod_cliente", type="string", length=20, nullable=true)
      */
@@ -109,6 +147,8 @@ class Clientes
 
     /**
      * @var \DateTime
+     * 
+     * @Assert\Date(message="Valor da data de nascimento do cliente inválido")
      *
      * @ORM\Column(name="data_nasc_cliente", type="date", nullable=true)
      */
@@ -117,19 +157,28 @@ class Clientes
     /**
      * @var string
      *
+     * @Assert\Length(max=20, maxMessage="Valor do número do benefício do cliente
+     *  ultrapassa a quantidade de caracteres permitidas")
+     * 
      * @ORM\Column(name="num_beneficio_cliente", type="string", length=20, nullable=true)
      */
     private $numBeneficioCliente;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="dv_cliente", type="string", length=45, nullable=true)
+     * 
+     *@Assert\Length(max=1, maxMessage="Valor do dígito do cliente
+     *  ultrapassa a quantidade de caracteres permitidas")
+     * 
+     * @ORM\Column(name="dv_cliente", type="string", length=1, nullable=true)
      */
     private $dvCliente;
     
     /**
      * @var string
+     * 
+     * @Assert\Length(max=5, maxMessage="Valor do número do benefício complementar do cliente
+     *  ultrapassa a quantidade de caracteres permitidas")
      *
      * @ORM\Column(name="num_beneficio_comp_cliente", type="string", length=45, nullable=true)
      */
@@ -137,6 +186,8 @@ class Clientes
         
     /**
      * @var boolean
+     * 
+     * @Assert\Type(type="bool", message="Valor informado para status de erro do cliente é inválido")
      *
      * @ORM\Column(name="status_erro_cliente", type="boolean", nullable=true, options={"comment":"Define o status em caso de erro ao consultar o cliente"})
      */
@@ -145,6 +196,8 @@ class Clientes
     /**
      * @var boolean
      *
+     * @Assert\Type(type="bool", message="Valor informado para status de ligação do cliente é inválido")
+     * 
      * @ORM\Column(name="status_ligacao_cliente", type="boolean", nullable=true, options={"comment":"Define o status em caso de disponível"})
      */
     private $statusLigacao;
@@ -152,12 +205,16 @@ class Clientes
     /**
      * @var boolean
      *
+     * @Assert\Type(type="bool", message="Valor informado para status da consulta do cliente é inválido")
+     * 
      * @ORM\Column(name="status_consulta", type="boolean", nullable=true)
      */
     private $statusConsulta;
     
     /**
      * @var boolean
+     * 
+     * @Assert\Type(type="bool", message="Valor informado para status da chamada do cliente é inválido")
      *
      * @ORM\Column(name="status_emChamada", type="boolean", nullable=true)
      */
@@ -166,12 +223,17 @@ class Clientes
     /**
      * @var String
      *
-     * @ORM\Column(name="obs_erro_cliente", type="string", length=100, nullable=true)
+     * @Assert\Length(max=65535, maxMessage="Valor informado para observação de erro
+     *  do cliente ultrapassa a quantidade máxima de caracteres permitida")
+     * 
+     * @ORM\Column(name="obs_erro_cliente", type="text", length=65535, nullable=true)
      */
     private $obsErro;
 
     /**
      * @var \SuperEstadual
+     * 
+     * @Assert\Type(type="object", message="Valor informado para SuperEstadual não é um objeto")
      *
      * @ORM\ManyToOne(targetEntity="SuperEstadual", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -183,6 +245,8 @@ class Clientes
     /**
      * @var \Ag
      *
+     * @Assert\Type(type="object", message="Valor informado para Ag não é um objeto")
+     * 
      * @ORM\ManyToOne(targetEntity="Ag", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ag_id_ag", referencedColumnName="id_ag")
@@ -192,6 +256,8 @@ class Clientes
 
     /**
      * @var \SuperRegional
+     * 
+     * @Assert\Type(type="object", message="Valor informado para SuperRegional não é um objeto")
      *
      * @ORM\ManyToOne(targetEntity="SuperRegional", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -202,6 +268,8 @@ class Clientes
 
     /**
      * @var \Sexos
+     * 
+     * @Assert\Type(type="object", message="Valor informado para Sexo não é um objeto")
      *
      * @ORM\ManyToOne(targetEntity="Sexos", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -213,6 +281,8 @@ class Clientes
     /**
      * @var Convenio
      *
+     * @Assert\Type(type="object", message="Valor informado para Convenio não é um objeto")
+     * 
      * @ORM\ManyToOne(targetEntity="Convenio", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="convenio_id", referencedColumnName="id")

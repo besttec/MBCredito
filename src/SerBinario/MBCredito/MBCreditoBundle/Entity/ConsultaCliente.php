@@ -2,6 +2,7 @@
 
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos;
@@ -24,21 +25,27 @@ class ConsultaCliente
     private $id;
     
     /**
-     * @var string
+     * @var decimal
+     * 
+     * @Assert\Type(type="double", message="Valor informado para valor bruto é inválido")
      *
      * @ORM\Column(name="valor_bruto", type="decimal", precision=10, scale=2, nullable=true)
      */
     private $valorBruto;
 
     /**
-     * @var string
+     * @var decimal
      *
+     * @Assert\Type(type="double", message="Valor informado para valor de desconto é inválido")
+     * 
      * @ORM\Column(name="valor_descontos", type="decimal", precision=10, scale=2, nullable=true)
      */
     private $valorDescontos;
 
     /**
-     * @var string
+     * @var double
+     * 
+     * @Assert\Type(type="double", message="Valor informado para valor liquido é inválido")
      *
      * @ORM\Column(name="valor_liquido", type="decimal", precision=10, scale=2, nullable=true)
      */
@@ -46,6 +53,8 @@ class ConsultaCliente
 
     /**
      * @var integer
+     * 
+     * @Assert\Type(type="integer", message="Valor informado para qunatidade de emprestimos é inválido")
      *
      * @ORM\Column(name="qtd_emprestimos", type="integer", nullable=true)
      */
@@ -54,6 +63,10 @@ class ConsultaCliente
     /**
      * @var string
      *
+     * @Assert\Length(max=50, maxMessage="Valor informado para nome do segurado
+     * ultrapassa a quantidade máxima de caracteres permitidas")
+     * @Assert\Type(type="string", message="Valor informado para nome do segurado é inválido")
+     * 
      * @ORM\Column(name="nome_segurado", type="string", length=50, nullable=true)
      */
     private $nomeSegurado;
@@ -61,13 +74,19 @@ class ConsultaCliente
     /**
      * @var string
      *
-     * @ORM\Column(name="competencia", type="string", nullable=true)
+     * @Assert\Length(max=30, maxMessage="Valor informado para nome do segurado
+     * ultrapassa a quantidade máxima de caracteres permitidas")
+     * 
+     * @ORM\Column(name="competencia", type="string", length=30, nullable=true)
      */
     private $competencia;
 
     /**
      * @var string
      *
+     * @Assert\Length(max=50, maxMessage="Valor informado para pagamento atravez
+     * ultrapassa a quantidade máxima de caracteres permitidas")
+     * 
      * @ORM\Column(name="pagto_atravez", type="string", length=50, nullable=true)
      */
     private $pagtoAtravez;
@@ -75,6 +94,8 @@ class ConsultaCliente
     /**
      * @var \DateTime
      *
+     * @Assert\Date(message="Valor informado para o período inicial é inválido")
+     * 
      * @ORM\Column(name="periodo_ini", type="date", nullable=true)
      */
     private $periodoIni;
@@ -82,6 +103,8 @@ class ConsultaCliente
     /**
      * @var \DateTime
      *
+     * @Assert\Date(message="Valor informado para o período final é inválido")
+     * 
      * @ORM\Column(name="periodo_fin", type="date", nullable=true)
      */
     private $periodoFin;
@@ -89,12 +112,18 @@ class ConsultaCliente
     /**
      * @var string
      *
+     * @Assert\Length(max=50, maxMessage="Valor informado para espécie
+     * ultrapassa a quantidade máxima de caracteres permitidas")
+     * 
      * @ORM\Column(name="especie", type="string", length=50, nullable=true)
      */
     private $especie;
 
     /**
      * @var string
+     * 
+     * @Assert\Length(max=50, maxMessage="Valor informado para banco
+     * ultrapassa a quantidade máxima de caracteres permitidas")
      *
      * @ORM\Column(name="banco", type="string", length=50, nullable=true)
      */
@@ -103,12 +132,18 @@ class ConsultaCliente
     /**
      * @var string
      *
+     * @Assert\Length(max=50, maxMessage="Valor informado para agência
+     * ultrapassa a quantidade máxima de caracteres permitidas")
+     * 
      * @ORM\Column(name="agencia", type="string", length=50, nullable=true)
      */
     private $agencia;
 
     /**
      * @var string
+     * 
+     * @Assert\Length(max=50, maxMessage="Valor informado para código agência
+     * ultrapassa a quantidade máxima de caracteres permitidas")
      *
      * @ORM\Column(name="codigo_agencia", type="string", length=50, nullable=true)
      */
@@ -116,6 +151,9 @@ class ConsultaCliente
 
     /**
      * @var string
+     * 
+     * @Assert\Length(max=50, maxMessage="Valor informado para endereço do banco
+     * ultrapassa a quantidade máxima de caracteres permitidas")
      *
      * @ORM\Column(name="endereco_banco", type="string", length=50, nullable=true)
      */
@@ -123,6 +161,8 @@ class ConsultaCliente
 
     /**
      * @var \DateTime
+     * 
+     * @Assert\Date(message="Valor informado para disponibilidade inicial é inválido")
      *
      * @ORM\Column(name="disponibilidade_ini", type="date", nullable=true)
      */
@@ -131,6 +171,8 @@ class ConsultaCliente
     /**
      * @var \DateTime
      *
+     * @Assert\Date(message="Valor informado para disponibilidade final é inválido")
+     * 
      * @ORM\Column(name="disponibilidade_fin", type="date", nullable=true)
      */
     private $disponibilidadeFin;
@@ -138,13 +180,18 @@ class ConsultaCliente
     /**
      * @var string
      *
-     * @ORM\Column(name="obs_cliente", type="string", length=255, nullable=true)
+     * @Assert\Length(max=65535, maxMessage="Valor informado para observação do cliente
+     * ultrapassa a quantidade máxima de caracteres permitidas")
+     * 
+     * @ORM\Column(name="obs_cliente", type="text", length=65535, nullable=true)
      */
     private $obsCliente;
 
     /**
      * @var \Clientes
      *
+     * @Assert\Type(type="objeto", message="O valor informado para Clientes não é um objeto")
+     * 
      * @ORM\ManyToOne(targetEntity="Clientes", inversedBy="consultas")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="clientes_id_cliente", referencedColumnName="id_cliente")

@@ -4,6 +4,7 @@ namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use SerBinario\MBCredito\UserBundle\Entity\User;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * LoginPA
@@ -25,6 +26,8 @@ class ConvenioPA
     
     /**
      * @var \DateTime
+     * 
+     * @Assert\DateTime(message="Valor informado para data é inválido")
      *
      * @ORM\Column(name="data", type="datetime", nullable=false)
      */
@@ -33,6 +36,8 @@ class ConvenioPA
     /**
      * @var Convenio
      *
+     * @Assert\Type(type="object", message="Valor informado para Convenio não é um objeto")
+     * 
      * @ORM\ManyToOne(targetEntity="SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="convenio_id", referencedColumnName="id")
@@ -43,6 +48,9 @@ class ConvenioPA
     /**
      * @var string
      *
+     * @Assert\Length(max=2, maxMessage="Valor iformado para esta ultrapassa 
+     * a quantidade máxima de caracteres permitidas")
+     * 
      * @ORM\Column(name="estado", type="string",length = 2, nullable=true)
      */
     private $estado;
@@ -50,6 +58,8 @@ class ConvenioPA
      /**
      * @var User
      *
+     * @Assert\Type(type="object", message="Valor informado para User não é um objeto")
+     * 
      * @ORM\ManyToOne(targetEntity="SerBinario\MBCredito\UserBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id_user", referencedColumnName="id")

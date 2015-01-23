@@ -2,6 +2,7 @@
 
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +16,8 @@ class SuperEstadual
     /**
      * @var integer
      *
+     * @Assert\Type(type="integer", message="Valor informado para id de SuperEstadual é inválido")
+     * 
      * @ORM\Column(name="id_super_estadual", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -23,6 +26,10 @@ class SuperEstadual
 
     /**
      * @var string
+     * 
+     * @Assert\NotBlank(message="Valor de código de SuperEstadual não informado")
+     * @Assert\Length(max=10, maxMessage="Valor informado para código SuperEstadual 
+     *  ultrapassa a quantidade máxima de caracteres permitidas")
      *
      * @ORM\Column(name="cod_super_estadual", type="string", length=10, nullable=false)
      */
@@ -31,6 +38,10 @@ class SuperEstadual
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="Valor de nome de SuperEstadual não informado")
+     * @Assert\Length(max=50, maxMessage="Valor informado para nome SuperEstadual 
+     *  ultrapassa a quantidade máxima de caracteres permitidas")
+     * 
      * @ORM\Column(name="nome_super_estadual", type="string", length=50, nullable=false)
      */
     private $nomeSuperEstadual;
@@ -38,6 +49,10 @@ class SuperEstadual
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="Valor de uf de SuperEstadual não informado")
+     * @Assert\Length(max=2, maxMessage="Valor informado para uf SuperEstadual 
+     *  ultrapassa a quantidade máxima de caracteres permitidas")
+     * 
      * @ORM\Column(name="uf", type="string", length=2, nullable=false)
      */
     private $uf;
