@@ -15,6 +15,15 @@ use SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos;
 class ConsultaCliente
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+    
+    /**
      * @var string
      *
      * @ORM\Column(name="valor_bruto", type="decimal", precision=10, scale=2, nullable=true)
@@ -136,9 +145,7 @@ class ConsultaCliente
     /**
      * @var \Clientes
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Clientes", inversedBy="consultas")
+     * @ORM\ManyToOne(targetEntity="Clientes", inversedBy="consultas")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="clientes_id_cliente", referencedColumnName="id_cliente")
      * })
@@ -609,4 +616,14 @@ class ConsultaCliente
     {
         $this->emprestimos->removeElement($emprestimos);
     }
+    
+    function getId() {
+        return $this->id;
+    }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+
 }

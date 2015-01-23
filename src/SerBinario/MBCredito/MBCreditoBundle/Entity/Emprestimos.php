@@ -1,5 +1,4 @@
 <?php
-
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -7,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Emprestimos
  *
- * @ORM\Table(name="emprestimos", indexes={@ORM\Index(name="fk_emprestimos_consulta_cliente1_idx", columns={"consulta_cliente_clientes_id_cliente"})})
+ * @ORM\Table(name="emprestimos", indexes={@ORM\Index(name="fk_emprestimos_consulta_cliente1_idx", columns={"consulta_cliente_id"})})
  * @ORM\Entity
  */
 class Emprestimos
@@ -47,7 +46,7 @@ class Emprestimos
      *
      * @ORM\ManyToOne(targetEntity="ConsultaCliente", inversedBy="emprestimos")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="consulta_cliente_clientes_id_cliente", referencedColumnName="clientes_id_cliente")
+     *   @ORM\JoinColumn(name="consulta_cliente_id", referencedColumnName="id")
      * })
      */
     private $consultaClienteClientesCliente;
