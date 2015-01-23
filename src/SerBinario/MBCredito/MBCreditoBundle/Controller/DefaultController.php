@@ -355,8 +355,9 @@ class DefaultController extends Controller
             
             for($i=0;$i < $countEventos; $i++)
             {
-                $eventosArray[$i]['DT_RowId']       =  "row_".$resultCliente[$i]->getClientesCliente()->getIdCliente();
+                $eventosArray[$i]['DT_RowId']       =  "row_".$resultCliente[$i]->getId();
                 $eventosArray[$i]['nome']           =  $resultCliente[$i]->getNomeSegurado();
+                $eventosArray[$i]['id']             =  $resultCliente[$i]->getNomeSegurado();
                 $eventosArray[$i]['valorBruto']     =  $resultCliente[$i]->getValorBruto();
                 
                 $cpf                                = $resultCliente[$i]->getClientesCliente()->getCpfCliente();
@@ -634,7 +635,6 @@ class DefaultController extends Controller
         $id           = trim($req['idCliente']);
         $margem       = trim($req['margem']);
         $vDisponivel  = trim($req['vDisponivel']);
-        $tCredito     = "";
         
         if(isset($req['emprestimo'])) {
             $emprestimos  = $req['emprestimo'];
@@ -648,13 +648,14 @@ class DefaultController extends Controller
             $statusAtivo = null;
         }
         
-        if(isset($req['tCreditoR'])) {
-            $tCredito  = $req['tCreditoR'];
-        } 
-        
-        if(isset($req['tCreditoN'])) {
-            $tCredito  = $req['tCreditoN'];
-        } 
+        if(isset($req['tCredito'])) {
+            $tCredito  = $req['tCredito'];
+            //var_dump($tCredito);
+           // exit();
+        } else {
+            $tCredito  = null;
+        }
+             
         
         $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
         $emprestimoDAO      = new \SerBinario\MBCredito\MBCreditoBundle\DAO\EmprestimoDAO($this->getDoctrine()->getManager());

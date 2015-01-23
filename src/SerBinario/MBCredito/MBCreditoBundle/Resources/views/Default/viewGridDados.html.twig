@@ -103,11 +103,11 @@
                                     <input type="text" class="form-control" name="vDisponivel" id="vDisponivel" />
                                 </div>
                                 <label for="vDisponivel">Tipo do crédito</label><br/>
-                                <div class="checkbox">                                   
-                                    <label><input type='checkbox' id="tCreditoR" name='tCreditoR' value="1"> 
+                                <div class="radio">                                   
+                                    <label><input type='radio' id="tCreditoR" name='tCredito' value="1"> 
                                         Crédito Renovação
                                     </label><br/><br/>
-                                    <label><input type='checkbox' id="tCreditoN" name='tCreditoN' value="2"> 
+                                    <label><input type='radio' id="tCreditoN" name='tCredito' value="2"> 
                                         Crédito Novo
                                     </label>                                  
                                 </div><br />
@@ -333,15 +333,9 @@
                 $('#vDisponivel').val(d.vDisponivel);
                 
                 if(d.tipoCredito == '1') {
-                    $('#tCreditoR').prop({checked: true});
-                    if($("#tCreditoN").is(":checked")){
-                        $('#tCreditoN').prop({checked: false});
-                    }
+                    $('#tCreditoR').prop('checked', true);
                 } else if (d.tipoCredito == '2') {
-                    $('#tCreditoN').prop({checked: true});
-                    if($("#tCreditoR").is(":checked")){
-                        $('#tCreditoR').prop({checked: false});
-                    }                  
+                    $('#tCreditoN').prop('checked', true);                 
                 } else {
                     $('#tCreditoN').prop('checked', false);
                     $('#tCreditoR').prop('checked', false);
