@@ -258,4 +258,12 @@ class User implements AdvancedUserInterface, \Serializable
         
         return $this;
     }
+    
+    /**
+     * 
+     */
+    public function removeAllRole()
+    {
+        $this->roles->clear();
+    }
 }

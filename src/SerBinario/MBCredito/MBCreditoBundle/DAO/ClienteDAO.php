@@ -59,6 +59,28 @@ class ClienteDAO
     
     /**
      * 
+     * @return type
+     */
+    public function findCallDate()
+    {
+        $qb  = $this->manager->createQueryBuilder();
+        $qb->select("a");
+        $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");
+        $qb->where("a.dataChamada >= today");
+        $qb->setMaxResults(1);
+        
+        $result  = $qb->getQuery()->getResult();
+        $cliente = null;
+        
+        if(count($result) > 0) {
+                $cliente =  $result[0];
+        }
+            
+        return $cliente;
+    }
+    
+    /**
+     * 
      * @param User $usuario
      * @return type
      */
