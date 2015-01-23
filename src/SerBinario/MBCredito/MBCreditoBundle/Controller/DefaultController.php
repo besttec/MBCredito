@@ -1063,10 +1063,7 @@ class DefaultController extends Controller
                 }
                 
             }          
-            
-            //var_dump($convenioArray);
-            //exit();
-            //                       
+                        
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()) {
                 $countConvenio = $countTotal;
@@ -1136,7 +1133,7 @@ class DefaultController extends Controller
                 
                 if($boolPa) {
                     $userArray[$count]['DT_RowId']       =  "row_".$resultUser[$i]->getId();
-                    $userArray[$i]['id']                 =  $resultUser[$i]->getId();
+                    $userArray[$count]['id']             =  $resultUser[$i]->getId();
                     $userArray[$count]['nome']           =  $resultUser[$i]->getUsername();
                     $userArray[$count]['email']          =  $resultUser[$i]->getEmail();  
                     
@@ -1152,7 +1149,7 @@ class DefaultController extends Controller
                     
                     $userArray[$count]['nomeConvenio']   =  $nomeConvenio;
                     $userArray[$count]['estado']         =  $estado;
-                                        
+                                 
                     $count++;
                     $boolPa = false;
                 } else {
@@ -1162,7 +1159,7 @@ class DefaultController extends Controller
             }
             
             $countTotal -= $countBoolPa;
-            
+            exit;
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()) {
                 $countUser = $countTotal;

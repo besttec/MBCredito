@@ -39,7 +39,7 @@ class Clientes
      * @var string
      *
      * @Assert\NotBlank(message="Cpf do cliente não informado")
-     * @Assert\Length(max=11, min=11, exactMessage="Cpf do cliente inválido")
+     * @Assert\Length(max=11, maxMessage="Cpf do cliente inválido")
      * 
      * @ORM\Column(name="cpf_cliente", type="string", length=11, nullable=false)
      */
