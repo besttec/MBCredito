@@ -146,7 +146,7 @@ class DefaultController extends Controller
                     $cliente->setDddFonePrefCliente($columns[19]);
                     $cliente->setFonePrefCliente($columns[20]);
                     $cliente->setCodCliente($columns[21]);
-                    $cliente->setDataNascCliente(\DateTime::createFromFormat("Y/m/d", $columns[22], new \DateTimeZone("America/Recife")));
+                    $cliente->setDataNascCliente(\DateTime::createFromFormat("Y-m-d", $columns[22], new \DateTimeZone("America/Recife")));
                     $cliente->setNumBeneficioCliente($columns[23]);
                     $cliente->setDvCliente((int) $columns[24]);
                     $cliente->setStatusErro(false);
@@ -798,8 +798,7 @@ class DefaultController extends Controller
                     } else {
                        $this->get("session")->getFlashBag()->add('danger', (string) $valResult);  
                     }
-                    
-                           
+                                              
                 } else {
                     #Caso não houver cliente disponível, mandara uma mensagem para o callcenter.
                     $this->get("session")->getFlashBag()->add('danger', "Não existe cliente disponível"); 
@@ -950,7 +949,7 @@ class DefaultController extends Controller
         
         $factory = $this->get('security.encoder_factory');
         
-        $encoder = $factory->getEncoder($user);
+        $encoder  = $factory->getEncoder($user);
         $password = $encoder->encodePassword($senha, $user->getSalt());
         $user->setPassword($password);              
         

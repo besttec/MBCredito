@@ -66,7 +66,8 @@ class ClienteDAO
         $qb  = $this->manager->createQueryBuilder();
         $qb->select("a");
         $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");
-        $qb->where("a.dataChamada >= today");
+        $qb->where("a.dataChamada >= ?1");
+        $qb->setParameter(1, new \DateTime("NOW"));
         $qb->setMaxResults(1);
         
         $result  = $qb->getQuery()->getResult();
