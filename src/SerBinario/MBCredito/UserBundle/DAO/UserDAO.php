@@ -46,6 +46,23 @@ class UserDAO
     
     /**
      * 
+     * @param User $user
+     * @return User
+     */
+    public function update(User $user)
+    {
+        try {
+            $this->manager->merge($user);
+            $this->manager->flush();
+            
+            return $user;
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
+    
+    /**
+     * 
      * @param type $id
      * @return type
      */

@@ -146,7 +146,7 @@ class DefaultController extends Controller
                     $cliente->setDddFonePrefCliente($columns[19]);
                     $cliente->setFonePrefCliente($columns[20]);
                     $cliente->setCodCliente($columns[21]);
-                    $cliente->setDataNascCliente(\DateTime::createFromFormat("d/m/Y", $columns[22], new \DateTimeZone("America/Recife")));
+                    $cliente->setDataNascCliente(\DateTime::createFromFormat("Y/m/d", $columns[22], new \DateTimeZone("America/Recife")));
                     $cliente->setNumBeneficioCliente($columns[23]);
                     $cliente->setDvCliente((int) $columns[24]);
                     $cliente->setStatusErro(false);
@@ -763,12 +763,16 @@ class DefaultController extends Controller
 
             #Observação da consulta
             $obsCosulta   = "";
+            
+            #Consulta por data de validade
+            $clienteData = $clienteDAO->findCallDate();
 
             #Verifica o retorno das chamadas pendentes
             if(! is_null($chamada)) {
-                $cliente    = $chamada->getClientesCliente();
-                //$obsCosulta = $chamada-> 
-            } else {
+                $cliente    = $chamada->getClientesCliente(); 
+            } if($clienteData) {
+                $cliente = $clienteData->getClientesCliente();
+            }else {
                 #Recupera um cliente que já foi consultado e não está sendo atendido por nenhum callcenter
                 $cliente      = $clienteDAO->findNotUse($objConvenio->getId(), $estado);
 
@@ -988,18 +992,19 @@ class DefaultController extends Controller
         $user->setEmail($email);
         $user->setIsActive(true);
         
-        $factory = $this->get('security.encoder_factory');
+        $factory  = $this->get('security.encoder_factory');
         
-        $encoder = $factory->getEncoder($user);
+        $encoder  = $factory->getEncoder($user);
         $password = $encoder->encodePassword($senha, $user->getSalt());
         $user->setPassword($password);              
         
         $roleDAO  = new RoleDAO($this->getDoctrine()->getManager());        
         $role     = $roleDAO->getRole($roleId);
         
+        $user->removeAllRole();
         $user->addRole($role);
         
-        $result  = $userDAO->save($user);
+        $result  = $userDAO->update($user);
         
         if($result) {
             $this->get("session")->getFlashBag()->add('success', "Usuário cadastrado com sucesso!"); 
