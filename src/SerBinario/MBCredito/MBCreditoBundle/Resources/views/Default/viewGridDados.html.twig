@@ -102,8 +102,8 @@
                                     <label for="vDisponivel">Valor Disponível</label>
                                     <input type="text" class="form-control" name="vDisponivel" id="vDisponivel" />
                                 </div>
-                                <div class="checkbox">
-                                    <label for="vDisponivel">Tipo do crédito</label><br/><br/>
+                                <label for="vDisponivel">Tipo do crédito</label><br/>
+                                <div class="checkbox">                                   
                                     <label><input type='checkbox' id="tCreditoR" name='tCreditoR' value="1"> 
                                         Crédito Renovação
                                     </label><br/><br/>
@@ -116,14 +116,14 @@
                                     <textarea class="form-control" id="obs" name="obs" rows="4" cols="7"></textarea>
                                     <input type="hidden" class="form-control" name="idCliente" id="idCliente" />
                                 </div>
-                                <div class="checkbox">
-                                    <label for="exampleInputEmail1">Empréstimos</label><br /><br />
+                                <label for="exampleInputEmail1">Empréstimos</label><br />
+                                <div class="checkbox">                                   
                                     <div class="checked">
                                     </div>
                                 </div>
                                 <br />
-                                <div class="checkbox">
-                                    <label for="exampleInputEmail1">Disponibilidade de ligação</label><br /><br />
+                                <label for="exampleInputEmail1">Disponibilidade de ligação</label><br />
+                                <div class="checkbox">                                    
                                     <label><input type='checkbox' id="ativo" name='statusAtivo' value="1"> 
                                         Ativo
                                     </label>
@@ -311,10 +311,10 @@
 
                 for (var i = 0; i < d.emprestimos.length; i++) {
                     if (d.emprestimos[i]['status'] == '1') {
-                        emprestimmos += "<label><input type='checkbox' checked name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "</label>";
+                        emprestimmos += "<label><input type='checkbox' checked name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + "<b>"+ d.emprestimos[i]['nome'] + "</b>"+ ": $" + d.emprestimos[i]['valor'] + "</label>";
                         emprestimmos += "<br />";
                     } else {
-                        emprestimmos += "<label><input type='checkbox' name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + d.emprestimos[i]['nome'] + "....." + d.emprestimos[i]['valor'] + "</label>";
+                        emprestimmos += "<label><input type='checkbox' name='emprestimo[]' value=" + d.emprestimos[i]['id'] + "> " + "<b>"+ d.emprestimos[i]['nome'] +"</b>"+ ":  $" + d.emprestimos[i]['valor'] + "</label>";
                         emprestimmos += "<br />";
                     }
 
