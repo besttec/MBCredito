@@ -45,6 +45,25 @@ class ConsultaClienteDAO
             return false;
         }
     }
+    
+    /**
+     * 
+     * @param ConsultaCliente $entity
+     * @return boolean
+     */
+    public function update(ConsultaCliente $entity) 
+    {
+        try {
+            
+            $this->manager->merge($entity);
+            $this->manager->flush();
+            
+            return true;
+            
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
       
     /**
      * 
