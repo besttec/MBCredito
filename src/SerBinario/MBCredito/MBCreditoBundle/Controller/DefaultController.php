@@ -798,8 +798,7 @@ class DefaultController extends Controller
                     } else {
                        $this->get("session")->getFlashBag()->add('danger', (string) $valResult);  
                     }
-                    
-                           
+                                              
                 } else {
                     #Caso não houver cliente disponível, mandara uma mensagem para o callcenter.
                     $this->get("session")->getFlashBag()->add('danger', "Não existe cliente disponível"); 
@@ -962,7 +961,7 @@ class DefaultController extends Controller
         
         $factory = $this->get('security.encoder_factory');
         
-        $encoder = $factory->getEncoder($user);
+        $encoder  = $factory->getEncoder($user);
         $password = $encoder->encodePassword($senha, $user->getSalt());
         $user->setPassword($password);              
         

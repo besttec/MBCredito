@@ -30,8 +30,7 @@
                                         {{ flash }}
                                     </div>
                                 {% endfor %}
-                            {% endfor %} 
-                            
+                            {% endfor %}                            
                             {% if cliente is defined %}
                             <form role="form" method="POST" action="{{ path('saveDiscagem') }}">
                                 <input type="hidden" name="chamadaAtual" value="{{ chamadaAtual.idChamadaCliente }}" />
@@ -96,8 +95,7 @@
                                 </div>
                             </form>
                             {% endif %}
-                        </div>
-                        
+                        </div>                       
                         {% if calls is defined %}
                         <div class="col-md-6 column">
                             <div class="panel panel-primary">
@@ -159,7 +157,6 @@
                                     </tfoot>
                                 </table>
                             </div>
-                        </div>
                         {% endif %}
                     </fieldset>
                 </div>
@@ -170,26 +167,23 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" language="javascript" class="init">       
-        $('#status').change(function() {
+    <script type="text/javascript" language="javascript" class="init">
+        $('#status').change(function () {
             var valueOpcao = $('#status option:selected').attr("value");
-            
-            if(valueOpcao == 2) {
+
+            if (valueOpcao == 2) {
                 $('#subrotinas').removeAttr("readonly");
                 $('#datepicker').removeAttr("readonly");
                 $('#datepicker').datetimepicker();
-            } else if(valueOpcao == 1) {
+            } else if (valueOpcao == 1) {
                 $('#subrotinas').removeAttr("readonly");
                 $('#datepicker').attr("readonly", "");
             }
-            
-            
-            
-            
+
             var dados = {
                 id: valueOpcao
             }
-            
+
             $.ajax({
                 type: "POST",
                 url: "{{ path('getSubrotinas') }}",
@@ -197,11 +191,11 @@
                 data: dados,
                 success: function (data) {
                     var option = '';
-                    
+
                     for (var i = 0; i < data.subrotinas.length; i++) {
-                        option += '<option value="'+ data.subrotinas[i]['idSubrotina'] +'">' + data.subrotinas[i]['subrotina'] +'</option>';
+                        option += '<option value="' + data.subrotinas[i]['idSubrotina'] + '">' + data.subrotinas[i]['subrotina'] + '</option>';
                     }
-                    
+
                     $('#subrotinas option').remove();
                     $("#subrotinas").append(option);
                 }

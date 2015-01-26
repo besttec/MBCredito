@@ -64,7 +64,7 @@ class ConsultaClienteDAO
             return false;
         }
     }
-    
+      
     /**
      * 
      * @param type $id
