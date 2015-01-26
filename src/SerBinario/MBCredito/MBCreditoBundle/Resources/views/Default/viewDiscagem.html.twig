@@ -30,127 +30,125 @@
                                         {{ flash }}
                                     </div>
                                 {% endfor %}
-                            {% endfor %} 
-                            
+                            {% endfor %}                            
                             {% if cliente is defined %}
-                            <form role="form" method="POST" action="{{ path('saveDiscagem') }}">
-                                <input type="hidden" name="chamadaAtual" value="{{ chamadaAtual.idChamadaCliente }}" />
-                                <div class="form-group col-lg-12">
-                                    <label for="nome">Nome</label>
-                                    <input value="{{ cliente.nomeCliente }}" type="text" readonly="" class="form-control" name="nomeSegurado" id="nomeSegurado" />
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="competencia">Sexo</label><br />
-                                    <label class="radio-inline sexo">
-                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" {% if cliente.sexosSexo.nomeAbreviaturaSexo == "M" %} checked="checked" {% endif %} value="Masculino"> M
-                                    </label>
-                                    <label class="radio-inline sexo">
-                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" {% if cliente.sexosSexo.nomeAbreviaturaSexo == "F" %} checked="checked" {% endif %} value="Feminino"> F
-                                    </label>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="pCredito">Nome Contato</label>
-                                    <input value="{{ cliente.nomeCliente }}" type="text" readonly class="form-control" name="pCredito" id="pCredito" />
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="numBeneficio">Agência</label>
-                                    <input value="{{ cliente.agAg.prefixoAg }}" type="text" readonly class="form-control" name="tipoPagamento" id="tipoPagamento" />
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="numBeneficio">CC - AG</label>
-                                    <input value="{{ cliente.agAg.ccAg }}" type="text" readonly class="form-control" name="especie" id="especie" />
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="numBeneficio">Margem</label>
-                                    <input type="text" readonly class="form-control" name="banco" id="banco" />
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="status">Situação</label>
-                                    <select class="form-control" id="status" name="status">
-                                        <option value="">Selecione uma Situação</option>
-                                        {% for st in status %}
-                                            <option value="{{ st.idStatus }}">{{ st.status }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="numBeneficio">Contato</label>
-                                    <input type="text" readonly class="form-control" name="codAgencia" id="codAgencia" />
-                                </div>     
-                                <div class="form-group col-lg-6">
-                                    <label for="subrotinas">Sub-Resultados</label>
-                                    <select readonly="" class="form-control" name="subrotinas" id="subrotinas">
-                                        <option value="">Selecione um Sub-resultado</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="dataProxLiguacao">Data próxima ligação</label>
-                                    <input type="text" id="datepicker" readonly class="form-control" name="dataProxLiguacao">
-                                </div>                                                      
-                                <div class="form-group col-lg-12">
-                                    <label for="obs">Observação</label>
-                                    <textarea class="form-control" id="obs" name="obs" rows="4" cols="7"></textarea>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <button type="submit" id="salvar" class="btn btn-primary">Salvar</button>
-                                </div>
-                            </form>
+                                <form role="form" method="POST" action="{{ path('saveDiscagem') }}">
+                                    <input type="hidden" name="chamadaAtual" value="{{ chamadaAtual.idChamadaCliente }}" />
+                                    <div class="form-group col-lg-12">
+                                        <label for="nome">Nome</label>
+                                        <input value="{{ cliente.nomeCliente }}" type="text" readonly="" class="form-control" name="nomeSegurado" id="nomeSegurado" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="competencia">Sexo</label><br />
+                                        <label class="radio-inline sexo">
+                                            <input type="radio" name="inlineRadioOptions" id="inlineRadio1" {% if cliente.sexosSexo.nomeAbreviaturaSexo == "M" %} checked="checked" {% endif %} value="Masculino"> M
+                                        </label>
+                                        <label class="radio-inline sexo">
+                                            <input type="radio" name="inlineRadioOptions" id="inlineRadio1" {% if cliente.sexosSexo.nomeAbreviaturaSexo == "F" %} checked="checked" {% endif %} value="Feminino"> F
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="pCredito">Nome Contato</label>
+                                        <input value="{{ cliente.nomeCliente }}" type="text" readonly class="form-control" name="pCredito" id="pCredito" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="numBeneficio">Agência</label>
+                                        <input value="{{ cliente.agAg.prefixoAg }}" type="text" readonly class="form-control" name="tipoPagamento" id="tipoPagamento" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="numBeneficio">CC - AG</label>
+                                        <input value="{{ cliente.agAg.ccAg }}" type="text" readonly class="form-control" name="especie" id="especie" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="numBeneficio">Margem</label>
+                                        <input type="text" readonly class="form-control" name="banco" id="banco" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="status">Situação</label>
+                                        <select class="form-control" id="status" name="status">
+                                            <option value="">Selecione uma Situação</option>
+                                            {% for st in status %}
+                                                <option value="{{ st.idStatus }}">{{ st.status }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="numBeneficio">Contato</label>
+                                        <input type="text" readonly class="form-control" name="codAgencia" id="codAgencia" />
+                                    </div>     
+                                    <div class="form-group col-lg-6">
+                                        <label for="subrotinas">Sub-Resultados</label>
+                                        <select readonly="" class="form-control" name="subrotinas" id="subrotinas">
+                                            <option value="">Selecione um Sub-resultado</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="dataProxLiguacao">Data próxima ligação</label>
+                                        <input type="text" id="datepicker" readonly class="form-control" name="dataProxLiguacao">
+                                    </div>                                                      
+                                    <div class="form-group col-lg-12">
+                                        <label for="obs">Observação</label>
+                                        <textarea class="form-control" id="obs" name="obs" rows="4" cols="7"></textarea>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <button type="submit" id="salvar" class="btn btn-primary">Salvar</button>
+                                    </div>
+                                </form>
                             {% endif %}
-                        </div>
-                        
+                        </div>                       
                         {% if calls is defined %}
-                        <div class="col-md-6 column">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading">Hitórico de discagem</div>
-                                <div class="panel-body">
-                                    Tentativas de chamadas realizadas para este cliente.
-                                </div>
-                                <!-- Table -->
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                Chamada
-                                            </th>
-                                            <th>
-                                                Data
-                                            </th>
-                                            <th>
-                                                Status
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for call in calls %}
+                            <div class="col-md-6 column">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">Hitórico de discagem</div>
+                                    <div class="panel-body">
+                                        Tentativas de chamadas realizadas para este cliente.
+                                    </div>
+                                    <!-- Table -->
+                                    <table class="table table-bordered">
+                                        <thead>
                                             <tr>
-                                                <td>
-                                                    {{ call.idChamadaCliente }}
-                                                </td>
-                                                <td>
-                                                    {{ call.dataChamada|date('d/m/Y') }}
-                                                </td>
-                                                <td>
-                                                    {{ call.statusStatus.status }}
-                                                </td>
+                                                <th>
+                                                    Chamada
+                                                </th>
+                                                <th>
+                                                    Data
+                                                </th>
+                                                <th>
+                                                    Status
+                                                </th>
                                             </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>
-                                                Tentativas
-                                            </th>
-                                            <th>
-                                                Data
-                                            </th>
-                                            <th>
-                                                Status
-                                            </th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            {% for call in calls %}
+                                                <tr>
+                                                    <td>
+                                                        {{ call.idChamadaCliente }}
+                                                    </td>
+                                                    <td>
+                                                        {{ call.dataChamada|date('d/m/Y') }}
+                                                    </td>
+                                                    <td>
+                                                        {{ call.statusStatus.status }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>
+                                                    Tentativas
+                                                </th>
+                                                <th>
+                                                    Data
+                                                </th>
+                                                <th>
+                                                    Status
+                                                </th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
                         {% endif %}
                     </fieldset>
                 </div>
@@ -161,26 +159,23 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" language="javascript" class="init">       
-        $('#status').change(function() {
+    <script type="text/javascript" language="javascript" class="init">
+        $('#status').change(function () {
             var valueOpcao = $('#status option:selected').attr("value");
-            
-            if(valueOpcao == 2) {
+
+            if (valueOpcao == 2) {
                 $('#subrotinas').removeAttr("readonly");
                 $('#datepicker').removeAttr("readonly");
                 $('#datepicker').datetimepicker();
-            } else if(valueOpcao == 1) {
+            } else if (valueOpcao == 1) {
                 $('#subrotinas').removeAttr("readonly");
                 $('#datepicker').attr("readonly", "");
             }
-            
-            
-            
-            
+
             var dados = {
                 id: valueOpcao
             }
-            
+
             $.ajax({
                 type: "POST",
                 url: "{{ path('getSubrotinas') }}",
@@ -188,11 +183,11 @@
                 data: dados,
                 success: function (data) {
                     var option = '';
-                    
+
                     for (var i = 0; i < data.subrotinas.length; i++) {
-                        option += '<option value="'+ data.subrotinas[i]['idSubrotina'] +'">' + data.subrotinas[i]['subrotina'] +'</option>';
+                        option += '<option value="' + data.subrotinas[i]['idSubrotina'] + '">' + data.subrotinas[i]['subrotina'] + '</option>';
                     }
-                    
+
                     $('#subrotinas option').remove();
                     $("#subrotinas").append(option);
                 }

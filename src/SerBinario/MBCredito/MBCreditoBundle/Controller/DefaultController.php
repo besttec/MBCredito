@@ -101,7 +101,7 @@ class DefaultController extends Controller
                     $cliente->setLimiteCreditoCliente($columns[2]);
                     
                     $superEstadual    = null;
-                    $superEstadualDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperEstadualDAO($this->getDoctrine()->getEntityManager());
+                    $superEstadualDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperEstadualDAO($this->getDoctrine()->getManager());
                     $objEstadual      = $superEstadualDAO->findCod($columns[4]);
                     
                     if($objEstadual) {
@@ -116,7 +116,7 @@ class DefaultController extends Controller
                     $cliente->setSuperEstadualSuperEstadual($superEstadual);
                     
                     $superRegional    = null;
-                    $superRegionalDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperRegionalDAO($this->getDoctrine()->getEntityManager());
+                    $superRegionalDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperRegionalDAO($this->getDoctrine()->getManager());
                     $objRegional      = $superRegionalDAO->findCod(trim($columns[6]));
                     
                     if($objRegional) {
@@ -1062,10 +1062,7 @@ class DefaultController extends Controller
                 }
                 
             }          
-            
-            //var_dump($convenioArray);
-            //exit();
-            //                       
+                        
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()) {
                 $countConvenio = $countTotal;
@@ -1135,7 +1132,7 @@ class DefaultController extends Controller
                 
                 if($boolPa) {
                     $userArray[$count]['DT_RowId']       =  "row_".$resultUser[$i]->getId();
-                    $userArray[$i]['id']                 =  $resultUser[$i]->getId();
+                    $userArray[$count]['id']             =  $resultUser[$i]->getId();
                     $userArray[$count]['nome']           =  $resultUser[$i]->getUsername();
                     $userArray[$count]['email']          =  $resultUser[$i]->getEmail();  
                     
@@ -1151,7 +1148,7 @@ class DefaultController extends Controller
                     
                     $userArray[$count]['nomeConvenio']   =  $nomeConvenio;
                     $userArray[$count]['estado']         =  $estado;
-                                        
+                                 
                     $count++;
                     $boolPa = false;
                 } else {
@@ -1160,8 +1157,7 @@ class DefaultController extends Controller
                       
             }
             
-            $countTotal -= $countBoolPa;
-            
+            $countTotal -= $countBoolPa;            
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()) {
                 $countUser = $countTotal;

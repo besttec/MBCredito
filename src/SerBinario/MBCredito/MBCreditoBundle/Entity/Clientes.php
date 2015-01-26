@@ -39,7 +39,7 @@ class Clientes
      * @var string
      *
      * @Assert\NotBlank(message="Cpf do cliente não informado")
-     * @Assert\Length(max=11, min=11, exactMessage="Cpf do cliente inválido")
+     * @Assert\Length(max=11, maxMessage="Cpf do cliente inválido")
      * 
      * @ORM\Column(name="cpf_cliente", type="string", length=11, nullable=false)
      */
@@ -177,7 +177,7 @@ class Clientes
     /**
      * @var string
      * 
-     * @Assert\Length(max=10, maxMessage="Valor do número do benefício complementar do cliente
+     * @Assert\Length(max=45, maxMessage="Valor do número do benefício complementar do cliente
      *  ultrapassa a quantidade de caracteres permitidas")
      *
      * @ORM\Column(name="num_beneficio_comp_cliente", type="string", length=45, nullable=true)
