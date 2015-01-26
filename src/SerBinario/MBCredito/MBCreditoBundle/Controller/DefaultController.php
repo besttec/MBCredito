@@ -768,18 +768,43 @@ class DefaultController extends Controller
             #Recupera se houver chamadas pendentes.
             $chamada      = null;
             $chamada      = $clienteDAO->findCallPen($usuario);
-
+           
             #Observação da consulta
             $obsCosulta   = "";
             
             #Consulta por data de validade
-            $clienteData = $clienteDAO->findCallDate();
+            $chamadaData = $clienteDAO->findCallDate();
+            #Chamada anterior.
+            $chamadaAnt  = null;
 
             #Verifica o retorno das chamadas pendentes
             if(! is_null($chamada)) {
-                $cliente    = $chamada->getClientesCliente(); 
-            } if($clienteData) {
-                $cliente = $clienteData->getClientesCliente();
+                $cliente = $chamada->getClientesCliente(); 
+            }else if($chamadaData) {
+                $cliente    = $chamadaData->getClientesCliente();                
+                $chamadaAnt = $chamadaData->getIdChamadaCliente();
+                
+                $cliente->setStatusEmChamada(true);                              
+                $clienteDAO->updateCliente($cliente);
+                
+                $chamada = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente();
+                $chamada->setStatusPendencia(true);
+                $chamada->setStatusChamada(false);
+                $chamada->setDataPendencia(new \DateTime("now", new \DateTimeZone("America/Recife")));
+                $chamada->setClientesCliente($cliente);
+                $chamada->setUser($usuario);
+
+                $validator = $this->get("validator");
+                $valResult = $validator->validate($chamada);
+
+                if(count($valResult) == 0) {
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($chamada);
+                    $em->flush();
+                } else {
+                   $this->get("session")->getFlashBag()->add('danger', (string) $valResult);  
+                }                
+                
             }else {
                 #Recupera um cliente que já foi consultado e não está sendo atendido por nenhum callcenter
                 $cliente      = $clienteDAO->findNotUse($objConvenio->getId(), $estado);
@@ -827,7 +852,8 @@ class DefaultController extends Controller
                 "status" => $status,
                 "calls" => $calls,
                 "chamadaAtual" => $chamada,
-                "consulta" => $consulta
+                "consulta" => $consulta,
+                "chamadaAnterior" => $chamadaAnt
             );
         } else {
             #Casa não haja convênio designadoê 
@@ -854,6 +880,7 @@ class DefaultController extends Controller
         $chamadaAtual = $dados['chamadaAtual'];
         $newDDD       = $dados['newDDD'];
         $newFone      = $dados['newFone'];
+        $chamadaAnt   = $dados['chamadaAnterior'];
         
         if($status != "" && $subrotina != "") {
             $chamadaDAO   = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ChamadaDAO($this->getDoctrine()->getManager());
@@ -866,11 +893,12 @@ class DefaultController extends Controller
             $subrotinaDAO = new  \SerBinario\MBCredito\MBCreditoBundle\DAO\SubRotinasDAO($this->getDoctrine()->getManager());
             $subrotina    = $subrotinaDAO->findById($subrotina);
             
+            $clienteDAO   = new ClienteDAO($this->getDoctrine()->getManager());
+           
             if($status->getIdStatus() == 2) {
-                $date = \DateTime::createFromFormat("Y/m/d H:m", $dtProxLig);
+                $date = \DateTime::createFromFormat("Y/m/d H:i", $dtProxLig);
                 $objChamada->setDataChamada($date);
-                $objChamada->setStatusChamada(false);
-            }
+            } 
             
             $objChamada->setNovoDDD($newDDD);
             $objChamada->setNovoFone($newFone);
@@ -883,11 +911,27 @@ class DefaultController extends Controller
             $validator = $this->get("validator");
             $valResult = $validator->validate($objChamada);
             
-            if(count($valResult) == 0) {
-                $result = $chamadaDAO->update($objChamada);
+            if(count($valResult) == 0) { 
+                #Se for remarcação
+                if($chamadaAnt) {
+                    $objChamadaAnt = $chamadaDAO->findById($chamadaAnt);
+                    $objChamadaAnt->setStatusChamada(true);
+                    $chamadaDAO->update($objChamadaAnt);
+                }              
+                
+                $cliente = $objChamada->getClientesCliente();    
+                
+                if($status->getIdStatus() == 1) {
+                   $cliente->setStatusLigacao(false); 
+                }
+                
+                $cliente->setStatusEmChamada(false);                              
+                $clienteDAO->updateCliente($cliente);
+                
+                $result  = $chamadaDAO->update($objChamada);             
             
                 if($result) {
-                     $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
+                    $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
                 } else {
                     $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");                     
                 }

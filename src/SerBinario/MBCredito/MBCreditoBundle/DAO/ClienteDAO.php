@@ -66,15 +66,16 @@ class ClienteDAO
         $qb  = $this->manager->createQueryBuilder();
         $qb->select("a");
         $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");
-        $qb->where("a.dataChamada >= ?1");
+        $qb->where("a.dataChamada >= ?1 AND a.statusChamada = ?2");
         $qb->setParameter(1, new \DateTime("NOW"));
+        $qb->setParameter(2, false);
         $qb->setMaxResults(1);
         
         $result  = $qb->getQuery()->getResult();
         $cliente = null;
         
         if(count($result) > 0) {
-                $cliente =  $result[0];
+            $cliente =  $result[0];
         }
             
         return $cliente;
@@ -130,10 +131,10 @@ class ClienteDAO
                     )
                 );
             
-            //if($estado != "") {
-            //    $qb->andWhere("c.uf = ?6");
-            //    $qb->setParameter(6, $estado);
-            //}
+            if($estado != "") {
+                $qb->andWhere("c.uf = ?6");
+                $qb->setParameter(6, $estado);
+            }
             
             $result = $qb->getQuery()->getResult(); 
  
@@ -143,29 +144,7 @@ class ClienteDAO
                 $cliente =  $result[0];
             }
             
-            return $cliente;
-            
-           /** #Seleciona os registro que não foram finalizados.
-            $query  = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes a "
-                    . "JOIN a.superEstadualSuperEstadual c JOIN a.convenio b "
-                    . "WHERE a.statusEmChamada =?1 AND a.statusConsulta = ?2  AND a.statusErro = ?3 AND a.statusLigacao = ?4 AND "
-                    . " b.id = ?5 AND c.uf = ?6")
-                        ->setParameter(1, false)
-                        ->setParameter(2, true)
-                        ->setParameter(3, false)
-                        ->setParameter(4, true)
-                        ->setParameter(5, $idConvenio)
-                        ->setParameter(6, $estado)
-                        ->setMaxResults(1);
-            
-            $result  =  $query->getResult();
-            $cliente = null; 
-            
-            if(count($result) > 0) {
-                $cliente =  $result[0];
-            }
-            
-            return $cliente;  */          
+            return $cliente;         
         } catch (Exception $ex) {
             return null;
         }
