@@ -57,6 +57,14 @@ class DefaultController extends Controller
     public function saveArquivoAction(Request $request)
     {
         $uploadfile = $request->files->get("arquivo");
+        
+        #Se o arquivo não for selecionado.
+        if(! $uploadfile) {
+           $this->get("session")->getFlashBag()->add('danger', "Você deve selecionar um arquivo");   
+           
+           return $this->redirect($this->generateUrl("importarArquivo")); 
+        }
+        
         $nameFile   = sha1(uniqid(mt_rand(), true));
         $validator  = $this->get('validator');
         
