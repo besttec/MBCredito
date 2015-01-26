@@ -809,10 +809,19 @@ class DefaultController extends Controller
                 }
             }      
             #Recupera todas as chamadas do cliente = $cliente
-            $calls   = $clienteDAO->findCallsCliente($cliente);
+            $calls    = $clienteDAO->findCallsCliente($cliente);
+            
+            #Recupera a última consulta do cliente;
+            $consulta = $clienteDAO->findLastConsulta();
             
             #Retorno a página.
-            return array("cliente" => $cliente, "status" => $status, "calls" => $calls, "chamadaAtual" => $chamada);
+            return array(
+                "cliente" => $cliente,
+                "status" => $status,
+                "calls" => $calls,
+                "chamadaAtual" => $chamada,
+                "consulta" => $consulta
+            );
         } else {
             #Casa não haja convênio designadoê 
             $this->get("session")->getFlashBag()->add('danger', "Não existe convênio designado, contate o administrador!"); 
@@ -836,6 +845,8 @@ class DefaultController extends Controller
         $dtProxLig    = $dados['dataProxLiguacao'];
         $obs          = $dados['obs'];
         $chamadaAtual = $dados['chamadaAtual'];
+        $newDDD       = $dados['newDDD'];
+        $newFone      = $dados['newFone'];
         
         if($status != "" && $subrotina != "") {
             $chamadaDAO   = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ChamadaDAO($this->getDoctrine()->getManager());
@@ -854,7 +865,8 @@ class DefaultController extends Controller
                 $objChamada->setStatusChamada(false);
             }
             
-            
+            $objChamada->setNovoDDD($newDDD);
+            $objChamada->setNovoFone($newFone);
             $objChamada->setObservacao($obs);
             $objChamada->setStatusStatus($status);
             $objChamada->setSubrotinasSubrotina($subrotina);

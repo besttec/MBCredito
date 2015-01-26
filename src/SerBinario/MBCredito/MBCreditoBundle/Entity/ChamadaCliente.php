@@ -40,6 +40,24 @@ class ChamadaCliente
     private $statusChamada;
     
     /**
+     * @var string
+     *
+     * @Assert\Type(type="string", message="Valor inválido para novo ddd da chamada")
+     * 
+     * @ORM\Column(name="novo_ddd", type="string", length=3, nullable=true)
+     */
+    private $novoDDD;
+    
+    /**
+     * @var string
+     *
+     * @Assert\Type(type="string", message="Valor inválido para novo fone da chamada")
+     * 
+     * @ORM\Column(name="novo_fone", type="string", length=8, nullable=true)
+     */
+    private $novoFone;
+    
+    /**
      * @var datetime
      * 
      * @Assert\DateTime(message="Valor inválido para Data da Chamada")
@@ -313,6 +331,42 @@ class ChamadaCliente
     public function setDataPendencia($dataPendencia) 
     {
         $this->dataPendencia = $dataPendencia;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getNovoDDD() 
+    {
+        return $this->novoDDD;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getNovoFone() 
+    {
+        return $this->novoFone;
+    }
+    
+    /**
+     * 
+     * @param type $novoDDD
+     */
+    public function setNovoDDD($novoDDD) 
+    {
+        $this->novoDDD = $novoDDD;
+    }
+
+    /**
+     * 
+     * @param type $novoFone
+     */
+    public function setNovoFone($novoFone) 
+    {
+        $this->novoFone = $novoFone;
     }
 
 

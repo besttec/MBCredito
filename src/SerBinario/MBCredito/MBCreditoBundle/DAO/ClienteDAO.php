@@ -173,6 +173,28 @@ class ClienteDAO
     
     /**
      * 
+     * @return type
+     */
+    public function findLastConsulta()
+    {
+        try {
+            $qb = $this->manager->createQueryBuilder();
+            $qb->select("a");
+            $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente","a");
+            $qb->orderBy("a.id", "DESC");
+            $qb->setMaxResults(1);
+            
+            $query  = $qb->getQuery();
+            $result = $query->getOneOrNullResult();
+            
+            return $result;
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
+    
+    /**
+     * 
      * @param Clientes $cliente
      * @return type
      */

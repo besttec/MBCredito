@@ -47,11 +47,7 @@
                                     <label class="radio-inline sexo">
                                         <input type="radio" name="inlineRadioOptions" id="inlineRadio1" {% if cliente.sexosSexo.nomeAbreviaturaSexo == "F" %} checked="checked" {% endif %} value="Feminino"> F
                                     </label>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="pCredito">Nome Contato</label>
-                                    <input value="{{ cliente.nomeCliente }}" type="text" readonly class="form-control" name="pCredito" id="pCredito" />
-                                </div>
+                                </div>                                
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Agência</label>
                                     <input value="{{ cliente.agAg.prefixoAg }}" type="text" readonly class="form-control" name="tipoPagamento" id="tipoPagamento" />
@@ -62,7 +58,7 @@
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="numBeneficio">Margem</label>
-                                    <input type="text" readonly class="form-control" name="banco" id="banco" />
+                                    <input type="text" value="{{ consulta.margemCliente }}" readonly class="form-control" name="banco" id="banco" />
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="status">Situação</label>
@@ -74,8 +70,12 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <label for="numBeneficio">Contato</label>
-                                    <input type="text" readonly class="form-control" name="codAgencia" id="codAgencia" />
+                                    <label for="newDDD">Novo DDD</label>
+                                    <input type="text" class="form-control" name="newDDD" id="newDDD" maxlength="2" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="newFone">Novo fone</label>
+                                    <input type="text" class="form-control" name="newFone" id="newFone" maxlength="8" />
                                 </div>     
                                 <div class="form-group col-lg-6">
                                     <label for="subrotinas">Sub-Resultados</label>
@@ -118,6 +118,9 @@
                                             <th>
                                                 Status
                                             </th>
+                                            <th>
+                                                Situação
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -132,6 +135,9 @@
                                                 <td>
                                                     {{ call.statusStatus.status }}
                                                 </td>
+                                                <td>
+                                                    {{ call.subrotinasSubrotina.subrotina }}
+                                                </td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
@@ -145,6 +151,9 @@
                                             </th>
                                             <th>
                                                 Status
+                                            </th>
+                                            <th>
+                                                Situação
                                             </th>
                                         </tr>
                                     </tfoot>
