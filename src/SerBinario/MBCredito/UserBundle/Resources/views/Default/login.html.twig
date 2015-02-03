@@ -5,43 +5,18 @@
     <div class="wrapper" role="main">
         <div class="container" style="min-height: 503px;">
             <div class="row">
-                <div id="conteudo" class="col-md-3" style="background: #BDAD9B; padding: 10px; margin-top: 10px; border-radius: 10px;">
+                <div id="conteudo" class="col-md-3" style="background: #B4CCFC; padding: 10px; margin-top: 10px; border-radius: 10px;">
                     {% if error %}
                         <div>{{ error.message }}</div>
                     {% endif %}
                     <form class="form-signin" role="form" method="post" action="{{ path('login_check') }}">
-                        <h2 class="form-signin-heading" contenteditable="false" style="color: #FFFFFF">Informe</h2>
+                        <h2 class="form-signin-heading" contenteditable="false" style="color: #000">Informe</h2>
 
                         <input type="text" class="form-control" name="_username" value="{{ last_username }}" placeholder="Login" required="" autofocus="" contenteditable="false">
                         <input type="password" class="form-control" name="_password" placeholder="Senha" required="" contenteditable="false">
                         <button class="btn btn-lg btn-primary btn-block" type="submit">Logar</button>
                     </form>
                 </div> 	
-            </div>
-        </div>
-    </div>
-
-    <footer style=" background: #A39686"> <!-- Aqui e a area do footer -->
-        <div class="container">
-            <div class="row">
-                <div id="linksImportantes" class="col-md-3">
-                    <h5>CPNJ: 12345678</h5>
-                </div> <!-- Aqui e a area dos links importantes -->
-                <div id="redesSociais" class="col-md-3">
-
-                </div> <!-- Aqui e a area das redes sociais -->
-                <div id="logoFooter" class="col-md-offset-3 col-md-3">
-                    <img src="{{asset('imagens/logo_serbirario.png')}}" width="200" height="60"/>
-                </div> <!-- Aqui e a area da logo do rodape -->
-            </div>
-        </div>
-    </footer>
-    <div class="copyright" style="background: #7D7367">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <p style="color: #FFFFFF">&copy; Todos os direitos reservados.</p>
-                </div>
             </div>
         </div>
     </div>

@@ -1,5 +1,4 @@
 <?php
-
 namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
@@ -207,6 +206,45 @@ class ConsultaCliente
      * @ORM\Column(name="tipo_credito_cliente", type="string", length=1, nullable=true)
      */
     private $tipoCreditoCliente;
+    
+     /**
+     * @var boolean
+     *
+     * @Assert\Type(type="bool", message="Valor informado para status de ligação do cliente é inválido")
+     * 
+     * @ORM\Column(name="status_ligacao_cliente", type="boolean", nullable=true, options={"comment":"Define o status em caso de disponível"})
+     */
+    private $statusLigacao;
+    
+    /**
+     * @var boolean
+     *
+     * @Assert\Type(type="bool", message="Valor informado para status da consulta do cliente é inválido")
+     * 
+     * @ORM\Column(name="status_consulta", type="boolean", nullable=true)
+     */
+    private $statusConsulta;
+    
+    /**
+     * @var boolean
+     * 
+     * @Assert\Type(type="bool", message="Valor informado para status de erro da consulta é inválido")
+     *
+     * @ORM\Column(name="status_erro_consulta", type="boolean", nullable=true, options={"comment":"Define o status em caso de erro ao consultar o cliente"})
+     */
+    private $statusErro;
+    
+    /**
+     * @var String
+     *
+     * @Assert\Length(max=65535, maxMessage="Valor informado para observação de erro
+     *  do cliente ultrapassa a quantidade máxima de caracteres permitida")
+     * 
+     * @ORM\Column(name="obs_erro_consulta", type="text", length=65535, nullable=true)
+     */
+    private $obsErro;
+
+   
 
     /**
      * @var \Clientes
@@ -219,6 +257,11 @@ class ConsultaCliente
      * })
      */
     private $clientesCliente;
+    
+     /**
+     * @ORM\OneToMany(targetEntity="ChamadaCliente", mappedBy="consultaCliente")
+     **/
+    private $chamadasCliente;
     
     /**
      * @ORM\OneToMany(targetEntity="Emprestimos", mappedBy="consultaClienteClientesCliente",  cascade={"persist", "remove"})
@@ -689,7 +732,8 @@ class ConsultaCliente
      * 
      * @return type
      */
-    function getId() {
+    public function getId() 
+    {
         return $this->id;
     }
     
@@ -697,7 +741,8 @@ class ConsultaCliente
      * 
      * @param type $id
      */
-    function setId($id) {
+    public function setId($id) 
+    {
         $this->id = $id;
     }
     
@@ -705,7 +750,8 @@ class ConsultaCliente
      * 
      * @return type
      */
-    function getMargemCliente() {
+    public function getMargemCliente() 
+    {
         return $this->margemCliente;
     }
     
@@ -721,7 +767,8 @@ class ConsultaCliente
      * 
      * @return type
      */
-    function getTipoCreditoCliente() {
+    public function getTipoCreditoCliente() 
+    {
         return $this->tipoCreditoCliente;
     }
     
@@ -729,7 +776,8 @@ class ConsultaCliente
      * 
      * @param type $margemCliente
      */
-    function setMargemCliente($margemCliente) {
+    public function setMargemCliente($margemCliente) 
+    {
         $this->margemCliente = $margemCliente;
     }
     
@@ -737,7 +785,8 @@ class ConsultaCliente
      * 
      * @param type $valorDisponivelCliente
      */
-    function setValorDisponivelCliente($valorDisponivelCliente) {
+    public function setValorDisponivelCliente($valorDisponivelCliente) 
+    {
         $this->valorDisponivelCliente = $valorDisponivelCliente;
     }
     
@@ -746,9 +795,129 @@ class ConsultaCliente
      * @param type $tipoCreditoCliente
      * 
      */
-    function setTipoCreditoCliente($tipoCreditoCliente) {
+    public function setTipoCreditoCliente($tipoCreditoCliente) 
+    {
         $this->tipoCreditoCliente = $tipoCreditoCliente;
     }
+
+    /**
+     * 
+     * @return type
+     */
+    public function getChamadasCliente() 
+    {
+        return $this->chamadasCliente;
+    }
+
+    /**
+     * 
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente $chamadasCliente
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
+     */
+    public function setChamadasCliente(\SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente $chamadasCliente)
+    {
+        $this->chamadasCliente = $chamadasCliente;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente $chamadasCliente
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
+     */
+    public function addChamada(\SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente $chamadasCliente)
+    {       
+        $chamadasCliente->setConsultaCliente($this);
+        
+        $this->chamadasCliente[] = $chamadasCliente;        
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getStatusLigacao() 
+    {
+        return $this->statusLigacao;
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function getStatusConsulta() 
+    {
+        return $this->statusConsulta;
+    }
+
+    /**
+     * 
+     * @param type $statusLigacao
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
+     */
+    public function setStatusLigacao($statusLigacao) 
+    {
+        $this->statusLigacao = $statusLigacao;
+        
+        return $this;
+    }
+
+    /**
+     * 
+     * @param type $statusConsulta
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
+     */
+    public function setStatusConsulta($statusConsulta) 
+    {
+        $this->statusConsulta = $statusConsulta;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getStatusErro() 
+    {
+        return $this->statusErro;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getObsErro() 
+    {
+        return $this->obsErro;
+    }
+    
+    /**
+     * 
+     * @param type $statusErro
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
+     */
+    public function setStatusErro($statusErro) 
+    {
+        $this->statusErro = $statusErro;
+        
+        return $this;
+    }
+
+    /**
+     * 
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\String $obsErro
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
+     */
+    public function setObsErro($obsErro) 
+    {
+        $this->obsErro = $obsErro;
+        
+        return $this;
+    }
+
 
 
 }

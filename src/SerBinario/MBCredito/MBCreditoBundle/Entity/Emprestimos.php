@@ -35,7 +35,7 @@ class Emprestimos
      *
      * @Assert\Type(type="double", message="Valor informado para valor é inválido")
      * 
-     * @ORM\Column(name="valor_", type="decimal", precision=10, scale=2, nullable=false)
+     * @ORM\Column(name="valor", type="decimal", precision=10, scale=2, nullable=false)
      */
     private $valor;
     
@@ -44,7 +44,7 @@ class Emprestimos
      * 
      * @Assert\Type(type="bool", message="Valor informado para status do emprestimo é inválido")
      *
-     * @ORM\Column(name="$status_bb_emprestimo", type="boolean", nullable=true)
+     * @ORM\Column(name="status_bb_emprestimo", type="boolean", nullable=true)
      */
     private $statusBBEmprestimo;
 

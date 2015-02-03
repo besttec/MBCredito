@@ -131,7 +131,7 @@
                             </div>
                             <div class="modal-footer">
                                 <input type="submit" class="btn btn-primary" value="Salvar" />
-                                <input type="reset" class="btn btn-default" value="Limpar" />
+                                <input type="reset"  class="btn btn-default" value="Limpar" />
                             </div>
                         </form>
                     </div>
@@ -324,6 +324,12 @@
                     $('#ativo').prop('checked', true);
                 } else {
                     $('#ativo').prop('checked', false);
+                }
+                
+                if(d.statusLigacao === "1") {
+                    $('#ativo').prop('disabled', false);
+                } else {
+                    $('#ativo').prop('disabled', true);
                 }
 
                 $('.checked').html(emprestimmos);

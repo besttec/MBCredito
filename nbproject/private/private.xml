@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Controller/DefaultController.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/RN/ChainOfResponsibility/HandlePendecia.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/RN/DiscagemRN.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/RN/ChainOfResponsibility/HandleNormal.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/RN/ChainOfResponsibility/HandleValidade.php</file>
+        </group>
+>>>>>>> 1e0526562e2afd65cbe9d14d32f2892f9331c4a8
     </open-files>
 </project-private>

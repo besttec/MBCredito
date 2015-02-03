@@ -30,6 +30,23 @@ class ChamadaDAO
      * @param ChamadaCliente $entity
      * @return ChamadaCliente|boolean
      */
+    public function save(ChamadaCliente $entity)
+    {
+        try {
+            $this->manager->persist($entity);
+            $this->manager->flush();
+            
+            return $entity;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
+    
+    /**
+     * 
+     * @param ChamadaCliente $entity
+     * @return ChamadaCliente|boolean
+     */
     public function update(ChamadaCliente $entity)
     {
         try {
@@ -72,4 +89,15 @@ class ChamadaDAO
             return null;
         }
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getManager() 
+    {
+        return $this->manager;
+    }
+
+
 }

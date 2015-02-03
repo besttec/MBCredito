@@ -89,7 +89,8 @@ class ClienteDAO
     public function findCallPen(User $usuario)
     {
        #Seleciona os Registros com Pendências.
-        $queryPendencia = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente a JOIN a.user c  WHERE a.statusPendencia =?1 AND c.id =?2")
+        $queryPendencia = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente a "
+                . "JOIN a.user c  WHERE a.statusPendencia =?1 AND c.id =?2")
                             ->setParameter(1, true)
                             ->setParameter(2, $usuario->getId())
                             ->setMaxResults(1);
@@ -112,14 +113,15 @@ class ClienteDAO
      */
     public function findNotUse($idConvenio, $estado)
     {
-        try {         
+        try {
             
             $qb = $this->manager->createQueryBuilder();
             $qb->select("a");
-            $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes", "a");
-            $qb->join("a.superEstadualSuperEstadual", "c");
-            $qb->join("a.convenio", "b");
-            $qb->where("a.statusEmChamada =?1 AND a.statusConsulta = ?2  AND a.statusErro = ?3 AND a.statusLigacao = ?4 AND b.id = ?5");
+            $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente", "a");
+            $qb->join("a.clientesCliente", "cliente");
+            $qb->join("cliente.convenio", "b");
+            $qb->join("cliente.superEstadualSuperEstadual", "c");            
+            $qb->where("cliente.statusEmChamada =?1 AND a.statusConsulta = ?2  AND a.statusErro = ?3 AND a.statusLigacao = ?4 AND b.id = ?5");
             $qb->setMaxResults(1);
             $qb->setParameters(
                     array(
@@ -138,13 +140,13 @@ class ClienteDAO
             
             $result = $qb->getQuery()->getResult(); 
  
-            $cliente = null; 
+            $consulta = null; 
             
             if(count($result) > 0) {
-                $cliente =  $result[0];
+                $consulta =  $result[0];
             }
             
-            return $cliente;         
+            return $consulta;         
         } catch (Exception $ex) {
             return null;
         }
@@ -179,7 +181,10 @@ class ClienteDAO
      */
     public function findCallsCliente(Clientes $cliente)
     {
-        $query  = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente a JOIN a.clientesCliente c WHERE a.statusPendencia =?1 AND c.idCliente = ?2")
+        $query  = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente a "
+                . " JOIN a.consultaCliente consulta "
+                . " JOIN consulta.clientesCliente c "
+                . " WHERE a.statusPendencia =?1 AND c.idCliente = ?2")
                         ->setParameter(1, false)
                         ->setParameter(2, $cliente->getIdCliente());
         
