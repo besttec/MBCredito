@@ -567,9 +567,11 @@ class DefaultController extends Controller
         $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
         
         if(count($cliente) > 0) {
-            $cliente[0]->setStatusConsulta(true);
+            
+            $cliente[0]->setStatusConsulta(true);//colocar status de erro em caso de consulta com dados divergentes
             
             if($statusErro === '1') {
+                
                 $cliente[0]->setStatusErro(true);
                 $cliente[0]->setObsErro($obsErro);
                 $consultaCliente->setNomeSegurado($nomeSegurado);
