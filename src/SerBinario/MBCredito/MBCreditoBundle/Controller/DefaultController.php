@@ -18,6 +18,7 @@ use SerBinario\MBCredito\UserBundle\DAO\RoleDAO;
 use SerBinario\MBCredito\UserBundle\DAO\UserDAO;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioDAO;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio;
+use SerBinario\MBCredito\MBCreditoBundle\RN\DiscagemRN;
 
 /**
  *  
@@ -37,7 +38,7 @@ class DefaultController extends Controller
      * @Route("/principal", name="principal")
      * @Template()
      */
-    public function principalAction(Request $request)
+    public function principalAction()
     {        
         return array();
     }
@@ -157,10 +158,10 @@ class DefaultController extends Controller
                     $cliente->setDataNascCliente(\DateTime::createFromFormat("Y-m-d", $columns[22], new \DateTimeZone("America/Recife")));
                     $cliente->setNumBeneficioCliente($columns[23]);
                     $cliente->setDvCliente((int) $columns[24]);
-                    $cliente->setStatusErro(false);
+                    //$cliente->setStatusErro(false);
                     $cliente->setStatusEmChamada(false);
-                    $cliente->setStatusConsulta(false);
-                    $cliente->setStatusLigacao(false);
+                    //$cliente->setStatusConsulta(false);
+                    //$cliente->setStatusLigacao(false);
                     
                     $numBeneficio                       = $columns[23] . ((int) $columns[24]);
                     $qtdNumBeneficio                    = strlen($numBeneficio);
@@ -243,10 +244,6 @@ class DefaultController extends Controller
             $eventosArray         = array();
             $parametros           = $request->request->all();
             
-            //if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            //    $parametros['length'] = 1;
-            //}              
-
             $entity               = "SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes"; 
             $columnWhereMain      = "";
             $whereValueMain       = "";
@@ -283,17 +280,10 @@ class DefaultController extends Controller
                 $eventosArray[$i]['FoneCom']        =  $resultCliente[$i]->getFoneComerCliente();
                 $eventosArray[$i]['dddFoneCel']     =  $resultCliente[$i]->getDddFoneCelCliente();
                 $eventosArray[$i]['FoneCel']        =  $resultCliente[$i]->getFoneCelCliente();
-                
-                $situacao = "Não consultado";
-                
-                if($resultCliente[$i]->getStatusConsulta()) {
-                    $situacao = "Consultado";
-                }
-                
-                $eventosArray[$i]['situacao']       =  $situacao;                
+                          
                 $numBeneficio                       =  $resultCliente[$i]->getNumBeneficioCliente();
                 $dvCliente                          =  $resultCliente[$i]->getDvCliente();
-                             
+       
                 $eventosArray[$i]['numBeneficio']   =  $resultCliente[$i]->getNumBeneficioComp();                
                 $eventosArray[$i]['Sexo']           =  $resultCliente[$i]->getSexosSexo()->getNomeExtensoSexo();
                 $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getDataNascCliente()->format('d/m/Y');
@@ -438,11 +428,11 @@ class DefaultController extends Controller
                 $eventosArray[$i]['numBeneficio']   =  $numBeneficio;                
                 $eventosArray[$i]['Sexo']           =  $resultCliente[$i]->getClientesCliente()->getSexosSexo()->getNomeExtensoSexo();
                 $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getClientesCliente()->getDataNascCliente()->format('d/m/Y');
-                $eventosArray[$i]['obsErro']        =  $resultCliente[$i]->getClientesCliente()->getObsErro();
-                $eventosArray[$i]['statusErro']     =  $resultCliente[$i]->getClientesCliente()->getStatusErro();
+                $eventosArray[$i]['obsErro']        =  $resultCliente[$i]->getObsErro();
+                $eventosArray[$i]['statusErro']     =  $resultCliente[$i]->getStatusErro();
                 $eventosArray[$i]['ag']             =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getCcAg();
                 $eventosArray[$i]['prefixo_ag']     =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
-                $eventosArray[$i]['statusLigacao']     =  $resultCliente[$i]->getClientesCliente()->getStatusLigacao();
+                $eventosArray[$i]['statusLigacao']     =  $resultCliente[$i]->getStatusLigacao();
             }
             
             //Se a variável $sqlFilter estiver vazio
@@ -465,6 +455,7 @@ class DefaultController extends Controller
     }
        
     /**
+     * 
      * @Route("/captcha")
      * @Method({"POST"})
      */
@@ -554,6 +545,7 @@ class DefaultController extends Controller
         if(isset($dados['nomeEmprestimo'])) {
             $nomeEmp        = $dados['nomeEmprestimo'];
         }
+        
         if(isset($dados['valorEmprestimo'])) {
             $valoresEmp     = $dados['valorEmprestimo'];
         }      
@@ -567,11 +559,11 @@ class DefaultController extends Controller
         $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
         
         if(count($cliente) > 0) {
-            $cliente[0]->setStatusConsulta(true);
+            $consultaCliente->setStatusConsulta(true);
             
             if($statusErro === '1') {
-                $cliente[0]->setStatusErro(true);
-                $cliente[0]->setObsErro($obsErro);
+                $consultaCliente->setStatusErro(true);
+                $consultaCliente->setObsErro($obsErro);
                 $consultaCliente->setNomeSegurado($nomeSegurado);
                 $consultaCliente->setClientesCliente($cliente[0]);
                 $conf =  $consultaClienteDAO->update($consultaCliente);
@@ -587,6 +579,7 @@ class DefaultController extends Controller
             
             $consultaCliente->setNomeSegurado($nomeSegurado);
             $consultaCliente->setCompetencia($competencia);
+            $consultaCliente->setStatusErro(false);
             
             $arrayPeriodo = explode("a", $pCredito);
             
@@ -675,12 +668,9 @@ class DefaultController extends Controller
         
         if(isset($req['tCredito'])) {
             $tCredito  = $req['tCredito'];
-            //var_dump($tCredito);
-           // exit();
         } else {
             $tCredito  = null;
-        }
-             
+        }             
         
         $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
         $emprestimoDAO      = new \SerBinario\MBCredito\MBCreditoBundle\DAO\EmprestimoDAO($this->getDoctrine()->getManager());
@@ -691,13 +681,9 @@ class DefaultController extends Controller
             $cliente = $consultaClienteDAO->findConsultaCliente($id);
             
             //Verifica se o cliente existe
-            if($cliente) {
+            if($cliente) {                
                 
-                if($statusAtivo){
-                    $cliente[0]->getClientesCliente()->setStatusLigacao(true);
-                } else {
-                    $cliente[0]->getClientesCliente()->setStatusLigacao(false);
-                }
+                $cliente[0]->setStatusLigacao(true);                
                 //Seta o valor do campo observação para o cliente
                 $cliente[0]->setObsCliente($obs);
                 //
@@ -749,118 +735,24 @@ class DefaultController extends Controller
     public function viewDiscagemAction()
     {
         #Recupera o usuário da sessão
-        $usuario       = $this->get("security.context")->getToken()->getUser();
-        $convenioPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioPaDAO($this->getDoctrine()->getManager());
-        $objConvenioPA = $convenioPaDAO->findByUser($usuario);
+        $usuario    = $this->get("security.context")->getToken()->getUser();
         
-        if($objConvenioPA) {
-            $objConvenio   = $objConvenioPA->getConvenio();
-            $estado        = $objConvenioPA->getEstado();
-
-            #Cria o DAO de Clientes
-            $clienteDAO   = new ClienteDAO($this->getDoctrine()->getManager());
-            $cliente      = null;
-
-            #Recupera todos os status do banco.
-            $statusDAO    = new \SerBinario\MBCredito\MBCreditoBundle\DAO\StatusDAO($this->getDoctrine()->getManager());
-            $status       = $statusDAO->findAll();         
-
-            #Recupera se houver chamadas pendentes.
-            $chamada      = null;
-            $chamada      = $clienteDAO->findCallPen($usuario);
-           
-            #Observação da consulta
-            $obsCosulta   = "";
-            
-            #Consulta por data de validade
-            $chamadaData = $clienteDAO->findCallDate();
-            #Chamada anterior.
-            $chamadaAnt  = null;
-
-            #Verifica o retorno das chamadas pendentes
-            if(! is_null($chamada)) {
-                $cliente = $chamada->getClientesCliente(); 
-            }else if($chamadaData) {
-                $cliente    = $chamadaData->getClientesCliente();                
-                $chamadaAnt = $chamadaData->getIdChamadaCliente();
-                
-                $cliente->setStatusEmChamada(true);                              
-                $clienteDAO->updateCliente($cliente);
-                
-                $chamada = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente();
-                $chamada->setStatusPendencia(true);
-                $chamada->setStatusChamada(false);
-                $chamada->setDataPendencia(new \DateTime("now", new \DateTimeZone("America/Recife")));
-                $chamada->setClientesCliente($cliente);
-                $chamada->setUser($usuario);
-
-                $validator = $this->get("validator");
-                $valResult = $validator->validate($chamada);
-
-                if(count($valResult) == 0) {
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($chamada);
-                    $em->flush();
-                } else {
-                   $this->get("session")->getFlashBag()->add('danger', (string) $valResult);  
-                }                
-                
-            }else {
-                #Recupera um cliente que já foi consultado e não está sendo atendido por nenhum callcenter
-                $cliente      = $clienteDAO->findNotUse($objConvenio->getId(), $estado);
-
-                #Verifica se existe cliente.
-                if($cliente) {
-                    $cliente->setStatusEmChamada(true);                              
-                    $clienteDAO->updateCliente($cliente);                
-
-                    $chamada = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente();
-                    $chamada->setStatusPendencia(true);
-                    $chamada->setStatusChamada(false);
-                    $chamada->setDataPendencia(new \DateTime("now", new \DateTimeZone("America/Recife")));
-                    $chamada->setClientesCliente($cliente);
-                    $chamada->setUser($usuario);
-                    
-                    $validator = $this->get("validator");
-                    $valResult = $validator->validate($chamada);
-                    
-                    if(count($valResult) == 0) {
-                        $em = $this->getDoctrine()->getManager();
-                        $em->persist($chamada);
-                        $em->flush();
-                    } else {
-                       $this->get("session")->getFlashBag()->add('danger', (string) $valResult);  
-                    }
-                                              
-                } else {
-                    #Caso não houver cliente disponível, mandara uma mensagem para o callcenter.
-                    $this->get("session")->getFlashBag()->add('danger', "Não existe cliente disponível"); 
-
-                    #Retorno a página.
-                    return array();
-                }
-            }      
-            #Recupera todas as chamadas do cliente = $cliente
-            $calls    = $clienteDAO->findCallsCliente($cliente);
-            
-            #Recupera a última consulta do cliente;
-            $consulta = $clienteDAO->findLastConsulta();
-            
-            #Retorno a página.
-            return array(
-                "cliente" => $cliente,
-                "status" => $status,
-                "calls" => $calls,
-                "chamadaAtual" => $chamada,
-                "consulta" => $consulta,
-                "chamadaAnterior" => $chamadaAnt
-            );
-        } else {
-            #Casa não haja convênio designadoê 
-            $this->get("session")->getFlashBag()->add('danger', "Não existe convênio designado, contate o administrador!"); 
-            return array();
+        #Recuperando o validator
+        $validator  = $this->get("validator");
+        
+        #Instanciando a classe de regra de negócio
+        $discagemRN = new DiscagemRN($this->getDoctrine()->getManager(), $usuario, $validator);
+        
+        #execuando a discagem
+        $result = $discagemRN->discagem();
+        
+        #Verificando se houve algum erro retornado
+        if( !is_null($result['error'])) {
+            $this->get("session")->getFlashBag()->add($result['type'], (string) $result['error']);
         }
         
+        #Retorno
+        return $result;        
     }
     
     /**
@@ -872,9 +764,15 @@ class DefaultController extends Controller
         #Recupera a requisição
         $dados  = $request->request->all();
         
+        #Recupera o usuário da sessão
+        $usuario    = $this->get("security.context")->getToken()->getUser();
+        
+        #Recuperando o validator
+        $validator  = $this->get("validator");
+        
         #Recupera os parâmetros da requisição
-        $status       = $dados['status'];
-        $subrotina    = $dados['subrotinas'];
+        $statusId     = $dados['status'];
+        $subrotinaId  = $dados['subrotinas'];
         $dtProxLig    = $dados['dataProxLiguacao'];
         $obs          = $dados['obs'];
         $chamadaAtual = $dados['chamadaAtual'];
@@ -882,67 +780,24 @@ class DefaultController extends Controller
         $newFone      = $dados['newFone'];
         $chamadaAnt   = $dados['chamadaAnterior'];
         
-        if($status != "" && $subrotina != "") {
-            $chamadaDAO   = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ChamadaDAO($this->getDoctrine()->getManager());
-            $objChamada   = $chamadaDAO->findById($chamadaAtual);
-            $objChamada->setStatusChamada(true);
-            
-            $statusDAO    = new \SerBinario\MBCredito\MBCreditoBundle\DAO\StatusDAO($this->getDoctrine()->getManager());
-            $status       = $statusDAO->findById($status);
-
-            $subrotinaDAO = new  \SerBinario\MBCredito\MBCreditoBundle\DAO\SubRotinasDAO($this->getDoctrine()->getManager());
-            $subrotina    = $subrotinaDAO->findById($subrotina);
-            
-            $clienteDAO   = new ClienteDAO($this->getDoctrine()->getManager());
-           
-            if($status->getIdStatus() == 2) {
-                $date = \DateTime::createFromFormat("Y/m/d H:i", $dtProxLig);
-                $objChamada->setDataChamada($date);
-            } 
-            
-            $objChamada->setNovoDDD($newDDD);
-            $objChamada->setNovoFone($newFone);
-            $objChamada->setObservacao($obs);
-            $objChamada->setStatusStatus($status);
-            $objChamada->setSubrotinasSubrotina($subrotina);
-            $objChamada->setStatusPendencia(false);
-            
-            
-            $validator = $this->get("validator");
-            $valResult = $validator->validate($objChamada);
-            
-            if(count($valResult) == 0) { 
-                #Se for remarcação
-                if($chamadaAnt) {
-                    $objChamadaAnt = $chamadaDAO->findById($chamadaAnt);
-                    $objChamadaAnt->setStatusChamada(true);
-                    $chamadaDAO->update($objChamadaAnt);
-                }              
-                
-                $cliente = $objChamada->getClientesCliente();    
-                
-                if($status->getIdStatus() == 1) {
-                   $cliente->setStatusLigacao(false); 
-                }
-                
-                $cliente->setStatusEmChamada(false);                              
-                $clienteDAO->updateCliente($cliente);
-                
-                $result  = $chamadaDAO->update($objChamada);             
-            
-                if($result) {
-                    $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
-                } else {
-                    $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");                     
-                }
-            } else {
-                $this->get("session")->getFlashBag()->add('danger', (string) $valResult);
-            }
-            
-        } else {
-            $this->get("session")->getFlashBag()->add('danger', "Verifique se os dados foram digitados corretamente!");
+        #Criação de um objeto chamada
+        $chamadaDados = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente();
+        $chamadaDados->setObservacao($obs);
+        $chamadaDados->setNovoDDD($newDDD);
+        $chamadaDados->setNovoFone($newFone);
+        
+        #Criação do objeto discagemRN.
+        $discagemRN  = new DiscagemRN($this->getDoctrine()->getManager(), $usuario, $validator);
+        
+        #Executando o método saveDiscagem para salvar a ligação
+        $resultArray = $discagemRN->saveDiscagem($chamadaAtual, $chamadaDados, $statusId, $subrotinaId, $dtProxLig, $chamadaAnt);
+        
+        #Verificando se houve algum erro retornado
+        if( !is_null($resultArray['error'])) {
+            $this->get("session")->getFlashBag()->add($resultArray['type'], (string) $resultArray['error']);
         }
         
+        #Retorno
         return $this->redirect($this->generateUrl("viewDiscagem"));     
     }    
     

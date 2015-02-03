@@ -184,32 +184,8 @@ class Clientes
      */
     private $numBeneficioComp;
         
-    /**
-     * @var boolean
-     * 
-     * @Assert\Type(type="bool", message="Valor informado para status de erro do cliente é inválido")
-     *
-     * @ORM\Column(name="status_erro_cliente", type="boolean", nullable=true, options={"comment":"Define o status em caso de erro ao consultar o cliente"})
-     */
-    private $statusErro;
     
-    /**
-     * @var boolean
-     *
-     * @Assert\Type(type="bool", message="Valor informado para status de ligação do cliente é inválido")
-     * 
-     * @ORM\Column(name="status_ligacao_cliente", type="boolean", nullable=true, options={"comment":"Define o status em caso de disponível"})
-     */
-    private $statusLigacao;
     
-    /**
-     * @var boolean
-     *
-     * @Assert\Type(type="bool", message="Valor informado para status da consulta do cliente é inválido")
-     * 
-     * @ORM\Column(name="status_consulta", type="boolean", nullable=true)
-     */
-    private $statusConsulta;
     
     /**
      * @var boolean
@@ -219,17 +195,7 @@ class Clientes
      * @ORM\Column(name="status_emChamada", type="boolean", nullable=true)
      */
     private $statusEmChamada;
-            
-    /**
-     * @var String
-     *
-     * @Assert\Length(max=65535, maxMessage="Valor informado para observação de erro
-     *  do cliente ultrapassa a quantidade máxima de caracteres permitida")
-     * 
-     * @ORM\Column(name="obs_erro_cliente", type="text", length=65535, nullable=true)
-     */
-    private $obsErro;
-
+                
     /**
      * @var \SuperEstadual
      * 
@@ -295,10 +261,6 @@ class Clientes
      **/
     private $consultas;
     
-    /**
-     * @ORM\OneToMany(targetEntity="ChamadaCliente", mappedBy="clientesCliente")
-     **/
-    private $chamadasCliente;
     
     /**
      * 
@@ -831,24 +793,6 @@ class Clientes
     }
     
     /**
-     * 
-     * @param type $obsErro
-     */
-    public function setObsErro($obsErro) 
-    {
-        $this->obsErro = $obsErro;
-    }
-    
-    /**
-     * 
-     * @return type
-     */
-    public function getObsErro() 
-    {
-        return $this->obsErro;
-    }
-
-    /**
      * Add consultas
      *
      * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente $consultas
@@ -869,24 +813,6 @@ class Clientes
     public function removeConsulta(\SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente $consultas)
     {
         $this->consultas->removeElement($consultas);
-    }
-    
-    /**
-     * 
-     * @return type
-     */
-    public function getChamadasCliente() 
-    {
-        return $this->chamadasCliente;
-    }
-    
-    /**
-     * 
-     * @param type $chamadasCliente
-     */
-    public function setChamadasCliente($chamadasCliente) 
-    {
-        $this->chamadasCliente = $chamadasCliente;
     }
     
     /**

@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * ChamadaCliente
  *
- * @ORM\Table(name="chamada_cliente", indexes={@ORM\Index(name="fk_chamada_cliente_status1_idx", columns={"status_id_status"}), @ORM\Index(name="fk_chamada_cliente_user1_idx", columns={"user_id_user"}), @ORM\Index(name="fk_chamada_cliente_clientes1_idx", columns={"clientes_id_cliente"}), @ORM\Index(name="fk_chamada_cliente_subrotinas1_idx", columns={"subrotinas_id_subrotina"})})
+ * @ORM\Table(name="chamada_cliente", indexes={@ORM\Index(name="fk_chamada_cliente_status1_idx", columns={"status_id_status"}), @ORM\Index(name="fk_chamada_cliente_user1_idx", columns={"user_id_user"}), @ORM\Index(name="fk_chamada_cliente_subrotinas1_idx", columns={"subrotinas_id_subrotina"})})
  * @ORM\Entity
  */
 class ChamadaCliente
@@ -110,17 +110,17 @@ class ChamadaCliente
     private $user;
 
     /**
-     * @var \Clientes
+     * @var \ConsultaClientes
      * 
-     * @Assert\NotNull(message="Cliente não informado")
-     * @Assert\Type(type="object", message="Valor informado para Clientes não é um objeto")
+     * @Assert\NotNull(message="ConsultaCliente não informado")
+     * @Assert\Type(type="object", message="Valor informado para ConsultaCliente não é um objeto")
      *
-     * @ORM\ManyToOne(targetEntity="Clientes", inversedBy="chamadaCliente")
+     * @ORM\ManyToOne(targetEntity="ConsultaCliente", inversedBy="chamadaCliente")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="clientes_id_cliente", referencedColumnName="id_cliente")
+     *   @ORM\JoinColumn(name="id_onsulta_cliente", referencedColumnName="id")
      * })
      */
-    private $clientesCliente;
+    private $consultaCliente;
 
     /**
      * @var \Subrotinas
@@ -213,29 +213,6 @@ class ChamadaCliente
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * Set clientesCliente
-     *
-     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes $clientesCliente
-     * @return ChamadaCliente
-     */
-    public function setClientesCliente(\SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes $clientesCliente = null)
-    {
-        $this->clientesCliente = $clientesCliente;
-
-        return $this;
-    }
-
-    /**
-     * Get clientesCliente
-     *
-     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes 
-     */
-    public function getClientesCliente()
-    {
-        return $this->clientesCliente;
     }
 
     /**
@@ -367,6 +344,24 @@ class ChamadaCliente
     public function setNovoFone($novoFone) 
     {
         $this->novoFone = $novoFone;
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function getConsultaCliente() 
+    {
+        return $this->consultaCliente;
+    }
+
+    /**
+     * 
+     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
+     */
+    public function setConsultaCliente(\SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente $consultaCliente) 
+    {
+        $this->consultaCliente = $consultaCliente;
     }
 
 
