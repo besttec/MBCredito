@@ -179,14 +179,13 @@ class ClienteDAO
      * @param Clientes $cliente
      * @return type
      */
-    public function findCallsCliente(Clientes $cliente)
+    public function findCallsCliente(\SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente $consulta)
     {
         $query  = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente a "
                 . " JOIN a.consultaCliente consulta "
-                . " JOIN consulta.clientesCliente c "
-                . " WHERE a.statusPendencia =?1 AND c.idCliente = ?2")
+                . " WHERE a.statusPendencia =?1 AND consulta.id = ?2")
                         ->setParameter(1, false)
-                        ->setParameter(2, $cliente->getIdCliente());
+                        ->setParameter(2, $consulta->getId());
         
         return $query->getResult();
     }
