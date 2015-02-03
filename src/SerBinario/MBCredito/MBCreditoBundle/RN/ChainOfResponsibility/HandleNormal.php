@@ -126,7 +126,7 @@ class HandleNormal implements IHandle
         }
         
         #Recupera todas as chamadas do cliente = $cliente
-        $calls    = $this->clienteDAO->findCallsCliente($cliente);
+        $calls    = $this->clienteDAO->findCallsCliente($consulta);
         
         #Retorno 
         return array(
