@@ -939,11 +939,13 @@ class DefaultController extends Controller
         $user->setEmail($email);
         $user->setIsActive(true);
         
-        $factory  = $this->get('security.encoder_factory');
+        if(!empty($senha)) {
+            $factory  = $this->get('security.encoder_factory');
         
-        $encoder  = $factory->getEncoder($user);
-        $password = $encoder->encodePassword($senha, $user->getSalt());
-        $user->setPassword($password);              
+            $encoder  = $factory->getEncoder($user);
+            $password = $encoder->encodePassword($senha, $user->getSalt());
+            $user->setPassword($password);   
+        }                  
         
         $roleDAO  = new RoleDAO($this->getDoctrine()->getManager());        
         $role     = $roleDAO->getRole($roleId);
