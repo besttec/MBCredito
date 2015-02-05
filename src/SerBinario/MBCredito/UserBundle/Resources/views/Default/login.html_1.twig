@@ -1,33 +1,16 @@
 {% extends "::base.html.twig" %}
 
 {% block body %}
-    <div class="container droppedHover">
-        <div class="row clearfix">
-            <div class="col-md-3 column">
-                {% if error %}
-                    <div>{{ error.message }}</div>
-                {% endif %}
-                <form class="form-signin" role="form" method="post" action="{{ path('login_check') }}">
-                    <h2 class="form-signin-heading" contenteditable="false">Por favor, forneça:</h2>
-
-                    <input type="text" class="form-control" name="_username" value="{{ last_username }}" placeholder="Login" required="" autofocus="" contenteditable="false">
-                    <input type="password" class="form-control" name="_password" placeholder="Senha" required="" contenteditable="false">
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Logar</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <!-- Aqui começa o conteudo -->
     <div class="wrapper" role="main">
-        <div class="container">
+        <div class="container" style="min-height: 503px;">
             <div class="row">
-                <div id="conteudo" class="col-md-9">
+                <div id="conteudo" class="col-md-3" style="background: #B4CCFC; padding: 10px; margin-top: 10px; border-radius: 10px;">
                     {% if error %}
                         <div>{{ error.message }}</div>
                     {% endif %}
                     <form class="form-signin" role="form" method="post" action="{{ path('login_check') }}">
-                        <h2 class="form-signin-heading" contenteditable="false">Por favor, forneça:</h2>
+                        <h2 class="form-signin-heading" contenteditable="false" style="color: #000">Informe</h2>
 
                         <input type="text" class="form-control" name="_username" value="{{ last_username }}" placeholder="Login" required="" autofocus="" contenteditable="false">
                         <input type="password" class="form-control" name="_password" placeholder="Senha" required="" contenteditable="false">
@@ -37,14 +20,4 @@
             </div>
         </div>
     </div>
-
-    <footer> <!-- Aqui e a area do footer -->
-        <div class="container">
-            <div class="row">
-                <div id="linksImportantes" class="col-md-3"></div> <!-- Aqui e a area dos links importantes -->
-                <div id="redesSociais" class="col-md-3"></div> <!-- Aqui e a area das redes sociais -->
-                <div id="logoFooter" class="col-md-offset-3 col-md-3"></div> <!-- Aqui e a area da logo do rodape -->
-            </div>
-        </div>
-    </footer>
 {% endblock %}
