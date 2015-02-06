@@ -432,10 +432,15 @@ class DefaultController extends Controller
                 
                 $countChamadas = count($resultCliente[$i]->getChamadasCliente());
                 
-                if($countChamadas > 0 && $resultCliente[$i]->getStatusLigacao() == 0) {
-                    $eventosArray[$i]['bloqueioAtivacao'] = "1";
+                if($countChamadas > 0 && $resultCliente[$i]->getStatusLigacao() == false) {
+                    $eventosArray[$i]['bloqueioAtivacao']       = "1";
+                    $eventosArray[$i]['DisponibilidadeLigação'] = "NÂO";
+                } else if($resultCliente[$i]->getStatusLigacao() == true) {
+                    $eventosArray[$i]['bloqueioAtivacao']       = "1";
+                    $eventosArray[$i]['DisponibilidadeLigação'] = "NAO";
                 } else {
-                    $eventosArray[$i]['bloqueioAtivacao'] = "0";
+                    $eventosArray[$i]['bloqueioAtivacao']       = "0";
+                    $eventosArray[$i]['DisponibilidadeLigação'] = "SIM";
                 }
                 
                 if($qtdNumBeneficio < 10) {
