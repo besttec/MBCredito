@@ -2,6 +2,9 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/var/www/html/MBCredito/web/css/cs-login.css</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/UserBundle/Resources/views/Default/login.html.twig</file>
+        </group>
     </open-files>
 </project-private>

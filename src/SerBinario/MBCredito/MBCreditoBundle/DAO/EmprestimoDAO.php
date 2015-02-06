@@ -52,7 +52,7 @@ class EmprestimoDAO
             $query = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos c WHERE c.idEmprestimo = ?1")
                     ->setParameter(1, $id);
             
-            return $query->getResult();
+            return $query->getResult;
         } catch (Exception $ex) {
             return false;
         }
