@@ -895,7 +895,8 @@ class DefaultController extends Controller
         $user->setEmail($email);
         $user->setIsActive(true);
         
-        $factory = $this->get('security.encoder_factory');
+        $factory   = $this->get('security.encoder_factory');
+        $validator = $this->get('validator');
         
         $encoder  = $factory->getEncoder($user);
         $password = $encoder->encodePassword($senha, $user->getSalt());
@@ -906,15 +907,22 @@ class DefaultController extends Controller
         
         $user->addRole($role);
         
-        $userDAO = new UserDAO($this->getDoctrine()->getManager());
-        $result  = $userDAO->save($user);
+        $userVal = $validator->validate($user);
         
-        if($result) {
-            $this->get("session")->getFlashBag()->add('success', "Usuário cadastrado com sucesso!"); 
-        } else {             
-            $this->get("session")->getFlashBag()->add('danger', "Erro ao cadastrar o usuário"); 
-        }        
-        
+        if(count($userVal)) {
+            $userDAO = new UserDAO($this->getDoctrine()->getManager());
+            $result  = $userDAO->save($user);
+
+            if($result) {
+                $this->get("session")->getFlashBag()->add('success', "Usuário cadastrado com sucesso!"); 
+            } else {             
+                $this->get("session")->getFlashBag()->add('danger', "Erro ao cadastrar o usuário"); 
+            }        
+ 
+        } else {
+            $this->get("session")->getFlashBag()->add('danger', (string) $userVal); 
+        }
+                
         return $this->redirect($this->generateUrl("viewGridListaUser"));
     }
     
