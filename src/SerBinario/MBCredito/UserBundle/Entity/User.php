@@ -44,7 +44,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $isActive;
     
     /**
-     * @Assert\NotNull(message="Você deve informar um perfil")     * 
+     * @Assert\NotNull(message="Você deve informar um perfil") 
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
      *
      */
