@@ -890,7 +890,7 @@ class DefaultController extends Controller
         $email    = $dados['email'];
         $roleId   = $dados['perfil'];
         
-        if($roleId) {
+        if(empty($roleId)) {
             $this->get("session")->getFlashBag()->add('danger', "Você deve informar um perfil"); 
             return $this->redirect($this->generateUrl("viewSaveUser"));
         }         
