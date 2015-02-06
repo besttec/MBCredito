@@ -1,10 +1,10 @@
 <?php
-
 namespace SerBinario\MBCredito\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Acme\UserBundle\Entity\User
@@ -22,6 +22,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Você deve informar o nome do usuário")
      * @ORM\Column(type="string", length=25, unique=true)
      */
     private $username;
@@ -32,6 +33,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $password;
 
     /**
+     * @Assert\NotBlank(message="Você deve informar o email do usuário")
      * @ORM\Column(type="string", length=60, unique=true)
      */
     private $email;
@@ -42,6 +44,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $isActive;
     
     /**
+     * @Assert\NotNull(message="Você deve informar um perfil") 
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
      *
      */

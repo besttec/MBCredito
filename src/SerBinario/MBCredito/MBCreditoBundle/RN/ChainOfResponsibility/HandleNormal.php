@@ -59,7 +59,7 @@ class HandleNormal implements IHandle
      * 
      * @param HandleNormal $handleSucessor
      */
-    public function __construct(ClienteDAO $clienteDAO, User $user, $statusArray, $validador, ChamadaDAO $chamadaDAO, ConvenioPA $convenioPA)
+    public function __construct(ClienteDAO $clienteDAO, User $user, $statusArray, $validador, ChamadaDAO $chamadaDAO, ConvenioPA $convenioPA = null)
     {
         $this->handleSucessor = null;
         $this->clienteDAO     = $clienteDAO;
