@@ -356,6 +356,8 @@ class DefaultController extends Controller
                 "a.margemCliente",
                 "a.valorDisponivelCliente",
                 "a.tipoCreditoCliente",
+                "a.tipoCreditoConsignado",
+                "a.statusGerarArquiRetorno",
                 "b.dataNascCliente",
                 "b.codCliente",
                 "b.agAg"        
@@ -423,6 +425,9 @@ class DefaultController extends Controller
                 $eventosArray[$i]['margem']                 =  $resultCliente[$i]->getMargemCliente();
                 $eventosArray[$i]['vDisponivel']            =  $resultCliente[$i]->getValorDisponivelCliente();
                 $eventosArray[$i]['tipoCredito']            =  $resultCliente[$i]->getTipoCreditoCliente();
+                
+                $eventosArray[$i]['CreditoConsignado']      =  $resultCliente[$i]->getTipoCreditoConsignado();
+                $eventosArray[$i]['GerarArquiRetorno']      =  $resultCliente[$i]->getStatusGerarArquiRetorno();
 
                 
                 $numBeneficio                       = $resultCliente[$i]->getClientesCliente()->getNumBeneficioCliente();
@@ -695,16 +700,21 @@ class DefaultController extends Controller
             $statusAtivo = null;
         }
         
-        if(isset($req['tCredito'])) {
-            $tCredito  = $req['tCredito'];
+        if(isset($req['tCreditoPess'])) {
+            $tCreditoPess  = $req['tCreditoPess'];
         } else {
-            $tCredito  = null;
-        }             
+            $tCreditoPess  = null;
+        }
+        
+        $tCreditoCon = isset($req['tCreditoCon']) ? $req['tCreditoCon']: "";
+        
+        $statusArquivoRetorno = isset($req['statusArquivoRetorno']) ? $req['statusArquivoRetorno']: null;
         
         $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
         $emprestimoDAO      = new \SerBinario\MBCredito\MBCreditoBundle\DAO\EmprestimoDAO($this->getDoctrine()->getManager());
         
-        if($obs || $emprestimos || $statusAtivo || $margem || $vDisponivel || $tCredito){
+        if($obs || $emprestimos || $statusAtivo || $margem 
+                || $vDisponivel || $tCreditoPess || $tCreditoCon || $statusArquivoRetorno){
             
             //Primeito o cliente é consultado
             $cliente = $consultaClienteDAO->findConsultaCliente($id);
@@ -720,7 +730,19 @@ class DefaultController extends Controller
                 //
                 $cliente[0]->setValorDisponivelCliente($vDisponivel);
                 //
-                $cliente[0]->setTipoCreditoCliente($tCredito);
+                if($tCreditoPess){
+                    $cliente[0]->setTipoCreditoCliente($tCreditoPess);
+                }
+                //
+                if($tCreditoCon){
+                    $cliente[0]->setTipoCreditoConsignado($tCreditoCon);
+                }
+                //
+                if($statusArquivoRetorno) {
+                    $cliente[0]->setStatusGerarArquiRetorno(true);
+                } else {
+                    $cliente[0]->setStatusGerarArquiRetorno(false);
+                }
                 //Conta quantos emprestimos o cliete possue
                 $countEmp = count($emprestimos);
                 

@@ -207,6 +207,13 @@ class ConsultaCliente
      */
     private $tipoCreditoCliente;
     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo_credito_consignado", type="string", length=1, nullable=true)
+     */
+    private $tipoCreditoConsignado;
+    
      /**
      * @var boolean
      *
@@ -227,6 +234,15 @@ class ConsultaCliente
     
     /**
      * @var boolean
+     *
+     * @Assert\Type(type="bool", message="Valor informado para status da consulta do cliente é inválido")
+     * 
+     * @ORM\Column(name="status_arquivo_retorno", type="boolean", nullable=true)
+     */
+    private $statusGerarArquiRetorno;
+    
+    /**
+     * @var boolean
      * 
      * @Assert\Type(type="bool", message="Valor informado para status de erro da consulta é inválido")
      *
@@ -243,8 +259,6 @@ class ConsultaCliente
      * @ORM\Column(name="obs_erro_consulta", type="text", length=65535, nullable=true)
      */
     private $obsErro;
-
-   
 
     /**
      * @var \Clientes
@@ -917,7 +931,42 @@ class ConsultaCliente
         
         return $this;
     }
-
+    
+    /**
+     * 
+     * @return type
+     */
+    function getTipoCreditoConsignado() {
+        return $this->tipoCreditoConsignado;
+    }
+    
+    /**
+     * 
+     * @param type $tipoCreditoConsignado
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
+     */
+    function setTipoCreditoConsignado($tipoCreditoConsignado) {
+        $this->tipoCreditoConsignado = $tipoCreditoConsignado;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getStatusGerarArquiRetorno() {
+        return $this->statusGerarArquiRetorno;
+    }
+    
+    /**
+     * 
+     * @param type $statusGerarArquiRetorno
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
+     */
+    function setStatusGerarArquiRetorno($statusGerarArquiRetorno) {
+        $this->statusGerarArquiRetorno = $statusGerarArquiRetorno;
+        return $this;
+    }
 
 
 }
