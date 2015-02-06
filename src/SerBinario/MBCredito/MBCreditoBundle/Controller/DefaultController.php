@@ -892,7 +892,7 @@ class DefaultController extends Controller
         
         if($roleId) {
             $this->get("session")->getFlashBag()->add('danger', "Você deve informar um perfil"); 
-            return $this->redirect($this->generateUrl("viewGridListaUser"));
+            return $this->redirect($this->generateUrl("viewSaveUser"));
         }         
                
         $user = new \SerBinario\MBCredito\UserBundle\Entity\User();
