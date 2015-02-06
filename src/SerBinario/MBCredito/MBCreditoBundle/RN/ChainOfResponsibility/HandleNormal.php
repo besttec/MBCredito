@@ -85,14 +85,14 @@ class HandleNormal implements IHandle
         } 
         
         #Parametros da consulta de clientes
-        $idConvenioPA     = $this->convenioPA->getId();
+        $idConvenioPA     = $this->convenioPA->getConvenio()->getId();
         $estadoConvenioPA = $this->convenioPA->getEstado();
         
         #Recupera uma consulta que já foi consultado e não está sendo atendido por nenhum callcenter
         $consulta = $this->clienteDAO->findNotUse($idConvenioPA, $estadoConvenioPA);       
-               
+        
         #Verifica se existe cliente.
-        if( !$consulta) {
+        if(!$consulta) {
             return array(
                 "error" => "Não existe cliente disponível",
                 "type"  => "danger"
