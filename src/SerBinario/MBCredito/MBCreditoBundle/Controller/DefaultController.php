@@ -909,7 +909,7 @@ class DefaultController extends Controller
         
         $userVal = $validator->validate($user);
         
-        if(count($userVal) > 0) {
+        if( !count($userVal) > 0) {
             $userDAO = new UserDAO($this->getDoctrine()->getManager());
             $result  = $userDAO->save($user);
 
