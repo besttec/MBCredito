@@ -60,6 +60,7 @@
                             </ul>
                         {% endif %}
                         <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#">{{ app.security.getToken().getUser().getUsername() }}</a></li>
                             <li><a href="{{path('logout')}}">Sair</a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
