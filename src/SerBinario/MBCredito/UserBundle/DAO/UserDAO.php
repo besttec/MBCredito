@@ -76,4 +76,27 @@ class UserDAO
             return null;
         }
     }
+    
+    /**
+     * 
+     * @param type $param
+     * @return type
+     */
+    public function findByEmailOrUsename($param)
+    {
+        try {
+            $q = $this->manager
+            ->createQueryBuilder()
+            ->select('u')
+            ->from("SerBinario\MBCredito\UserBundle\Entity\User", "u")
+            ->where('u.username = :username OR u.email = :email')
+            ->setParameter('username', $param)
+            ->setParameter('email', $param)
+            ->getQuery();
+            
+            return $q->getResult();
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
 }

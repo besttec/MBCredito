@@ -946,13 +946,21 @@ class DefaultController extends Controller
         
         if( !count($userVal) > 0) {
             $userDAO = new UserDAO($this->getDoctrine()->getManager());
-            $result  = $userDAO->save($user);
-
-            if($result) {
-                $this->get("session")->getFlashBag()->add('success', "Usuário cadastrado com sucesso!"); 
-            } else {             
-                $this->get("session")->getFlashBag()->add('danger', "Erro ao cadastrar o usuário"); 
-            }        
+            
+            $valUser  = $userDAO->findByEmailOrUsename($user->getUsername());
+            $valEmail = $userDAO->findByEmailOrUsename($user->getEmail());
+            
+            if($valUser ||  $valEmail) {              
+                $this->get("session")->getFlashBag()->add('danger', "Email ou Login já existentes!");
+            } else {               
+                $result  = $userDAO->save($user);            
+                
+                if($result) {
+                    $this->get("session")->getFlashBag()->add('success', "Usuário cadastrado com sucesso!"); 
+                } else {             
+                    $this->get("session")->getFlashBag()->add('danger', "Erro ao cadastrar o usuário"); 
+                }   
+            }                
  
         } else {
             $this->get("session")->getFlashBag()->add('danger', (string) $userVal); 
