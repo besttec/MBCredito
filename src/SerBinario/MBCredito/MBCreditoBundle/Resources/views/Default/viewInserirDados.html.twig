@@ -3,6 +3,11 @@
 {% block stylesheets %}
     {{ parent() }}
     <style type="text/css" class="init">
+        
+        .consultado {
+             background-color: #FF0000; color: #FFFFFF; font-weight: bold;
+        }
+        
         td.details-control {
             background: url({{asset("imagens/icone-produto-plus.png")}}) no-repeat center center;
             cursor: pointer;
@@ -54,7 +59,7 @@
                                     <th>Detalhe</th>
                                     <th>Nome</th>
                                     <th>CPF</th>
-                                    <th>Número Benefício</th>                                    
+                                    <th>Número Benefício</th>
                                     <th>Acão</th>
                                 </tr>
                             </thead>
@@ -64,7 +69,7 @@
                                     <th>Detalhe</th>
                                     <th>Nome</th>
                                     <th>CPF</th>
-                                    <th>Número Benefício</th>                                    
+                                    <th>Número Benefício</th>     
                                     <th>Acão</th>
                                 </tr>
                             </tfoot>
@@ -213,6 +218,11 @@
             //$('#salvar').attr("disabled", true);
 
             var dt = $('#example').DataTable({
+                "createdRow": function ( row, data, index ) {                          
+                    if(data.qtdConsultas > 0) {                        
+                        $("td", row).eq(1).addClass("consultado");
+                    }                 
+                },
                 "processing": true,
                 "serverSide": true,
                 "bFilter": true, //Ativa o Search global
@@ -239,7 +249,7 @@
                         }
                     },
                 ],
-                "order": [[1, 'asc']],
+                "order": [[4, 'asc']],
                 language: {
                     "sEmptyTable": "Nenhum registro encontrado",
                     "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",

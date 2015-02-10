@@ -230,6 +230,7 @@ class DefaultController extends Controller
                 "a.cpfCliente",
                 "a.dddFoneResidCliente",
                 "a.foneResidCliente",
+                "a.qtdConsultas",
                 "a.dddFoneComerCliente",
                 "a.foneComerCliente",
                 "a.dddFoneCelCliente",
@@ -283,7 +284,8 @@ class DefaultController extends Controller
                     if($cpfLen < 11) {
                         $cpf = str_repeat("0", 11 - $cpfLen) .  $cpf;
                     }             
-
+                    
+                    $eventosArray[$count]['qtdConsultas']   =  $resultCliente[$i]->getQtdConsultas();
                     $eventosArray[$count]['cpf']            =  $cpf;
                     $eventosArray[$count]['dddFoneRes']     =  $resultCliente[$i]->getDddFoneResidCliente();
                     $eventosArray[$count]['FoneRes']        =  $resultCliente[$i]->getFoneResidCliente();
@@ -598,6 +600,7 @@ class DefaultController extends Controller
         
         if(count($cliente) > 0) {
             $consultaCliente->setStatusConsulta(true);
+            $cliente[0]->setQtdConsultas(($cliente[0]->getQtdConsultas() + 1));
             
             if($statusErro === '1') {
                 $consultaCliente->setStatusErro(true);

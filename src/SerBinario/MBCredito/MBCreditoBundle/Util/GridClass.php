@@ -225,7 +225,7 @@ class GridClass
                         . "ORDER BY {$dqlOrder}")
                         ->setFirstResult($dqlStart)
                         ->setMaxResults($dqlLength);
-            //print_r($query); exit();            
+            //print_r($dqlOrder); exit();            
             if($whereGlobal) {
                 $query->setParameter(1,strtoupper("%{$dqlFilter}%"));
             } else if($wherePerson) {
@@ -233,8 +233,7 @@ class GridClass
                     $index = $i + 1;
                     $query->setParameter($index, strtoupper("%{$filterValue[$i]}%"));
                 }
-            }
-            //print_r($query);            exit();  
+            } 
             $result = $query->getResult();
                   
             return $result;

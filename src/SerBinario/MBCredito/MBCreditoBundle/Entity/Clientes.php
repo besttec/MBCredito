@@ -183,9 +183,16 @@ class Clientes
      * @ORM\Column(name="num_beneficio_comp_cliente", type="string", length=45, nullable=true)
      */
     private $numBeneficioComp;
-        
     
-    
+    /**
+     *
+     * @var integer
+     * 
+     * @Assert\Type(type="integer", message="Valor informado para quantidade de consultas inválido")
+     * 
+     * @ORM\Column(name="qtd_consulta_cliente", type="integer")
+     */
+    private $qtdConsultas;    
     
     /**
      * @var boolean
@@ -868,6 +875,28 @@ class Clientes
     {
         $this->convenio = $convenio;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getQtdConsultas() 
+    {
+        return $this->qtdConsultas;
+    }
+
+    /**
+     * 
+     * @param type $qtdConsultas
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes
+     */
+    public function setQtdConsultas($qtdConsultas) 
+    {
+        $this->qtdConsultas = $qtdConsultas;
+        return $this;
+    }
+
+
 
    
 }
