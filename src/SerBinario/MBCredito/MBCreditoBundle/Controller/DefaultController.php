@@ -428,8 +428,7 @@ class DefaultController extends Controller
                 
                 $eventosArray[$i]['CreditoConsignado']      =  $resultCliente[$i]->getTipoCreditoConsignado();
                 $eventosArray[$i]['GerarArquiRetorno']      =  $resultCliente[$i]->getStatusGerarArquiRetorno();
-
-                
+               
                 $numBeneficio                       = $resultCliente[$i]->getClientesCliente()->getNumBeneficioCliente();
                 $dvCliente                          = $resultCliente[$i]->getClientesCliente()->getDvCliente();
                 $numBeneficio                       = $numBeneficio . $dvCliente;

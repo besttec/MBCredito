@@ -105,25 +105,19 @@
                                         </div>
                                         <label for="vDisponivel" style="color: #000"><b>Tipo Crédito Pessoal</b></label><br/>
                                         <div class="radio">                                   
-                                            <label class="tCreditoPess"><input type='radio' id="tCreditoR" name='tCreditoPess' value="1"> 
+                                            <label class="tCreditoPess aux"><input type='radio' id="tCreditoR" name='tCreditoPess' value="1"> 
                                                 Crédito Renovação
                                             </label><br/>
-                                            <label class="tCreditoPess"><input type='radio'  id="tCreditoN" name='tCreditoPess' value="2"> 
+                                            <label class="tCreditoPess aux"><input type='radio'  id="tCreditoN" name='tCreditoPess' value="2"> 
                                                 Crédito Novo
                                             </label ><br/>
-                                            <label class="tCreditoPess"><input type='radio' id="tCreditoA" name='tCreditoPess' value="3"> 
+                                            <label class="tCreditoPess ativaCampos"><input type='radio' id="tCreditoA" name='tCreditoPess' value="3"> 
                                                 Antecipação de 13ª Salário
                                             </label>
-                                            <label class="tCreditoPess"><input type='radio' id="tCreditoAT" name='tCreditoPess' value="3"> 
+                                            <label class="tCreditoPess aux"><input type='radio' id="tCreditoAT" name='tCreditoPess' value="3"> 
                                                 Crédito Automático
                                             </label>
-                                        </div>
-                                        <label for="exampleInputEmail1" style="color: #000"><b>Empréstimos</b></label><br />
-                                        <div class="checkbox">                                   
-                                            <div class="checked">
-                                            </div>
-                                        </div>
-                                        <br />
+                                        </div>                                      
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">                                  
@@ -132,13 +126,62 @@
                                         </div>
                                         <label for="vDisponivel" style="color: #000"><b>Tipo Crédito Consignado</b></label><br/>
                                         <div class="radio">                                   
-                                            <label class="tCreditoCon"><input type='radio'  id="tCreditoRCon" name='tCreditoCon' value="1"> 
+                                            <label class="tCreditoCon aux"><input type='radio'  id="tCreditoRCon" name='tCreditoCon' value="1"> 
                                                 Crédito Renovação
                                             </label><br/>
-                                            <label class="tCreditoCon"><input type='radio'  id="tCreditoNCon" name='tCreditoCon' value="2"> 
+                                            <label class="tCreditoCon aux"><input type='radio'  id="tCreditoNCon" name='tCreditoCon' value="2"> 
                                                 Crédito Novo
                                             </label>                                  
                                         </div>
+                                    </div>
+                                </div>
+                                <div id="AntDecimo13">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Valor disponível</th>
+                                                        <th>Data vencimento</th>
+                                                        <th>Valor prestação</th>
+                                                    <tr/>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="vDispon[]" id="vDisponivel" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="dataVecimento[]" id="vDisponivel" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="vPrest[]" id="vDisponivel" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="vDispon[]" id="vDisponivel" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="dataVecimento[]" id="vDisponivel" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="vPrest[]" id="vDisponivel" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="exampleInputEmail1" style="color: #000"><b>Empréstimos</b></label><br />
+                                        <div class="checkbox">                                   
+                                            <div class="checked">
+                                            </div>
+                                        </div>
+                                        <br />
                                     </div>
                                 </div>
                                 <div class="row">
@@ -366,7 +409,7 @@
                 } else {
                     $('#ativo').prop('checked', false);
                 }
-                
+
                 if (d.GerarArquiRetorno == '1') {
                     $('#arquivoRetorno').prop('checked', true);
                 } else {
@@ -387,12 +430,27 @@
 
                 if (d.tipoCredito == '1') {
                     $('#tCreditoR').prop('checked', true);
+                    
+                    $('.tCreditoCon input').prop('checked', false);
+                    $('.tCreditoCon input').prop('disabled', false);
                 } else if (d.tipoCredito == '2') {
                     $('#tCreditoN').prop('checked', true);
-                } else {
-                    $('#tCreditoN').prop('checked', false);
-                    $('#tCreditoR').prop('checked', false);
+                    
+                    $('.tCreditoCon input').prop('checked', false);
+                    $('.tCreditoCon input').prop('disabled', false);
+                } else if (d.tipoCredito == '3') {
+                    $('#tCreditoA').prop('checked', true);
+                    
+                    $('#AntDecimo13').show();
+                    $('.tCreditoCon input').prop('checked', false);
+                    $('.tCreditoCon input').prop('disabled', false);
+                } else if (d.tipoCredito == '4') {
+                    $('#tCreditoAT').prop('checked', true);
+                    
+                    $('.tCreditoCon input').prop('checked', false);
+                    $('.tCreditoCon input').prop('disabled', false);
                 }
+                               
             });
 
             // On each draw, loop over the `detailRows` array and show any child rows
@@ -414,22 +472,37 @@
 
         });
 
-        $(document).on('click', ".tCreditoPess", function(){
-          $('.tCreditoCon input').prop('checked', false);
-          $('.tCreditoCon input').prop('disabled', true);
+        $(document).ready(function () {
+          $('#AntDecimo13').hide();
+          $('.ativaCampos').click(function(){
+              $('#AntDecimo13').show();
+          });
           
-          $('.tCreditoPess input').prop('checked', false);
-          $('.tCreditoPess input').prop('disabled', false);
+          $('.aux').click(function(){
+              $('#AntDecimo13').hide();
+          });
         });
 
-        $(document).on('click', ".tCreditoCon", function(){
-           console.log('sdsdsd');
-           $('.tCreditoPess input').prop('checked', false);
-           $('.tCreditoPess input').prop('disabled', true);
-           
-           $('.tCreditoCon input').prop('checked', false);
-          $('.tCreditoCon input').prop('disabled', false);
+        $(document).on('click', ".tCreditoPess", function () {
+            $('.tCreditoCon input').prop('checked', false);
+            $('.tCreditoCon input').prop('disabled', true);
+
+            $('.tCreditoPess input').prop('checked', false);
+            $('.tCreditoPess input').prop('disabled', false);
+
+            //console.log($(this " input"));
+
         });
+
+        $(document).on('click', ".tCreditoCon", function () {
+            console.log('sdsdsd');
+            $('.tCreditoPess input').prop('checked', false);
+            $('.tCreditoPess input').prop('disabled', true);
+
+            $('.tCreditoCon input').prop('checked', false);
+            $('.tCreditoCon input').prop('disabled', false);
+        });
+
     </script>
 {% endblock %}
 
