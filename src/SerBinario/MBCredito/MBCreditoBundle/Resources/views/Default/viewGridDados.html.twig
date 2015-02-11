@@ -485,23 +485,22 @@
         });
 
         $(document).on('click', ".tCreditoPess", function () {
-            $('.tCreditoCon input').prop('checked', false);
-            $('.tCreditoCon input').prop('disabled', true);
+            $('.tCreditoCon input').attr('checked', false);
+            $('.tCreditoCon input').attr('disabled', true);
 
-            $('.tCreditoPess input').prop('checked', false);
-            $('.tCreditoPess input').prop('disabled', false);
+            $('.tCreditoPess input').attr('checked', true);
+            $('.tCreditoPess input').attr('disabled', false);
 
             //console.log($(this " input"));
 
         });
 
         $(document).on('click', ".tCreditoCon", function () {
-            console.log('sdsdsd');
-            $('.tCreditoPess input').prop('checked', false);
-            $('.tCreditoPess input').prop('disabled', true);
+            $('.tCreditoPess input').attr('checked', false);
+            $('.tCreditoPess input').attr('disabled', true);
 
-            $('.tCreditoCon input').prop('checked', false);
-            $('.tCreditoCon input').prop('disabled', false);
+            $('.tCreditoCon input').attr('checked', true);
+            $('.tCreditoCon input').attr('disabled', false);
         });
 
     </script>

@@ -5,6 +5,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\Antecipacao13;
 
 /**
  * ConsultaCliente
@@ -281,13 +282,19 @@ class ConsultaCliente
      * @ORM\OneToMany(targetEntity="Emprestimos", mappedBy="consultaClienteClientesCliente",  cascade={"persist", "remove"})
      **/
     private $emprestimos;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Antecipacao13", mappedBy="consulta", cascade={"persist"})
+     */
+    private $antecipacoes13;
 
     /**
      * 
      */
     public function __construct() 
     {
-        $this->emprestimos = new ArrayCollection();
+        $this->emprestimos    = new ArrayCollection();
+        $this->antecipacoes13 = new ArrayCollection();
     }
 
     /**
@@ -954,7 +961,8 @@ class ConsultaCliente
      * 
      * @return type
      */
-    function getStatusGerarArquiRetorno() {
+    public function getStatusGerarArquiRetorno()
+    {
         return $this->statusGerarArquiRetorno;
     }
     
@@ -963,10 +971,46 @@ class ConsultaCliente
      * @param type $statusGerarArquiRetorno
      * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
      */
-    function setStatusGerarArquiRetorno($statusGerarArquiRetorno) {
+    public function setStatusGerarArquiRetorno($statusGerarArquiRetorno)
+    {
         $this->statusGerarArquiRetorno = $statusGerarArquiRetorno;
         return $this;
     }
-
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getAntecipacoes13() 
+    {
+        return $this->antecipacoes13->toArray();
+    }
+    
+    /**
+     * 
+     * @param ArrayCollection $antecipacoes13
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
+     */
+    public function setAntecipacoes13(ArrayCollection $antecipacoes13) 
+    {
+        foreach($antecipacoes13 as $antecipacao13) {
+            $antecipacao13->setConsulta($this);
+        }
+        
+        $this->antecipacoes13 = $antecipacoes13;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param Antecipacao13 $antecipacoes13
+     */
+    public function addAntecipacao13(Antecipacao13 $antecipacoes13) 
+    {
+        $antecipacoes13->setConsulta($this);
+        
+        $this->antecipacoes13[] = $antecipacoes13;
+        return $this;
+    }
 
 }

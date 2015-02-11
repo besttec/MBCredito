@@ -19,6 +19,7 @@ use SerBinario\MBCredito\UserBundle\DAO\UserDAO;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioDAO;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio;
 use SerBinario\MBCredito\MBCreditoBundle\RN\DiscagemRN;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\Antecipacao13;
 
 /**
  *  
@@ -695,6 +696,10 @@ class DefaultController extends Controller
         $margem       = trim($req['margem']);
         $vDisponivel  = trim($req['vDisponivel']);
         
+        $antecipacao     = false;
+        $antercipacao131 = new Antecipacao13();
+        $antercipacao132 = new Antecipacao13();
+        
         if(isset($req['emprestimo'])) {
             $emprestimos  = $req['emprestimo'];
         } else {
@@ -709,9 +714,24 @@ class DefaultController extends Controller
         
         if(isset($req['tCreditoPess'])) {
             $tCreditoPess  = $req['tCreditoPess'];
+            
+            if($tCreditoPess == 3) {                
+                $antercipacao131->setValorDisponivel($req['vDispon'][0]);
+                $antercipacao131->setDataVencimento(\DateTime::createFromFormat("d/m/Y", $req['dataVecimento'][0]));
+                $antercipacao131->setValorPrestacao($req['vPrest'][0]);
+                
+                $antercipacao132->setValorDisponivel($req['vDispon'][1]);
+                $antercipacao132->setDataVencimento(\DateTime::createFromFormat("d/m/Y", $req['dataVecimento'][1]));
+                $antercipacao132->setValorPrestacao($req['vPrest'][1]);
+                
+                $antecipacao = true;
+            }
+            
         } else {
             $tCreditoPess  = null;
         }
+        
+        
         
         $tCreditoCon = isset($req['tCreditoCon']) ? $req['tCreditoCon']: "";
         
@@ -728,6 +748,11 @@ class DefaultController extends Controller
             
             //Verifica se o cliente existe
             if($cliente) {                
+                
+                if($antecipacao) {
+                    $cliente[0]->addAntecipacao13($antercipacao131);
+                    $cliente[0]->addAntecipacao13($antercipacao132);
+                }
                 
                 $cliente[0]->setStatusLigacao(true);                
                 //Seta o valor do campo observação para o cliente
@@ -945,13 +970,21 @@ class DefaultController extends Controller
         
         if( !count($userVal) > 0) {
             $userDAO = new UserDAO($this->getDoctrine()->getManager());
-            $result  = $userDAO->save($user);
-
-            if($result) {
-                $this->get("session")->getFlashBag()->add('success', "Usuário cadastrado com sucesso!"); 
-            } else {             
-                $this->get("session")->getFlashBag()->add('danger', "Erro ao cadastrar o usuário"); 
-            }        
+            
+            $valUser  = $userDAO->findByEmailOrUsename($user->getUsername());
+            $valEmail = $userDAO->findByEmailOrUsename($user->getEmail());
+            
+            if($valUser ||  $valEmail) {              
+                $this->get("session")->getFlashBag()->add('danger', "Email ou Login já existentes!");
+            } else {               
+                $result  = $userDAO->save($user);            
+                
+                if($result) {
+                    $this->get("session")->getFlashBag()->add('success', "Usuário cadastrado com sucesso!"); 
+                } else {             
+                    $this->get("session")->getFlashBag()->add('danger', "Erro ao cadastrar o usuário"); 
+                }   
+            }                
  
         } else {
             $this->get("session")->getFlashBag()->add('danger', (string) $userVal); 
