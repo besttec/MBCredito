@@ -433,13 +433,22 @@
                 if (d.tipoCredito == '1') {
                     $('#tCreditoR').prop('checked', true);
                     
+                    $('#AntDecimo13').hide();
                     $('.tCreditoCon input').prop('checked', false);
                     $('.tCreditoCon input').prop('disabled', false);
+                    
+                    $("#vDisponivel1", "#dataVecimento1", "#vPrest1", "#vDisponivel2"
+                            , "#dataVecimento2", "#vPrest2").val("");
                 } else if (d.tipoCredito == '2') {
                     $('#tCreditoN').prop('checked', true);
                     
+                    $('#AntDecimo13').hide();
                     $('.tCreditoCon input').prop('checked', false);
                     $('.tCreditoCon input').prop('disabled', false);
+                    
+                    $("#vDisponivel1", "#dataVecimento1", "#vPrest1", "#vDisponivel2"
+                            , "#dataVecimento2", "#vPrest2").val("");
+
                 } else if (d.tipoCredito == '3') {
                     $('#tCreditoA').prop('checked', true);
                     
@@ -458,20 +467,32 @@
                 } else if (d.tipoCredito == '4') {
                     $('#tCreditoAT').prop('checked', true);
                     
+                    $('#AntDecimo13').hide();
                     $('.tCreditoCon input').prop('checked', false);
                     $('.tCreditoCon input').prop('disabled', false);
+                    
+                    $("#vDisponivel1", "#dataVecimento1", "#vPrest1", "#vDisponivel2"
+                            , "#dataVecimento2", "#vPrest2").val("");
                 }
                 
                 if (d.CreditoConsignado == '1') {
                     $('#tCreditoRCon').prop('checked', true);
                     
+                    $('#AntDecimo13').hide();
                     $('.tCreditoPess input').prop('checked', false);
                     $('.tCreditoPess input').prop('disabled', false);
+                    
+                    $("#vDisponivel1", "#dataVecimento1", "#vPrest1", "#vDisponivel2"
+                            , "#dataVecimento2", "#vPrest2").val("");
                 } else if (d.CreditoConsignado == '2') {
                     $('#tCreditoNCon').prop('checked', true);
                     
+                    $('#AntDecimo13').hide();
                     $('.tCreditoPess input').prop('checked', false);
                     $('.tCreditoPess input').prop('disabled', false);
+                    
+                    $("#vDisponivel1", "#dataVecimento1", "#vPrest1", "#vDisponivel2"
+                            , "#dataVecimento2", "#vPrest2").val("");
                 }
                                
             });
