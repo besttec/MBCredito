@@ -429,6 +429,20 @@ class DefaultController extends Controller
                 $eventosArray[$i]['vDisponivel']            =  $resultCliente[$i]->getValorDisponivelCliente();
                 $eventosArray[$i]['tipoCredito']            =  $resultCliente[$i]->getTipoCreditoCliente();
                 
+                $tipoCredito = $resultCliente[$i]->getTipoCreditoCliente();
+                if($tipoCredito == "3") {
+                    $antecipacoes = $resultCliente[$i]->getAntecipacoes13();
+                    if($antecipacoes && count($antecipacoes) == "2") {
+                        $eventosArray[$i]['DecTerUmValorD'] =  $antecipacoes[0]->getValorDisponivel();
+                        $eventosArray[$i]['DecTerUmValorP'] =  $antecipacoes[0]->getValorPrestacao();
+                        $eventosArray[$i]['DecTerUmDataV']  =  $antecipacoes[0]->getDataVencimento()->format('d/m/Y');
+                        
+                        $eventosArray[$i]['DecTerDoisValorD'] =  $antecipacoes[1]->getValorDisponivel();
+                        $eventosArray[$i]['DecTerDoisValorP'] =  $antecipacoes[1]->getValorPrestacao();
+                        $eventosArray[$i]['DecTerDoisDataV']  =  $antecipacoes[1]->getDataVencimento()->format('d/m/Y');
+                    }
+                }
+                
                 $eventosArray[$i]['CreditoConsignado']      =  $resultCliente[$i]->getTipoCreditoConsignado();
                 $eventosArray[$i]['GerarArquiRetorno']      =  $resultCliente[$i]->getStatusGerarArquiRetorno();
                

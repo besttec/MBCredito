@@ -150,24 +150,24 @@
                                                 <tbody>
                                                     <tr>
                                                         <td>
-                                                            <input type="text" class="form-control" name="vDispon[]" id="vDisponivel" />
+                                                            <input type="text"  class="form-control" name="vDispon[]" id="vDisponivel1" />
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control" name="dataVecimento[]" id="vDisponivel" />
+                                                            <input type="text" class="form-control datepicker" name="dataVecimento[]" id="dataVecimento1" />
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control" name="vPrest[]" id="vDisponivel" />
+                                                            <input type="text" class="form-control" name="vPrest[]" id="vPrest1" />
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <input type="text" class="form-control" name="vDispon[]" id="vDisponivel" />
+                                                            <input type="text" class="form-control" name="vDispon[]" id="vDisponivel2" />
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control" name="dataVecimento[]" id="vDisponivel" />
+                                                            <input type="text" class="form-control datepicker" name="dataVecimento[]" id="dataVecimento2" />
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control" name="vPrest[]" id="vDisponivel" />
+                                                            <input type="text" class="form-control" name="vPrest[]" id="vPrest2" />
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -228,6 +228,7 @@
 {% block javascripts %}
     {{parent()}}
     <script type="text/javascript" language="javascript" class="init">
+        $('.datepicker').datetimepicker();
         function format(d) {
             var linhas = "";
 
@@ -428,7 +429,7 @@
                 $('#obs').val(d.obsCliente);
                 $('#margem').val(d.margem);
                 $('#vDisponivel').val(d.vDisponivel);
-
+                
                 if (d.tipoCredito == '1') {
                     $('#tCreditoR').prop('checked', true);
                     
@@ -445,6 +446,14 @@
                     $('#AntDecimo13').show();
                     $('.tCreditoCon input').prop('checked', false);
                     $('.tCreditoCon input').prop('disabled', false);
+                    
+                    $("#vDisponivel1").val(d.DecTerUmValorD);
+                    $("#dataVecimento1").val(d.DecTerUmDataV);
+                    $("#vPrest1").val(d.DecTerUmValorP);
+
+                    $("#vDisponivel2").val(d.DecTerDoisValorD);
+                    $("#dataVecimento2").val(d.DecTerDoisDataV);
+                    $("#vPrest2").val(d.DecTerDoisValorP);
                 } else if (d.tipoCredito == '4') {
                     $('#tCreditoAT').prop('checked', true);
                     
