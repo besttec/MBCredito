@@ -425,7 +425,7 @@
                 }
 
                 $('.checked').html(emprestimmos);
-                $('#idCliente').val(d.DT_RowId.replace("row_", ""));
+                $('#idCliente').val(d.DT_RowId.replace("row_", " "));
                 $('#obs').val(d.obsCliente);
                 $('#margem').val(d.margem);
                 $('#vDisponivel').val(d.vDisponivel);
@@ -437,8 +437,13 @@
                     $('.tCreditoCon input').prop('checked', false);
                     $('.tCreditoCon input').prop('disabled', false);
                     
-                    $("#vDisponivel1", "#dataVecimento1", "#vPrest1", "#vDisponivel2"
-                            , "#dataVecimento2", "#vPrest2").val("");
+                    $("#vDisponivel1").val(""); 
+                    $("#dataVecimento1").val("");
+                    $("#vPrest1").val("");
+
+                    $("#vDisponivel2").val("");
+                    $("#dataVecimento2").val("");
+                    $("#vPrest2").val("");
                 } else if (d.tipoCredito == '2') {
                     $('#tCreditoN').prop('checked', true);
                     
@@ -446,8 +451,13 @@
                     $('.tCreditoCon input').prop('checked', false);
                     $('.tCreditoCon input').prop('disabled', false);
                     
-                    $("#vDisponivel1", "#dataVecimento1", "#vPrest1", "#vDisponivel2"
-                            , "#dataVecimento2", "#vPrest2").val("");
+                    $("#vDisponivel1").val("");
+                    $("#dataVecimento1").val("");
+                    $("#vPrest1").val("");
+
+                    $("#vDisponivel2").val("");
+                    $("#dataVecimento2").val("");
+                    $("#vPrest2").val("");
 
                 } else if (d.tipoCredito == '3') {
                     $('#tCreditoA').prop('checked', true);
@@ -471,8 +481,13 @@
                     $('.tCreditoCon input').prop('checked', false);
                     $('.tCreditoCon input').prop('disabled', false);
                     
-                    $("#vDisponivel1", "#dataVecimento1", "#vPrest1", "#vDisponivel2"
-                            , "#dataVecimento2", "#vPrest2").val("");
+                    $("#vDisponivel1").val("");
+                    $("#dataVecimento1").val("");
+                    $("#vPrest1").val("");
+
+                    $("#vDisponivel2").val("");
+                    $("#dataVecimento2").val("");
+                    $("#vPrest2").val("");
                 }
                 
                 if (d.CreditoConsignado == '1') {
@@ -482,8 +497,14 @@
                     $('.tCreditoPess input').prop('checked', false);
                     $('.tCreditoPess input').prop('disabled', false);
                     
-                    $("#vDisponivel1", "#dataVecimento1", "#vPrest1", "#vDisponivel2"
-                            , "#dataVecimento2", "#vPrest2").val("");
+                    $("#vDisponivel1").val("");
+                    $("#dataVecimento1").val("");
+                    $("#vPrest1").val("");
+
+                    $("#vDisponivel2").val("");
+                    $("#dataVecimento2").val("");
+                    $("#vPrest2").val("");
+                    
                 } else if (d.CreditoConsignado == '2') {
                     $('#tCreditoNCon').prop('checked', true);
                     
@@ -491,8 +512,13 @@
                     $('.tCreditoPess input').prop('checked', false);
                     $('.tCreditoPess input').prop('disabled', false);
                     
-                    $("#vDisponivel1", "#dataVecimento1", "#vPrest1", "#vDisponivel2"
-                            , "#dataVecimento2", "#vPrest2").val("");
+                    $("#vDisponivel1").val("");
+                    $("#dataVecimento1").val("");
+                    $("#vPrest1").val("");
+
+                    $("#vDisponivel2").val("");
+                    $("#dataVecimento2").val("");
+                    $("#vPrest2").val("");
                 }
                                
             });
