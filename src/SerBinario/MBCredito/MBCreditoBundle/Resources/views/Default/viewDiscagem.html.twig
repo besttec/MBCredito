@@ -30,135 +30,202 @@
                                         {{ flash }}
                                     </div>
                                 {% endfor %}
-                            {% endfor %}                            
+                            {% endfor %}
                             {% if cliente is defined %}
-                            <form role="form" method="POST" action="{{ path('saveDiscagem') }}">
-                                <input type="hidden" name="chamadaAtual" value="{{ chamadaAtual.idChamadaCliente }}" />
-                                <input type="hidden" name="chamadaAnterior" {% if chamadaAnterior is not null %} value="{{chamadaAnterior}}" {% endif %} />
-                                <div class="form-group col-lg-12">
-                                    <label for="nome">Nome</label>
-                                    <input value="{{ cliente.nomeCliente }}" type="text" readonly="" class="form-control" name="nomeSegurado" id="nomeSegurado" />
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="competencia">Sexo</label><br />
-                                    <label class="radio-inline sexo">
-                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" {% if cliente.sexosSexo.nomeAbreviaturaSexo == "M" %} checked="checked" {% endif %} value="Masculino"> M
-                                    </label>
-                                    <label class="radio-inline sexo">
-                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" {% if cliente.sexosSexo.nomeAbreviaturaSexo == "F" %} checked="checked" {% endif %} value="Feminino"> F
-                                    </label>
-                                </div>                                
-                                <div class="form-group col-lg-6">
-                                    <label for="numBeneficio">Agência</label>
-                                    <input value="{{ cliente.agAg.prefixoAg }}" type="text" readonly class="form-control" name="tipoPagamento" id="tipoPagamento" />
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="numBeneficio">CC - AG</label>
-                                    <input value="{{ cliente.agAg.ccAg }}" type="text" readonly class="form-control" name="especie" id="especie" />
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="numBeneficio">Margem</label>
-                                    <input type="text" value="{{ consulta.margemCliente }}" readonly class="form-control" name="banco" id="banco" />
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="status">Situação</label>
-                                    <select class="form-control" id="status" name="status">
-                                        <option value="">Selecione uma Situação</option>
-                                        {% for st in status %}
-                                            <option value="{{ st.idStatus }}">{{ st.status }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="newDDD">Novo DDD</label>
-                                    <input type="text" class="form-control" name="newDDD" id="newDDD" maxlength="2" />
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="newFone">Novo fone</label>
-                                    <input type="text" class="form-control" name="newFone" id="newFone" maxlength="8" />
-                                </div>     
-                                <div class="form-group col-lg-6">
-                                    <label for="subrotinas">Sub-Resultados</label>
-                                    <select readonly="" class="form-control" name="subrotinas" id="subrotinas">
-                                        <option value="">Selecione um Sub-resultado</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="dataProxLiguacao">Data próxima ligação</label>
-                                    <input type="text" id="datepicker" readonly class="form-control" name="dataProxLiguacao">
-                                </div>                                                      
-                                <div class="form-group col-lg-12">
-                                    <label for="obs">Observação</label>
-                                    <textarea class="form-control" id="obs" name="obs" rows="4" cols="7"></textarea>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <button type="submit" id="salvar" class="btn btn-primary">Salvar</button>
-                                </div>
-                            </form>
+                                <form role="form" method="POST" action="{{ path('saveDiscagem') }}">
+                                    <input type="hidden" name="chamadaAtual" value="{{ chamadaAtual.idChamadaCliente }}" />
+                                    <input type="hidden" name="chamadaAnterior" {% if chamadaAnterior is not null %} value="{{chamadaAnterior}}" {% endif %} />
+                                    <div class="form-group col-lg-12">
+                                        <label for="nome">Nome</label>
+                                        <input value="{{ cliente.nomeCliente }}" type="text" readonly="" class="form-control" name="nomeSegurado" id="nomeSegurado" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="competencia">Sexo</label><br />
+                                        <label class="radio-inline sexo">
+                                            <input type="radio" name="inlineRadioOptions" id="inlineRadio1" {% if cliente.sexosSexo.nomeAbreviaturaSexo == "M" %} checked="checked" {% endif %} value="Masculino"> M
+                                        </label>
+                                        <label class="radio-inline sexo">
+                                            <input type="radio" name="inlineRadioOptions" id="inlineRadio1" {% if cliente.sexosSexo.nomeAbreviaturaSexo == "F" %} checked="checked" {% endif %} value="Feminino"> F
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="numBeneficio">Agência</label>
+                                        <input value="{{ cliente.agAg.prefixoAg }}" type="text" readonly class="form-control" name="tipoPagamento" id="tipoPagamento" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="numBeneficio">CC - AG</label>
+                                        <input value="{{ cliente.agAg.ccAg }}" type="text" readonly class="form-control" name="especie" id="especie" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="numBeneficio">Margem</label>
+                                        <input type="text" value="{{ consulta.margemCliente }}" readonly class="form-control" name="banco" id="banco" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="status">Situação</label>
+                                        <select class="form-control" id="status" name="status">
+                                            <option value="">Selecione uma Situação</option>
+                                            {% for st in status %}
+                                                <option value="{{ st.idStatus }}">{{ st.status }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="numBeneficio">Valor Disponível</label>
+                                        <input type="text" value="{{ consulta.valorDisponivelCliente }}" readonly class="form-control" name="vlDisponivel" id="banco" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="subrotinas">Sub-Resultados</label>
+                                        <select readonly="" class="form-control" name="subrotinas" id="subrotinas">
+                                            <option value="">Selecione um Sub-resultado</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="newFone">Novo fone</label>
+                                        <input type="text" class="form-control" name="newFone" id="newFone" maxlength="8" />
+                                    </div>                                  
+                                    <div class="form-group col-lg-6">
+                                        <label for="newDDD">Novo DDD</label>
+                                        <input type="text" class="form-control" name="newDDD" id="newDDD" maxlength="2" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="dataProxLiguacao">Data próxima ligação</label>
+                                        <input type="text" id="datepicker" readonly class="form-control" name="dataProxLiguacao">
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <label for="obs">Observação</label>
+                                        <textarea class="form-control" id="obs" name="obs" rows="4" cols="7"></textarea>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <button type="submit" id="salvar" class="btn btn-primary">Salvar</button>
+                                    </div>
+                                </form>
                             {% endif %}
-                        </div>                       
-                        {% if calls is defined %}
+                        </div>
+
                         <div class="col-md-6 column">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading">Hitórico de discagem</div>
-                                <div class="panel-body">
-                                    Tentativas de chamadas realizadas para este cliente.
-                                </div>
-                                <!-- Table -->
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                Chamada
-                                            </th>
-                                            <th>
-                                                Data
-                                            </th>
-                                            <th>
-                                                Status
-                                            </th>
-                                            <th>
-                                                Situação
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for call in calls %}
+                            {% if calls is defined %}
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">Hitórico de discagem</div>
+                                    <div class="panel-body">
+                                        Tentativas de chamadas realizadas para este cliente.
+                                    </div>
+                                    <!-- Table -->
+                                    <table class="table table-bordered">
+                                        <thead>
                                             <tr>
-                                                <td>
-                                                    {{ call.idChamadaCliente }}
-                                                </td>
-                                                <td>
-                                                    {{ call.dataChamada|date('d/m/Y') }}
-                                                </td>
-                                                <td>
-                                                    {{ call.statusStatus.status }}
-                                                </td>
-                                                <td>
-                                                    {{ call.subrotinasSubrotina.subrotina }}
-                                                </td>
+                                                <th>
+                                                    Chamada
+                                                </th>
+                                                <th>
+                                                    Data
+                                                </th>
+                                                <th>
+                                                    Status
+                                                </th>
+                                                <th>
+                                                    Situação
+                                                </th>
                                             </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>
-                                                Tentativas
-                                            </th>
-                                            <th>
-                                                Data
-                                            </th>
-                                            <th>
-                                                Status
-                                            </th>
-                                            <th>
-                                                Situação
-                                            </th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            {% for call in calls %}
+                                                <tr>
+                                                    <td>
+                                                        {{ call.idChamadaCliente }}
+                                                    </td>
+                                                    <td>
+                                                        {{ call.dataChamada|date('d/m/Y') }}
+                                                    </td>
+                                                    <td>
+                                                        {{ call.statusStatus.status }}
+                                                    </td>
+                                                    <td>
+                                                        {{ call.subrotinasSubrotina.subrotina }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>
+                                                    Tentativas
+                                                </th>
+                                                <th>
+                                                    Data
+                                                </th>
+                                                <th>
+                                                    Status
+                                                </th>
+                                                <th>
+                                                    Situação
+                                                </th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            {% endif %}
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">Tipos de Crédito</div>
+                                <div class="panel-body">
+                                    Tipo de créditos adquiridos por este cliente
+                                </div>
+                                {% if tipoCredito is defined and tipoCredito.rotulo is defined %}
+                                    <ul class="list-group">
+                                        <li class="list-group-item list-group-item-success">{{tipoCredito.rotulo}}</li>
+                                        <li class="list-group-item">{{tipoCredito.tipo}}</li>
+                                    </ul>
+                                    {% if tipoCredito.number == 3 and valorArray13 is defined %}
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Valor Diponível
+                                                    </th>
+                                                    <th>
+                                                        Data Vencimento
+                                                    </th>
+                                                    <th>
+                                                        Valor Prestação
+                                                    </th>                                                  
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for valores in valorArray13 %}
+                                                    <tr>
+                                                        <td>
+                                                            {{ valores.valorDisponivel }}
+                                                        </td>
+                                                        <td>
+                                                            {{ valores.dataVencimento|date('d/m/Y') }}
+                                                        </td>
+                                                        <td>
+                                                            {{ valores.valorPrestacao }}
+                                                        </td>                                                   
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>
+                                                        Valor Diponível
+                                                    </th>
+                                                    <th>
+                                                        Data Vencimento
+                                                    </th>
+                                                    <th>
+                                                        Valor Prestação
+                                                    </th>                                                  
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    {% endif %}                               
+                                {% else %}
+                                    <ul class="list-group">
+                                        <li class="list-group-item list-group-item-info"><span style="color: #000">Não há crédito para este cliente</span></li>
+                                    </ul>
+                                {% endif %}
                             </div>
-                        {% endif %}
+                        </div>
                     </fieldset>
                 </div>
             </fieldset>
