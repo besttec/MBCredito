@@ -454,11 +454,18 @@
                     $("#vDisponivel2").val(d.DecTerDoisValorD);
                     $("#dataVecimento2").val(d.DecTerDoisDataV);
                     $("#vPrest2").val(d.DecTerDoisValorP);
+                    
                 } else if (d.tipoCredito == '4') {
                     $('#tCreditoAT').prop('checked', true);
                     
                     $('.tCreditoCon input').prop('checked', false);
                     $('.tCreditoCon input').prop('disabled', false);
+                }
+                
+                if (d.CreditoConsignado == '1') {
+                    $('#tCreditoRCon').prop('checked', true);
+                } else if (d.CreditoConsignado == '2') {
+                    $('#tCreditoNCon').prop('checked', true);
                 }
                                
             });

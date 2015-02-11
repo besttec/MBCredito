@@ -432,7 +432,7 @@ class DefaultController extends Controller
                 $tipoCredito = $resultCliente[$i]->getTipoCreditoCliente();
                 if($tipoCredito == "3") {
                     $antecipacoes = $resultCliente[$i]->getAntecipacoes13();
-                    if($antecipacoes && count($antecipacoes) == "2") {
+                    if($antecipacoes && count($antecipacoes) >= "2") {
                         $eventosArray[$i]['DecTerUmValorD'] =  $antecipacoes[0]->getValorDisponivel();
                         $eventosArray[$i]['DecTerUmValorP'] =  $antecipacoes[0]->getValorPrestacao();
                         $eventosArray[$i]['DecTerUmDataV']  =  $antecipacoes[0]->getDataVencimento()->format('d/m/Y');
