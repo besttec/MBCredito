@@ -464,8 +464,14 @@
                 
                 if (d.CreditoConsignado == '1') {
                     $('#tCreditoRCon').prop('checked', true);
+                    
+                    $('.tCreditoPess input').prop('checked', false);
+                    $('.tCreditoPess input').prop('disabled', false);
                 } else if (d.CreditoConsignado == '2') {
                     $('#tCreditoNCon').prop('checked', true);
+                    
+                    $('.tCreditoPess input').prop('checked', false);
+                    $('.tCreditoPess input').prop('disabled', false);
                 }
                                
             });
