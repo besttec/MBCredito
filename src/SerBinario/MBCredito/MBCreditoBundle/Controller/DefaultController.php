@@ -778,10 +778,12 @@ class DefaultController extends Controller
                 //
                 if($tCreditoPess){
                     $cliente[0]->setTipoCreditoCliente($tCreditoPess);
+                    $cliente[0]->setTipoCreditoConsignado(0);
                 }
                 //
                 if($tCreditoCon){
                     $cliente[0]->setTipoCreditoConsignado($tCreditoCon);
+                    $cliente[0]->setTipoCreditoCliente(0);
                 }
                 //
                 if($statusArquivoRetorno) {
