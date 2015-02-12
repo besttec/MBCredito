@@ -230,7 +230,11 @@
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('bundles/serbinariombcreditombcredito/js/validacao.js') }}"></script>
     <script type="text/javascript" language="javascript" class="init">
-        $('.datepicker').datetimepicker();
+        $('.datepicker').datetimepicker({
+            timepicker:false,
+            lang: 'pt-BR'
+         });
+          
         function format(d) {
             var linhas = "";
 
