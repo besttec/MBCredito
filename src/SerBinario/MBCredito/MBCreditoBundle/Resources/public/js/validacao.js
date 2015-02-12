@@ -1,7 +1,4 @@
-$("form#formModal").submit(function (event) {
-    //Interrompendo o submit
-    event.preventDefault();
-    
+$("form#formModal").submit(function () {    
     //Recuperando os valores dos campos
     var margem       = $("form#formModal input[name='margem']").val();
     var vDisponivel  = $("form#formModal input[name='vDisponivel']").val();
@@ -25,4 +22,5 @@ $("form#formModal").submit(function (event) {
         return false;
     }
     
+    return true;
 });
