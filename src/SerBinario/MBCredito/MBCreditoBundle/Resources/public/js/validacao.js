@@ -8,7 +8,7 @@ $("form#formModal").submit(function (event) {
     
     //Verifica se o valor da marge está válido
     if( !($.isNumeric(vDisponivel))) {
-        $("form#formModal span#errorMargem")
+        $("form#formModal span#errorVDisponivel")
                 .css("color", "red")
                 .text("Informe um valor do tipo numérico para valor disponível");
         
@@ -18,7 +18,7 @@ $("form#formModal").submit(function (event) {
     //Verifica se o valor disponível está válido
     if( !($.isNumeric(margem))) {
         
-        $("form#formModal span#errorVDisponivel")
+        $("form#formModal span#errorMargem")
                 .css("color", "red")
                 .text("Informe um valor do tipo numérico para margem");
         
