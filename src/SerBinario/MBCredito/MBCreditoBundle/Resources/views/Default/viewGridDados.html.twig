@@ -418,11 +418,13 @@
                     $('#arquivoRetorno').prop('checked', false);
                 }
 
-                if (d.bloqueioAtivacao === "0") {
-                    $('#ativo').prop('disabled', false);
+                if (d.bloqueioAtivacao == "0") {
+                    $('#ativo').attr('disabled', false);
+                } else if (d.bloqueioAtivacao === "2") {
+                    $('#ativo').prop('disabled', true);
                 } else {
                     $('#ativo').prop('disabled', true);
-                }
+                }               
 
                 $('.checked').html(emprestimmos);
                 $('#idCliente').val(d.DT_RowId.replace("row_", " "));

@@ -457,11 +457,11 @@ class DefaultController extends Controller
                     $eventosArray[$i]['bloqueioAtivacao']       = "1";
                     $eventosArray[$i]['DisponibilidadeLigação'] = "NÂO";
                 } else if($resultCliente[$i]->getStatusLigacao() == true) {
-                    $eventosArray[$i]['bloqueioAtivacao']       = "1";
-                    $eventosArray[$i]['DisponibilidadeLigação'] = "NAO";
-                } else {
-                    $eventosArray[$i]['bloqueioAtivacao']       = "0";
+                    $eventosArray[$i]['bloqueioAtivacao']       = "2";
                     $eventosArray[$i]['DisponibilidadeLigação'] = "SIM";
+                } else if ($resultCliente[$i]->getStatusLigacao() == false) {
+                    $eventosArray[$i]['bloqueioAtivacao']       = "0";
+                    $eventosArray[$i]['DisponibilidadeLigação'] = "NÃO";
                 }
                 
                 if($qtdNumBeneficio < 10) {
