@@ -25,6 +25,4 @@ $("form#formModal").submit(function (event) {
         return false;
     }
     
-    
-    return true;
 });
