@@ -67,8 +67,48 @@ class HandlePendecia implements IHandle
         $consulta = $resultDados->getConsultaCliente();
         
         #Recuperando o cliente
-        $cliente  = $consulta->getClientesCliente();
-            
+        $cliente     = $consulta->getClientesCliente();
+        
+        //tipos dos créditos
+        $valorTipoCredito = array();
+        //valores para o tipo de crédito 13ª salário
+        $valorArray13     = array();
+        
+        //pega o tipo de crédito pessoal
+        $tipoCreditoP = $consulta->getTipoCreditoCliente();
+        
+        //pega tipo de crédito consignado
+        $tipoCreditoC = $consulta->getTipoCreditoConsignado();
+        
+        //Condição para tratar os tipo de crédito consignado
+        if($tipoCreditoC) {
+            if($tipoCreditoC == "1") {
+                $valorTipoCredito = array('number' => '1', 'rotulo' => 'Tipo Crédito Consignado', 'tipo' => 'Crédito Renovação');
+            } else if($tipoCreditoC == "2") {
+                $valorTipoCredito = array('number' => '2', 'rotulo' => 'Tipo Crédito Consignado', 'tipo' => 'Crédito Novo');
+            }           
+        }
+        
+        //Condição para tratar os tipo de crédito pessoal
+        if($tipoCreditoP) {
+            if($tipoCreditoP == "1") {
+                $valorTipoCredito = array('number' => '1', 'rotulo' => 'Tipo Crédito Pessoal', 'tipo' => 'Crédito Renovação');
+            } else if ($tipoCreditoP == "2") {
+                $valorTipoCredito = array('number' => '2', 'rotulo' => 'Tipo Crédito Pessoal', 'tipo' => 'Crédito Novo');
+            } else if ($tipoCreditoP == "3") {
+                $valorTipoCredito = array('number' => '3', 'rotulo' => 'Tipo Crédito Pessoal', 'tipo' => 'Antecipação de 13ª Salário');
+                //Pega os valor correspondente ao tipo de crédito 13ª salário
+                $valores13 = $consulta->getAntecipacoes13();
+                if($valores13) {
+                   $valorArray13 = $valores13;
+                } else {
+                   $valorArray13 = null;
+                }
+            } else if($tipoCreditoP == "4") {
+                $valorTipoCredito = array('number' => '4', 'rotulo' => 'Tipo Crédito Pessoal', 'tipo' => 'Crédito Automático');
+            }
+        }       
+        
         #Recupera todas as chamadas do cliente = $cliente
         $calls    = $this->clienteDAO->findCallsCliente($consulta);        
         
@@ -81,7 +121,9 @@ class HandlePendecia implements IHandle
                 "consulta"        => $consulta,
                 "chamadaAnterior" => null,
                 "error"           => null,
-                "type"            => null
+                "type"            => null,
+                "tipoCredito"     => $valorTipoCredito,
+                "valorArray13"    => $valorArray13
             );
     }
     

@@ -115,7 +115,7 @@
                                             <label class="tCreditoPess ativaCampos"><input type='radio' id="tCreditoA" name='tCreditoPess' value="3"> 
                                                 Antecipação de 13ª Salário
                                             </label>
-                                            <label class="tCreditoPess aux"><input type='radio' id="tCreditoAT" name='tCreditoPess' value="3"> 
+                                            <label class="tCreditoPess aux"><input type='radio' id="tCreditoAT" name='tCreditoPess' value="4"> 
                                                 Crédito Automático
                                             </label>
                                         </div>                                      
@@ -151,24 +151,24 @@
                                                 <tbody>
                                                     <tr>
                                                         <td>
-                                                            <input type="text" class="form-control" name="vDispon[]" id="vDisponivel" />
+                                                            <input type="text"  class="form-control" name="vDispon[]" id="vDisponivel1" />
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control" name="dataVecimento[]" id="vDisponivel" />
+                                                            <input type="text" class="form-control datepicker" name="dataVecimento[]" id="dataVecimento1" />
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control" name="vPrest[]" id="vDisponivel" />
+                                                            <input type="text" class="form-control" name="vPrest[]" id="vPrest1" />
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <input type="text" class="form-control" name="vDispon[]" id="vDisponivel" />
+                                                            <input type="text" class="form-control" name="vDispon[]" id="vDisponivel2" />
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control" name="dataVecimento[]" id="vDisponivel" />
+                                                            <input type="text" class="form-control datepicker" name="dataVecimento[]" id="dataVecimento2" />
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control" name="vPrest[]" id="vDisponivel" />
+                                                            <input type="text" class="form-control" name="vPrest[]" id="vPrest2" />
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -230,6 +230,7 @@
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('bundles/serbinariombcreditombcredito/js/validacao.js') }}"></script>
     <script type="text/javascript" language="javascript" class="init">
+        $('.datepicker').datetimepicker();
         function format(d) {
             var linhas = "";
 
@@ -426,32 +427,100 @@
                 }
 
                 $('.checked').html(emprestimmos);
-                $('#idCliente').val(d.DT_RowId.replace("row_", ""));
+                $('#idCliente').val(d.DT_RowId.replace("row_", " "));
                 $('#obs').val(d.obsCliente);
                 $('#margem').val(d.margem);
                 $('#vDisponivel').val(d.vDisponivel);
-
+                
                 if (d.tipoCredito == '1') {
                     $('#tCreditoR').prop('checked', true);
                     
+                    $('#AntDecimo13').hide();
                     $('.tCreditoCon input').prop('checked', false);
                     $('.tCreditoCon input').prop('disabled', false);
+                    
+                    $("#vDisponivel1").val(""); 
+                    $("#dataVecimento1").val("");
+                    $("#vPrest1").val("");
+
+                    $("#vDisponivel2").val("");
+                    $("#dataVecimento2").val("");
+                    $("#vPrest2").val("");
                 } else if (d.tipoCredito == '2') {
                     $('#tCreditoN').prop('checked', true);
                     
+                    $('#AntDecimo13').hide();
                     $('.tCreditoCon input').prop('checked', false);
                     $('.tCreditoCon input').prop('disabled', false);
+                    
+                    $("#vDisponivel1").val("");
+                    $("#dataVecimento1").val("");
+                    $("#vPrest1").val("");
+
+                    $("#vDisponivel2").val("");
+                    $("#dataVecimento2").val("");
+                    $("#vPrest2").val("");
+
                 } else if (d.tipoCredito == '3') {
                     $('#tCreditoA').prop('checked', true);
                     
                     $('#AntDecimo13').show();
                     $('.tCreditoCon input').prop('checked', false);
                     $('.tCreditoCon input').prop('disabled', false);
+                    
+                    $("#vDisponivel1").val(d.DecTerUmValorD);
+                    $("#dataVecimento1").val(d.DecTerUmDataV);
+                    $("#vPrest1").val(d.DecTerUmValorP);
+
+                    $("#vDisponivel2").val(d.DecTerDoisValorD);
+                    $("#dataVecimento2").val(d.DecTerDoisDataV);
+                    $("#vPrest2").val(d.DecTerDoisValorP);
+                    
                 } else if (d.tipoCredito == '4') {
                     $('#tCreditoAT').prop('checked', true);
                     
+                    $('#AntDecimo13').hide();
                     $('.tCreditoCon input').prop('checked', false);
                     $('.tCreditoCon input').prop('disabled', false);
+                    
+                    $("#vDisponivel1").val("");
+                    $("#dataVecimento1").val("");
+                    $("#vPrest1").val("");
+
+                    $("#vDisponivel2").val("");
+                    $("#dataVecimento2").val("");
+                    $("#vPrest2").val("");
+                }
+                
+                if (d.CreditoConsignado == '1') {
+                    $('#tCreditoRCon').prop('checked', true);
+                    
+                    $('#AntDecimo13').hide();
+                    $('.tCreditoPess input').prop('checked', false);
+                    $('.tCreditoPess input').prop('disabled', false);
+                    
+                    $("#vDisponivel1").val("");
+                    $("#dataVecimento1").val("");
+                    $("#vPrest1").val("");
+
+                    $("#vDisponivel2").val("");
+                    $("#dataVecimento2").val("");
+                    $("#vPrest2").val("");
+                    
+                } else if (d.CreditoConsignado == '2') {
+                    $('#tCreditoNCon').prop('checked', true);
+                    
+                    $('#AntDecimo13').hide();
+                    $('.tCreditoPess input').prop('checked', false);
+                    $('.tCreditoPess input').prop('disabled', false);
+                    
+                    $("#vDisponivel1").val("");
+                    $("#dataVecimento1").val("");
+                    $("#vPrest1").val("");
+
+                    $("#vDisponivel2").val("");
+                    $("#dataVecimento2").val("");
+                    $("#vPrest2").val("");
                 }
                                
             });
@@ -492,8 +561,6 @@
 
             $('.tCreditoPess input').attr('checked', true);
             $('.tCreditoPess input').attr('disabled', false);
-
-            //console.log($(this " input"));
 
         });
 
