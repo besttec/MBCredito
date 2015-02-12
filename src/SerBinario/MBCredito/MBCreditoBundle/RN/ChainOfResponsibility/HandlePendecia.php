@@ -63,7 +63,7 @@ class HandlePendecia implements IHandle
             return $this->handleSucessor->handle();
         }
         
-        #Recupera a última consulta do cliente;
+        #Recupera a consulta corrente;
         $consulta = $resultDados->getConsultaCliente();
         
         #Recuperando o cliente
