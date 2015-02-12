@@ -761,11 +761,19 @@ class DefaultController extends Controller
             $cliente = $consultaClienteDAO->findConsultaCliente($id);
             
             //Verifica se o cliente existe
-            if($cliente) {                
-                
+            if($cliente) {              
                 if($antecipacao) {
-                    $cliente[0]->addAntecipacao13($antercipacao131);
-                    $cliente[0]->addAntecipacao13($antercipacao132);
+                    $antecipacoes = $cliente[0]->getAntecipacoes13();
+                    if(count($antecipacoes) > 0) {
+                        $newAnt = new \Doctrine\Common\Collections\ArrayCollection();
+                        $newAnt->add($antercipacao131);
+                        $newAnt->add($antercipacao132);
+                        
+                        $cliente[0]->setAntecipacoes13($newAnt);
+                    }else {
+                        $cliente[0]->addAntecipacao13($antercipacao131);
+                        $cliente[0]->addAntecipacao13($antercipacao132);
+                    }                    
                 }
                 
                 $cliente[0]->setStatusLigacao(true);                
@@ -776,7 +784,7 @@ class DefaultController extends Controller
                 //
                 $cliente[0]->setValorDisponivelCliente($vDisponivel);
                 //
-                if($tCreditoPess){
+                if($tCreditoPess){                    
                     $cliente[0]->setTipoCreditoCliente($tCreditoPess);
                     $cliente[0]->setTipoCreditoConsignado(0);
                 }
