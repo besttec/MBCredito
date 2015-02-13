@@ -770,8 +770,11 @@ class DefaultController extends Controller
                     $cliente[0]->addAntecipacao13($antercipacao132);
                 }                    
                 
+                #Verifica o status ativo.
+                if(isset($req['statusAtivo'])) {
+                    $cliente[0]->setStatusLigacao(true); 
+                }
                 
-                $cliente[0]->setStatusLigacao(true);                
                 //Seta o valor do campo observação para o cliente
                 $cliente[0]->setObsCliente($obs);
                 //
