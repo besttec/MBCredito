@@ -236,7 +236,9 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" language="javascript" class="init">
-        $('#datepicker').datetimepicker();
+        $(document).ready(function() {
+            $('#datepicker').datetimepicker();
+        })
         
         $('#status').change(function () {
             var valueOpcao = $('#status option:selected').attr("value");     
