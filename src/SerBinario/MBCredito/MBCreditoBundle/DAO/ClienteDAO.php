@@ -83,7 +83,7 @@ class ClienteDAO
         $qb  = $this->manager->createQueryBuilder();
         $qb->select("a");
         $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");
-        $qb->where("a.dataChamada >= ?1 AND a.statusChamada = ?2");
+        $qb->where("a.dataChamada <= ?1 AND a.statusChamada = ?2");
         $qb->setParameter(1, $now);
         $qb->setParameter(2, false);
         $qb->setMaxResults(1);
@@ -93,10 +93,6 @@ class ClienteDAO
         
         if(count($result) > 0) {
             $chamada =  $result[0];
-            
-            if($chamada->getDataChamada() < $now) {
-                return null;
-            }
         }
                
         return $chamada;
