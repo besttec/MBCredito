@@ -240,7 +240,7 @@
             var valueOpcao = $('#status option:selected').attr("value");
             
             $('#datepicker').datetimepicker();
-            $('#datepicker').attr("readonly");
+            $('#datepicker').removeAttr("readonly");
             
             if (valueOpcao == 2) {
                 $('#subrotinas').removeAttr("readonly");               
