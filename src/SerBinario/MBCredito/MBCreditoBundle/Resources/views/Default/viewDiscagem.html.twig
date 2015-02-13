@@ -238,10 +238,10 @@
     <script type="text/javascript" language="javascript" class="init">
         $('#status').change(function () {
             var valueOpcao = $('#status option:selected').attr("value");
-
+            $('#datepicker').datetimepicker();
             if (valueOpcao == 2) {
-                $('#subrotinas').removeAttr("readonly");                
-                $('#datepicker').datetimepicker();
+                $('#subrotinas').removeAttr("readonly");               
+                
             } else if (valueOpcao == 1) {
                 $('#subrotinas').removeAttr("readonly");                
             }
