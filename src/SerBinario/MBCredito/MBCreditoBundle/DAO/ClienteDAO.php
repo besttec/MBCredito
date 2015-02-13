@@ -84,18 +84,22 @@ class ClienteDAO
         $qb->select("a");
         $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");
         $qb->where("a.dataChamada >= ?1 AND a.statusChamada = ?2");
-        $qb->setParameter(1, \date("Y-m-d", time()));
+        $qb->setParameter(1, $now);
         $qb->setParameter(2, false);
         $qb->setMaxResults(1);
         
         $result  = $qb->getQuery()->getResult();
-        $cliente = null;
+        $chamada = null;
         
         if(count($result) > 0) {
-            $cliente =  $result[0];
-        }
+            $chamada =  $result[0];
             
-        return $cliente;
+            if($chamada->getDataChamada() < $now) {
+                return null;
+            }
+        }
+               
+        return $chamada;
     }
     
     /**
