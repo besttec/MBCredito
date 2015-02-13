@@ -89,7 +89,7 @@
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="dataProxLiguacao">Data próxima ligação</label>
-                                        <input type="text" id="datepicker" readonly class="form-control" name="dataProxLiguacao">
+                                        <input type="text" id="datepicker"  class="form-control" name="dataProxLiguacao">
                                     </div>
                                     <div class="form-group col-lg-12">
                                         <label for="obs">Observação</label>
@@ -240,12 +240,10 @@
             var valueOpcao = $('#status option:selected').attr("value");
 
             if (valueOpcao == 2) {
-                $('#subrotinas').removeAttr("readonly");
-                $('#datepicker').removeAttr("readonly");
+                $('#subrotinas').removeAttr("readonly");                
                 $('#datepicker').datetimepicker();
             } else if (valueOpcao == 1) {
-                $('#subrotinas').removeAttr("readonly");
-                $('#datepicker').attr("readonly", "");
+                $('#subrotinas').removeAttr("readonly");                
             }
 
             var dados = {
