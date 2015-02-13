@@ -785,6 +785,10 @@ class DefaultController extends Controller
                 if($tCreditoPess){                    
                     $cliente[0]->setTipoCreditoCliente($tCreditoPess);
                     $cliente[0]->setTipoCreditoConsignado(0);
+                    
+                    if($tCreditoPess != 3) {
+                        $consultaClienteDAO->removeAllAntecipacoes($cliente[0]->getAntecipacoes13());
+                    }
                 }
                 //
                 if($tCreditoCon){
