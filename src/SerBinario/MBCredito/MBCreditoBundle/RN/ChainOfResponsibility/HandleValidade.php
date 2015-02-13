@@ -72,7 +72,7 @@ class HandleValidade implements IHandle
         #Recuperando chamada com validade
         $resultDados = $this->clienteDAO->findCallDate();
         
-        #Recupera a última consulta do cliente;
+        #Recupera a última consulta do cliente da chamada em questão;
         $consulta = $resultDados->getConsultaCliente();
         
         #Verifica se existe chamamada com validade
