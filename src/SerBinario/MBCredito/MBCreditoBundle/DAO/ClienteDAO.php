@@ -42,6 +42,21 @@ class ClienteDAO
     
     /**
      * 
+     * @param type $id
+     */
+    public function findById($id)
+    {
+        try {
+            $obj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes")->find($id);
+            
+            return $obj;
+        } catch (Exception $ex) {
+
+        }
+    }
+    
+    /**
+     * 
      * @param type $numBeneficio
      * @return type
      */

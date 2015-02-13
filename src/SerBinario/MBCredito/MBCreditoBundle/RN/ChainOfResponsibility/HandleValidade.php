@@ -72,13 +72,16 @@ class HandleValidade implements IHandle
         #Recuperando chamada com validade
         $resultDados = $this->clienteDAO->findCallDate();
         
+        #Recupera a última consulta do cliente;
+        $consulta = $resultDados->getConsultaCliente();
+        
         #Verifica se existe chamamada com validade
         if(! $resultDados) {
             return $this->handleSucessor->handle();
         }
         
         #Recuperando o o cliente e alterando o status em chamada
-        $cliente = $resultDados->getClientesCliente(); 
+        $cliente = $resultDados->getConsultaCliente()->getClientesCliente(); 
         $cliente->setStatusEmChamada(true);                              
         $this->clienteDAO->updateCliente($cliente);
         
@@ -91,6 +94,7 @@ class HandleValidade implements IHandle
         $chamada->setStatusChamada(false);
         $chamada->setDataPendencia(new \DateTime("now", new \DateTimeZone("America/Recife")));
         $chamada->setUser($this->user);
+        $chamada->setConsultaCliente($consulta);
         
         #Validando o objeto chamada
         $valResult = $this->validador->validate($chamada);
@@ -101,13 +105,10 @@ class HandleValidade implements IHandle
             $this->chamadaDAO->save($chamada);
         } else {
            $error = (string) $valResult;  
-        }
+        }               
         
         #Recupera todas as chamadas do cliente = $cliente
-        $calls    = $this->clienteDAO->findCallsCliente($cliente);
-
-        #Recupera a última consulta do cliente;
-        $consulta = $resultDados->getConsultaCliente();
+        $calls    = $this->clienteDAO->findCallsCliente($consulta);
         
         //tipos dos créditos
         $valorTipoCredito = array();
@@ -154,7 +155,7 @@ class HandleValidade implements IHandle
                 "cliente"         => $cliente,
                 "status"          => $this->statusArray,
                 "calls"           => $calls,
-                "chamadaAtual"    => null,
+                "chamadaAtual"    => $chamada,
                 "consulta"        => $consulta,
                 "chamadaAnterior" => $chamadaAnt,
                 "error"           => $error,
