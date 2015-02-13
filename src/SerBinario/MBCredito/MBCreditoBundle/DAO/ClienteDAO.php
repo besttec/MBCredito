@@ -84,7 +84,7 @@ class ClienteDAO
         $qb->select("a");
         $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");
         $qb->where("a.dataChamada >= ?1 AND a.statusChamada = ?2");
-        $qb->setParameter(1, $now->format("Y-m-d H:i:s"));
+        $qb->setParameter(1, $now->format("Y-m-d H:i:s"), \Doctrine\DBAL\Types\Type::DATETIME);
         $qb->setParameter(2, false);
         $qb->setMaxResults(1);
         
