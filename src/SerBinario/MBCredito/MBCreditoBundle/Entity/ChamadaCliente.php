@@ -251,7 +251,7 @@ class ChamadaCliente
      * 
      * @param type $statusPendencia
      */
-    public function setStatusPendencia($statusPendencia) 
+    public function setStatusPendencia($statusPendencia)
     {
         $this->statusPendencia = $statusPendencia;
     }

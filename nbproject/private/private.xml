@@ -2,6 +2,19 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Controller/DefaultController.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Resources/views/Default/viewGridDados.html.twig</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/DAO/ConsultaClienteDAO.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Entity/ConsultaCliente.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Entity/ChamadaCliente.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/DAO/ClienteDAO.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Entity/Status.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/RN/ChainOfResponsibility/HandleValidade.php</file>
+        </group>
+>>>>>>> bb2c3775b3da4842a24c31a6107e1da0e08e085e
     </open-files>
 </project-private>
