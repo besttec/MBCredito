@@ -18,7 +18,8 @@
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "respect/validation": "~0.7"
+        "respect/validation": "~0.7",
+        "beberlei/DoctrineExtensions": "*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

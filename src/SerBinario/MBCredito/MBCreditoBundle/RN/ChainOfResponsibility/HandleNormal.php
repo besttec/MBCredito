@@ -92,13 +92,13 @@ class HandleNormal implements IHandle
         $consulta = $this->clienteDAO->findNotUse($idConvenioPA, $estadoConvenioPA);       
         
         #Verifica se existe cliente.
-        if(!$consulta) {
+        if( !$consulta) {
             return array(
                 "error" => "Não existe cliente disponível",
                 "type"  => "danger"
                 );
         } 
-        
+                
         #Recuperando o cliente da consulta
         $cliente  = $consulta->getClientesCliente();
         

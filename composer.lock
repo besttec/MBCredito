@@ -4,8 +4,34 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5a04ec52ccc8522b07b2e0e737068408",
+    "hash": "8e14880cb1d8419d8e8160c939d66c7c",
     "packages": [
+        {
+            "name": "beberlei/DoctrineExtensions",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beberlei/DoctrineExtensions.git",
+                "reference": "d38b081dbf826960bd9aad9d7dabed5164d3e7d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beberlei/DoctrineExtensions/zipball/d38b081dbf826960bd9aad9d7dabed5164d3e7d3",
+                "reference": "d38b081dbf826960bd9aad9d7dabed5164d3e7d3",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "DoctrineExtensions": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2012-05-16 07:04:34"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.2.3",
@@ -1006,16 +1032,16 @@
         },
         {
             "name": "respect/validation",
-            "version": "0.8.0",
+            "version": "0.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Respect/Validation.git",
-                "reference": "2914eba595fe487cf8867bf5698bd79dd467eda0"
+                "reference": "378e114c33547c91c6745891b389b476e2373db7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Respect/Validation/zipball/2914eba595fe487cf8867bf5698bd79dd467eda0",
-                "reference": "2914eba595fe487cf8867bf5698bd79dd467eda0",
+                "url": "https://api.github.com/repos/Respect/Validation/zipball/378e114c33547c91c6745891b389b476e2373db7",
+                "reference": "378e114c33547c91c6745891b389b476e2373db7",
                 "shasum": ""
             },
             "require": {
@@ -1062,7 +1088,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2015-02-11 14:43:59"
+            "time": "2015-02-13 11:33:57"
         },
         {
             "name": "sensio/distribution-bundle",

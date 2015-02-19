@@ -236,6 +236,15 @@ class ConsultaCliente
     /**
      * @var boolean
      *
+     * @Assert\Type(type="bool", message="Valor informado para status de data de validade do cliente é inválido")
+     * 
+     * @ORM\Column(name="status_validade_consulta", type="boolean", nullable=true, options={"comment":"Define o status em caso de disponível"})
+     */
+    private $statusPendencia;
+    
+    /**
+     * @var boolean
+     *
      * @Assert\Type(type="bool", message="Valor informado para status da consulta do cliente é inválido")
      * 
      * @ORM\Column(name="status_arquivo_retorno", type="boolean", nullable=true)
@@ -1021,6 +1030,26 @@ class ConsultaCliente
     public function removeAllAntecipacao()
     {
         $this->antecipacoes13->clear();
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getStatusPendencia() 
+    {
+        return $this->statusPendencia;
+    }
+    
+    /**
+     * 
+     * @param type $statusPendencia
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
+     */
+    public function setStatusPendencia($statusPendencia) 
+    {
+        $this->statusPendencia = $statusPendencia;
+        return $this;
     }
 
 }

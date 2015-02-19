@@ -105,11 +105,15 @@ class DiscagemRN
             #Recuperando a subrotina no banco de dados
             $subrotinaDAO = new  SubRotinasDAO($this->manager);
             $subrotina    = $subrotinaDAO->findById($subrotinaId);
+            
+            #Recuperando a consulta da chamada
+            $consulta = $objChamada->getConsultaCliente();
 
             #Verifica se existe data e seta a data da pŕoxima chamada
             if($dtProxLig) {
                 $date = \DateTime::createFromFormat("Y/m/d H:i", $dtProxLig);
                 $objChamada->setDataChamada($date);
+                $consulta->setStatusPendencia(true);
             } 
 
             #Atualizando o objChamada com os novos dados
@@ -130,11 +134,9 @@ class DiscagemRN
                 if($chamadaAnt) {
                     $objChamadaAnt = $chamadaDAO->findById($chamadaAnt);
                     $objChamadaAnt->setStatusChamada(true);
+                    $consulta->setStatusPendencia(false);
                     $chamadaDAO->update($objChamadaAnt);
-                }   
-
-                #Recuperando a consulta da chamada
-                $consulta = $objChamada->getConsultaCliente();
+                }                   
 
                 #Recuoerando o cliente dessa consulta
                 $cliente  = $consulta->getClientesCliente();

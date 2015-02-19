@@ -76,7 +76,7 @@ class HandleValidade implements IHandle
         if(! $resultDados) {
             return $this->handleSucessor->handle();
         }
-        
+   
         #Recupera a última consulta do cliente da chamada em questão;
         $consulta = $resultDados->getConsultaCliente();     
         

@@ -2,16 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
         <group/>
-=======
-        <group>
-            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Controller/DefaultController.php</file>
-            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Resources/views/Default/viewGridDados.html.twig</file>
-            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Entity/ConsultaCliente.php</file>
-            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Resources/views/Default/viewDiscagem.html.twig</file>
-            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Entity/Antecipacao13.php</file>
-        </group>
->>>>>>> 1c75a553de60448e1eaf268a08a8f50a951604d5
     </open-files>
 </project-private>

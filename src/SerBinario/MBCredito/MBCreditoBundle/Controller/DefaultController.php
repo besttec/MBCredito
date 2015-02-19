@@ -636,6 +636,7 @@ class DefaultController extends Controller
             $consultaCliente->setNomeSegurado($nomeSegurado);
             $consultaCliente->setCompetencia($competencia);
             $consultaCliente->setStatusErro(false);
+            $consultaCliente->setStatusPendencia(false);
             
             $arrayPeriodo = explode("a", $pCredito);
             

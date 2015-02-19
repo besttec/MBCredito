@@ -363,6 +363,6 @@ class ChamadaCliente
     {
         $this->consultaCliente = $consultaCliente;
     }
-
+   
 
 }

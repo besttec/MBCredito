@@ -5,6 +5,9 @@ use SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes;
 use SerBinario\MBCredito\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 
+
+
+
 /**
  * 
  */
@@ -42,21 +45,6 @@ class ClienteDAO
     
     /**
      * 
-     * @param type $id
-     */
-    public function findById($id)
-    {
-        try {
-            $obj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes")->find($id);
-            
-            return $obj;
-        } catch (Exception $ex) {
-
-        }
-    }
-    
-    /**
-     * 
      * @param type $numBeneficio
      * @return type
      */
@@ -78,24 +66,26 @@ class ClienteDAO
      */
     public function findCallDate()
     {
-        $now = new \DateTime("NOW");
+        $conf = $this->manager->getConfiguration();
+        $conf->addCustomDatetimeFunction("TimestampDiff", "DoctrineExtensions\Query\Mysql\TimestampDiff");
         
         $qb  = $this->manager->createQueryBuilder();
         $qb->select("a");
         $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");
-        $qb->where("a.dataChamada < CURRENT_TIME() AND a.dataChamada < CURRENT_DATE() AND a.statusChamada = ?2");
-        //$qb->setParameter(1, $now);
-        $qb->setParameter(2, false);
+        $qb->where("TimestampDiff(SECOND, a.dataChamada, CURRENT_TIMESTAMP()) > 0   AND a.statusChamada = ?1"); 
+        
+        $qb->setParameter(1, false);
         $qb->setMaxResults(1);
         
         $result  = $qb->getQuery()->getResult();
-        $chamada = null;
+        
+        $cliente = null;
         
         if(count($result) > 0) {
-            $chamada =  $result[0];
+            $cliente =  $result[0];
         }
-               
-        return $chamada;
+            
+        return $cliente;
     }
     
     /**
@@ -138,7 +128,9 @@ class ClienteDAO
             $qb->join("a.clientesCliente", "cliente");
             $qb->join("cliente.convenio", "b");
             $qb->join("cliente.superEstadualSuperEstadual", "c");            
-            $qb->where("cliente.statusEmChamada =?1 AND a.statusConsulta = ?2  AND a.statusErro = ?3 AND a.statusLigacao = ?4 AND b.id = ?5");
+            $qb->where("cliente.statusEmChamada =?1 AND a.statusConsulta = ?2 "
+                    . " AND a.statusErro = ?3 AND a.statusLigacao = ?4 "
+                    . "AND b.id = ?5 AND a.statusPendencia = ?6");
             $qb->setMaxResults(1);
             $qb->setParameters(
                     array(
@@ -146,7 +138,8 @@ class ClienteDAO
                         2 => true,
                         3 => false,
                         4 => true,
-                        5 => $idConvenio
+                        5 => $idConvenio,
+                        6 => false
                     )
                 );
             
@@ -156,7 +149,7 @@ class ClienteDAO
             }
             
             $result = $qb->getQuery()->getResult(); 
- 
+            //var_dump($result);exit;
             $consulta = null; 
             
             if(count($result) > 0) {
