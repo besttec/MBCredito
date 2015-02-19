@@ -106,8 +106,8 @@ class DiscagemRN
             $subrotinaDAO = new  SubRotinasDAO($this->manager);
             $subrotina    = $subrotinaDAO->findById($subrotinaId);
 
-            #Verifica se o status é não contatado e seta a data da pŕoxima chamada
-            if($status->getIdStatus() == 2) {
+            #Verifica se existe data e seta a data da pŕoxima chamada
+            if($dtProxLig) {
                 $date = \DateTime::createFromFormat("Y/m/d H:i", $dtProxLig);
                 $objChamada->setDataChamada($date);
             } 
@@ -140,7 +140,8 @@ class DiscagemRN
                 $cliente  = $consulta->getClientesCliente();
 
                 #Verifica se o status é finalizado e encerra as chamadas para essa consulta
-                if($status->getIdStatus() == 1) {
+                if(($status->getIdStatus() == 1 && $subrotina->getCodigoSubrotina() == '1') 
+                        || ($status->getIdStatus() == 1 && empty($dtProxLig) )) {
                    $consulta->setStatusLigacao(false); 
                 }
 

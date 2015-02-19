@@ -64,6 +64,25 @@ class ConsultaClienteDAO
             return false;
         }
     }
+    
+    /**
+     * 
+     * @param type $antecipacoes
+     * @return boolean
+     */
+    public function removeAllAntecipacoes($antecipacoes = array())
+    {
+        try {
+            foreach ($antecipacoes as $antecipacao) {
+                $this->manager->remove($antecipacao);
+                $this->manager->flush();
+            }
+            
+            return true;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
       
     /**
      * 

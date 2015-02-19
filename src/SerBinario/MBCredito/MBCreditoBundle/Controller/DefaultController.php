@@ -773,21 +773,19 @@ class DefaultController extends Controller
             
             //Verifica se o cliente existe
             if($cliente) {              
-                if($antecipacao) {
-                    $antecipacoes = $cliente[0]->getAntecipacoes13();
-                    if(count($antecipacoes) > 0) {
-                        $newAnt = new \Doctrine\Common\Collections\ArrayCollection();
-                        $newAnt->add($antercipacao131);
-                        $newAnt->add($antercipacao132);
-                        
-                        $cliente[0]->setAntecipacoes13($newAnt);
-                    }else {
-                        $cliente[0]->addAntecipacao13($antercipacao131);
-                        $cliente[0]->addAntecipacao13($antercipacao132);
-                    }                    
+                if($antecipacao) { 
+                    $consultaClienteDAO->removeAllAntecipacoes($cliente[0]->getAntecipacoes13());
+                    $cliente[0]->removeAllAntecipacao();
+                    
+                    $cliente[0]->addAntecipacao13($antercipacao131);
+                    $cliente[0]->addAntecipacao13($antercipacao132);
+                }                    
+                
+                #Verifica o status ativo.
+                if(isset($req['statusAtivo'])) {
+                    $cliente[0]->setStatusLigacao(true); 
                 }
                 
-                $cliente[0]->setStatusLigacao(true);                
                 //Seta o valor do campo observação para o cliente
                 $cliente[0]->setObsCliente($obs);
                 //
@@ -798,11 +796,16 @@ class DefaultController extends Controller
                 if($tCreditoPess){                    
                     $cliente[0]->setTipoCreditoCliente($tCreditoPess);
                     $cliente[0]->setTipoCreditoConsignado(0);
+                    
+                    if($tCreditoPess != 3) {
+                        $consultaClienteDAO->removeAllAntecipacoes($cliente[0]->getAntecipacoes13());
+                    }
                 }
                 //
                 if($tCreditoCon){
                     $cliente[0]->setTipoCreditoConsignado($tCreditoCon);
                     $cliente[0]->setTipoCreditoCliente(0);
+                    $consultaClienteDAO->removeAllAntecipacoes($cliente[0]->getAntecipacoes13());
                 }
                 //
                 if($statusArquivoRetorno) {

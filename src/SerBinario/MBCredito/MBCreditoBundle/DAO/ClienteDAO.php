@@ -42,6 +42,21 @@ class ClienteDAO
     
     /**
      * 
+     * @param type $id
+     */
+    public function findById($id)
+    {
+        try {
+            $obj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes")->find($id);
+            
+            return $obj;
+        } catch (Exception $ex) {
+
+        }
+    }
+    
+    /**
+     * 
      * @param type $numBeneficio
      * @return type
      */
@@ -63,22 +78,24 @@ class ClienteDAO
      */
     public function findCallDate()
     {
+        $now = new \DateTime("NOW");
+        
         $qb  = $this->manager->createQueryBuilder();
         $qb->select("a");
         $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");
-        $qb->where("a.dataChamada >= ?1 AND a.statusChamada = ?2");
-        $qb->setParameter(1, new \DateTime("NOW"));
+        $qb->where("a.dataChamada < CURRENT_TIME() AND a.dataChamada < CURRENT_DATE() AND a.statusChamada = ?2");
+        //$qb->setParameter(1, $now);
         $qb->setParameter(2, false);
         $qb->setMaxResults(1);
         
         $result  = $qb->getQuery()->getResult();
-        $cliente = null;
+        $chamada = null;
         
         if(count($result) > 0) {
-            $cliente =  $result[0];
+            $chamada =  $result[0];
         }
-            
-        return $cliente;
+               
+        return $chamada;
     }
     
     /**

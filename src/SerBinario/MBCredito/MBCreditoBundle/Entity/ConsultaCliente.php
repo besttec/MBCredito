@@ -284,7 +284,7 @@ class ConsultaCliente
     private $emprestimos;
     
     /**
-     * @ORM\OneToMany(targetEntity="Antecipacao13", mappedBy="consulta", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Antecipacao13", mappedBy="consulta", cascade={"all"})
      */
     private $antecipacoes13;
 
@@ -998,6 +998,8 @@ class ConsultaCliente
         }
         
         $this->antecipacoes13 = $antecipacoes13;
+        $this->removeAllAntecipacao();
+        
         return $this;
     }
     
@@ -1011,6 +1013,14 @@ class ConsultaCliente
         
         $this->antecipacoes13[] = $antecipacoes13;
         return $this;
+    }
+    
+    /**
+     * 
+     */
+    public function removeAllAntecipacao()
+    {
+        $this->antecipacoes13->clear();
     }
 
 }
