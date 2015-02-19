@@ -36,6 +36,9 @@
             height: 22px;
             margin: 0 10px;
         }
+        .highlight {
+            background-color: #FE8E8E;
+        }
     </style>
 
 {% endblock %}
@@ -215,7 +218,7 @@
                                 </div>                              
                             </div>
                             <div class="modal-footer">
-                                <input type="submit" class="btn btn-primary" value="Salvar" />
+                                <input type="submit" id="btnSalvarModal" class="btn btn-primary" value="Salvar" />
                                 <input type="reset"  class="btn btn-default" value="Limpar" />
                             </div>
                         </form>
@@ -344,6 +347,13 @@
                         "sSortAscending": ": Ordenar colunas de forma ascendente",
                         "sSortDescending": ": Ordenar colunas de forma descendente"
                     }
+                },
+                "createdRow": function ( row, data, index ) {
+                    if ( data.bloqueioSalve === "1" ) {
+                        //$('td', row).eq(7).addClass('excluir');
+                        var a = $('td', row).eq(7).find("a");
+                        a.addClass('excluir');
+                    }
                 }
             });
 
@@ -432,7 +442,13 @@
                     $('#ativo').prop('disabled', true);
                 } else {
                     $('#ativo').prop('disabled', true);
-                }               
+                }
+                
+                if (d.bloqueioSalve === "1") {
+                    $('#btnSalvarModal').prop('disabled', true);
+                } else {
+                    $('#btnSalvarModal').prop('disabled', false);
+                }
 
                 $('.checked').html(emprestimmos);
                 $('#idCliente').val(d.DT_RowId.replace("row_", " "));

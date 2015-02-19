@@ -386,6 +386,8 @@ class DefaultController extends Controller
             $countTotal     = $gridClass->getCount();
             $countEventos   = count($resultCliente);
             
+            $consultaDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
+            
             for($i=0;$i < $countEventos; $i++)
             {
                 $eventosArray[$i]['DT_RowId']       =  "row_".$resultCliente[$i]->getId();
@@ -443,6 +445,15 @@ class DefaultController extends Controller
                     }
                 }
                 
+                $eventosArray[$i]['bloqueioSalve'] = "0";
+                
+                $chamadas = $consultaDAO->ConsultaClienteChamadas($resultCliente[$i]->getId());
+                
+                if($chamadas && count($chamadas) > 0) {
+                   $eventosArray[$i]['bloqueioSalve'] = "1";
+                }
+                //var_dump(count($chamadas));exit();
+                               
                 $eventosArray[$i]['CreditoConsignado']      =  $resultCliente[$i]->getTipoCreditoConsignado();
                 $eventosArray[$i]['GerarArquiRetorno']      =  $resultCliente[$i]->getStatusGerarArquiRetorno();
                

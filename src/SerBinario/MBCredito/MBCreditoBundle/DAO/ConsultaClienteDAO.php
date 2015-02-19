@@ -81,4 +81,25 @@ class ConsultaClienteDAO
 
         }
     }
+    
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
+    public function ConsultaClienteChamadas($id)
+    {
+        try {
+            $query = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente c "
+                    . "JOIN c.consultaCliente d "
+                    . "JOIN c.statusStatus s "
+                    . "WHERE c.consultaCliente = d.id and d.id = ?1 and c.statusStatus = s.idStatus "
+                    . "and (s.idStatus = 2 or s.idStatus = 1) ")
+                    ->setParameter(1, $id);
+            
+            return $query->getResult();
+        } catch (Exception $ex) {
+
+        }
+    }
 }
