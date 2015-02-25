@@ -143,7 +143,7 @@ class DiscagemRN
 
                 #Verifica se o status é finalizado e encerra as chamadas para essa consulta
                 if(($status->getIdStatus() == 1 && $subrotina->getCodigoSubrotina() == '1') 
-                        || ($status->getIdStatus() == 1 && empty($dtProxLig) )) {
+                        ||  empty($dtProxLig)) {
                    $consulta->setStatusLigacao(false); 
                 }
 
