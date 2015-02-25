@@ -352,6 +352,7 @@
                     }
                 },
                 "createdRow": function ( row, data, index ) {
+                    console.log(data.bloqueioSalve);
                     if ( data.bloqueioSalve === "1" ) {
                         //$('td', row).eq(7).addClass('excluir');
                         var a = $('td', row).eq(8).find("a");       
