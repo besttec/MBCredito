@@ -72,7 +72,7 @@ class ClienteDAO
         $qb  = $this->manager->createQueryBuilder();
         $qb->select("a");
         $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");
-        $qb->where("TimestampDiff(SECOND, a.dataChamada, CURRENT_TIMESTAMP()) >< 0   AND a.statusChamada = ?1"); 
+        $qb->where("TimestampDiff(SECOND, a.dataChamada, CURRENT_TIMESTAMP()) < 0   AND a.statusChamada = ?1"); 
         
         $qb->setParameter(1, false);
         $qb->setMaxResults(1);
