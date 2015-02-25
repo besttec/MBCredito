@@ -73,10 +73,7 @@ class ClienteDAO
         $qb->select("a");
         $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");
         $qb->where("TimestampDiff(DAY, a.dataChamada, CURRENT_TIMESTAMP()) >= 0 AND"
-                . " TimestampDiff(MONTH, a.dataChamada, CURRENT_TIMESTAMP()) >= 0 AND"
-                . " TimestampDiff(YEAR, a.dataChamada, CURRENT_TIMESTAMP()) >= 0 AND"
-                . " TimestampDiff(HOUR, a.dataChamada, CURRENT_TIMESTAMP()) >= 0 AND"
-                . " TimestampDiff(MINUTE, a.dataChamada, CURRENT_TIMESTAMP()) >= 0 AND"
+               
                 . " TimestampDiff(SECOND, a.dataChamada, CURRENT_TIMESTAMP()) >= 0 "
                 . " AND a.statusChamada = ?1"); 
         
