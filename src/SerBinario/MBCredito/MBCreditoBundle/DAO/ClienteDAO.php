@@ -130,7 +130,7 @@ class ClienteDAO
             $qb->join("cliente.superEstadualSuperEstadual", "c");            
             $qb->where("cliente.statusEmChamada =?1 AND a.statusConsulta = ?2 "
                     . " AND a.statusErro = ?3 AND a.statusLigacao = ?4 "
-                    . " AND b.id = ?5 AND a.statusPendencia = ?6");
+                    . " AND a.statusPendencia = ?6");
             $qb->setMaxResults(1);
             $qb->setParameters(
                     array(
@@ -138,7 +138,7 @@ class ClienteDAO
                         2 => true,
                         3 => false,
                         4 => true,
-                        5 => $idConvenio,
+                        //5 => $idConvenio,
                         6 => false
                     )
                 );
