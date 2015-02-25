@@ -108,6 +108,15 @@ class ConsultaCliente
      * @ORM\Column(name="periodo_fin", type="date", nullable=true)
      */
     private $periodoFin;
+    
+    /**
+     * @var \DateTime
+     *
+     * @Assert\Date(message="Valor informado para o data da consulta é inválido")
+     * 
+     * @ORM\Column(name="data_consulta", type="date", nullable=true)
+     */
+    private $dataConsulta;
 
     /**
      * @var string
@@ -1051,5 +1060,27 @@ class ConsultaCliente
         $this->statusPendencia = $statusPendencia;
         return $this;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getDataConsulta() 
+    {
+        return $this->dataConsulta;
+    }
+
+    /**
+     * 
+     * @param type $dataConsulta
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente
+     */
+    public function setDataConsulta($dataConsulta) 
+    {
+        $this->dataConsulta = $dataConsulta;
+        return $this;
+    }
+
+
 
 }

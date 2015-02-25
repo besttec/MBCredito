@@ -417,6 +417,7 @@ class DefaultController extends Controller
                 $eventosArray[$i]['qtdEmprestimos']         =  $resultCliente[$i]->getQtdEmprestimos();
                 $eventosArray[$i]['competencia']            =  $resultCliente[$i]->getCompetencia();
                 $eventosArray[$i]['pagtoAtravez']           =  $resultCliente[$i]->getPagtoAtravez();
+                $eventosArray[$i]['dataConsulta']           =  $resultCliente[$i]->getDataConsulta();
                 
                 if($resultCliente[$i]->getPeriodoIni()){
                     $eventosArray[$i]['periodoIni']         =  $resultCliente[$i]->getPeriodoIni()->format('d/m/Y');
@@ -673,6 +674,7 @@ class DefaultController extends Controller
             
             $consultaCliente->setDisponibilidadeIni(\DateTime::createFromFormat("d/m/Y", trim($arrayDisp[0]), new \DateTimeZone("America/Recife")));
             $consultaCliente->setDisponibilidadeFin(\DateTime::createFromFormat("d/m/Y", trim($arrayDisp[1]), new \DateTimeZone("America/Recife")));
+            $consultaCliente->setDataConsulta(new \DateTime("now"));
             $consultaCliente->setValorBruto($vBruto);
             $consultaCliente->setValorDescontos($vDesconto);
             $consultaCliente->setValorLiquido($vLiquido);
