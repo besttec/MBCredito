@@ -143,10 +143,10 @@ class ClienteDAO
                     )
                 );
             
-            if($estado != "") {
-                $qb->andWhere("c.uf = ?7");
-                $qb->setParameter(7, $estado);
-            }
+            //if($estado != "") {
+            //    $qb->andWhere("c.uf = ?7");
+            //    $qb->setParameter(7, $estado);
+            //}
             
             $result = $qb->getQuery()->getResult(); 
             //var_dump($result);exit;
