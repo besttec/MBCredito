@@ -632,6 +632,7 @@ class DefaultController extends Controller
         $codBenefi          = str_replace(array(".","-"), "", $codBenefi);                
         $cliente            = $clienteDAO->findNumBeneficio($codBenefi);        
         $consultaCliente    = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente();
+        $consultaCliente->setDataConsulta(new \DateTime("now"));
         $consultaClienteDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
         
         if(count($cliente) > 0) {
@@ -673,8 +674,7 @@ class DefaultController extends Controller
             $arrayDisp = explode("a", $disRecebimento);
             
             $consultaCliente->setDisponibilidadeIni(\DateTime::createFromFormat("d/m/Y", trim($arrayDisp[0]), new \DateTimeZone("America/Recife")));
-            $consultaCliente->setDisponibilidadeFin(\DateTime::createFromFormat("d/m/Y", trim($arrayDisp[1]), new \DateTimeZone("America/Recife")));
-            $consultaCliente->setDataConsulta(new \DateTime("now"));
+            $consultaCliente->setDisponibilidadeFin(\DateTime::createFromFormat("d/m/Y", trim($arrayDisp[1]), new \DateTimeZone("America/Recife")));            
             $consultaCliente->setValorBruto($vBruto);
             $consultaCliente->setValorDescontos($vDesconto);
             $consultaCliente->setValorLiquido($vLiquido);
