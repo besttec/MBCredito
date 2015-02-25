@@ -417,7 +417,7 @@ class DefaultController extends Controller
                 $eventosArray[$i]['qtdEmprestimos']         =  $resultCliente[$i]->getQtdEmprestimos();
                 $eventosArray[$i]['competencia']            =  $resultCliente[$i]->getCompetencia();
                 $eventosArray[$i]['pagtoAtravez']           =  $resultCliente[$i]->getPagtoAtravez();
-                $eventosArray[$i]['dataConsulta']           =  $resultCliente[$i]->getDataConsulta()->format("d/m/Y H:i:s");
+                $eventosArray[$i]['dataConsulta']           =  $resultCliente[$i]->getDataConsulta()->format("d/m/Y");
                 
                 if($resultCliente[$i]->getPeriodoIni()){
                     $eventosArray[$i]['periodoIni']         =  $resultCliente[$i]->getPeriodoIni()->format('d/m/Y');
