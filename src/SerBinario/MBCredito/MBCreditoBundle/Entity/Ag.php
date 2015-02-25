@@ -36,9 +36,8 @@ class Ag
      * @var string
      *
      * @Assert\Type(type="string", message="Valor inválido para Nome ag")
-     * @Assert\NotBlank(message="Nome ag não informado")
      * 
-     * @ORM\Column(name="nome_ag", type="string", length=50, nullable=false)
+     * @ORM\Column(name="nome_ag", type="string", length=50, nullable=true)
      */
     private $nomeAg;
 

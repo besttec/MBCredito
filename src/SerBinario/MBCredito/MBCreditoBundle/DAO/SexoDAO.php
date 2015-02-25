@@ -39,7 +39,23 @@ class SexoDAO
             
             return $query->getResult();
         } catch (Exception $ex) {
-
+            return null;
+        }
+    }
+    
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
+    public function findById($id) 
+    {
+        try {
+            $obj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\Sexos")->find($id);
+            
+            return $obj;
+        } catch (Exception $ex) {
+            return null;
         }
     }
 }

@@ -33,7 +33,16 @@ class Clientes
      * 
      * @ORM\Column(name="nome_cliente", type="string", length=50, nullable=false)
      */
-    private $nomeCliente;    
+    private $nomeCliente;
+    
+    /**
+     * @var string
+     * 
+     * @Assert\Type(type="string", message="Valor informado para mci do cliente é inválido")
+     * 
+     * @ORM\Column(name="mci_cliente", type="string", length=20, nullable=true)
+     */
+    private $mciCliente;
 
     /**
      * @var string
@@ -44,16 +53,6 @@ class Clientes
      * @ORM\Column(name="cpf_cliente", type="string", length=11, nullable=false)
      */
     private $cpfCliente;
-
-    /**
-     * @var string
-     *
-     * @Assert\NotBlank(message="limite de crédito do cliente não informado")
-     * @Assert\Length(max=50, maxMessage="Valor de limite ultrapassa a quantidade de caracteres permitidas")
-     * 
-     * @ORM\Column(name="limite_credito_cliente", type="string", length=50, nullable=false)
-     */
-    private $limiteCreditoCliente;
 
     /**
      * @var string
@@ -153,6 +152,24 @@ class Clientes
      * @ORM\Column(name="data_nasc_cliente", type="date", nullable=true)
      */
     private $dataNascCliente;
+    
+    /**
+     * @var string
+     * 
+     * @Assert\Type(type="string", message="Valor informado para coc é inválido")
+     * 
+     * @ORM\Column(name="coc_cliente", type="string", length=20, nullable=true)
+     */
+    private $coc;
+    
+    /**
+     * @var string
+     * 
+     * @Assert\Type(type="string", message="Valor informado para mci do correspondente é inválido")
+     * 
+     * @ORM\Column(name="mci_correspondente_cliente", type="string", length=30, nullable=true)
+     */
+    private $mciCorrespondente;
 
     /**
      * @var string
@@ -190,7 +207,7 @@ class Clientes
      * 
      * @Assert\Type(type="integer", message="Valor informado para quantidade de consultas inválido")
      * 
-     * @ORM\Column(name="qtd_consulta_cliente", type="integer")
+     * @ORM\Column(name="qtd_consulta_cliente", type="integer", nullable=true)
      */
     private $qtdConsultas;    
     
@@ -264,10 +281,21 @@ class Clientes
     private $convenio;
     
     /**
+     * @var LimiteCreditoNovo
+     *
+     * @Assert\Type(type="object", message="Valor informado para limite de credito não é um objeto")
+     * 
+     * @ORM\ManyToOne(targetEntity="LimiteCreditoNovo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="LimiteCreditoNovo", referencedColumnName="id_limite_credito_novo")
+     * })
+     */
+    private $limiteCreditoNovo;
+    
+    /**
      * @ORM\OneToMany(targetEntity="ConsultaCliente", mappedBy="clientesCliente")
      **/
-    private $consultas;
-    
+    private $consultas;    
     
     /**
      * 
@@ -276,8 +304,6 @@ class Clientes
     {
         $this->features = new ArrayCollection();
     }
-
-
 
     /**
      * Get idCliente
@@ -334,30 +360,7 @@ class Clientes
     {
         return $this->cpfCliente;
     }
-
-    /**
-     * Set limiteCreditoCliente
-     *
-     * @param string $limiteCreditoCliente
-     * @return Clientes
-     */
-    public function setLimiteCreditoCliente($limiteCreditoCliente)
-    {
-        $this->limiteCreditoCliente = $limiteCreditoCliente;
-
-        return $this;
-    }
-
-    /**
-     * Get limiteCreditoCliente
-     *
-     * @return string 
-     */
-    public function getLimiteCreditoCliente()
-    {
-        return $this->limiteCreditoCliente;
-    }
-
+    
     /**
      * Set dddFoneResidCliente
      *
@@ -896,6 +899,85 @@ class Clientes
         return $this;
     }
 
+    /**
+     * 
+     * @return type
+     */
+    public function getCoc() 
+    {
+        return $this->coc;
+    }
+
+    /**
+     * 
+     * @param type $coc
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes
+     */
+    public function setCoc($coc) 
+    {
+        $this->coc = $coc;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getMciCorrespondente() 
+    {
+        return $this->mciCorrespondente;
+    }
+
+    /**
+     * 
+     * @param type $mciCorrespondente
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes
+     */
+    public function setMciCorrespondente($mciCorrespondente) 
+    {
+        $this->mciCorrespondente = $mciCorrespondente;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getLimiteCreditoNovo() 
+    {
+        return $this->limiteCreditoNovo;
+    }
+
+    /**
+     * 
+     * @param type $limiteCreditoNovo
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes
+     */
+    public function setLimiteCreditoNovo($limiteCreditoNovo) 
+    {
+        $this->limiteCreditoNovo = $limiteCreditoNovo;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getMciCliente() 
+    {
+        return $this->mciCliente;
+    }
+
+    /**
+     * 
+     * @param type $mciCliente
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes
+     */
+    public function setMciCliente($mciCliente) 
+    {
+        $this->mciCliente = $mciCliente;
+        return $this;
+    }
 
 
    

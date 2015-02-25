@@ -20,6 +20,8 @@ use SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioDAO;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio;
 use SerBinario\MBCredito\MBCreditoBundle\RN\DiscagemRN;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Antecipacao13;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\LimiteCreditoNovo;
+use SerBinario\MBCredito\MBCreditoBundle\DAO\LimiteCreditoNovoDAO;
 
 /**
  *  
@@ -59,6 +61,7 @@ class DefaultController extends Controller
     public function saveArquivoAction(Request $request)
     {
         $uploadfile = $request->files->get("arquivo");
+        $clienteDAO = new ClienteDAO($this->getDoctrine()->getManager());
         
         #Se o arquivo não for selecionado.
         if(! $uploadfile) {
@@ -88,65 +91,72 @@ class DefaultController extends Controller
      
                 for($i = 0; $i < count($fileString); $i++) {
                     $columns = explode(";", $fileString[$i]);
-                    
+                    //var_dump($columns);exit;
                     $cliente = new Clientes();
+                    $cliente->setCoc($columns[0]);
+                    $cliente->setMciCorrespondente($columns[1]);
                     
                     $sexoDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SexoDAO($this->getDoctrine()->getManager());
-                    $sexo    = $sexoDAO->findNomeExtenso($columns[0]);
+                    $sexo    = $sexoDAO->findById($columns[2]);
                     
-                    $cliente->setSexosSexo($sexo[0]);
+                    $cliente->setSexosSexo($sexo);
                     
                     $convenioDAO = new ConvenioDAO($this->getDoctrine()->getManager());
-                    $resultMCI   = $convenioDAO->finByNumConvenio($columns[1]);
+                    $resultMCI   = $convenioDAO->finByNumConvenio($columns[3]);
                     
                     if($resultMCI) {
                         $cliente->setConvenio($resultMCI[0]);
                     } else {
                         $convenio = new Convenio();
-                        $convenio->setMciEmpCliente($columns[1]);
-                        $convenio->setNomeConvenio($columns[1]);
+                        $convenio->setMciEmpCliente($columns[3]);
+                        $convenio->setNomeConvenio($columns[3]);
                         $cliente->setConvenio($convenio);
                     }
                    
-                    $cliente->setLimiteCreditoCliente($columns[2]);
+                    $limiteCreditoNovoDAO = new LimiteCreditoNovoDAO($this->getDoctrine()->getManager());
+                    $resultlimiteCredito  = $limiteCreditoNovoDAO->findById($columns[4]);
+                    
+                    if($resultlimiteCredito) {
+                        $cliente->setLimiteCreditoNovo($resultlimiteCredito);
+                    } else {
+                        $cliente->setLimiteCreditoNovo($limiteCreditoNovoDAO->findById(2));
+                    }                   
                     
                     $superEstadual    = null;
                     $superEstadualDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperEstadualDAO($this->getDoctrine()->getManager());
-                    $objEstadual      = $superEstadualDAO->findCod($columns[4]);
+                    $objEstadual      = $superEstadualDAO->findCod($columns[5]);
                     
                     if($objEstadual) {
                         $superEstadual = $objEstadual[0];
                     } else {
                         $superEstadual = new \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual();
-                        $superEstadual->setUf($columns[3]);
-                        $superEstadual->setCodSuperEstadual($columns[4]);
-                        $superEstadual->setNomeSuperEstadual($columns[5]);
+                        $superEstadual->setUf($columns[5]);
+                        $superEstadual->setCodSuperEstadual($columns[6]);
                     }            
                     
                     $cliente->setSuperEstadualSuperEstadual($superEstadual);
                     
                     $superRegional    = null;
                     $superRegionalDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperRegionalDAO($this->getDoctrine()->getManager());
-                    $objRegional      = $superRegionalDAO->findCod(trim($columns[6]));
+                    $objRegional      = $superRegionalDAO->findCod(trim($columns[7]));
                     
                     if($objRegional) {
                        $superRegional =  $objRegional[0];
                     } else {
                         $superRegional = new \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperRegional();
-                        $superRegional->setCodSuperRegional($columns[6]);
-                        $superRegional->setNomeSuperRegional($columns[7]);
+                        $superRegional->setCodSuperRegional($columns[7]);                       
                     }           
                     
                     $cliente->setSuperRegionalSuperRegional($superRegional);
                     
                     $ag = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag();
                     $ag->setPrefixoAg($columns[8]);
-                    $ag->setNomeAg($columns[9]);
-                    $ag->setCcAg($columns[10]);
+                    $ag->setCcAg($columns[9]);
                     
                     $cliente->setAgAg($ag);
-                    $cliente->setNomeCliente($columns[11]);
-                    $cliente->setCpfCliente($columns[12]);
+                    $cliente->setNomeCliente($columns[10]);                    
+                    $cliente->setCpfCliente($columns[11]);
+                    $cliente->setMciCliente($columns[12]);
                     $cliente->setDddFoneResidCliente($columns[13]);
                     $cliente->setFoneResidCliente($columns[14]);
                     $cliente->setDddFoneComerCliente($columns[15]);
@@ -155,17 +165,17 @@ class DefaultController extends Controller
                     $cliente->setFoneCelCliente($columns[18]);
                     $cliente->setDddFonePrefCliente($columns[19]);
                     $cliente->setFonePrefCliente($columns[20]);
-                    $cliente->setCodCliente($columns[21]);
-                    $cliente->setDataNascCliente(\DateTime::createFromFormat("Y-m-d", $columns[22], new \DateTimeZone("America/Recife")));
-                    $cliente->setNumBeneficioCliente($columns[23]);
-                    $cliente->setDvCliente((int) $columns[24]);
-                    //$cliente->setStatusErro(false);
-                    $cliente->setStatusEmChamada(false);
-                    //$cliente->setStatusConsulta(false);
-                    //$cliente->setStatusLigacao(false);
+                    //$cliente->setCodCliente($columns[21]);                    
+                    $cliente->setNumBeneficioCliente($columns[21]);  
+                    $cliente->setDvCliente((int) $columns[22]);
                     
-                    $numBeneficio                       = $columns[23] . ((int) $columns[24]);
-                    $qtdNumBeneficio                    = strlen($numBeneficio);
+                    #Trantando a data
+                    //$dataBrasil = \DateTime::createFromFormat("d/m/y", $columns[23]);                    
+                    $cliente->setDataNascCliente(\DateTime::createFromFormat("Y-m-d", $columns[23], new \DateTimeZone("America/Recife")));                     
+                    $cliente->setStatusEmChamada(false);                                       
+                    
+                    $numBeneficio     = $columns[24];
+                    $qtdNumBeneficio  = strlen($numBeneficio);
 
                     if($qtdNumBeneficio < 10) {
                         $numBeneficio = str_repeat("0", 10 - $qtdNumBeneficio) .  $numBeneficio;
@@ -173,13 +183,12 @@ class DefaultController extends Controller
                     
                     $cliente->setNumBeneficioComp($numBeneficio);
                     $cliente->setStatusConsulta(false);
-                    
+                  
                     #Valida o cliente
                     $clienteVal = $validator->validate($cliente);
                     
                     #Verifica se houve alguma violação na validação
-                    if(count($clienteVal) === 0) {
-                        $clienteDAO = new ClienteDAO($this->getDoctrine()->getManager());
+                    if(count($clienteVal) === 0) {                        
                         $clienteDAO->insertCliente($cliente);
                     } else {
                         $this->get("session")->getFlashBag()->add('danger', (string) $clienteVal);

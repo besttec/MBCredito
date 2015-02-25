@@ -38,11 +38,10 @@ class SuperEstadual
     /**
      * @var string
      *
-     * @Assert\NotBlank(message="Valor de nome de SuperEstadual não informado")
      * @Assert\Length(max=50, maxMessage="Valor informado para nome SuperEstadual 
      *  ultrapassa a quantidade máxima de caracteres permitidas")
      * 
-     * @ORM\Column(name="nome_super_estadual", type="string", length=50, nullable=false)
+     * @ORM\Column(name="nome_super_estadual", type="string", length=50, nullable=true)
      */
     private $nomeSuperEstadual;
 

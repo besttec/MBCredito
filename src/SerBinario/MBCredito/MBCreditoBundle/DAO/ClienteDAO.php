@@ -130,7 +130,7 @@ class ClienteDAO
             $qb->join("cliente.superEstadualSuperEstadual", "c");            
             $qb->where("cliente.statusEmChamada =?1 AND a.statusConsulta = ?2 "
                     . " AND a.statusErro = ?3 AND a.statusLigacao = ?4 "
-                    . "AND b.id = ?5 AND a.statusPendencia = ?6");
+                    . " AND b.id = ?5 AND a.statusPendencia = ?6");
             $qb->setMaxResults(1);
             $qb->setParameters(
                     array(
@@ -144,8 +144,8 @@ class ClienteDAO
                 );
             
             if($estado != "") {
-                $qb->andWhere("c.uf = ?6");
-                $qb->setParameter(6, $estado);
+                $qb->andWhere("c.uf = ?7");
+                $qb->setParameter(7, $estado);
             }
             
             $result = $qb->getQuery()->getResult(); 

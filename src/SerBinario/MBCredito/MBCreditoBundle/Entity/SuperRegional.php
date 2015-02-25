@@ -38,11 +38,10 @@ class SuperRegional
     /**
      * @var string
      * 
-     * @Assert\NotBlank(message="Valor de nome de SuperRegional não informado")
      * @Assert\Length(max=10, maxMessage="Valor informado para nome SuperRegional 
      *  ultrapassa a quantidade máxima de caracteres permitidas")
      *
-     * @ORM\Column(name="nome_super_regional", type="string", length=50, nullable=false)
+     * @ORM\Column(name="nome_super_regional", type="string", length=50, nullable=true)
      */
     private $nomeSuperRegional;
 
