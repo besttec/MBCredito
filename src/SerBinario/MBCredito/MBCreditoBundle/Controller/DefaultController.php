@@ -1198,7 +1198,7 @@ class DefaultController extends Controller
                 $roles  = $resultUser[$i]->getRoles();
        
                 foreach($roles as $role) {
-                   if($role->getRole() === "ROLE_PA") {
+                   if($role->getRole() === "ROLE_PA" || $role->getRole() === "ROLE_PA_CONSULTA") {
                        $boolPa = true;
                    }
                 }
