@@ -355,6 +355,7 @@
                     if ( data.bloqueioSalve === "1" ) {
                         //$('td', row).eq(7).addClass('excluir');
                         var a = $('td', row).eq(7).find("a");
+                        a.removeAttr('class', "editar")
                         a.addClass('excluir');
                     }
                 }
