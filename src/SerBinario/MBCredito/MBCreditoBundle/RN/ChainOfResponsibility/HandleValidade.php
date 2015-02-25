@@ -74,7 +74,7 @@ class HandleValidade implements IHandle
         
         #Verifica se existe chamamada com validade
         if(! $resultDados) {
-            return $this->handleSucessor->handle();
+          return $this->handleSucessor->handle();
         }
    
         #Recupera a última consulta do cliente da chamada em questão;

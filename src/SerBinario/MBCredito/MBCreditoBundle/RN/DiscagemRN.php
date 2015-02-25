@@ -114,7 +114,10 @@ class DiscagemRN
                 $date = \DateTime::createFromFormat("Y/m/d H:i", $dtProxLig);
                 $objChamada->setDataChamada($date);
                 $consulta->setStatusPendencia(true);
-            } 
+                $consulta->setStatusPendencia(true);
+            } else {
+                $consulta->setStatusPendencia(false);
+            }
 
             #Atualizando o objChamada com os novos dados
             $objChamada->setNovoDDD($chamadaDados->getNovoDDD());
@@ -134,9 +137,8 @@ class DiscagemRN
                 if($chamadaAnt) {
                     $objChamadaAnt = $chamadaDAO->findById($chamadaAnt);
                     $objChamadaAnt->setStatusChamada(true);
-                    $consulta->setStatusPendencia(false);
                     $chamadaDAO->update($objChamadaAnt);
-                }                   
+                }                  
 
                 #Recuoerando o cliente dessa consulta
                 $cliente  = $consulta->getClientesCliente();

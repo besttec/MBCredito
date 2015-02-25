@@ -477,9 +477,6 @@ class DefaultController extends Controller
                 if($countChamadas > 0 && $resultCliente[$i]->getStatusLigacao() == false) {
                     $eventosArray[$i]['bloqueioAtivacao']       = "1";
                     $eventosArray[$i]['DisponibilidadeLigação'] = "NÂO";
-                } else if($countChamadas > 0) {
-                    $eventosArray[$i]['bloqueioAtivacao']       = "1";
-                    $eventosArray[$i]['DisponibilidadeLigação'] = "NÂO";
                 } else if($resultCliente[$i]->getStatusLigacao() == true) {
                     $eventosArray[$i]['bloqueioAtivacao']       = "2";
                     $eventosArray[$i]['DisponibilidadeLigação'] = "SIM";
