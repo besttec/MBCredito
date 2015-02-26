@@ -44,6 +44,7 @@
                                     {% if not is_granted('ROLE_ADMIN') and is_granted('ROLE_PA') %}
                                     <li><a href="{{path('viewDiscagem')}}">Tela Discagem</a></li>
                                     {% endif %}
+                                    <li><a href="{{ path('viewGridHistorico') }}">Histórico de Ligações</a></li>
                                 </ul>                                
                             </li>
                         </ul>

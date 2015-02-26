@@ -1095,7 +1095,7 @@ class DefaultController extends Controller
      */
     public function viewGridListaUserAction(Request $request)
     {
-         if(GridClass::isAjax()) {
+        if(GridClass::isAjax()) {
             
             $columns = array(  
                     "a.username",
@@ -1405,7 +1405,7 @@ class DefaultController extends Controller
         $valResult = $validator->validate($convenio[0]);
         
         if(count($valResult) == 0) {
-             #atualizando o convenio
+            #atualizando o convenio
             $result = $convenioDAO->update($convenio[0]);
 
             if($result) {
@@ -1419,5 +1419,72 @@ class DefaultController extends Controller
         
         return $this->redirect($this->generateUrl("viewGridListaConvenio"));
     }    
+    
+    /**
+     * @Route("/viewGridHistorico", name="viewGridHistorico")
+     * @Template()
+     */
+    public function viewGridHistoricoAction(Request $request)
+    {
+        if(GridClass::isAjax()) {
+            
+            $columns = array(  
+                    "a.dataPendencia",
+                    "a.dataChamada",                    
+                    "b.nomeSegurado",
+                    "c.username",
+                );
+
+            $entityJOIN = array("a.consultaCliente", "a.user"); 
+
+            $chamadasArray    = array();
+            $parametros       = $request->request->all();        
+            $entity           = "SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente"; 
+            $columnWhereMain  = "";
+            $whereValueMain   = "";
+            
+            $gridClass = new GridClass($this->getDoctrine()->getManager(), 
+                    $parametros,
+                    $columns,
+                    $entity,
+                    $entityJOIN,           
+                    $columnWhereMain,
+                    $whereValueMain);
+
+            $resultChamadas     = $gridClass->builderQuery();    
+            $countTotal         = $gridClass->getCount();
+            $countChamadas      = count($resultChamadas);
+            
+            for($i=0;$i < $countChamadas; $i++)
+            {
+                $chamadasArray[$i]['DT_RowId']      = "row_".$resultChamadas[$i]->getIdChamadaCliente();
+                $chamadasArray[$i]['pendencia']     = $resultChamadas[$i]->getStatusPendencia() ? "SIM" : "NÂO";
+                $chamadasArray[$i]['finalizada']    = $resultChamadas[$i]->getStatusChamada() ? "SIM" : "NÂO";
+                $chamadasArray[$i]['dataChamada']   = is_object($resultChamadas[$i]->getDataChamada()) 
+                        ? $resultChamadas[$i]->getDataChamada()->format("d/m/Y") : "VAZIO";
+                $chamadasArray[$i]['dataPendencia'] = $resultChamadas[$i]->getDataPendencia()->format("d/m/Y");
+                $chamadasArray[$i]['usuario']       = $resultChamadas[$i]->getUser()->getUsername();
+                $chamadasArray[$i]['cliente']       = $resultChamadas[$i]->getConsultaCliente()->getClientesCliente()->getNomeCliente();
+                $chamadasArray[$i]['observacao']    = $resultChamadas[$i]->getObservacao();
+                
+            }          
+                        
+            //Se a variável $sqlFilter estiver vazio
+            if(!$gridClass->isFilter()) {
+                $countChamadas = $countTotal;
+            } 
+            
+            $columns = array(               
+                'draw'              => $parametros['draw'],
+                'recordsTotal'      => "{$countTotal}",
+                'recordsFiltered'   => "{$countChamadas}",
+                'data'              => $chamadasArray               
+            );
+
+            return new JsonResponse($columns);
+        }else {            
+            return array();            
+        }
+    }
  
  }
