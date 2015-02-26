@@ -64,17 +64,19 @@ class ClienteDAO
      * 
      * @return type
      */
-    public function findCallDate()
+    public function findCallDate($user)
     {
         $conf = $this->manager->getConfiguration();
         $conf->addCustomDatetimeFunction("TimestampDiff", "DoctrineExtensions\Query\Mysql\TimestampDiff");
         
         $qb  = $this->manager->createQueryBuilder();
         $qb->select("a");
+        $qb->join("a.user", "u");
         $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");
         $qb->where("TimestampDiff(DAY, a.dataChamada, CURRENT_TIMESTAMP()) >= 0 AND TimestampDiff(SECOND, a.dataChamada, CURRENT_TIMESTAMP()) >= 0 AND a.statusChamada = ?1"); 
-        
+        $qb->andWhere("u.id = ?2");
         $qb->setParameter(1, false);
+        $qb->setParameter(2, $user->getId());
         $qb->setMaxResults(1);
         
         $result  = $qb->getQuery()->getResult();

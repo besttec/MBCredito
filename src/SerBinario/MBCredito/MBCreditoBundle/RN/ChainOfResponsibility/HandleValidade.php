@@ -70,7 +70,7 @@ class HandleValidade implements IHandle
     public function handle() 
     {        
         #Recuperando chamada com validade
-        $resultDados = $this->clienteDAO->findCallDate();
+        $resultDados = $this->clienteDAO->findCallDate($this->user);
         
         #Verifica se existe chamamada com validade
         if(! $resultDados) {
