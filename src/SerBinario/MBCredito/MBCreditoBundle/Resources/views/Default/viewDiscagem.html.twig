@@ -169,6 +169,33 @@
                                 </div>
                             {% endif %}
                             <div class="panel panel-primary">
+                                {% if cliente is defined %}
+                                <div class="panel-heading">Telefones</div>
+                                <div class="panel-body">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <td>Fone Residência</td>
+                                            <td>({{ cliente.dddFoneResidCliente }}) {{ cliente.foneResidCliente }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fone Comercial</td>
+                                            <td>({{ cliente.dddFoneComerCliente }}) {{ cliente.foneResidCliente }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fone Celular</td>
+                                            <td>({{ cliente.dddFoneCelCliente }}) {{ cliente.foneCelCliente }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fone Preferencial</td>
+                                            <td>({{ cliente.dddFonePrefCliente }}) {{ cliente.fonePrefCliente }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fone Novo</td>
+                                            <td>({{ chamadaAtual.novoDDD }}) {{ chamadaAtual.novoFone }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                {% endif %}
                                 <div class="panel-heading">Tipos de Crédito</div>
                                 <div class="panel-body">
                                     Tipo de créditos adquiridos por este cliente
