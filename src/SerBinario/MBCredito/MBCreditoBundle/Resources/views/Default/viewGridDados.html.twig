@@ -3,6 +3,11 @@
 {% block stylesheets %}
     {{ parent() }}
     <style type="text/css" class="init">
+        
+        .consultado {
+             background-color: #FF0000; color: #FFFFFF; font-weight: bold;
+        }
+        
         td.details-control {
             background: url({{asset("imagens/icone-produto-plus.png")}}) no-repeat center center;
             cursor: pointer;
@@ -296,14 +301,26 @@
             $('#result').hide();
             //$('#salvar').attr("disabled", true);
 
-            var dt = $('#example').DataTable({
+            var dt = $('#example').DataTable({  
+                "rowCallback": function( row, data ) {
+                    if(data.bloqueioSalve == 1) {
+                        $("td", row).eq(1).addClass("consultado");
+                        $("td", row).eq(2).addClass("consultado");
+                        $("td", row).eq(3).addClass("consultado");
+                        $("td", row).eq(4).addClass("consultado");
+                        $("td", row).eq(5).addClass("consultado");
+                        $("td", row).eq(6).addClass("consultado");
+                        $("td", row).eq(7).addClass("consultado");
+                    }
+                                      
+                  },
                 "processing": true,
                 "serverSide": true,
                 "bFilter": true, //Ativa o Search global
                 "ajax": {
                     "url": "gridDados",
                     "type": "POST"
-                },
+                },                
                 "columns": [
                     {
                         "class": "details-control",
@@ -327,7 +344,7 @@
                         }
                     },
                 ],
-                "order": [[1, 'asc']],
+                "order": [[0, 'asc']],
                 language: {
                     "sEmptyTable": "Nenhum registro encontrado",
                     "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
