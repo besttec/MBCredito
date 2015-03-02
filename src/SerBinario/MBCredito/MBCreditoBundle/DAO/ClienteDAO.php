@@ -117,10 +117,11 @@ class ClienteDAO
     
     /**
      * 
-     * @param type $idConvenio
+     * @param type $idAgencia
+     * @param type $estado
      * @return type
      */
-    public function findNotUse($idConvenio, $estado)
+    public function findNotUse($idAgencia, $estado)
     {
         try {
             
@@ -128,30 +129,36 @@ class ClienteDAO
             $qb->select("a");
             $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente", "a");
             $qb->join("a.clientesCliente", "cliente");
-            $qb->join("cliente.convenio", "b");
+            $qb->join("cliente.ag", "b");
             $qb->join("cliente.superEstadualSuperEstadual", "c");            
             $qb->where("cliente.statusEmChamada =?1 AND a.statusConsulta = ?2 "
                     . " AND a.statusErro = ?3 AND a.statusLigacao = ?4 "
-                    . " AND a.statusPendencia = ?6");
+                    . " AND a.statusPendencia = ?5");
             $qb->setMaxResults(1);
             $qb->setParameters(
                     array(
                         1 => false,
                         2 => true,
                         3 => false,
-                        4 => true,
-                        //5 => $idConvenio,
-                        6 => false
+                        4 => true,                        
+                        5 => false
                     )
                 );
             
-            //if($estado != "") {
-            //    $qb->andWhere("c.uf = ?7");
-            //    $qb->setParameter(7, $estado);
-            //}
+            #Verifica se ha filtro por agência
+            if($idAgencia != "") {
+               $qb->andWhere("b.idAg = ?6");
+               $qb->setParameter(6, $idAgencia);
+            }
+            
+            #Verifica se ha filtro por estado
+            if($estado != "") {
+                $qb->andWhere("c.uf = ?7");
+                $qb->setParameter(7, $estado);
+            }
             
             $result = $qb->getQuery()->getResult(); 
-            //var_dump($result);exit;
+            
             $consulta = null; 
             
             if(count($result) > 0) {

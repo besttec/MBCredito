@@ -3,16 +3,16 @@ namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use SerBinario\MBCredito\UserBundle\Entity\User;
-use SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\Ag;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * LoginPA
  *
- * @ORM\Table(name="convenio_pa")
+ * @ORM\Table(name="agencia_pa")
  * @ORM\Entity
  */
-class ConvenioPA 
+class AgenciaPA 
 {
     /**
      * @var integer
@@ -34,16 +34,16 @@ class ConvenioPA
     private $data;
     
     /**
-     * @var Convenio
+     * @var Ag
      *
-     * @Assert\Type(type="object", message="Valor informado para Convenio não é um objeto")
+     * @Assert\Type(type="object", message="Valor informado para Agência não é um objeto")
      * 
-     * @ORM\ManyToOne(targetEntity="SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio")
+     * @ORM\ManyToOne(targetEntity="SerBinario\MBCredito\MBCreditoBundle\Entity\Ag")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="convenio_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="agencia_id", referencedColumnName="id_ag")
      * })
      */
-    private $convenio;
+    private $agencia;
     
     /**
      * @var string
@@ -143,20 +143,24 @@ class ConvenioPA
      * 
      * @return type
      */
-    public function getConvenio() 
+    public function getAgencia() 
     {
-        return $this->convenio;
+        return $this->agencia;
     }
 
     /**
      * 
-     * @param Convenio $convenio
+     * @param type $agencia
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ConvenioPA
      */
-    public function setConvenio(Convenio $convenio) 
+    public function setAgencia($agencia) 
     {
-        $this->convenio = $convenio;
+        $this->agencia = $agencia;
+        
+        return $this;
     }
-    
+
+        
     /**
      * 
      * @return type

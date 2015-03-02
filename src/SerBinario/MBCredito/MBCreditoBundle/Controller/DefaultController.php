@@ -16,8 +16,8 @@ use SerBinario\MBCredito\MBCreditoBundle\DAO\ClienteDAO;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\ConsultaClienteDAO;
 use SerBinario\MBCredito\UserBundle\DAO\RoleDAO;
 use SerBinario\MBCredito\UserBundle\DAO\UserDAO;
-use SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioDAO;
-use SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio;
+use SerBinario\MBCredito\MBCreditoBundle\DAO\AgenciaDAO;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\Ag;
 use SerBinario\MBCredito\MBCreditoBundle\RN\DiscagemRN;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Antecipacao13;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\LimiteCreditoNovo;
@@ -152,6 +152,7 @@ class DefaultController extends Controller
                     $ag = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag();
                     $ag->setPrefixoAg($columns[8]);
                     $ag->setCcAg($columns[9]);
+                    $ag->setNomeAg("NENHUM");
                     
                     $cliente->setAgAg($ag);
                     $cliente->setNomeCliente($columns[10]);                    
@@ -1212,18 +1213,18 @@ class DefaultController extends Controller
                     $userArray[$count]['nome']           =  $resultUser[$i]->getUsername();
                     $userArray[$count]['email']          =  $resultUser[$i]->getEmail();  
                     
-                    $convenioPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioPaDAO($this->getDoctrine()->getManager());
-                    $objConvenioPA = $convenioPaDAO->findByUserLast($resultUser[$i]); 
+                    $agenciaPADAO  = new \SerBinario\MBCredito\MBCreditoBundle\DAO\AgenciaPaDAO($this->getDoctrine()->getManager());
+                    $objAgenciaPA  = $agenciaPADAO->findByUserLast($resultUser[$i]); 
                     $estado        = "Nenhum estado anterior";
-                    $nomeConvenio  = "Nenhum convênio anterior";
+                    $nomeAgencia   = "Nenhuma agência anterior";
                    
-                    if($objConvenioPA) {
-                        $nomeConvenio  = $objConvenioPA->getConvenio()->getNomeConvenio();
-                        $estado        = $objConvenioPA->getEstado();
+                    if($objAgenciaPA) {
+                        $nomeAgencia   = $objAgenciaPA->getAgencia()->getNomeAg();
+                        $estado        = $objAgenciaPA->getEstado();
                     }
                     
-                    $userArray[$count]['nomeConvenio']   =  $nomeConvenio;
-                    $userArray[$count]['estado']         =  $estado;
+                    $userArray[$count]['nomeAgencia']   =  $nomeAgencia;
+                    $userArray[$count]['estado']        =  $estado;
                                  
                     $count++;
                     $boolPa = false;
@@ -1250,49 +1251,49 @@ class DefaultController extends Controller
 
             return new JsonResponse($columns);
         }else{  
-            $convenioDAO      = new ConvenioDAO($this->getDoctrine()->getManager());
-            $convenios        = $convenioDAO->findAll();
+            $agenciaDAO      = new AgenciaDAO($this->getDoctrine()->getManager());
+            $agencias        = $agenciaDAO->findAll();
             
             $superEstadualDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperEstadualDAO($this->getDoctrine()->getManager());
             $seperEstaduais   = $superEstadualDAO->findAll();
             
-            return array("convenios" => $convenios, "estados" => $seperEstaduais);            
+            return array("agencias" => $agencias, "estados" => $seperEstaduais);            
         }
     }
     
     /**
-     * @Route("/saveConvenioPa", name="saveConvenioPa")
+     * @Route("/saveAgenciaPa", name="saveAgenciaPa")
      */
-    public function saveConvenioPaAction(Request $request) 
+    public function saveAgenciaPaAction(Request $request) 
     {
         #Recuperando dados da requisição
         $dados = $request->request->all();
         
-        $numConvenio = $dados['selectConvenio'];
+        $idAgencia   = $dados['selectAgencia'];
         $estado      = $dados['selectUF'];
         $idPA        = $dados['idPa'];
       
-        if($numConvenio != "") {
-             #Recuperando o usuário
+        if($idAgencia != "") {
+            #Recuperando o usuário
             $usuarioDAO = new UserDAO($this->getDoctrine()->getManager());
             $usuario    = $usuarioDAO->findById($idPA);       
 
-            $convenioDAO = new ConvenioDAO($this->getDoctrine()->getManager());
-            $convenio = $convenioDAO->finByNumConvenio($numConvenio);
+            $agenciaDAO = new AgenciaDAO($this->getDoctrine()->getManager());
+            $agencia    = $agenciaDAO->findId($idAgencia);
 
-            $convenioPA = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ConvenioPA();
-            $convenioPA->setUser($usuario);
-            $convenioPA->setData(new \DateTime("now"));
-            $convenioPA->setConvenio($convenio[0]);
-            $convenioPA->setEstado($estado);
+            $agenciaPA = new \SerBinario\MBCredito\MBCreditoBundle\Entity\AgenciaPA();
+            $agenciaPA->setUser($usuario);
+            $agenciaPA->setData(new \DateTime("now"));
+            $agenciaPA->setAgencia($agencia);
+            $agenciaPA->setEstado($estado);
 
-            $convenioPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioPaDAO($this->getDoctrine()->getManager());
+            $AgenciaPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\AgenciaPaDAO($this->getDoctrine()->getManager());
 
             $validator = $this->get("validator");
-            $valResult = $validator->validate($convenioPA);
+            $valResult = $validator->validate($agenciaPA);
 
             if(count($valResult) == 0) {
-                $result     = $convenioPaDAO->save($convenioPA);
+                $result     = $AgenciaPaDAO->save($agenciaPA);
 
                 if($result) {
                      $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
@@ -1311,23 +1312,24 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/viewGridListaConvenio", name="viewGridListaConvenio")
+     * @Route("/viewGridListaAgencias", name="viewGridListaAgencias")
      * @Template()
      */
-    public function viewGridListaConvenioAction(Request $request)
+    public function viewGridListaAgenciasAction(Request $request)
     {
          if(GridClass::isAjax()) {
             
             $columns = array(  
-                    "a.mciEmpCliente",
-                    "a.nomeConvenio"
+                    "a.prefixoAg",
+                    "a.nomeAg",
+                    "a.ccAg"
                 );
 
             $entityJOIN = array(); 
 
             $convenioArray    = array();
             $parametros       = $request->request->all();        
-            $entity           = "SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio"; 
+            $entity           = "SerBinario\MBCredito\MBCreditoBundle\Entity\Ag"; 
             $columnWhereMain  = "";
             $whereValueMain   = "";
             
@@ -1345,10 +1347,11 @@ class DefaultController extends Controller
             
             for($i=0;$i < $countConvenio; $i++)
             {
-                $convenioArray[$i]['DT_RowId']       =  "row_".$resultConvenio[$i]->getId();
-                $convenioArray[$i]['id']             =  $resultConvenio[$i]->getId();
-                $convenioArray[$i]['numConvenio']    =  $resultConvenio[$i]->getMciEmpCliente();
-                $convenioArray[$i]['nomeConvenio']   =  $resultConvenio[$i]->getNomeConvenio();              
+                $convenioArray[$i]['DT_RowId']       =  "row_".$resultConvenio[$i]->getIdAg();
+                $convenioArray[$i]['id']             =  $resultConvenio[$i]->getIdAg();
+                $convenioArray[$i]['prefixoAg']      =  $resultConvenio[$i]->getPrefixoAg();
+                $convenioArray[$i]['ccAg']           =  $resultConvenio[$i]->getCcAg();
+                $convenioArray[$i]['nomeAg']         =  $resultConvenio[$i]->getNomeAg();              
                       
             }
                         
@@ -1371,43 +1374,42 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/viewUpdateConvenio/id/{id}", name="viewUpdateConvenio")
+     * @Route("/viewUpdateAgencia/id/{id}", name="viewUpdateAgencia")
      * @Template()
      */
-    public function viewUpdateConvenioAction($id)
+    public function viewUpdateAgenciaAction($id)
     {   
-        $convenioDAO = new ConvenioDAO($this->getDoctrine()->getManager());
-        $convenio = $convenioDAO->findById($id);
+        $agenciaDAO = new AgenciaDAO($this->getDoctrine()->getManager());
+        $agencia    = $agenciaDAO->findId($id);
         
-        return array("convenio" => $convenio);
+        return array("agencia" => $agencia);
     } 
     
     /**
-     * @Route("/updateConvenio", name="updateConvenio")
+     * @Route("/updateAgencia", name="updateAgencia")
      */
-    public function updateConvenioAction(Request $request)
+    public function updateAgenciaAction(Request $request)
     {   
         #Dados da requisição
         $dados = $request->request->all();
         
         #recuperado os parametros
-        $numConvenio  = $dados['numConvenio'];
-        $nomeConvenio = $dados['nomeConvenio'];
+        $idAg   = $dados['idAg'];
+        $nomeAg = $dados['nomeAg'];
         
         #Instânciando o DAO e recuperando o Convenio corrente
-        $convenioDAO = new ConvenioDAO($this->getDoctrine()->getManager());
-        $convenio = $convenioDAO->finByNumConvenio($numConvenio);
+        $agenciaDAO = new AgenciaDAO($this->getDoctrine()->getManager());
+        $agencia    = $agenciaDAO->finById($idAg);
         
         #Alterando o nome do convênio
-        $convenio[0]->setNomeConvenio($nomeConvenio);
-        
+        $agencia->setNomeAg($nomeAg);        
         
         $validator = $this->get("validator");
-        $valResult = $validator->validate($convenio[0]);
+        $valResult = $validator->validate($agencia);
         
         if(count($valResult) == 0) {
             #atualizando o convenio
-            $result = $convenioDAO->update($convenio[0]);
+            $result = $agencia->update($agencia);
 
             if($result) {
                  $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     

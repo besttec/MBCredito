@@ -6,7 +6,7 @@ use SerBinario\MBCredito\UserBundle\Entity\User;
 use SerBinario\MBCredito\MBCreditoBundle\RN\ChainOfResponsibility\HandlePendecia;
 use SerBinario\MBCredito\MBCreditoBundle\RN\ChainOfResponsibility\HandleValidade;
 use SerBinario\MBCredito\MBCreditoBundle\RN\ChainOfResponsibility\HandleNormal;
-use SerBinario\MBCredito\MBCreditoBundle\DAO\ConvenioPaDAO;
+use SerBinario\MBCredito\MBCreditoBundle\DAO\AgenciaPaDAO;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\ClienteDAO;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\StatusDAO;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\ChamadaDAO;
@@ -57,15 +57,15 @@ class DiscagemRN
     public function discagem()
     {
         #Parametros dos handles da cadeia
-        $convenioPaDAO = new ConvenioPaDAO($this->manager);
-        $objConvenioPA = $convenioPaDAO->findByUser($this->user);
+        $agenciaPaDAO  = new AgenciaPaDAO($this->manager);
+        $objAgenciaPA  = $agenciaPaDAO->findByUser($this->user);
         $chamadaDAO    = new ChamadaDAO($this->manager);
         $clienteDAO    = new ClienteDAO($this->manager);
         $statusDAO     = new StatusDAO($this->manager);
         $status        = $statusDAO->findAll();       
         
         #Criação da cadeia de responsabilidade.
-        $handleNormal    = new HandleNormal($clienteDAO, $this->user, $status, $this->validator, $chamadaDAO, $objConvenioPA);
+        $handleNormal    = new HandleNormal($clienteDAO, $this->user, $status, $this->validator, $chamadaDAO, $objAgenciaPA);
         $handleValidade  = new HandleValidade($handleNormal, $clienteDAO, $this->user, $status, $this->validator, $chamadaDAO);
         $handlePendencia = new HandlePendecia($handleValidade, $clienteDAO, $this->user, $status);
                 

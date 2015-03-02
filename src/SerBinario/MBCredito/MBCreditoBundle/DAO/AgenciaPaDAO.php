@@ -1,7 +1,7 @@
 <?php
 namespace SerBinario\MBCredito\MBCreditoBundle\DAO;
 
-use SerBinario\MBCredito\MBCreditoBundle\Entity\ConvenioPA;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\AgenciaPA;
 use Doctrine\ORM\EntityManager;
 use SerBinario\MBCredito\UserBundle\Entity\User;
 
@@ -10,7 +10,7 @@ use SerBinario\MBCredito\UserBundle\Entity\User;
  *
  * @author andrey
  */
-class ConvenioPaDAO 
+class AgenciaPaDAO 
 {
     /**
      *
@@ -29,17 +29,16 @@ class ConvenioPaDAO
     
     /**
      * 
-     * @param ConvenioPA $entity
-     * @return ConvenioPA
+     * @param AgenciaPA $entity
+     * @return boolean|AgenciaPA
      */
-    public function save(ConvenioPA $entity) 
+    public function save(AgenciaPA $entity) 
     {
         try {            
             $this->manager->persist($entity);
             $this->manager->flush();
             
-            return $entity;
-            
+            return $entity;            
         } catch (Exception $ex) {
             return false;
         }
@@ -48,23 +47,25 @@ class ConvenioPaDAO
     /**
      * 
      * @param User $user
-     * @return type ConvenioPA
+     * @return type
      */
     public function findByUserLast(User $user)
     {
-        $obj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\ConvenioPA")->findOneBy(array("user" => $user),array("id"=>"DESC"));
+        $obj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\AgenciaPA")
+                ->findOneBy(array("user" => $user),array("id"=>"DESC"));
         
         return $obj;
     }
     
     /**
      * 
-     * @param type $user
-     * @return type ConvenioPA
+     * @param User $user
+     * @return type
      */
     public function findByUser(User $user)
     {
-        $obj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\ConvenioPA")->findOneBy(array("user" => $user));
+        $obj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\AgenciaPA")
+                ->findOneBy(array("user" => $user));
         
         return $obj;
     }
