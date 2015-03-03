@@ -294,7 +294,7 @@ class GridClass
             $qb->select("count(a)");
             $qb->from("{$this->entity}", "a");
             
-            foreach($entityJOIN as $entity => $chave) {
+            foreach($entityJOIN as $chave => $entity) {
                 $qb->join("a.{$entity}", "{$chave}");
             }
             
