@@ -150,13 +150,22 @@ class DefaultController extends Controller
                     
                     $cliente->setSuperRegionalSuperRegional($superRegional);
                     
-                    $ag = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag();
-                    $ag->setPrefixoAg($columns[8]);
-                    $ag->setCcAg($columns[9]);
-                    $ag->setNomeAg("NENHUM");
-                    $ag->setUf($uf);
+                    $agencia    = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag();
+                    $agDAO      = new AgenciaDAO($this->getDoctrine()->getManager());
+                    $objAgencia = $agDAO->findByPrefixo($columns[8]);
                     
-                    $cliente->setAgAg($ag);
+                    if($objAgencia) {
+                        $agencia = $objAgencia[0];
+                    } else {
+                        $agencia->setPrefixoAg($columns[8]);                   
+                        $agencia->setNomeAg("NENHUM");
+                        $agencia->setUf($uf);
+                    }
+                    
+                    
+                    $cliente->setContaCorrente($columns[9]);
+                    
+                    $cliente->setAgAg($agencia);
                     $cliente->setNomeCliente($columns[10]);                    
                     $cliente->setCpfCliente($columns[11]);
                     $cliente->setMciCliente($columns[12]);
@@ -569,15 +578,14 @@ class DefaultController extends Controller
                    
                 }
                 
-                $eventosArray[$i]['emprestimos']        =  $emprestimos;
-                $eventosArray[$i]['numBeneficio']       =  $numBeneficio;                
-                $eventosArray[$i]['Sexo']               =  $resultCliente[$i]->getClientesCliente()->getSexosSexo()->getNomeExtensoSexo();
-                $eventosArray[$i]['dtNascimento']       =  $resultCliente[$i]->getClientesCliente()->getDataNascCliente()->format('d/m/Y');
-                $eventosArray[$i]['obsErro']            =  $resultCliente[$i]->getObsErro();
-                $eventosArray[$i]['statusErro']         =  $resultCliente[$i]->getStatusErro();
-                $eventosArray[$i]['ag']                 =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getCcAg();
-                $eventosArray[$i]['prefixo_ag']         =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
-                $eventosArray[$i]['statusLigacao']      =  $resultCliente[$i]->getStatusLigacao();
+                $eventosArray[$i]['emprestimos']    =  $emprestimos;
+                $eventosArray[$i]['numBeneficio']   =  $numBeneficio;                
+                $eventosArray[$i]['Sexo']           =  $resultCliente[$i]->getClientesCliente()->getSexosSexo()->getNomeExtensoSexo();
+                $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getClientesCliente()->getDataNascCliente()->format('d/m/Y');
+                $eventosArray[$i]['obsErro']        =  $resultCliente[$i]->getObsErro();
+                $eventosArray[$i]['statusErro']     =  $resultCliente[$i]->getStatusErro();          
+                $eventosArray[$i]['prefixo_ag']     =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
+                $eventosArray[$i]['statusLigacao']     =  $resultCliente[$i]->getStatusLigacao();
             }
             
             //Se a variável $sqlFilter estiver vazio
@@ -1642,7 +1650,6 @@ class DefaultController extends Controller
             $columns = array(  
                     "a.prefixoAg",
                     "a.nomeAg",
-                    "a.ccAg"
                 );
 
             $entityJOIN = array(); 
@@ -1670,7 +1677,6 @@ class DefaultController extends Controller
                 $convenioArray[$i]['DT_RowId']       =  "row_".$resultConvenio[$i]->getIdAg();
                 $convenioArray[$i]['id']             =  $resultConvenio[$i]->getIdAg();
                 $convenioArray[$i]['prefixoAg']      =  $resultConvenio[$i]->getPrefixoAg();
-                $convenioArray[$i]['ccAg']           =  $resultConvenio[$i]->getCcAg();
                 $convenioArray[$i]['nomeAg']         =  $resultConvenio[$i]->getNomeAg();              
                       
             }

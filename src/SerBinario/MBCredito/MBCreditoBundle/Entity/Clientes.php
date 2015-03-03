@@ -202,6 +202,13 @@ class Clientes
     /**
      * @var string
      * 
+     * @ORM\Column(name="conta_corrente", type="string", length=20, nullable=true)
+     */
+    private $contaCorrente;
+    
+    /**
+     * @var string
+     * 
      * @Assert\Length(max=45, maxMessage="Valor do número do benefício complementar do cliente
      *  ultrapassa a quantidade de caracteres permitidas")
      *
@@ -292,6 +299,7 @@ class Clientes
      * @ORM\OneToMany(targetEntity="ConsultaCliente", mappedBy="clientesCliente")
      **/
     private $consultas;    
+    
     
     /**
      * 
@@ -976,7 +984,28 @@ class Clientes
         $this->mciEmpregador = $mciEmpregador;
         return $this;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getContaCorrente()
+    {
+        return $this->contaCorrente;
+    }
+
+    /**
+     * 
+     * @param type $contaCorrente
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes
+     */
+    public function setContaCorrente($contaCorrente) 
+    {
+        $this->contaCorrente = $contaCorrente;
+        return $this;
+    }
 
 
+    
    
 }
