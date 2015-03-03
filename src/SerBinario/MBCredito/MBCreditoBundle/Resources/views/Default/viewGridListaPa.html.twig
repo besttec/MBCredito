@@ -92,11 +92,12 @@
                             <input type="hidden" id="idPa" name="idPa" value="" />
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="selectConvenio">Convênio</label>
+                                    <label for="selectConvenio">Agência</label>
                                     <select class="form-control" name="selectAgencia">
                                         <option value="">Selecione uma agência</option>
+                                        <option value="todos">Todos</option>
                                         {% for agencia in agencias %}
-                                            <option value="{{ agencia.idAg }}">{{ agencia.ccAg }}</option>
+                                            <option value="{{ agencia.idAg }}">{{ agencia.ccAg }}  {{ agencia.nomeAg }}</option>
                                         {%endfor%}
                                     </select>
                                 </div>  
@@ -104,6 +105,7 @@
                                     <label for="selectUF">Estado</label>
                                     <select class="form-control" name="selectUF">
                                         <option value="">Selecione um estado</option>
+                                        <option value="">Todos</option>
                                         {% for estado in estados %}
                                             <option value="{{ estado.uf }}">{{ estado.uf }}</option>
                                         {%endfor%}

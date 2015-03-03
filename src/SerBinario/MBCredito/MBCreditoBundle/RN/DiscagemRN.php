@@ -58,7 +58,7 @@ class DiscagemRN
     {
         #Parametros dos handles da cadeia
         $agenciaPaDAO  = new AgenciaPaDAO($this->manager);
-        $objAgenciaPA  = $agenciaPaDAO->findByUser($this->user);
+        $objAgenciaPA  = $agenciaPaDAO->findByUserLast($this->user);
         $chamadaDAO    = new ChamadaDAO($this->manager);
         $clienteDAO    = new ClienteDAO($this->manager);
         $statusDAO     = new StatusDAO($this->manager);

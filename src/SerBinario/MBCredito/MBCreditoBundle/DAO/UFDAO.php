@@ -1,15 +1,16 @@
 <?php
 namespace SerBinario\MBCredito\MBCreditoBundle\DAO;
 
-use SerBinario\MBCredito\MBCreditoBundle\Entity\Ag;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\UF;
 use Doctrine\ORM\EntityManager;
 /**
- * Description of AgenciaDAO
+ * Description of UFDAO
  *
  * @author andrey
  */
-class AgenciaDAO 
+class UFDAO 
 {
+   
     /**
      *
      * @var type 
@@ -27,27 +28,29 @@ class AgenciaDAO
     
     /**
      * 
-     * @return type
+     * @param UF $entity
+     * @return boolean
      */
-    public function findAll()
+    public function save(UF $entity)
     {
         try {
-            $arrayObj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\Ag")->findAll();
+            $this->manager->persist($entity);
+            $this->manager->flush();
             
-            return $arrayObj;
+            return $uf;
         } catch (Exception $ex) {
-            return null;
+            return false;
         }
     }
     
     /**
      * 
-     * @return type
+     * @param type $uf
      */
-    public function findId($id)
+    public function findUf($uf)
     {
         try {
-            $obj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\Ag")->find($id);
+            $obj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\UF")->findBy(array("uf" => $uf));
             
             return $obj;
         } catch (Exception $ex) {
@@ -57,18 +60,16 @@ class AgenciaDAO
     
     /**
      * 
-     * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag $entity
-     * @return boolean
+     * @return type
      */
-    public function update(Ag $entity)
+    public function findAll()
     {
         try {
-            $this->manager->merge($entity);
-            $this->manager->flush();
+            $arrayObj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\UF")->findAll();
             
-            return true;
+            return $arrayObj;
         } catch (Exception $ex) {
-            return false;
+            return null;
         }
     }
 }

@@ -129,7 +129,7 @@ class ClienteDAO
             $qb->select("a");
             $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente", "a");
             $qb->join("a.clientesCliente", "cliente");
-            $qb->join("cliente.ag", "b");
+            $qb->join("cliente.agAg", "b");
             $qb->join("cliente.superEstadualSuperEstadual", "c");            
             $qb->where("cliente.statusEmChamada =?1 AND a.statusConsulta = ?2 "
                     . " AND a.statusErro = ?3 AND a.statusLigacao = ?4 "

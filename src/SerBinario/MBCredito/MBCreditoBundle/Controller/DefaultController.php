@@ -22,6 +22,8 @@ use SerBinario\MBCredito\MBCreditoBundle\RN\DiscagemRN;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\Antecipacao13;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\LimiteCreditoNovo;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\LimiteCreditoNovoDAO;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\UF;
+use SerBinario\MBCredito\MBCreditoBundle\DAO\UFDAO;
 
 /**
  *  
@@ -99,19 +101,8 @@ class DefaultController extends Controller
                     $sexoDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SexoDAO($this->getDoctrine()->getManager());
                     $sexo    = $sexoDAO->findById($columns[2]);
                     
-                    $cliente->setSexosSexo($sexo);
-                    
-                    $convenioDAO = new ConvenioDAO($this->getDoctrine()->getManager());
-                    $resultMCI   = $convenioDAO->finByNumConvenio($columns[3]);
-                    
-                    if($resultMCI) {
-                        $cliente->setConvenio($resultMCI[0]);
-                    } else {
-                        $convenio = new Convenio();
-                        $convenio->setMciEmpCliente($columns[3]);
-                        $convenio->setNomeConvenio($columns[3]);
-                        $cliente->setConvenio($convenio);
-                    }
+                    $cliente->setSexosSexo($sexo);                    
+                    $cliente->setMciEmpregador($columns[3]);
                    
                     $limiteCreditoNovoDAO = new LimiteCreditoNovoDAO($this->getDoctrine()->getManager());
                     $resultlimiteCredito  = $limiteCreditoNovoDAO->findById($columns[4]);
@@ -120,17 +111,27 @@ class DefaultController extends Controller
                         $cliente->setLimiteCreditoNovo($resultlimiteCredito);
                     } else {
                         $cliente->setLimiteCreditoNovo($limiteCreditoNovoDAO->findById(2));
-                    }                   
+                    }  
+                    
+                    $uf       = null;
+                    $ufDAO    = new UFDAO($this->getDoctrine()->getManager());
+                    $resultUf = $ufDAO->findUf($columns[5]);
+                    
+                    if($resultUf) {
+                        $uf = $resultUf[0];
+                    } else {
+                        $uf = new UF();
+                        $uf->setUf($columns[5]);
+                    }
                     
                     $superEstadual    = null;
                     $superEstadualDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperEstadualDAO($this->getDoctrine()->getManager());
-                    $objEstadual      = $superEstadualDAO->findCod($columns[5]);
+                    $objEstadual      = $superEstadualDAO->findCod($columns[6]);
                     
                     if($objEstadual) {
                         $superEstadual = $objEstadual[0];
                     } else {
                         $superEstadual = new \SerBinario\MBCredito\MBCreditoBundle\Entity\SuperEstadual();
-                        $superEstadual->setUf($columns[5]);
                         $superEstadual->setCodSuperEstadual($columns[6]);
                     }            
                     
@@ -153,6 +154,7 @@ class DefaultController extends Controller
                     $ag->setPrefixoAg($columns[8]);
                     $ag->setCcAg($columns[9]);
                     $ag->setNomeAg("NENHUM");
+                    $ag->setUf($uf);
                     
                     $cliente->setAgAg($ag);
                     $cliente->setNomeCliente($columns[10]);                    
@@ -1219,8 +1221,17 @@ class DefaultController extends Controller
                     $nomeAgencia   = "Nenhuma agência anterior";
                    
                     if($objAgenciaPA) {
-                        $nomeAgencia   = $objAgenciaPA->getAgencia()->getNomeAg();
-                        $estado        = $objAgenciaPA->getEstado();
+                        if(is_object($objAgenciaPA->getAgencia())) {
+                            $nomeAgencia = $objAgenciaPA->getAgencia()->getNomeAg();
+                        } else {
+                            $nomeAgencia = "TODOS";
+                        }
+                        
+                        if($objAgenciaPA->getEstado()->getUf() != "") {
+                            $estado = $objAgenciaPA->getEstado()->getUf();  
+                        } else {
+                            $estado = "TODOS";
+                        }                        
                     }
                     
                     $userArray[$count]['nomeAgencia']   =  $nomeAgencia;
@@ -1254,10 +1265,10 @@ class DefaultController extends Controller
             $agenciaDAO      = new AgenciaDAO($this->getDoctrine()->getManager());
             $agencias        = $agenciaDAO->findAll();
             
-            $superEstadualDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\SuperEstadualDAO($this->getDoctrine()->getManager());
-            $seperEstaduais   = $superEstadualDAO->findAll();
+            $estadoDAO = new UFDAO($this->getDoctrine()->getManager());
+            $estados   = $estadoDAO->findAll();
             
-            return array("agencias" => $agencias, "estados" => $seperEstaduais);            
+            return array("agencias" => $agencias, "estados" => $estados);            
         }
     }
     
@@ -1272,7 +1283,37 @@ class DefaultController extends Controller
         $idAgencia   = $dados['selectAgencia'];
         $estado      = $dados['selectUF'];
         $idPA        = $dados['idPa'];
+        
+        #Se for todas as agências
+        if($idAgencia === "todos") {
+            #Recuperando o usuário
+            $usuarioDAO = new UserDAO($this->getDoctrine()->getManager());
+            $usuario    = $usuarioDAO->findById($idPA); 
+            
+            $agenciaPA = new \SerBinario\MBCredito\MBCreditoBundle\Entity\AgenciaPA();
+            $agenciaPA->setAgencia(null);
+            $agenciaPA->setData(new \DateTime("now"));
+            
+            $ufDAO    = new UFDAO($this->getDoctrine()->getManager());
+            $resultUf = $ufDAO->findUf($estado);
+            
+            $agenciaPA->setEstado(is_array($resultUf) ? $resultUf[0] : "");    
+            $agenciaPA->setUser($usuario);
+            
+            $AgenciaPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\AgenciaPaDAO($this->getDoctrine()->getManager());
+            $result       = $AgenciaPaDAO->save($agenciaPA);
+            
+            #Criação das mensagens
+            if($result) {
+                 $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
+            } else {
+                $this->get("session")->getFlashBag()->add('danger', "Error ao salvar os dados!");                     
+            }  
+            
+            return $this->redirect($this->generateUrl("viewGridListaPa"));
+        }
       
+        #Se for uma agência específica
         if($idAgencia != "") {
             #Recuperando o usuário
             $usuarioDAO = new UserDAO($this->getDoctrine()->getManager());
@@ -1284,9 +1325,10 @@ class DefaultController extends Controller
             $agenciaPA = new \SerBinario\MBCredito\MBCreditoBundle\Entity\AgenciaPA();
             $agenciaPA->setUser($usuario);
             $agenciaPA->setData(new \DateTime("now"));
-            $agenciaPA->setAgencia($agencia);
-            $agenciaPA->setEstado($estado);
-
+            $agenciaPA->setAgencia($agencia);            
+            $ufDAO    = new UFDAO($this->getDoctrine()->getManager());
+            $resultUf = $ufDAO->findUf($estado);            
+            $agenciaPA->setEstado(is_array($resultUf) ? $resultUf[0] : ""); 
             $AgenciaPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\AgenciaPaDAO($this->getDoctrine()->getManager());
 
             $validator = $this->get("validator");
@@ -1397,7 +1439,7 @@ class DefaultController extends Controller
         $idAg   = $dados['idAg'];
         $nomeAg = $dados['nomeAg'];
         
-        #Instânciando o DAO e recuperando o Convenio corrente
+        #Instânciando o DAO e recuperando a Agência corrente
         $agenciaDAO = new AgenciaDAO($this->getDoctrine()->getManager());
         $agencia    = $agenciaDAO->finById($idAg);
         

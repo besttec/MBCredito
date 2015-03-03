@@ -46,12 +46,15 @@ class AgenciaPA
     private $agencia;
     
     /**
-     * @var string
-     *
-     * @Assert\Length(max=2, maxMessage="Valor iformado para esta ultrapassa 
-     * a quantidade máxima de caracteres permitidas")
+     * @var \UF
      * 
-     * @ORM\Column(name="estado", type="string",length = 2, nullable=true)
+     * @Assert\NotNull(message="UF não informado")
+     * @Assert\Type(type="object", message="Valor informado para UF não é um objeto")
+     *
+     * @ORM\ManyToOne(targetEntity="UF", cascade = {"persist"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_uf", referencedColumnName="id")
+     * })
      */
     private $estado;
     
