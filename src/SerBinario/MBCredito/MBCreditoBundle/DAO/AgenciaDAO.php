@@ -55,6 +55,24 @@ class AgenciaDAO
         }
     }
     
+     /**
+     * 
+     * @return type
+     */
+    public function findByPrefixo($prefixo)
+    {
+        try {
+            $obj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\Ag")
+                    ->findBy(array(
+                        "prefixoAg" => $prefixo
+                    ));
+            
+            return $obj;
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
+    
     /**
      * 
      * @param \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag $entity

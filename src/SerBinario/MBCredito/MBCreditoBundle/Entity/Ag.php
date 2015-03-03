@@ -40,16 +40,6 @@ class Ag
      * @ORM\Column(name="nome_ag", type="string", length=50, nullable=true)
      */
     private $nomeAg;
-
-    /**
-     * @var string
-     *
-     * @Assert\Type(type="string", message="Valor inválido para cc ag")
-     * @Assert\NotBlank(message="cc ag não informado")
-     * 
-     * @ORM\Column(name="cc_ag", type="string", length=10, nullable=false)
-     */
-    private $ccAg;
     
     /**
      * @var \UF
@@ -121,30 +111,7 @@ class Ag
     {
         return $this->nomeAg;
     }
-
-    /**
-     * Set ccAg
-     *
-     * @param string $ccAg
-     * @return Ag
-     */
-    public function setCcAg($ccAg)
-    {
-        $this->ccAg = $ccAg;
-
-        return $this;
-    }
-
-    /**
-     * Get ccAg
-     *
-     * @return string 
-     */
-    public function getCcAg()
-    {
-        return $this->ccAg;
-    }
-    
+   
     /**
      * 
      * @return type
