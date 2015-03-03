@@ -226,14 +226,28 @@ class DefaultController extends Controller
      */
     public function viewInserirDadosAction()
     {   
-        
-        
-        return array();
+        $estadosDAO = new UFDAO($this->getDoctrine()->getManager());
+        $estados = $estadosDAO->findAll();
+
+        return array("estados" => $estados);
     }
     
     /**
-     * @Route("/grid")
-     * @Method({"POST"})
+     * @Route("/filterGridDataPrev", name="filterGridDataPrev")
+     * @Template()
+     */
+    public function filterGridDataPrevAction(Request $request)
+    {   
+        $req = $request->request->All();
+        
+        $this->get("session")->set("estado", $req['estado']);
+        $this->get("session")->set("agencia", $req['agencia']);
+
+        return $this->redirect($this->generateUrl("inserirDados"));
+    }
+    
+    /**
+     * @Route("/grid", name="grid")
      * @Template("MBCreditoBundle:Default:viewInserirDados.html.twig")
      */
     public function testeGridAction(Request $request)
@@ -252,11 +266,19 @@ class DefaultController extends Controller
                 "a.foneCelCliente",
                 "a.foneCelCliente",
                 "a.numBeneficioCliente",
-                "b.nomeExtensoSexo",
                 "a.dataNascCliente",
                 );
+            
+            
+            if($this->get("session")->get('estado') && !($this->get("session")->get('agencia'))) {
+                
+            } else if ($this->get("session")->get('agencia')) {
+                
+            } else {
 
-            $entityJOIN = array("sexosSexo");             
+            }
+            
+            $entityJOIN           = array();     
             $eventosArray         = array();
             $parametros           = $request->request->all();
             $count                = 0;
@@ -278,12 +300,13 @@ class DefaultController extends Controller
             $resultCliente  = $gridClass->builderQuery();    
             $countTotal     = $gridClass->getCount();
             $countEventos   = count($resultCliente);
-
+                    
             for($i=0;$i < $countEventos; $i++)
             {
+                               
                 $consultas = $resultCliente[$i]->getConsultas();                
                 $consulta  = $consultas->last();
-                
+                               
                 if($consulta) {
                     $statusLigacao = $consulta->getStatusLigacao();
                 }
@@ -291,7 +314,7 @@ class DefaultController extends Controller
                 if( !$statusLigacao) {
                     $eventosArray[$count]['DT_RowId']       =  "row_".$resultCliente[$i]->getIdCliente();
                     $eventosArray[$count]['nome']           =  $resultCliente[$i]->getNomeCliente();
-                    $eventosArray[$count]['mci']            =  is_null($resultCliente[$i]->getConvenio()) ? null : $resultCliente[$i]->getConvenio()->getMciEmpCliente();
+                    $eventosArray[$count]['mci']            =  is_null($resultCliente[$i]->getMciEmpregador());
 
                     $cpf                                    = $resultCliente[$i]->getCpfCliente();
                     $cpfLen                                 = strlen($cpf);
@@ -1754,10 +1777,10 @@ class DefaultController extends Controller
         $dado    = $request->request->all();
         $msg = "";
         
-        $subcategoDAO = new SubcategoriasDAO($this->getDoctrine()->getManager());
-        $subcategorias = $subcategoDAO->subcategoriaFindByCatego($dado['idCategoria']);
+        $agenciaDAO = new AgenciaDAO($this->getDoctrine()->getManager());
+        $agencias   = $agenciaDAO->agenciaFindByUF($dado['idEstado']);
         
-        if($subcategorias){
+        if($agencias){
             $msg = "sucesso";
         } else {
             $msg = "erro";
@@ -1765,7 +1788,7 @@ class DefaultController extends Controller
         
         $dados = array (
             "msg" => $msg,
-            "dados" => $subcategorias
+            "dados" => $agencias
         );
         
         return new JsonResponse($dados);

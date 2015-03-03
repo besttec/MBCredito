@@ -63,7 +63,14 @@ class UF
     {
         return $this->uf;
     }
-
+    
+    /**
+     * 
+     * @return type
+     */
+    function getId() {
+        return $this->id;
+    }
 
 
 }
