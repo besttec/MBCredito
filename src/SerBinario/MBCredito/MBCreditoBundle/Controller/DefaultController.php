@@ -240,8 +240,13 @@ class DefaultController extends Controller
     {   
         $req = $request->request->All();
         
-        $this->get("session")->set("estado", $req['estado']);
-        $this->get("session")->set("agencia", $req['agencia']);
+        if(isset($req['estado'])){
+            $this->get("session")->set("estado", $req['estado']);
+        } 
+        
+        if(isset($req['agencia'])) {
+            $this->get("session")->set("agencia", $req['agencia']);
+        }       
 
         return $this->redirect($this->generateUrl("inserirDados"));
     }
@@ -271,14 +276,13 @@ class DefaultController extends Controller
             
             
             if($this->get("session")->get('estado') && !($this->get("session")->get('agencia'))) {
-                
+                $entityJOIN  = array("a.agAg", "b.uf");
             } else if ($this->get("session")->get('agencia')) {
-                
+                $entityJOIN  = array("a.agAg");
             } else {
-
+                $entityJOIN  = array();
             }
-            
-            $entityJOIN           = array();     
+                            
             $eventosArray         = array();
             $parametros           = $request->request->all();
             $count                = 0;
@@ -289,13 +293,22 @@ class DefaultController extends Controller
             $columnWhereMain      = "";
             $whereValueMain       = "";
             
+            if($this->get("session")->get('estado') && !($this->get("session")->get('agencia'))) {
+                $whereFull        = "a.agAg = b.idAg AND b.uf = c.id AND c.id = {$this->get("session")->get('estado')}";
+            } else if ($this->get("session")->get('agencia')) {
+                $whereFull        = "a.agAg = b.idAg AND b.idAg = {$this->get("session")->get('agencia')}";
+            } else {
+                $whereFull        = "";
+            }           
+            
             $gridClass = new GridClass($this->getDoctrine()->getManager(), 
                     $parametros,
                     $columns,
                     $entity,
                     $entityJOIN,           
                     $columnWhereMain,
-                    $whereValueMain);
+                    $whereValueMain,
+                    $whereFull);
 
             $resultCliente  = $gridClass->builderQuery();    
             $countTotal     = $gridClass->getCount();

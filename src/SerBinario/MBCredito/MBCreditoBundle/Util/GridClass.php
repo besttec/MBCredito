@@ -56,6 +56,12 @@ class GridClass
       *
       * @var type 
       */
+     private $whereFull;
+     
+     /**
+      *
+      * @var type 
+      */
      private $columnWhereMain;
      
      /**
@@ -79,7 +85,8 @@ class GridClass
             $entity, 
             $entityJOIN,             
             $whereMain,
-            $whereValueMain) 
+            $whereValueMain,
+            $whereFull = "") 
     {
         $this->start               = $parametros['start'];
         $this->length              = $parametros['length'];
@@ -90,6 +97,7 @@ class GridClass
         $this->whereValueMain      = $whereValueMain;
         $this->parametros          = $parametros;
         $this->em                  = $em;
+        $this->whereFull           = $whereFull;
     }
     
     /**
@@ -159,6 +167,11 @@ class GridClass
             }else{
                 //$dqlWhere .= " WHERE ";
             }
+            
+            if(!empty($this->whereFull)) {
+                 $dqlWhere .= " WHERE {$this->whereFull}";
+            }
+            
             $whereGlobal    = false;
             $wherePerson    = false;
             $filterValue    = array();
