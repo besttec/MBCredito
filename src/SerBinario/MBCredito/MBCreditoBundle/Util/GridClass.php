@@ -298,11 +298,11 @@ class GridClass
             foreach($entityJOIN as $chave => $entity) {
                 $qb->join("a.{$entity}", "{$chave}");
             }
-
+            
             foreach($subEntityJOIN as $chave => $entity) {
                 $qb->join("{$entity}", "{$chave}");
             }
-              
+            
             $qb->where("{$whereFull}");
            // var_dump($qb->getQuery());exit();
             $result = $qb->getQuery()->getSingleScalarResult();
