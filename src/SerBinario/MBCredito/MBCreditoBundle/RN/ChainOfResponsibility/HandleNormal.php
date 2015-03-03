@@ -2,10 +2,11 @@
 namespace SerBinario\MBCredito\MBCreditoBundle\RN\ChainOfResponsibility;
 
 use SerBinario\MBCredito\MBCreditoBundle\RN\ChainOfResponsibility\IHandle;
-use SerBinario\MBCredito\MBCreditoBundle\Entity\ConvenioPA;
+use SerBinario\MBCredito\MBCreditoBundle\Entity\AgenciaPA;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\ChamadaDAO;
 use SerBinario\MBCredito\MBCreditoBundle\DAO\ClienteDAO;
 use SerBinario\MBCredito\UserBundle\Entity\User;
+
 /**
  * Description of HandleNormal
  *
@@ -53,13 +54,13 @@ class HandleNormal implements IHandle
      *
      * @var type 
      */
-    private $convenioPA;
+    private $agenciaPA;
     
     /**
      * 
      * @param HandleNormal $handleSucessor
      */
-    public function __construct(ClienteDAO $clienteDAO, User $user, $statusArray, $validador, ChamadaDAO $chamadaDAO, ConvenioPA $convenioPA = null)
+    public function __construct(ClienteDAO $clienteDAO, User $user, $statusArray, $validador, ChamadaDAO $chamadaDAO, AgenciaPA $agenciaPA = null)
     {
         $this->handleSucessor = null;
         $this->clienteDAO     = $clienteDAO;
@@ -67,7 +68,7 @@ class HandleNormal implements IHandle
         $this->statusArray    = $statusArray;
         $this->validador      = $validador;
         $this->chamadaDAO     = $chamadaDAO;
-        $this->convenioPA     = $convenioPA;
+        $this->agenciaPA      = $agenciaPA;
     }
     
     /**
@@ -77,7 +78,7 @@ class HandleNormal implements IHandle
     public function handle() 
     {   
         #Verifica se existe convênio vinculado.
-        if( !$this->convenioPA) {
+        if( !$this->agenciaPA) {
             return array(
                 "error" => "Não existe convênio vinculado, contate o administrador!",
                 "type"  => "danger"
@@ -85,11 +86,21 @@ class HandleNormal implements IHandle
         } 
         
         #Parametros da consulta de clientes
-        $idConvenioPA     = $this->convenioPA->getConvenio()->getId();
-        $estadoConvenioPA = $this->convenioPA->getEstado();
+        $idAgenciaPA      = "";
+        $estadoAgenciaPA  = "";
+        
+         #Verifica se estar setado o Estado
+        if(is_object($this->agenciaPA->getEstado())) {
+            $estadoAgenciaPA  = $this->agenciaPA->getEstado()->getUf();
+        }
+       
+        #Verifica se estar setado a Agência
+        if(is_object($this->agenciaPA->getAgencia())) {
+            $idAgenciaPA = $this->agenciaPA->getAgencia()->getIdAg();
+        }
         
         #Recupera uma consulta que já foi consultado e não está sendo atendido por nenhum callcenter
-        $consulta = $this->clienteDAO->findNotUse($idConvenioPA, $estadoConvenioPA);       
+        $consulta = $this->clienteDAO->findNotUse($idAgenciaPA, $estadoAgenciaPA);       
         
         #Verifica se existe cliente.
         if( !$consulta) {

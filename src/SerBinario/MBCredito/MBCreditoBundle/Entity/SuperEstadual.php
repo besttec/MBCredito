@@ -46,19 +46,6 @@ class SuperEstadual
     private $nomeSuperEstadual;
 
     /**
-     * @var string
-     *
-     * @Assert\NotBlank(message="Valor de uf de SuperEstadual não informado")
-     * @Assert\Length(max=2, maxMessage="Valor informado para uf SuperEstadual 
-     *  ultrapassa a quantidade máxima de caracteres permitidas")
-     * 
-     * @ORM\Column(name="uf", type="string", length=2, nullable=false)
-     */
-    private $uf;
-
-
-
-    /**
      * Get idSuperEstadual
      *
      * @return integer 

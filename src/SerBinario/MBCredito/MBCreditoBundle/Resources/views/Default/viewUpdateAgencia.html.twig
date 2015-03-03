@@ -17,14 +17,19 @@
                             {% endfor %}
                         {% endfor %}
                         <div class="col-md-6 column">
-                            <form role="form" method="POST" action="{{ path('updateConvenio') }}">
+                            <form role="form" method="POST" action="{{ path('updateAgencia') }}">
+                                <input type="hidden" name="idAg" id="idAg" value="{{ agencia.idAg }}"/>
                                 <div class="form-group col-lg-5">
-                                    <label for="numConvenio">Número convênio</label>
-                                    <input type="text" class="form-control" readonly="" name="numConvenio" id="numConvenio" value="{{ convenio.mciEmpCliente }}" />
+                                    <label for="prefixoAg">Perfixo Agência</label>
+                                    <input type="text" class="form-control" readonly="" name="prefixoAg" id="prefixoAg" value="{{ agencia.prefixoAg }}" />
                                 </div>
                                 <div class="form-group col-lg-5">
-                                    <label for="nomeConvenio">Nome convênio</label>
-                                    <input type="text" class="form-control" name="nomeConvenio" id="nomeConvenio" value="{{ convenio.nomeConvenio }}" />
+                                    <label for="ccAg">CC Agência</label>
+                                    <input type="text" class="form-control" readonly="" name="ccAg" id="ccAg" value="{{ agencia.ccAg }}" />
+                                </div>
+                                <div class="form-group col-lg-5">
+                                    <label for="nomeAg">Nome Agência</label>
+                                    <input type="text" class="form-control" name="nomeAg" id="nomeAg" value="{{ agencia.nomeAg }}" />
                                 </div>                           
                                 <div class="form-group col-lg-6">
                                     <button type="submit" id="salvar" class="btn btn-primary">Salvar</button>

@@ -60,7 +60,7 @@
                                 <tr>                                    
                                     <th>Nome</th>
                                     <th>Email</th>  
-                                    <th>Último convênio</th>
+                                    <th>Última Agência</th>
                                     <th>Último estado</th>
                                     <th>Acão</th>
                                 </tr>
@@ -70,7 +70,7 @@
                                 <tr>                                    
                                     <th>Nome</th>
                                     <th>Email</th>  
-                                    <th>Último convênio</th>
+                                    <th>Última Agência</th>
                                     <th>Último estado</th>
                                     <th>Acão</th>
                                 </tr>
@@ -88,15 +88,16 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="myModalLabel">Delegação de convênio e estado</h4>
                         </div>
-                        <form role="form" method="post" action="{{ path('saveConvenioPa') }}">
+                        <form role="form" method="post" action="{{ path('saveAgenciaPa') }}">
                             <input type="hidden" id="idPa" name="idPa" value="" />
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="selectConvenio">Convênio</label>
-                                    <select class="form-control" name="selectConvenio">
-                                        <option value="">Selecione um convênio</option>
-                                        {% for convenio in convenios %}
-                                            <option value="{{ convenio.mciEmpCliente }}">{{ convenio.nomeConvenio }}</option>
+                                    <label for="selectConvenio">Agência</label>
+                                    <select class="form-control" name="selectAgencia">
+                                        <option value="">Selecione uma agência</option>
+                                        <option value="todos">Todos</option>
+                                        {% for agencia in agencias %}
+                                            <option value="{{ agencia.idAg }}">{{ agencia.ccAg }}  {{ agencia.nomeAg }}</option>
                                         {%endfor%}
                                     </select>
                                 </div>  
@@ -104,6 +105,7 @@
                                     <label for="selectUF">Estado</label>
                                     <select class="form-control" name="selectUF">
                                         <option value="">Selecione um estado</option>
+                                        <option value="">Todos</option>
                                         {% for estado in estados %}
                                             <option value="{{ estado.uf }}">{{ estado.uf }}</option>
                                         {%endfor%}
@@ -143,7 +145,7 @@
                 "columns": [
                     {"data": "nome"},
                     {"data": "email"},
-                    {"data": "nomeConvenio"},
+                    {"data": "nomeAgencia"},
                     {"data": "estado"},
                     {
                         "class": "bt",

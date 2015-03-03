@@ -4,7 +4,6 @@ namespace SerBinario\MBCredito\MBCreditoBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente;
-use SerBinario\MBCredito\MBCreditoBundle\Entity\Convenio;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -43,6 +42,15 @@ class Clientes
      * @ORM\Column(name="mci_cliente", type="string", length=20, nullable=true)
      */
     private $mciCliente;
+    
+    /**
+     * @var string
+     * 
+     * @Assert\Type(type="string", message="Valor informado para mci do empregador é inválido")
+     * 
+     * @ORM\Column(name="mci_empregador", type="string", length=20, nullable=true)
+     */
+    private $mciEmpregador;
 
     /**
      * @var string
@@ -267,18 +275,6 @@ class Clientes
      * })
      */
     private $sexosSexo;
-    
-    /**
-     * @var Convenio
-     *
-     * @Assert\Type(type="object", message="Valor informado para Convenio não é um objeto")
-     * 
-     * @ORM\ManyToOne(targetEntity="Convenio", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="convenio_id", referencedColumnName="id")
-     * })
-     */
-    private $convenio;
     
     /**
      * @var LimiteCreditoNovo
@@ -865,24 +861,6 @@ class Clientes
      * 
      * @return type
      */
-    public function getConvenio() 
-    {
-        return $this->convenio;
-    }
-
-    /**
-     * 
-     * @param Convenio $convenio
-     */
-    public function setConvenio(Convenio $convenio) 
-    {
-        $this->convenio = $convenio;
-    }
-    
-    /**
-     * 
-     * @return type
-     */
     public function getQtdConsultas() 
     {
         return $this->qtdConsultas;
@@ -976,6 +954,26 @@ class Clientes
     public function setMciCliente($mciCliente) 
     {
         $this->mciCliente = $mciCliente;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function getMciEmpregador() 
+    {
+        return $this->mciEmpregador;
+    }
+
+    /**
+     * 
+     * @param type $mciEmpregador
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes
+     */
+    public function setMciEmpregador($mciEmpregador) 
+    {
+        $this->mciEmpregador = $mciEmpregador;
         return $this;
     }
 

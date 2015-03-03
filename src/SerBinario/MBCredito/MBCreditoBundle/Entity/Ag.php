@@ -50,6 +50,19 @@ class Ag
      * @ORM\Column(name="cc_ag", type="string", length=10, nullable=false)
      */
     private $ccAg;
+    
+    /**
+     * @var \UF
+     * 
+     * @Assert\NotNull(message="UF não informado")
+     * @Assert\Type(type="object", message="Valor informado para UF não é um objeto")
+     *
+     * @ORM\ManyToOne(targetEntity="UF", cascade = {"persist"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_uf", referencedColumnName="id")
+     * })
+     */
+    private $uf;
 
 
 
@@ -131,4 +144,26 @@ class Ag
     {
         return $this->ccAg;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getUf() 
+    {
+        return $this->uf;
+    }
+
+    /**
+     * 
+     * @param type $uf
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Ag
+     */
+    public function setUf($uf) 
+    {
+        $this->uf = $uf;
+        return $this;
+    }
+
+
 }

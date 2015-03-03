@@ -58,16 +58,18 @@
                         <table id="example" class="display" cellspacing="0" width="100%">
                             <thead>
                                 <tr>                                    
-                                    <th>Número Convênio</th>
-                                    <th>Nome Convênio</th>                            
+                                    <th>Prefixo Agência</th>
+                                    <th>CC Agência</th>
+                                    <th>Nome Agência</th>                            
                                     <th>Acão</th>
                                 </tr>
                             </thead>
 
                             <tfoot>
                                 <tr>                                    
-                                    <th>Número Convênio</th>
-                                    <th>Nome Convênio</th>                            
+                                    <th>Prefixo Agência</th>
+                                    <th>CC Agência</th>
+                                    <th>Nome Agência</th>                                     
                                     <th>Acão</th>
                                 </tr>
                             </tfoot>
@@ -93,18 +95,19 @@
                 "serverSide": true,
                 "bFilter": true, //Ativa o Search global
                 "ajax": {
-                    "url": "{{ path('viewGridListaConvenio') }}",
+                    "url": "{{ path('viewGridListaAgencias') }}",
                     "type": "POST"
                 },
                 "columns": [
-                    {"data": "numConvenio"},
-                    {"data": "nomeConvenio"},
+                    {"data": "prefixoAg"},
+                    {"data": "ccAg"},
+                    {"data": "nomeAg"},
                     {
                         "class": "bt",
                         "orderable": false,
                         "data": null,
                         "render": function (data, type, row, full, meta) {
-                            return '<a href="viewUpdateConvenio/id/'+data.id +'" class="editar" title="Editar">'
+                            return '<a href="viewUpdateAgencia/id/'+data.id +'" class="editar" title="Editar">'
                         }
                     },
                 ],
