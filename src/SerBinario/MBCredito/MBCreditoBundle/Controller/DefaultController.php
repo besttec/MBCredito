@@ -376,7 +376,9 @@ class DefaultController extends Controller
 
                     $eventosArray[$count]['numBeneficio']   =  $resultCliente[$i]->getNumBeneficioComp();                
                     $eventosArray[$count]['Sexo']           =  $resultCliente[$i]->getSexosSexo()->getNomeExtensoSexo();
-                    $eventosArray[$count]['dtNascimento']   =  $resultCliente[$i]->getDataNascCliente()->format('d/m/Y'); 
+                    $eventosArray[$count]['dtNascimento']   =  $resultCliente[$i]->getDataNascCliente()->format('d/m/Y');
+                    $eventosArray[$count]['estado']         =  $resultCliente[$i]->getAgAg()->getUf()->getUf(); 
+                    $eventosArray[$count]['agencia']        =  $resultCliente[$i]->getAgAg()->getPrefixoAg(); 
                     
                     
                     $count++;
