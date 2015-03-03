@@ -294,9 +294,9 @@ class DefaultController extends Controller
             $whereValueMain       = "";
             
             if($this->get("session")->get('estado') && !($this->get("session")->get('agencia'))) {
-                $whereFull        = "a.agAg = b.idAg AND b.uf = c.id AND c.id = {$this->get("session")->get('estado')}";
+                $whereFull        = "c.id = {$this->get("session")->get('estado')}";
             } else if ($this->get("session")->get('agencia')) {
-                $whereFull        = "a.agAg = b.idAg AND b.idAg = {$this->get("session")->get('agencia')}";
+                $whereFull        = " b.idAg  {$this->get("session")->get('agencia')}";
             } else {
                 $whereFull        = "";
             }           
