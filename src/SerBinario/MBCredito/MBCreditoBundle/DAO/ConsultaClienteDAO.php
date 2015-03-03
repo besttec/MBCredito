@@ -113,7 +113,28 @@ class ConsultaClienteDAO
                     . "JOIN c.consultaCliente d "
                     . "JOIN c.statusStatus s "
                     . "WHERE c.consultaCliente = d.id and d.id = ?1 and c.statusStatus = s.idStatus "
-                    . "and (s.idStatus = 2 or s.idStatus = 1) ")
+                    . "and (s.idStatus = 2 or s.idStatus = 1) and (c.statusPendencia = 0 or c.statusPendencia = 1) ")
+                    ->setParameter(1, $id);
+            
+            return $query->getResult();
+        } catch (Exception $ex) {
+
+        }
+    }
+    
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
+    public function ConsultaClienteChamadasGrid($id)
+    {
+        try {
+            $query = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente c "
+                    . "JOIN c.consultaCliente d "
+                    . "JOIN c.statusStatus s "
+                    . "WHERE c.consultaCliente = d.id and d.id = ?1 and c.statusStatus = s.idStatus "
+                    . "and (s.idStatus = 2 or s.idStatus = 1 or c.statusStatus = null) ")
                     ->setParameter(1, $id);
             
             return $query->getResult();

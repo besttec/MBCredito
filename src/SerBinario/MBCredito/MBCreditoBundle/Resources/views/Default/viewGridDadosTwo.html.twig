@@ -308,7 +308,7 @@
 
             var dt = $('#example').DataTable({  
                 "rowCallback": function( row, data ) {
-                    if(data.bloqueioSalve === "1") {
+                    if(data.bloqueioSalve == 1) {
 			for ($i = 1; $i < 8; $i++) {
  				$("td", row).eq($i).addClass("consultado-bloq");
 			}
@@ -327,7 +327,7 @@
                 "serverSide": true,
                 "bFilter": true, //Ativa o Search global
                 "ajax": {
-                    "url": "gridDados",
+                    "url": "dadosGridTwo",
                     "type": "POST"
                 },                
                 "columns": [
@@ -378,7 +378,6 @@
                     }
                 },
                 "createdRow": function ( row, data, index ) {
-                    console.log(data.DisponibilidadeLiga\u00e7\u00e3o);
                     if ( data.bloqueioSalve === "1" ) {
                         //$('td', row).eq(7).addClass('excluir');
                         var a = $('td', row).eq(8).find("a");       
@@ -630,4 +629,3 @@
 
     </script>
 {% endblock %}
-

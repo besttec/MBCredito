@@ -222,7 +222,9 @@ class DefaultController extends Controller
      * @Template()
      */
     public function viewInserirDadosAction()
-    {      
+    {   
+        
+        
         return array();
     }
     
@@ -288,8 +290,8 @@ class DefaultController extends Controller
                     $eventosArray[$count]['nome']           =  $resultCliente[$i]->getNomeCliente();
                     $eventosArray[$count]['mci']            =  is_null($resultCliente[$i]->getConvenio()) ? null : $resultCliente[$i]->getConvenio()->getMciEmpCliente();
 
-                    $cpf                                = $resultCliente[$i]->getCpfCliente();
-                    $cpfLen                             = strlen($cpf);
+                    $cpf                                    = $resultCliente[$i]->getCpfCliente();
+                    $cpfLen                                 = strlen($cpf);
 
                     if($cpfLen < 11) {
                         $cpf = str_repeat("0", 11 - $cpfLen) .  $cpf;
@@ -304,8 +306,8 @@ class DefaultController extends Controller
                     $eventosArray[$count]['dddFoneCel']     =  $resultCliente[$i]->getDddFoneCelCliente();
                     $eventosArray[$count]['FoneCel']        =  $resultCliente[$i]->getFoneCelCliente();
 
-                    $numBeneficio                       =  $resultCliente[$i]->getNumBeneficioCliente();
-                    $dvCliente                          =  $resultCliente[$i]->getDvCliente();
+                    $numBeneficio                           =  $resultCliente[$i]->getNumBeneficioCliente();
+                    $dvCliente                              =  $resultCliente[$i]->getDvCliente();
 
                     $eventosArray[$count]['numBeneficio']   =  $resultCliente[$i]->getNumBeneficioComp();                
                     $eventosArray[$count]['Sexo']           =  $resultCliente[$i]->getSexosSexo()->getNomeExtensoSexo();
@@ -370,19 +372,17 @@ class DefaultController extends Controller
                 "a.valorDisponivelCliente",
                 "a.tipoCreditoCliente",
                 "a.tipoCreditoConsignado",
-                "a.statusGerarArquiRetorno",
-                "b.dataNascCliente",
-                "b.codCliente",
-                "b.agAg"        
+                "a.statusGerarArquiRetorno",       
                 );
 
-            $entityJOIN = array("clientesCliente",); 
+            $entityJOIN = array(); 
 
             $eventosArray        = array();
             $parametros          = $request->request->all();        
             $entity              = "SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente"; 
             $columnWhereMain     = "";
             $whereValueMain      = "";
+            
             
             $gridClass = new GridClass($this->getDoctrine()->getManager(), 
                     $parametros,
@@ -446,13 +446,13 @@ class DefaultController extends Controller
                 if($tipoCredito == "3") {
                     $antecipacoes = $resultCliente[$i]->getAntecipacoes13();
                     if($antecipacoes && count($antecipacoes) >= "2") {
-                        $eventosArray[$i]['DecTerUmValorD'] =  $antecipacoes[0]->getValorDisponivel();
-                        $eventosArray[$i]['DecTerUmValorP'] =  $antecipacoes[0]->getValorPrestacao();
-                        $eventosArray[$i]['DecTerUmDataV']  =  $antecipacoes[0]->getDataVencimento()->format('d/m/Y');
+                        $eventosArray[$i]['DecTerUmValorD']     =  $antecipacoes[0]->getValorDisponivel();
+                        $eventosArray[$i]['DecTerUmValorP']     =  $antecipacoes[0]->getValorPrestacao();
+                        $eventosArray[$i]['DecTerUmDataV']      =  $antecipacoes[0]->getDataVencimento()->format('d/m/Y');
                         
-                        $eventosArray[$i]['DecTerDoisValorD'] =  $antecipacoes[1]->getValorDisponivel();
-                        $eventosArray[$i]['DecTerDoisValorP'] =  $antecipacoes[1]->getValorPrestacao();
-                        $eventosArray[$i]['DecTerDoisDataV']  =  $antecipacoes[1]->getDataVencimento()->format('d/m/Y');
+                        $eventosArray[$i]['DecTerDoisValorD']   =  $antecipacoes[1]->getValorDisponivel();
+                        $eventosArray[$i]['DecTerDoisValorP']   =  $antecipacoes[1]->getValorPrestacao();
+                        $eventosArray[$i]['DecTerDoisDataV']    =  $antecipacoes[1]->getDataVencimento()->format('d/m/Y');
                     }
                 }
                 
@@ -494,27 +494,236 @@ class DefaultController extends Controller
                 
                 foreach ($resultCliente[$i]->getEmprestimos() as $index => $emprestimo) {
                     
-                   $emprestimos[$index]['nome']  =  $emprestimo->getEmprestimo();
-                   $emprestimos[$index]['valor']    =  $emprestimo->getValor();
-                   $emprestimos[$index]['id']    =  $emprestimo->getIdEmprestimo();
-                   $emprestimos[$index]['status']    =  $emprestimo->getStatusBBEmprestimo();
+                   $emprestimos[$index]['nome']         =  $emprestimo->getEmprestimo();
+                   $emprestimos[$index]['valor']        =  $emprestimo->getValor();
+                   $emprestimos[$index]['id']           =  $emprestimo->getIdEmprestimo();
+                   $emprestimos[$index]['status']       =  $emprestimo->getStatusBBEmprestimo();
                    
                 }
                 
-                $eventosArray[$i]['emprestimos']    =  $emprestimos;
-                $eventosArray[$i]['numBeneficio']   =  $numBeneficio;                
-                $eventosArray[$i]['Sexo']           =  $resultCliente[$i]->getClientesCliente()->getSexosSexo()->getNomeExtensoSexo();
-                $eventosArray[$i]['dtNascimento']   =  $resultCliente[$i]->getClientesCliente()->getDataNascCliente()->format('d/m/Y');
-                $eventosArray[$i]['obsErro']        =  $resultCliente[$i]->getObsErro();
-                $eventosArray[$i]['statusErro']     =  $resultCliente[$i]->getStatusErro();
-                $eventosArray[$i]['ag']             =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getCcAg();
-                $eventosArray[$i]['prefixo_ag']     =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
-                $eventosArray[$i]['statusLigacao']     =  $resultCliente[$i]->getStatusLigacao();
+                $eventosArray[$i]['emprestimos']        =  $emprestimos;
+                $eventosArray[$i]['numBeneficio']       =  $numBeneficio;                
+                $eventosArray[$i]['Sexo']               =  $resultCliente[$i]->getClientesCliente()->getSexosSexo()->getNomeExtensoSexo();
+                $eventosArray[$i]['dtNascimento']       =  $resultCliente[$i]->getClientesCliente()->getDataNascCliente()->format('d/m/Y');
+                $eventosArray[$i]['obsErro']            =  $resultCliente[$i]->getObsErro();
+                $eventosArray[$i]['statusErro']         =  $resultCliente[$i]->getStatusErro();
+                $eventosArray[$i]['ag']                 =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getCcAg();
+                $eventosArray[$i]['prefixo_ag']         =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
+                $eventosArray[$i]['statusLigacao']      =  $resultCliente[$i]->getStatusLigacao();
             }
             
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()) {
                 $countEventos = $countTotal;
+            }
+
+            $columns = array(               
+                'draw'              => $parametros['draw'],
+                'recordsTotal'      => "{$countTotal}",
+                'recordsFiltered'   => "{$countEventos}",
+                'data'              => $eventosArray               
+            );
+
+            return new JsonResponse($columns);
+        }else{            
+            return array();            
+        }
+            
+    }
+    
+     /**
+     * @Route("/viewGridDadosTwo", name="viewGridDadosTwo")
+     * @Template()
+     */
+    public function viewGridDadosTwoAction()
+    {      
+        return array();
+    }
+    
+    /**
+     * @Route("/dadosGridTwo")
+     * @Method({"POST"})
+     * @Template("MBCreditoBundle:Default:viewGridDadosTwo.html.twig")
+     */
+    public function dadosGridTwoAction(Request $request)
+    {
+        
+        if(GridClass::isAjax()) {
+            
+            $columns = array("a.id",
+                "a.valorBruto",
+                "a.valorDescontos",
+                "a.valorLiquido",
+                "a.qtdEmprestimos",
+                "a.nomeSegurado",
+                "a.competencia",
+                "a.pagtoAtravez",
+                "a.periodoIni",
+                "a.periodoFin",
+                "a.especie",
+                "a.banco",
+                "a.agencia",
+                "a.codigoAgencia",
+                "a.enderecoBanco",
+                "a.margemCliente",
+                "a.valorDisponivelCliente",
+                "a.tipoCreditoCliente",
+                "a.tipoCreditoConsignado",
+                "a.statusGerarArquiRetorno",
+                );
+
+            $entityJOIN = array(); 
+
+            $eventosArray        = array();
+            $parametros          = $request->request->all();
+            $count                = 0;
+            $countNot             = 0;
+            $entity              = "SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente"; 
+            $columnWhereMain     = "";
+            $whereValueMain      = "";
+            
+            $gridClass = new GridClass($this->getDoctrine()->getManager(), 
+                    $parametros,
+                    $columns,
+                    $entity,
+                    $entityJOIN,           
+                    $columnWhereMain,
+                    $whereValueMain);
+
+            $resultCliente  = $gridClass->builderQuery();    
+            $countTotal     = $gridClass->getCount();
+            $countEventos   = count($resultCliente);
+            
+            $consultaDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
+            
+            for($i=0;$i < $countEventos; $i++)
+            {
+                $consultaChamada = $consultaDAO->ConsultaClienteChamadasGrid($resultCliente[$i]->getId());
+                
+                if(!$consultaChamada) {
+                                   
+                    $eventosArray[$count]['DT_RowId']       =  "row_".$resultCliente[$i]->getId();
+                    $eventosArray[$count]['nome']           =  $resultCliente[$i]->getNomeSegurado();
+                    $eventosArray[$count]['id']             =  $resultCliente[$i]->getNomeSegurado();
+                    $eventosArray[$count]['valorBruto']     =  $resultCliente[$i]->getValorBruto();
+
+                    $cpf                                    = $resultCliente[$i]->getClientesCliente()->getCpfCliente();
+                    $cpfLen                                 = strlen($cpf);
+
+                    if($cpfLen < 11) {
+                        $cpf = str_repeat("0", 11 - $cpfLen) .  $cpf;
+                    }             
+
+                    $eventosArray[$count]['cpf']                    =  $cpf;
+                    $eventosArray[$count]['valorDescontos']         =  $resultCliente[$i]->getValorDescontos();
+                    $eventosArray[$count]['valorLiquido']           =  $resultCliente[$i]->getValorLiquido();
+                    $eventosArray[$count]['qtdEmprestimos']         =  $resultCliente[$i]->getQtdEmprestimos();
+                    $eventosArray[$count]['competencia']            =  $resultCliente[$i]->getCompetencia();
+                    $eventosArray[$count]['pagtoAtravez']           =  $resultCliente[$i]->getPagtoAtravez();
+                    $eventosArray[$count]['dataConsulta']           =  $resultCliente[$i]->getDataConsulta()->format("d/m/Y");
+
+                    if($resultCliente[$i]->getPeriodoIni()){
+                        $eventosArray[$count]['periodoIni']         =  $resultCliente[$i]->getPeriodoIni()->format('d/m/Y');
+                    }else {
+                        $eventosArray[$count]['periodoIni']         =  "";
+                    }
+
+                    if($resultCliente[$i]->getPeriodoFin()){
+                        $eventosArray[$count]['periodoFin']         =  $resultCliente[$i]->getPeriodoFin()->format('d/m/Y');
+                    } else {
+                        $eventosArray[$count]['periodoFin']         = "";
+                    }
+
+                    $eventosArray[$count]['especie']                =  $resultCliente[$i]->getEspecie();
+                    $eventosArray[$count]['banco']                  =  $resultCliente[$i]->getBanco();
+                    $eventosArray[$count]['agencia']                =  $resultCliente[$i]->getAgencia();
+                    $eventosArray[$count]['codigoAgencia']          =  $resultCliente[$i]->getCodigoAgencia();
+                    $eventosArray[$count]['enderecoBanco']          =  $resultCliente[$i]->getEnderecoBanco();
+                    $eventosArray[$count]['obsCliente']             =  $resultCliente[$i]->getObsCliente();
+                    $eventosArray[$count]['margem']                 =  $resultCliente[$i]->getMargemCliente();
+                    $eventosArray[$count]['vDisponivel']            =  $resultCliente[$i]->getValorDisponivelCliente();
+                    $eventosArray[$count]['tipoCredito']            =  $resultCliente[$i]->getTipoCreditoCliente();
+
+                    $tipoCredito = $resultCliente[$i]->getTipoCreditoCliente();
+                    if($tipoCredito == "3") {
+                        $antecipacoes = $resultCliente[$i]->getAntecipacoes13();
+                        if($antecipacoes && count($antecipacoes) >= "2") {
+                            $eventosArray[$count]['DecTerUmValorD']     =  $antecipacoes[0]->getValorDisponivel();
+                            $eventosArray[$count]['DecTerUmValorP']     =  $antecipacoes[0]->getValorPrestacao();
+                            $eventosArray[$count]['DecTerUmDataV']      =  $antecipacoes[0]->getDataVencimento()->format('d/m/Y');
+
+                            $eventosArray[$count]['DecTerDoisValorD']   =  $antecipacoes[1]->getValorDisponivel();
+                            $eventosArray[$count]['DecTerDoisValorP']   =  $antecipacoes[1]->getValorPrestacao();
+                            $eventosArray[$count]['DecTerDoisDataV']    =  $antecipacoes[1]->getDataVencimento()->format('d/m/Y');
+                        }
+                    }
+
+                    $eventosArray[$count]['bloqueioSalve'] = "0";
+
+                    $chamadas = $consultaDAO->ConsultaClienteChamadas($resultCliente[$i]->getId());
+
+                    if($chamadas && count($chamadas) > 0) {
+                       $eventosArray[$count]['bloqueioSalve'] = "1";
+                    }
+                    //var_dump(count($chamadas));exit();
+
+                    $eventosArray[$count]['CreditoConsignado']      =  $resultCliente[$i]->getTipoCreditoConsignado();
+                    $eventosArray[$count]['GerarArquiRetorno']      =  $resultCliente[$i]->getStatusGerarArquiRetorno();
+
+                    $numBeneficio                                   = $resultCliente[$i]->getClientesCliente()->getNumBeneficioCliente();
+                    $dvCliente                                      = $resultCliente[$i]->getClientesCliente()->getDvCliente();
+                    $numBeneficio                                   = $numBeneficio . $dvCliente;
+                    $qtdNumBeneficio                                = strlen($numBeneficio);
+
+                    $countChamadas = count($resultCliente[$i]->getChamadasCliente());
+
+                    if($countChamadas > 0 && $resultCliente[$i]->getStatusLigacao() == false) {
+                        $eventosArray[$count]['bloqueioAtivacao']       = "1";
+                        $eventosArray[$count]['DisponibilidadeLigação'] = "NÂO";
+                    } else if($resultCliente[$i]->getStatusLigacao() == true) {
+                        $eventosArray[$count]['bloqueioAtivacao']       = "2";
+                        $eventosArray[$count]['DisponibilidadeLigação'] = "SIM";
+                    } else if ($resultCliente[$i]->getStatusLigacao() == false) {
+                        $eventosArray[$count]['bloqueioAtivacao']       = "0";
+                        $eventosArray[$count]['DisponibilidadeLigação'] = "NÃO";
+                    }
+
+                    if($qtdNumBeneficio < 10) {
+                        $numBeneficio = str_repeat("0", 10 - $qtdNumBeneficio) .  $numBeneficio;
+                    }
+
+                    $emprestimos = array();
+
+                    foreach ($resultCliente[$i]->getEmprestimos() as $index => $emprestimo) {
+
+                       $emprestimos[$index]['nome']     =  $emprestimo->getEmprestimo();
+                       $emprestimos[$index]['valor']    =  $emprestimo->getValor();
+                       $emprestimos[$index]['id']       =  $emprestimo->getIdEmprestimo();
+                       $emprestimos[$index]['status']   =  $emprestimo->getStatusBBEmprestimo();
+
+                    }
+
+                    $eventosArray[$count]['emprestimos']        =  $emprestimos;
+                    $eventosArray[$count]['numBeneficio']       =  $numBeneficio;                
+                    $eventosArray[$count]['Sexo']               =  $resultCliente[$i]->getClientesCliente()->getSexosSexo()->getNomeExtensoSexo();
+                    $eventosArray[$count]['dtNascimento']       =  $resultCliente[$i]->getClientesCliente()->getDataNascCliente()->format('d/m/Y');
+                    $eventosArray[$count]['obsErro']            =  $resultCliente[$i]->getObsErro();
+                    $eventosArray[$count]['statusErro']         =  $resultCliente[$i]->getStatusErro();
+                    $eventosArray[$count]['ag']                 =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getCcAg();
+                    $eventosArray[$count]['prefixo_ag']         =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
+                    $eventosArray[$count]['statusLigacao']      =  $resultCliente[$i]->getStatusLigacao();
+
+                    $count++;
+                } else {
+                    $countNot++;
+                }
+            }
+            
+            //Se a variável $sqlFilter estiver vazio
+            if(!$gridClass->isFilter()){
+                $countEventos = $countTotal - $countNot;
+            } else {
+                $countEventos -= $countNot;
             }
 
             $columns = array(               
@@ -621,10 +830,14 @@ class DefaultController extends Controller
         
         if(isset($dados['nomeEmprestimo'])) {
             $nomeEmp        = $dados['nomeEmprestimo'];
+        } else {
+            $nomeEmp = "";
         }
         
         if(isset($dados['valorEmprestimo'])) {
             $valoresEmp     = $dados['valorEmprestimo'];
+        } else {
+            $valoresEmp = "";
         }      
         $statusErro     = $dados['erro'];
         $obsErro        = $dados['msgerro'];
@@ -681,16 +894,16 @@ class DefaultController extends Controller
             $consultaCliente->setValorLiquido($vLiquido);
             $consultaCliente->setQtdEmprestimos($qtdEmprestimo);
            
-            //$emprestimos = array_combine(array_values($nomeEmp), array_values($valoresEmp));
-            
-            for ($i = 0; $i < count($nomeEmp); $i++) {
-                $emprestimo     = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos();
-                $emprestimo->setEmprestimo($nomeEmp[$i]);
-                
-                $valoresEmp[$i] = str_replace($source, $replace, $valoresEmp[$i]);
-                $emprestimo->setValor($valoresEmp[$i]);
-                
-                $consultaCliente->addEmprestimo($emprestimo);
+            if($nomeEmp) {
+                for ($i = 0; $i < count($nomeEmp); $i++) {
+                    $emprestimo     = new \SerBinario\MBCredito\MBCreditoBundle\Entity\Emprestimos();
+                    $emprestimo->setEmprestimo($nomeEmp[$i]);
+
+                    $valoresEmp[$i] = str_replace($source, $replace, $valoresEmp[$i]);
+                    $emprestimo->setValor($valoresEmp[$i]);
+
+                    $consultaCliente->addEmprestimo($emprestimo);
+                }
             }
             
             $consultaCliente->setClientesCliente($cliente[0]);            
@@ -1488,4 +1701,30 @@ class DefaultController extends Controller
         }
     }
  
+    /**
+     * @Route("/consultaAgencia", name="consultaAgencia")
+     * @Method({"POST"})
+     */
+    public function consultaAgenciaAction(Request $request)
+    {
+        $dado    = $request->request->all();
+        $msg = "";
+        
+        $subcategoDAO = new SubcategoriasDAO($this->getDoctrine()->getManager());
+        $subcategorias = $subcategoDAO->subcategoriaFindByCatego($dado['idCategoria']);
+        
+        if($subcategorias){
+            $msg = "sucesso";
+        } else {
+            $msg = "erro";
+        }
+        
+        $dados = array (
+            "msg" => $msg,
+            "dados" => $subcategorias
+        );
+        
+        return new JsonResponse($dados);
+    }
+    
  }
