@@ -56,7 +56,8 @@
                         <select class="form-control" name="estado" id="estado">
                             <option value="">Selecione</option>
                             {% for estado in estados %}
-                                <option value="{{estado.id}}">{{estado.uf}}</option>
+                                <option value="{{estado.id}}" {% if app.session.get('estadoFilter') is defined and app.session.get('estadoFilter') == estado.id %}selected=""{% endif %}>
+                                    {{estado.uf}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -530,8 +531,8 @@
             if (estado !== "") {
                 var dados = {
                     idEstado: estado
-                }
-
+                } 
+                    
                 jQuery.ajax({
                     type: 'POST',
                     url: "consultaAgencia",
@@ -543,19 +544,34 @@
                     if (json['msg'] === "sucesso") {
                         option += '<option value="">Selecione</option>';
                         for (var i = 0; i < json['dados'].length; i++) {
-                            option += '<option value="' + json['dados'][i]['idAg'] + '">' + json['dados'][i]['ccAg'] + '</option>';
+                            option += '<option value="' + json['dados'][i]['idAg'] + '">' + json['dados'][i]['prefixoAg'] + '</option>';
                         }
 
                         $('#agencia option').remove();
                         $("#agencia").append(option);
                     } else {
-                        alert("Não há agencia para o estado selecionada");
+                        alert("Não há agencia para o estado selecionada");                     
                         //$('#cola_subcategoria option').remove();
                     }
 
                 });
+            } else {
+                $('#agencia option').remove();
             }
         });
-            
+        $(document).ready(function (){
+            var option = '';
+            option += '<option value="">Selecione</option>';
+            {% if app.session.get('listAgencias') is defined %}
+                    {% for agencia in app.session.get('listAgencias') %}
+                        option += '<option value="' + {{agencia.idAg}} + '">' + {{agencia.ccAg}} + '</option>';
+                        {% if app.session.get('agenciaFilter') is defined and app.session.get('agenciaFilter') == agencia.idAg %}
+                            option += '<option selected="" value="' + {{agencia.idAg}} + '">' + {{agencia.prefixoAg}} + '</option>';
+                        {% endif %}
+                    {% endfor %}
+            {% endif %}
+            $('#agencia option').remove();
+            $("#agencia").append(option);
+        });
     </script>
 {% endblock %}

@@ -242,12 +242,19 @@ class DefaultController extends Controller
         
         if(isset($req['estado'])){
             $this->get("session")->set("estado", $req['estado']);
+            $this->get("session")->set("estadoFilter", $req['estado']);
+            
+            $agenciasDAO = new AgenciaDAO($this->getDoctrine()->getManager());
+            $agencias = $agenciasDAO->agenciaFindByUF($req['estado']);
+            $this->get("session")->set("listAgencias", $agencias);
         } 
         
         if(isset($req['agencia'])) {
             $this->get("session")->set("agencia", $req['agencia']);
+            $this->get("session")->set("agenciaFilter", $req['agencia']);
         }       
-
+              
+        
         return $this->redirect($this->generateUrl("inserirDados"));
     }
     
