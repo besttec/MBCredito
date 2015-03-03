@@ -276,9 +276,9 @@ class DefaultController extends Controller
             
             
             if($this->get("session")->get('estado') && !($this->get("session")->get('agencia'))) {
-                $entityJOIN  = array("a.agAg", "b.uf");
+                $entityJOIN  = array("agAg", "b.uf");
             } else if ($this->get("session")->get('agencia')) {
-                $entityJOIN  = array("a.agAg");
+                $entityJOIN  = array("agAg");
             } else {
                 $entityJOIN  = array();
             }
@@ -310,8 +310,16 @@ class DefaultController extends Controller
                     $whereValueMain,
                     $whereFull);
 
-            $resultCliente  = $gridClass->builderQuery();    
-            $countTotal     = $gridClass->getCount();
+            $resultCliente  = $gridClass->builderQuery();
+            
+            if($this->get("session")->get('estado') && !($this->get("session")->get('agencia'))) {
+                $countTotal     = $gridClass->getCountByWhereFull(array("b" => "agAg", "c" => "b.uf"), $whereFull);
+            } else if ($this->get("session")->get('agencia')) {
+                $countTotal     = $gridClass->getCountByWhereFull(array("b" => "agAg"), $whereFull);
+            } else {
+                $countTotal     = $gridClass->getCount();
+            }
+                       
             $countEventos   = count($resultCliente);
                     
             for($i=0;$i < $countEventos; $i++)

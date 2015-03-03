@@ -282,6 +282,34 @@ class GridClass
     
     /**
      * 
+     * @param type $entityJOIN
+     * @param type $whereFull
+     * @return int
+     */
+     public function getCountByWhereFull($entityJOIN = array(), 
+        $whereFull)
+    {
+        try {
+            $qb = $this->em->createQueryBuilder();
+            $qb->select("count(a)");
+            $qb->from("{$this->entity}", "a");
+            
+            foreach($entityJOIN as $entity => $chave) {
+                $qb->join("{$entity}", "{$chave}");
+            }
+            
+            $qb->where("{$whereFull}");
+                        
+            $result = $qb->getQuery()->getSingleScalarResult();
+            
+            return $result;
+        } catch (Exception $ex) {
+            return 0;
+        }
+    }
+    
+    /**
+     * 
      * @return int
      */
     public function getCount()
