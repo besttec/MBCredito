@@ -304,7 +304,7 @@ class GridClass
             }
             
             $qb->where("{$whereFull}");
-                        
+           // var_dump($qb->getQuery());exit();
             $result = $qb->getQuery()->getSingleScalarResult();
             
             return $result;

@@ -3,11 +3,11 @@
 {% block stylesheets %}
     {{ parent() }}
     <style type="text/css" class="init">
-        
+
         .consultado {
-             background-color: #FF0000; color: #FFFFFF; font-weight: bold;
+            background-color: #FF0000; color: #FFFFFF; font-weight: bold;
         }
-        
+
         td.details-control {
             background: url({{asset("imagens/icone-produto-plus.png")}}) no-repeat center center;
             cursor: pointer;
@@ -48,9 +48,36 @@
 {% block body %}
     {{parent()}}
     <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <form role="form" class="form-inline" method="POST" action="{{ path('filterGridDataPrev') }}">
+                    <div class="form-group col-md-3">
+                        <label for="nome">Estado</label>
+                        <select class="form-control" name="estado" id="estado">
+                            <option value="">Selecione</option>
+                            {% for estado in estados %}
+                                <option value="{{estado.id}}" {% if app.session.get('estadoFilter') is defined and app.session.get('estadoFilter') == estado.id %}selected=""{% endif %}>
+                                    {{estado.uf}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="nome">Agência</label>
+                        <select class="form-control" name="agencia" id="agencia">
+
+                        </select>
+                    </div>
+                    <br />
+                    <div class="form-group col-lg-4" style="margin-top: 5px;">
+                        <button type="submit" id="salvar" class="btn btn-primary">Consultar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br /> 
         <div class="row clearfix">
             <fieldset>
-                <legend>Inserir Dados</legend>
+                <legend>Consultar Dados</legend>
                 <div class="col-md-6 column">
                     <section>
                         <table id="example" class="display" cellspacing="0" width="100%">
@@ -209,7 +236,9 @@
     <script type="text/javascript" language="javascript" class="init">
         function format(d) {
             return 'MCI: ' + d.mci + '<br>' +
-                    'Sexo: ' + d.Sexo + ' <br>';
+                    'Sexo: ' + d.Sexo + ' <br>' +
+                    'Agência: ' + d.agencia + '<br>' +
+                    'Estado: ' + d.estado + '<br>';
         }
 
         $(document).ready(function ()
@@ -218,10 +247,10 @@
             //$('#salvar').attr("disabled", true);
 
             var dt = $('#example').DataTable({
-                "createdRow": function ( row, data, index ) {                          
-                    if(data.qtdConsultas > 0) {                        
+                "createdRow": function (row, data, index) {
+                    if (data.qtdConsultas > 0) {
                         $("td", row).eq(1).addClass("consultado");
-                    }                 
+                    }
                 },
                 "processing": true,
                 "serverSide": true,
@@ -399,11 +428,11 @@
                 success: function (data) {
                     $("#load").hide();
 
-                    var resposta    = $(data['result']).find("ul li.erro");
+                    var resposta = $(data['result']).find("ul li.erro");
 
-                    var resposta2   = $(data['result']).closest("h3");
-                    
-                    var resposta3   = $(data['result']).closest("h1");
+                    var resposta2 = $(data['result']).closest("h3");
+
+                    var resposta3 = $(data['result']).closest("h1");
 
                     if (resposta.text()) {
 
@@ -413,7 +442,7 @@
                         $('#codBenefi').val(numBen);
                         $('#nomeSegurado').val(nome);
                     } else if (resposta2.text()) {
-                        
+
                         alert(resposta2.text());
                         $('#salvar').attr("disabled", false);
                         $('#erro').val("1");
@@ -423,7 +452,7 @@
 
                         $('#codBenefi').val(numBen);
                         $('#nomeSegurado').val(nome);
-                        
+
                     } else if (resposta3.text() === 'Service Temporarily Unavailable') {
                         alert("O serviço de consulta do DATAPREV está temporariamente indisponível");
                         $('#salvar').attr("disabled", true);
@@ -465,8 +494,8 @@
                                 for (var i = 0; i < countTR; i++) {
 
                                     //pega os valores e nome de cada emprestimo
-                                    var nome    = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(0)").text();
-                                    var valor   = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(1)").text();
+                                    var nome = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(0)").text();
+                                    var valor = $("table.rubricas-negativas tbody tr:eq(" + i + ") td:eq(1)").text();
 
                                     if (nome && valor) {
                                         debitos += "<li class='list-group-item'>" + nome + "\
@@ -482,10 +511,10 @@
 
                             //Lista os débitos
                             $('#listaDebitos').html(debitos);
-                            
-                            var valorBruto      = $('tr.grande:last td:eq(0)').text();
-                            var valorDesconto   = $('tr.grande:last td:eq(1)').text();
-                            var valorLiquido    = $('tr.grande:last td:eq(2)').text();
+
+                            var valorBruto = $('tr.grande:last td:eq(0)').text();
+                            var valorDesconto = $('tr.grande:last td:eq(1)').text();
+                            var valorLiquido = $('tr.grande:last td:eq(2)').text();
 
                             $('#vBruto').val(valorBruto);
                             $('#vDesconto').val(valorDesconto);
@@ -498,5 +527,54 @@
                     }
                 });
             });
+            
+            $(document).on('change', "#estado", function () {
+            var estado = $("#estado").val();
+
+            if (estado !== "") {
+                var dados = {
+                    idEstado: estado
+                } 
+                    
+                jQuery.ajax({
+                    type: 'POST',
+                    url: "consultaAgencia",
+                    data: dados,
+                    datatype: 'json'
+                }).done(function (json) {
+                    var option = '';
+                    console.log(json);
+                    if (json['msg'] === "sucesso") {
+                        option += '<option value="">Selecione</option>';
+                        for (var i = 0; i < json['dados'].length; i++) {
+                            option += '<option value="' + json['dados'][i]['idAg'] + '">' + json['dados'][i]['prefixoAg'] + '</option>';
+                        }
+
+                        $('#agencia option').remove();
+                        $("#agencia").append(option);
+                    } else {
+                        alert("Não há agencia para o estado selecionada");                     
+                        //$('#cola_subcategoria option').remove();
+                    }
+
+                });
+            } else {
+                $('#agencia option').remove();
+            }
+        });
+        $(document).ready(function (){
+            var option = '';
+            option += '<option value="">Selecione</option>';
+            {% if app.session.get('listAgencias') is defined %}
+                    {% for agencia in app.session.get('listAgencias') %}
+                        option += '<option value="' + {{agencia.idAg}} + '">' + {{agencia.ccAg}} + '</option>';
+                        {% if app.session.get('agenciaFilter') is defined and app.session.get('agenciaFilter') == agencia.idAg %}
+                            option += '<option selected="" value="' + {{agencia.idAg}} + '">' + {{agencia.prefixoAg}} + '</option>';
+                        {% endif %}
+                    {% endfor %}
+            {% endif %}
+            $('#agencia option').remove();
+            $("#agencia").append(option);
+        });
     </script>
 {% endblock %}

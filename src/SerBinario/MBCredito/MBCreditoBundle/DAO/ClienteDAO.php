@@ -246,5 +246,48 @@ class ClienteDAO
             return false;
         }
     }
+    
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
+    public function findClienteEstados($id)
+    {
+        try {
+            
+            $query  = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes c "
+                . " JOIN c.agAg a "
+                . " JOIN a.uf u "
+                . " WHERE c.agAg = a.idAg AND a.uf = u.id AND u.id = ?1")
+                        ->setParameter(1, $id);  
+            return $query->getResult();
+            
+        } catch (Exception $ex) {
+            return false;
+        }
+               
+    }
+    
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
+    public function findClienteAgencia($id)
+    {
+        try {
+            
+            $query  = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes c "
+                . " JOIN c.agAg a "
+                . " WHERE c.agAg = a.idAg AND a.idAg = ?1")
+                        ->setParameter(1, $id);  
+            return $query->getResult();
+            
+        } catch (Exception $ex) {
+            return false;
+        }
+               
+    }
 }
 

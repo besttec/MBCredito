@@ -3,10 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="3"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Controller/DefaultController.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/DAO/ConsultaClienteDAO.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Resources/views/Default/viewGridDados.html.twig</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Resources/views/Default/viewInserirDados.html.twig</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Entity/ChamadaCliente.php</file>
+=======
             <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Entity/Clientes.php</file>
             <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Controller/DefaultController.php</file>
             <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/RN/DiscagemRN.php</file>
             <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/RN/ChainOfResponsibility/HandleNormal.php</file>
+>>>>>>> 86d364fe8b53388da155cfdfbcc7f3b4d80e1276
         </group>
     </open-files>
 </project-private>
