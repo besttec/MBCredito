@@ -296,7 +296,7 @@ class DefaultController extends Controller
             if($this->get("session")->get('estado') && !($this->get("session")->get('agencia'))) {
                 $whereFull        = "c.id = {$this->get("session")->get('estado')}";
             } else if ($this->get("session")->get('agencia')) {
-                $whereFull        = " b.idAg  {$this->get("session")->get('agencia')}";
+                $whereFull        = "b.idAg = {$this->get("session")->get('agencia')}";
             } else {
                 $whereFull        = "";
             }           
@@ -313,12 +313,20 @@ class DefaultController extends Controller
             $resultCliente  = $gridClass->builderQuery();
             
             if($this->get("session")->get('estado') && !($this->get("session")->get('agencia'))) {
-                $countTotal     = $gridClass->getCountByWhereFull(array("b" => "agAg", "c" => "b.uf"), $whereFull);
+                $countTotal     = $gridClass->getCountByWhereFull(array("b" => "agAg"), array("c" => "b.uf"), $whereFull);
             } else if ($this->get("session")->get('agencia')) {
-                $countTotal     = $gridClass->getCountByWhereFull(array("b" => "agAg"), $whereFull);
+                $countTotal     = $gridClass->getCountByWhereFull(array("b" => "agAg"), array(), $whereFull);
             } else {
                 $countTotal     = $gridClass->getCount();
             }
+            
+            $estado  = $this->get("session")->get('estado');
+            $agencia = $this->get("session")->get('agencia');
+            
+            $filterDataPrev = array (
+                "estado" => $estado,
+                "agencia" => $agencia
+            );
             
             $this->get("session")->remove('estado');
             $this->get("session")->remove('agencia');
@@ -383,7 +391,8 @@ class DefaultController extends Controller
                 'draw'              => $parametros['draw'],
                 'recordsTotal'      => "{$countTotal}",
                 'recordsFiltered'   => "{$countEventos}",
-                'data'              => $eventosArray               
+                'data'              => $eventosArray,
+                'filterDataPreve'   => $filterDataPrev
             );
 
             return new JsonResponse($columns);
