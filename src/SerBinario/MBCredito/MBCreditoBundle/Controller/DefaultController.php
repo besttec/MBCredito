@@ -289,7 +289,7 @@ class DefaultController extends Controller
                 if( !$statusLigacao) {
                     $eventosArray[$count]['DT_RowId']       =  "row_".$resultCliente[$i]->getIdCliente();
                     $eventosArray[$count]['nome']           =  $resultCliente[$i]->getNomeCliente();
-                    $eventosArray[$count]['mci']            =  is_null($resultCliente[$i]->getConvenio()) ? null : $resultCliente[$i]->getConvenio()->getMciEmpCliente();
+                    $eventosArray[$count]['mci']            =  is_null($resultCliente[$i]->getMciEmpregador());
 
                     $cpf                                = $resultCliente[$i]->getCpfCliente();
                     $cpfLen                             = strlen($cpf);
