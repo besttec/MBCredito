@@ -319,7 +319,10 @@ class DefaultController extends Controller
             } else {
                 $countTotal     = $gridClass->getCount();
             }
-                       
+            
+            $this->get("session")->remove('estado');
+            $this->get("session")->remove('agencia');
+            
             $countEventos   = count($resultCliente);
                     
             for($i=0;$i < $countEventos; $i++)
