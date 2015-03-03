@@ -5,10 +5,15 @@
     <style type="text/css" class="init">
         
         .consultado {
+             background-color: #45d823; color: #FFFFFF; font-weight: bold;
+        }
+
+	        
+        .consultado-bloq {
              background-color: #FF0000; color: #FFFFFF; font-weight: bold;
         }
         
-        td.details-control {
+	td.details-control {
             background: url({{asset("imagens/icone-produto-plus.png")}}) no-repeat center center;
             cursor: pointer;
         }
@@ -304,15 +309,19 @@
             var dt = $('#example').DataTable({  
                 "rowCallback": function( row, data ) {
                     if(data.bloqueioSalve == 1) {
-                        $("td", row).eq(1).addClass("consultado");
-                        $("td", row).eq(2).addClass("consultado");
-                        $("td", row).eq(3).addClass("consultado");
-                        $("td", row).eq(4).addClass("consultado");
-                        $("td", row).eq(5).addClass("consultado");
-                        $("td", row).eq(6).addClass("consultado");
-                        $("td", row).eq(7).addClass("consultado");
+			for ($i = 1; $i < 8; $i++) {
+ 				$("td", row).eq($i).addClass("consultado-bloq");
+			}
                     }
-                                      
+                                
+		    if(data.bloqueioSalve == 0 && data.margem != null) {
+                        for ($a = 1; $a < 8; $a++) {
+                                $("td", row).eq($a).addClass("consultado");
+                        }
+                    }
+     
+
+
                   },
                 "processing": true,
                 "serverSide": true,
@@ -369,7 +378,7 @@
                     }
                 },
                 "createdRow": function ( row, data, index ) {
-                    console.log(data.bloqueioSalve);
+                    console.log(data.DisponibilidadeLiga\u00e7\u00e3o);
                     if ( data.bloqueioSalve === "1" ) {
                         //$('td', row).eq(7).addClass('excluir');
                         var a = $('td', row).eq(8).find("a");       
