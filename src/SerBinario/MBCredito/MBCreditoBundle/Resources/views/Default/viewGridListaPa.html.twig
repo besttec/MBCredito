@@ -90,27 +90,24 @@
                         </div>
                         <form role="form" method="post" action="{{ path('saveAgenciaPa') }}">
                             <input type="hidden" id="idPa" name="idPa" value="" />
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="selectConvenio">Agência</label>
-                                    <select class="form-control" name="selectAgencia">
-                                        <option value="">Selecione uma agência</option>
-                                        <option value="todos">Todos</option>
-                                        {% for agencia in agencias %}
-                                            <option value="{{ agencia.idAg }}">{{ agencia.prefixoAg }}  {{ agencia.nomeAg }}</option>
-                                        {%endfor%}
-                                    </select>
-                                </div>  
+                            <div class="modal-body">                                
                                 <div class="form-group">
                                     <label for="selectUF">Estado</label>
-                                    <select class="form-control" name="selectUF">
+                                    <select class="form-control" name="selectUF" id="estado">
                                         <option value="">Selecione um estado</option>
                                         <option value="">Todos</option>
                                         {% for estado in estados %}
-                                            <option value="{{ estado.uf }}">{{ estado.uf }}</option>
+                                            <option value="{{ estado.id }}">{{ estado.uf }}</option>
                                         {%endfor%}
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label for="selectConvenio">Agência</label>
+                                    <select class="form-control" name="selectAgencia" id="agencia">
+                                        <option value="">Selecione uma agência</option>
+                                        <option value="todos">Todos</option>
+                                    </select>
+                                </div>  
                                 <div class="modal-footer">
                                     <input type="submit" class="btn btn-primary" value="Salvar" />
                                     <input type="reset" class="btn btn-default" value="Limpar" />
@@ -236,6 +233,41 @@
                 var id = d.id;
                 
                 $("#idPa").attr("value", id);
+            });
+            
+            $(document).on('change', "#estado", function () {
+                var estado = $("#estado").val();
+                console.log(estado);
+                if (estado !== "") {
+                    var dados = {
+                        idEstado: estado
+                    } 
+
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: "consultaAgencia",
+                        data: dados,
+                        datatype: 'json'
+                    }).done(function (json) {
+                        var option = '';
+                        console.log(json);
+                        if (json['msg'] === "sucesso") {
+                            option += '<option value="">Selecione</option>';
+                            for (var i = 0; i < json['dados'].length; i++) {
+                                option += '<option value="' + json['dados'][i]['idAg'] + '">' + json['dados'][i]['prefixoAg'] + ' ' + json['dados'][i]['nomeAg'] + '</option>';
+                            }
+
+                            $('#agencia option').remove();
+                            $("#agencia").append(option);
+                        } else {
+                            alert("Não há agencia para o estado selecionada");                     
+                            //$('#cola_subcategoria option').remove();
+                        }
+
+                    });
+                } else {
+                    $('#agencia option').remove();
+                }
             });
 
         });

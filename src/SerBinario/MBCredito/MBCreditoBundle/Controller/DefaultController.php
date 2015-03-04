@@ -261,7 +261,12 @@ class DefaultController extends Controller
         if(isset($req['agencia'])) {
             $this->get("session")->set("agencia", $req['agencia']);
             $this->get("session")->set("agenciaFilter", $req['agencia']);
-        }       
+        }
+        
+        if(!isset($req['agencia'])) {
+            $this->get("session")->set("agencia", "");
+            $this->get("session")->set("agenciaFilter", "");
+        }
               
         
         return $this->redirect($this->generateUrl("inserirDados"));
@@ -784,8 +789,7 @@ class DefaultController extends Controller
                     $eventosArray[$count]['Sexo']               =  $resultCliente[$i]->getClientesCliente()->getSexosSexo()->getNomeExtensoSexo();
                     $eventosArray[$count]['dtNascimento']       =  $resultCliente[$i]->getClientesCliente()->getDataNascCliente()->format('d/m/Y');
                     $eventosArray[$count]['obsErro']            =  $resultCliente[$i]->getObsErro();
-                    $eventosArray[$count]['statusErro']         =  $resultCliente[$i]->getStatusErro();
-                    $eventosArray[$count]['ag']                 =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getCcAg();
+                    $eventosArray[$count]['statusErro']         =  $resultCliente[$i]->getStatusErro();                  
                     $eventosArray[$count]['prefixo_ag']         =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
                     $eventosArray[$count]['statusLigacao']      =  $resultCliente[$i]->getStatusLigacao();
 
@@ -1581,9 +1585,9 @@ class DefaultController extends Controller
             $agenciaPA->setData(new \DateTime("now"));
             
             $ufDAO    = new UFDAO($this->getDoctrine()->getManager());
-            $resultUf = $ufDAO->findUf($estado);
+            $resultUf = $ufDAO->findId($estado);
             
-            $agenciaPA->setEstado(is_array($resultUf) ? $resultUf[0] : "");    
+            $agenciaPA->setEstado(is_object($resultUf) ? $resultUf : "");    
             $agenciaPA->setUser($usuario);
             
             $AgenciaPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\AgenciaPaDAO($this->getDoctrine()->getManager());
@@ -1613,8 +1617,9 @@ class DefaultController extends Controller
             $agenciaPA->setData(new \DateTime("now"));
             $agenciaPA->setAgencia($agencia);            
             $ufDAO    = new UFDAO($this->getDoctrine()->getManager());
-            $resultUf = $ufDAO->findUf($estado);            
-            $agenciaPA->setEstado(is_array($resultUf) ? $resultUf[0] : ""); 
+            $resultUf = $ufDAO->findId($estado); 
+            
+            $agenciaPA->setEstado(is_object($resultUf) ? $resultUf : ""); 
             $AgenciaPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\AgenciaPaDAO($this->getDoctrine()->getManager());
 
             $validator = $this->get("validator");
@@ -1827,7 +1832,7 @@ class DefaultController extends Controller
         
         $agenciaDAO = new AgenciaDAO($this->getDoctrine()->getManager());
         $agencias   = $agenciaDAO->agenciaFindByUF($dado['idEstado']);
-        
+       //var_dump($agencias);exit;
         if($agencias){
             $msg = "sucesso";
         } else {
