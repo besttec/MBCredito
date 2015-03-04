@@ -51,7 +51,7 @@
         <div class="row">
             <div class="col-md-6">
                 <form role="form" class="form-inline" method="POST" action="{{ path('filterGridDataPrev') }}">
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         <label for="nome">Estado</label>
                         <select class="form-control" name="estado" id="estado">
                             <option value="">Selecione</option>
@@ -61,15 +61,14 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         <label for="nome">Agência</label>
-                        <select class="form-control" name="agencia" id="agencia">
+                        <select class="form-control" name="agencia" id="agenciaFilter">
 
                         </select>
                     </div>
-                    <br />
-                    <div class="form-group col-lg-4" style="margin-top: 5px;">
-                        <button type="submit" id="salvar" class="btn btn-primary">Consultar</button>
+                    <div class="form-group col-lg-3">
+                        <button type="submit" class="btn btn-primary">Consultar</button>
                     </div>
                 </form>
             </div>
@@ -220,7 +219,7 @@
                                     </ul>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <button type="submit" disabled="" id="salvar" class="btn btn-primary">Salvar</button>
+                                    <button type="submit" disabled="disabled" id="salvar" class="btn btn-primary">Salvar</button>
                                 </div>
                             </form>
                         </fieldset>
@@ -236,9 +235,9 @@
     <script type="text/javascript" language="javascript" class="init">
         function format(d) {
             return 'MCI: ' + d.mci + '<br>' +
-                    'Sexo: ' + d.Sexo + ' <br>' +
-                    'Agência: ' + d.agencia + '<br>' +
-                    'Estado: ' + d.estado + '<br>';
+                   'Sexo: ' + d.Sexo + ' <br>' +
+                   'Agência: ' + d.agencia + '<br>' +
+                   'Estado: ' + d.estado + '<br>';
         }
 
         $(document).ready(function ()
@@ -521,8 +520,9 @@
                             $('#vLiquido').val(valorLiquido);
                             $('#qtdEmprestimo').val(countTR);
                             $('#erro').text("0");
-
-                            $('#salvar').attr("disabled", false);
+                            
+                            
+                            $('#salvar').attr("disabled", false);console.log("aaaaaaaaaaaaaa");
                         }
                     }
                 });
@@ -550,8 +550,8 @@
                             option += '<option value="' + json['dados'][i]['idAg'] + '">' + json['dados'][i]['prefixoAg'] + '</option>';
                         }
 
-                        $('#agencia option').remove();
-                        $("#agencia").append(option);
+                        $('#agenciaFilter option').remove();
+                        $("#agenciaFilter").append(option);
                     } else {
                         alert("Não há agencia para o estado selecionada");                     
                         //$('#cola_subcategoria option').remove();
@@ -559,22 +559,23 @@
 
                 });
             } else {
-                $('#agencia option').remove();
+                $('#agenciaFilter option').remove();
             }
         });
+        
         $(document).ready(function (){
             var option = '';
             option += '<option value="">Selecione</option>';
             {% if app.session.get('listAgencias') is defined %}
                     {% for agencia in app.session.get('listAgencias') %}
-                        option += '<option value="' + {{agencia.idAg}} + '">' + {{agencia.ccAg}} + '</option>';
+                        option += '<option value="' + {{agencia.idAg}} + '">' + {{agencia.prefixoAg}} + '</option>';
                         {% if app.session.get('agenciaFilter') is defined and app.session.get('agenciaFilter') == agencia.idAg %}
                             option += '<option selected="" value="' + {{agencia.idAg}} + '">' + {{agencia.prefixoAg}} + '</option>';
                         {% endif %}
                     {% endfor %}
             {% endif %}
-            $('#agencia option').remove();
-            $("#agencia").append(option);
+            $('#agenciaFilter option').remove();
+            $("#agenciaFilter").append(option);
         });
     </script>
 {% endblock %}

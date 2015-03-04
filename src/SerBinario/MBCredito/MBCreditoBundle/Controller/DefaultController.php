@@ -344,8 +344,8 @@ class DefaultController extends Controller
                 "agencia" => $agencia
             );
             
-            $this->get("session")->remove('estado');
-            $this->get("session")->remove('agencia');
+            //$this->get("session")->remove('estado');
+            //$this->get("session")->remove('agencia');
             
             $countEventos   = count($resultCliente);
                     
