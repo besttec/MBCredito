@@ -784,8 +784,7 @@ class DefaultController extends Controller
                     $eventosArray[$count]['Sexo']               =  $resultCliente[$i]->getClientesCliente()->getSexosSexo()->getNomeExtensoSexo();
                     $eventosArray[$count]['dtNascimento']       =  $resultCliente[$i]->getClientesCliente()->getDataNascCliente()->format('d/m/Y');
                     $eventosArray[$count]['obsErro']            =  $resultCliente[$i]->getObsErro();
-                    $eventosArray[$count]['statusErro']         =  $resultCliente[$i]->getStatusErro();
-                    $eventosArray[$count]['ag']                 =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getCcAg();
+                    $eventosArray[$count]['statusErro']         =  $resultCliente[$i]->getStatusErro();                  
                     $eventosArray[$count]['prefixo_ag']         =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
                     $eventosArray[$count]['statusLigacao']      =  $resultCliente[$i]->getStatusLigacao();
 
