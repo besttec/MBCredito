@@ -1581,9 +1581,9 @@ class DefaultController extends Controller
             $agenciaPA->setData(new \DateTime("now"));
             
             $ufDAO    = new UFDAO($this->getDoctrine()->getManager());
-            $resultUf = $ufDAO->findUf($estado);
+            $resultUf = $ufDAO->findId($estado);
             
-            $agenciaPA->setEstado(is_array($resultUf) ? $resultUf[0] : "");    
+            $agenciaPA->setEstado(is_int($resultUf) ? $resultUf : "");    
             $agenciaPA->setUser($usuario);
             
             $AgenciaPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\AgenciaPaDAO($this->getDoctrine()->getManager());
@@ -1613,8 +1613,8 @@ class DefaultController extends Controller
             $agenciaPA->setData(new \DateTime("now"));
             $agenciaPA->setAgencia($agencia);            
             $ufDAO    = new UFDAO($this->getDoctrine()->getManager());
-            $resultUf = $ufDAO->findUf($estado);            
-            $agenciaPA->setEstado(is_array($resultUf) ? $resultUf[0] : ""); 
+            $resultUf = $ufDAO->findId($estado);            
+            $agenciaPA->setEstado(is_int($resultUf) ? $resultUf : ""); 
             $AgenciaPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\AgenciaPaDAO($this->getDoctrine()->getManager());
 
             $validator = $this->get("validator");

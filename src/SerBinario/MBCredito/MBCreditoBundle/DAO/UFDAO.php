@@ -72,4 +72,19 @@ class UFDAO
             return null;
         }
     }
+    
+     /**
+     * 
+     * @param type $id
+     */
+    public function findId($id)
+    {
+        try {
+            $obj = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\UF")->find($id);
+            
+            return $obj;
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
 }
