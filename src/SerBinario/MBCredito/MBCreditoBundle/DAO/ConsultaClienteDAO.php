@@ -134,7 +134,7 @@ class ConsultaClienteDAO
                     . "JOIN c.consultaCliente d "
                     . "JOIN c.statusStatus s "
                     . "WHERE c.consultaCliente = d.id and d.id = ?1 and c.statusStatus = s.idStatus "
-                    . "and (s.idStatus = 2 or s.idStatus = 1 or c.statusStatus = null) ")
+                    . "and (s.idStatus = 2 or s.idStatus = 1) ")
                     ->setParameter(1, $id);
             
             return $query->getResult();

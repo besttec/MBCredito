@@ -1583,7 +1583,7 @@ class DefaultController extends Controller
             $ufDAO    = new UFDAO($this->getDoctrine()->getManager());
             $resultUf = $ufDAO->findId($estado);
             
-            $agenciaPA->setEstado(is_int($resultUf) ? $resultUf : "");    
+            $agenciaPA->setEstado(is_object($resultUf) ? $resultUf : "");    
             $agenciaPA->setUser($usuario);
             
             $AgenciaPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\AgenciaPaDAO($this->getDoctrine()->getManager());
@@ -1613,8 +1613,9 @@ class DefaultController extends Controller
             $agenciaPA->setData(new \DateTime("now"));
             $agenciaPA->setAgencia($agencia);            
             $ufDAO    = new UFDAO($this->getDoctrine()->getManager());
-            $resultUf = $ufDAO->findId($estado);            
-            $agenciaPA->setEstado(is_int($resultUf) ? $resultUf : ""); 
+            $resultUf = $ufDAO->findId($estado); 
+            
+            $agenciaPA->setEstado(is_object($resultUf) ? $resultUf : ""); 
             $AgenciaPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\AgenciaPaDAO($this->getDoctrine()->getManager());
 
             $validator = $this->get("validator");
@@ -1827,7 +1828,7 @@ class DefaultController extends Controller
         
         $agenciaDAO = new AgenciaDAO($this->getDoctrine()->getManager());
         $agencias   = $agenciaDAO->agenciaFindByUF($dado['idEstado']);
-        
+       //var_dump($agencias);exit;
         if($agencias){
             $msg = "sucesso";
         } else {
