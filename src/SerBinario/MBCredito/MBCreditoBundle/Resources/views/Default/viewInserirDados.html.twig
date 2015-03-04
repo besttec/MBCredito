@@ -63,12 +63,11 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="nome">Agência</label>
-                        <select class="form-control" name="agencia" id="agencia">
+                        <select class="form-control" name="agencia" id="agenciaFilter">
 
                         </select>
                     </div>
-                    <br />
-                    <div class="form-group col-lg-3" style="margin-top: 5px;">
+                    <div class="form-group col-lg-3">
                         <button type="submit" class="btn btn-primary">Consultar</button>
                     </div>
                 </form>
@@ -551,8 +550,8 @@
                             option += '<option value="' + json['dados'][i]['idAg'] + '">' + json['dados'][i]['prefixoAg'] + '</option>';
                         }
 
-                        $('#agencia option').remove();
-                        $("#agencia").append(option);
+                        $('#agenciaFilter option').remove();
+                        $("#agenciaFilter").append(option);
                     } else {
                         alert("Não há agencia para o estado selecionada");                     
                         //$('#cola_subcategoria option').remove();
@@ -560,7 +559,7 @@
 
                 });
             } else {
-                $('#agencia option').remove();
+                $('#agenciaFilter option').remove();
             }
         });
         
@@ -575,8 +574,8 @@
                         {% endif %}
                     {% endfor %}
             {% endif %}
-            $('#agencia option').remove();
-            $("#agencia").append(option);
+            $('#agenciaFilter option').remove();
+            $("#agenciaFilter").append(option);
         });
     </script>
 {% endblock %}

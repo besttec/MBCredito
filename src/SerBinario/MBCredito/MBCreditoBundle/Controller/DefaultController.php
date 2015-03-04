@@ -336,16 +336,16 @@ class DefaultController extends Controller
                 $countTotal     = $gridClass->getCount();
             }
             
-            //$estado  = $this->get("session")->get('estado');
-            //$agencia = $this->get("session")->get('agencia');
+            $estado  = $this->get("session")->get('estado');
+            $agencia = $this->get("session")->get('agencia');
             
             $filterDataPrev = array (
                 "estado" => $estado,
                 "agencia" => $agencia
             );
             
-            $this->get("session")->remove('estado');
-            $this->get("session")->remove('agencia');
+            //$this->get("session")->remove('estado');
+            //$this->get("session")->remove('agencia');
             
             $countEventos   = count($resultCliente);
                     
