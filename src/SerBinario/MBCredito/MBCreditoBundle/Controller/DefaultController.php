@@ -296,6 +296,7 @@ class DefaultController extends Controller
                 );
             
             
+            
             if($this->get("session")->get('estado') && !($this->get("session")->get('agencia'))) {
                 $entityJOIN  = array("agAg", "b.uf");
             } else if ($this->get("session")->get('agencia')) {
@@ -435,8 +436,6 @@ class DefaultController extends Controller
         
         if(GridClass::isAjax()) {
             
-            
-            
             $columns = array("a.id",
                 "a.valorBruto",
                 "a.statusLigacao",
@@ -459,11 +458,14 @@ class DefaultController extends Controller
                 "a.tipoCreditoConsignado",
                 "a.statusGerarArquiRetorno",       
                 );
-
+            
+                $request = $request->request->all();
+                $request['order'][0]['column'] = 6;
+            
             $entityJOIN = array(); 
 
             $eventosArray        = array();
-            $parametros          = $request->request->all();        
+            $parametros          = $request;        
             $entity              = "SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente"; 
             $columnWhereMain     = "";
             $whereValueMain      = "";
@@ -656,11 +658,13 @@ class DefaultController extends Controller
                 "a.tipoCreditoConsignado",
                 "a.statusGerarArquiRetorno",
                 );
-
+            
+            $request = $request->request->all();
+            $request['order'][0]['column'] = 6;
+            
             $entityJOIN = array(); 
-
             $eventosArray        = array();
-            $parametros          = $request->request->all();
+            $parametros          = $request;
             $count                = 0;
             $countNot             = 0;
             $entity              = "SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente"; 
