@@ -133,8 +133,7 @@ class ConsultaClienteDAO
             $query = $this->manager->createQuery("SELECT c FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente c "
                     . "JOIN c.consultaCliente d "
                     . "JOIN c.statusStatus s "
-                    . "WHERE c.consultaCliente = d.id and d.id = ?1 and c.statusStatus = s.idStatus "
-                    . "and (s.idStatus = 2 or s.idStatus = 1)")
+                    . "WHERE d.id = ?1 ")
                     ->setParameter(1, $id);
             
             return $query->getResult();
