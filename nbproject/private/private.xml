@@ -4,6 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Controller/DefaultController.php</file>
+<<<<<<< HEAD
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/DAO/ConsultaClienteDAO.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Resources/views/Default/viewInserirDados.html.twig</file>
+=======
+>>>>>>> 867f34e492f994b6f489c9b2c4562ad90f6b0eef
             <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Resources/views/Default/viewGridDadosTwo.html.twig</file>
         </group>
     </open-files>

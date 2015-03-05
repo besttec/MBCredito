@@ -75,9 +75,10 @@
                                     <th>Detalhe</th>
                                     <th>Nome</th>
                                     <th>CPF</th>
+                                    <th>Estado</th> 
                                     <th>AG</th>                                                                      
                                     <th>Número Benefício</th>
-                                    <th>Disponibilidade de Ligação</th>
+                                    <th>Disp. de Ligação</th>
                                     <th>Data da Consulta</th>
                                     <th>Acão</th>
                                 </tr>
@@ -88,9 +89,10 @@
                                     <th>Detalhe</th>
                                     <th>Nome</th>
                                     <th>CPF</th>
+                                    <th>Estado</th>
                                     <th>AG</th>                                    
                                     <th>Número Benefício</th>
-                                    <th>Disponibilidade de Ligação</th>
+                                    <th>Disp. de Ligação</th>
                                     <th>Data da Consulta</th>
                                     <th>Acão</th>
                                 </tr>
@@ -337,6 +339,7 @@
                     },
                     {"data": "nome"},
                     {"data": "cpf"},
+                    {"data": "estado"},
                     {"data": "prefixo_ag"},                    
                     {"data": "numBeneficio"},
                     {"data": "DisponibilidadeLigação"},
@@ -350,7 +353,7 @@
                         }
                     },
                 ],
-                "order": [[0, 'desc']],
+                "order": [[0, 'asc']],
                 language: {
                     "sEmptyTable": "Nenhum registro encontrado",
                     "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",

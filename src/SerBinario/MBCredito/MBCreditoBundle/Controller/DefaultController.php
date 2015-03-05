@@ -590,7 +590,8 @@ class DefaultController extends Controller
                 $eventosArray[$i]['obsErro']        =  $resultCliente[$i]->getObsErro();
                 $eventosArray[$i]['statusErro']     =  $resultCliente[$i]->getStatusErro();          
                 $eventosArray[$i]['prefixo_ag']     =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
-                $eventosArray[$i]['statusLigacao']     =  $resultCliente[$i]->getStatusLigacao();
+                $eventosArray[$i]['estado']         =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getUf()->getUf();
+                $eventosArray[$i]['statusLigacao']  =  $resultCliente[$i]->getStatusLigacao();
             }
             
             //Se a variável $sqlFilter estiver vazio
@@ -791,6 +792,7 @@ class DefaultController extends Controller
                     $eventosArray[$count]['obsErro']            =  $resultCliente[$i]->getObsErro();
                     $eventosArray[$count]['statusErro']         =  $resultCliente[$i]->getStatusErro();                  
                     $eventosArray[$count]['prefixo_ag']         =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
+                    $eventosArray[$count]['estado']             =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getUf()->getUf();
                     $eventosArray[$count]['statusLigacao']      =  $resultCliente[$i]->getStatusLigacao();
 
                     $count++;
