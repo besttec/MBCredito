@@ -460,7 +460,7 @@ class DefaultController extends Controller
                 );
             
                 $request = $request->request->all();
-                $request['order'][0]['column'] = 6;
+                $request['order'][0]['column'] = 2;
             
             $entityJOIN = array(); 
 
@@ -639,6 +639,7 @@ class DefaultController extends Controller
             
             $columns = array("a.id",
                 "a.valorBruto",
+                "a.statusLigacao",
                 "a.valorDescontos",
                 "a.valorLiquido",
                 "a.qtdEmprestimos",
@@ -660,7 +661,7 @@ class DefaultController extends Controller
                 );
             
             $request = $request->request->all();
-            $request['order'][0]['column'] = 6;
+            $request['order'][0]['column'] = 2;
             
             $entityJOIN = array(); 
             $eventosArray        = array();
@@ -682,12 +683,13 @@ class DefaultController extends Controller
             $resultCliente  = $gridClass->builderQuery();    
             $countTotal     = $gridClass->getCount();
             $countEventos   = count($resultCliente);
-            
+                       
             $consultaDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
             
             for($i=0;$i < $countEventos; $i++)
             {
                 $consultaChamada = $consultaDAO->ConsultaClienteChamadasGrid($resultCliente[$i]->getId());
+                
                 
                 if(!$consultaChamada) {
                                    
@@ -807,7 +809,7 @@ class DefaultController extends Controller
                     $countNot++;
                 }
             }
-            
+            //iiiiii
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()){
                 $countEventos = $countTotal - $countNot;
@@ -1809,6 +1811,10 @@ class DefaultController extends Controller
                     "b.nomeSegurado",
                     "c.username",
                 );
+            
+            $usuarioRoles    = $this->get("security.context")->getToken()->getUser()->getRoles();
+            $usuario    = $this->get("security.context")->getToken()->getUser();
+            //var_dump($usuarioRoles);exit();
 
             $entityJOIN = array("a.consultaCliente", "a.user"); 
 
@@ -1818,16 +1824,30 @@ class DefaultController extends Controller
             $columnWhereMain  = "";
             $whereValueMain   = "";
             
+            if($usuarioRoles[0]->getRole() == "ROLE_PA" || $usuarioRoles[0]->getRole() == "ROLE_PA_CONSULTA") {
+                $whereFull        = "a.user = c.id and c.id = {$usuario->getId()}";
+            } else {
+                $whereFull        = "";
+            }
+            
             $gridClass = new GridClass($this->getDoctrine()->getManager(), 
                     $parametros,
                     $columns,
                     $entity,
                     $entityJOIN,           
                     $columnWhereMain,
-                    $whereValueMain);
+                    $whereValueMain,
+                    $whereFull
+                    );
 
-            $resultChamadas     = $gridClass->builderQuery();    
-            $countTotal         = $gridClass->getCount();
+            $resultChamadas     = $gridClass->builderQuery();
+            
+            if($usuarioRoles[0]->getRole() == "ROLE_PA" || $usuarioRoles[0]->getRole() == "ROLE_PA_CONSULTA") {
+                $countTotal     = $gridClass->getCountByWhereFull(array("c" => "user"), array(), $whereFull);
+            } else {
+                $countTotal     = $gridClass->getCount();
+            }
+            
             $countChamadas      = count($resultChamadas);
             
             for($i=0;$i < $countChamadas; $i++)
