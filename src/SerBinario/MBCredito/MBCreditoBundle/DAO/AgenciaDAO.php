@@ -101,7 +101,7 @@ class AgenciaDAO
             
             $query = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\Ag a "
                     . "JOIN a.uf u "
-                    . "WHERE u.id = ?1")
+                    . "WHERE u.id = ?1 ORDER BY a.prefixoAg ASC")
                     ->setParameter(1, $id);
             
             return $query->getArrayResult();
