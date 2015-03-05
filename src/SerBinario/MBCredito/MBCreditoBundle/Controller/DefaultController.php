@@ -683,7 +683,7 @@ class DefaultController extends Controller
             $countTotal     = $gridClass->getCount();
             $countEventos   = count($resultCliente);
             
-            var_dump(count($resultCliente));exit();
+            var_dump($countEventos);exit();
             
             $consultaDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
             
