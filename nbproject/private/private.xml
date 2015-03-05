@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="3"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group/>
-=======
         <group>
-            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Entity/Clientes.php</file>
             <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Controller/DefaultController.php</file>
-            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Resources/views/Default/viewInserirDados.html.twig</file>
-            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/DAO/ClienteDAO.php</file>
-            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Util/GridClass.php</file>
-            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Entity/UF.php</file>
-            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Entity/Ag.php</file>
-            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/DAO/AgenciaDAO.php</file>
+            <file>file:/var/www/html/MBCredito/src/SerBinario/MBCredito/MBCreditoBundle/Resources/views/Default/viewGridDadosTwo.html.twig</file>
         </group>
->>>>>>> b5e81bd1c95381790ac7f9302e7536948d1b6120
     </open-files>
 </project-private>
