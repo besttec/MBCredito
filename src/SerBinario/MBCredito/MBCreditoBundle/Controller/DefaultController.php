@@ -1840,7 +1840,7 @@ class DefaultController extends Controller
 
             $resultChamadas     = $gridClass->builderQuery();
             
-            if($this->get("session")->get('estado') && !($this->get("session")->get('agencia'))) {
+            if($usuarioRoles[0]->getRole() == "ROLE_PA" || $usuarioRoles[0]->getRole() == "ROLE_PA_CONSULTA") {
                 $countTotal     = $gridClass->getCountByWhereFull(array("c" => "user"), array(), $whereFull);
             } else {
                 $countTotal     = $gridClass->getCount();
