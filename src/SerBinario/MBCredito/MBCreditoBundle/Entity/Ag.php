@@ -23,12 +23,9 @@ class Ag
     private $idAg;
 
     /**
-     * @var string
-     *
-     * @Assert\Type(type="string", message="Valor inválido para prefixo ag")
-     * @Assert\NotBlank(message="Perfixo ag não informado")
+     * @var integer
      * 
-     * @ORM\Column(name="prefixo_ag", type="string", length=10, nullable=false)
+     * @ORM\Column(name="prefixo_ag", type="integer", nullable=false)
      */
     private $prefixoAg;
 
@@ -69,7 +66,7 @@ class Ag
     /**
      * Set prefixoAg
      *
-     * @param string $prefixoAg
+     * @param integer $prefixoAg
      * @return Ag
      */
     public function setPrefixoAg($prefixoAg)
@@ -82,7 +79,7 @@ class Ag
     /**
      * Get prefixoAg
      *
-     * @return string 
+     * @return integer 
      */
     public function getPrefixoAg()
     {

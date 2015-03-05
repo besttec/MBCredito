@@ -807,7 +807,7 @@ class DefaultController extends Controller
                     $countNot++;
                 }
             }
-            
+            //iiiiii
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()){
                 $countEventos = $countTotal - $countNot;
