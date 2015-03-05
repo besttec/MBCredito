@@ -1536,7 +1536,8 @@ class DefaultController extends Controller
                    
                     if($objAgenciaPA) {
                         if(is_object($objAgenciaPA->getAgencia())) {
-                            $nomeAgencia = $objAgenciaPA->getAgencia()->getNomeAg();
+                            $nomeAgencia = $objAgenciaPA->getAgencia()->getNomeAg() 
+                                    . " - " . $objAgenciaPA->getAgencia()->getPrefixoAg();
                         } else {
                             $nomeAgencia = "TODOS";
                         }
