@@ -682,14 +682,14 @@ class DefaultController extends Controller
             $resultCliente  = $gridClass->builderQuery();    
             $countTotal     = $gridClass->getCount();
             $countEventos   = count($resultCliente);
-            
-            var_dump($countEventos);exit();
-            
+                       
             $consultaDAO = new ConsultaClienteDAO($this->getDoctrine()->getManager());
             
             for($i=0;$i < $countEventos; $i++)
             {
                 $consultaChamada = $consultaDAO->ConsultaClienteChamadasGrid($resultCliente[$i]->getId());
+                
+                var_dump($consultaChamada);
                 
                 if(!$consultaChamada) {
                                    
