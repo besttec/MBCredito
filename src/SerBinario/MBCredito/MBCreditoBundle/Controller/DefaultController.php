@@ -1834,7 +1834,9 @@ class DefaultController extends Controller
                     $entity,
                     $entityJOIN,           
                     $columnWhereMain,
-                    $whereValueMain);
+                    $whereValueMain,
+                    $whereFull
+                    );
 
             $resultChamadas     = $gridClass->builderQuery();    
             $countTotal         = $gridClass->getCount();
