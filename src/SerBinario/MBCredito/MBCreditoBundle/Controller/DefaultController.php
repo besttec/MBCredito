@@ -590,7 +590,8 @@ class DefaultController extends Controller
                 $eventosArray[$i]['obsErro']        =  $resultCliente[$i]->getObsErro();
                 $eventosArray[$i]['statusErro']     =  $resultCliente[$i]->getStatusErro();          
                 $eventosArray[$i]['prefixo_ag']     =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
-                $eventosArray[$i]['statusLigacao']     =  $resultCliente[$i]->getStatusLigacao();
+                $eventosArray[$i]['estado']         =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getUf()->getUf();
+                $eventosArray[$i]['statusLigacao']  =  $resultCliente[$i]->getStatusLigacao();
             }
             
             //Se a variável $sqlFilter estiver vazio
@@ -791,6 +792,7 @@ class DefaultController extends Controller
                     $eventosArray[$count]['obsErro']            =  $resultCliente[$i]->getObsErro();
                     $eventosArray[$count]['statusErro']         =  $resultCliente[$i]->getStatusErro();                  
                     $eventosArray[$count]['prefixo_ag']         =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
+                    $eventosArray[$count]['estado']             =  $resultCliente[$i]->getClientesCliente()->getAgAg()->getUf()->getUf();
                     $eventosArray[$count]['statusLigacao']      =  $resultCliente[$i]->getStatusLigacao();
 
                     $count++;
@@ -1351,9 +1353,18 @@ class DefaultController extends Controller
         $roleId   = $dados['perfil'];
         $idUser   = $dados['userid'];
                
-        $userDAO  = new UserDAO($this->getDoctrine()->getManager());
-        
+        $userDAO  = new UserDAO($this->getDoctrine()->getManager());        
         $user     = $userDAO->findById($idUser);
+        
+        $valUser  = $userDAO->findByEmailOrUsename($username);
+        $valEmail = $userDAO->findByEmailOrUsename($email);
+            
+        if($valUser ||  $valEmail) {              
+            $this->get("session")->getFlashBag()->add('danger', "Email ou Login já existentes!");
+            
+            return $this->redirect($this->generateUrl("viewGridListaUser"));
+        }    
+        
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setIsActive(true);
@@ -1730,7 +1741,7 @@ class DefaultController extends Controller
         
         #Instânciando o DAO e recuperando a Agência corrente
         $agenciaDAO = new AgenciaDAO($this->getDoctrine()->getManager());
-        $agencia    = $agenciaDAO->finById($idAg);
+        $agencia    = $agenciaDAO->findId($idAg);
         
         #Alterando o nome do convênio
         $agencia->setNomeAg($nomeAg);        
@@ -1740,7 +1751,7 @@ class DefaultController extends Controller
         
         if(count($valResult) == 0) {
             #atualizando o convenio
-            $result = $agencia->update($agencia);
+            $result = $agenciaDAO->update($agencia);
 
             if($result) {
                  $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
@@ -1751,7 +1762,7 @@ class DefaultController extends Controller
             $this->get("session")->getFlashBag()->add('danger', (string) $valResult);
         }    
         
-        return $this->redirect($this->generateUrl("viewGridListaConvenio"));
+        return $this->redirect($this->generateUrl("viewGridListaAgencias"));
     }    
     
     /**

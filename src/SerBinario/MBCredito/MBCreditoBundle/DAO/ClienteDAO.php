@@ -130,7 +130,7 @@ class ClienteDAO
             $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente", "a");
             $qb->join("a.clientesCliente", "cliente");
             $qb->join("cliente.agAg", "b");
-            $qb->join("cliente.superEstadualSuperEstadual", "c");            
+            $qb->join("b.uf", "u");                       
             $qb->where("cliente.statusEmChamada =?1 AND a.statusConsulta = ?2 "
                     . " AND a.statusErro = ?3 AND a.statusLigacao = ?4 "
                     . " AND a.statusPendencia = ?5");
@@ -153,7 +153,7 @@ class ClienteDAO
             
             #Verifica se ha filtro por estado
             if($estado != "") {
-                $qb->andWhere("c.uf = ?7");
+                $qb->andWhere("u.uf = ?7");
                 $qb->setParameter(7, $estado);
             }
             
