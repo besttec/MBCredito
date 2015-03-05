@@ -1838,8 +1838,14 @@ class DefaultController extends Controller
                     $whereFull
                     );
 
-            $resultChamadas     = $gridClass->builderQuery();    
-            $countTotal         = $gridClass->getCount();
+            $resultChamadas     = $gridClass->builderQuery();
+            
+            if($this->get("session")->get('estado') && !($this->get("session")->get('agencia'))) {
+                $countTotal     = $gridClass->getCountByWhereFull(array("c" => "user"), array(), $whereFull);
+            } else {
+                $countTotal     = $gridClass->getCount();
+            }
+            
             $countChamadas      = count($resultChamadas);
             
             for($i=0;$i < $countChamadas; $i++)
