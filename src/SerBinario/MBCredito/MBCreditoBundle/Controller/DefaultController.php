@@ -261,7 +261,12 @@ class DefaultController extends Controller
         if(isset($req['agencia'])) {
             $this->get("session")->set("agencia", $req['agencia']);
             $this->get("session")->set("agenciaFilter", $req['agencia']);
-        }       
+        }
+        
+        if(!isset($req['agencia'])) {
+            $this->get("session")->set("agencia", "");
+            $this->get("session")->set("agenciaFilter", "");
+        }
               
         
         return $this->redirect($this->generateUrl("inserirDados"));
