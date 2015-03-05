@@ -207,6 +207,7 @@
                                             <label for="exampleInputEmail1">Observações</label>
                                             <textarea class="form-control" id="obs" name="obs" rows="4" cols="7"></textarea>
                                             <input type="hidden" class="form-control" name="idCliente" id="idCliente" />
+                                            <input type="hidden" class="form-control" value="1" name="rota" id="rota" />
                                         </div>
                                     </div>
                                 </div>
@@ -353,7 +354,7 @@
                         }
                     },
                 ],
-                "order": [[6, 'desc']],
+                "order": [[0, 'desc']],
                 language: {
                     "sEmptyTable": "Nenhum registro encontrado",
                     "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",

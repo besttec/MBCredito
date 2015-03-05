@@ -296,6 +296,7 @@ class DefaultController extends Controller
                 );
             
             
+            
             if($this->get("session")->get('estado') && !($this->get("session")->get('agencia'))) {
                 $entityJOIN  = array("agAg", "b.uf");
             } else if ($this->get("session")->get('agencia')) {
@@ -437,6 +438,7 @@ class DefaultController extends Controller
             
             $columns = array("a.id",
                 "a.valorBruto",
+                "a.statusLigacao",
                 "a.valorDescontos",
                 "a.valorLiquido",
                 "a.qtdEmprestimos",
@@ -456,11 +458,14 @@ class DefaultController extends Controller
                 "a.tipoCreditoConsignado",
                 "a.statusGerarArquiRetorno",       
                 );
-
+            
+                $request = $request->request->all();
+                $request['order'][0]['column'] = 6;
+            
             $entityJOIN = array(); 
 
             $eventosArray        = array();
-            $parametros          = $request->request->all();        
+            $parametros          = $request;        
             $entity              = "SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente"; 
             $columnWhereMain     = "";
             $whereValueMain      = "";
@@ -653,13 +658,15 @@ class DefaultController extends Controller
                 "a.tipoCreditoConsignado",
                 "a.statusGerarArquiRetorno",
                 );
-
+            
+            $request = $request->request->all();
+            $request['order'][0]['column'] = 6;
+            
             $entityJOIN = array(); 
-
             $eventosArray        = array();
-            $parametros          = $request->request->all();
-            $count                = 0;
-            $countNot             = 0;
+            $parametros          = $request;
+            $count               = 0;
+            $countNot            = 0;
             $entity              = "SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente"; 
             $columnWhereMain     = "";
             $whereValueMain      = "";
@@ -1028,6 +1035,7 @@ class DefaultController extends Controller
         $id           = trim($req['idCliente']);
         $margem       = trim($req['margem']);
         $vDisponivel  = trim($req['vDisponivel']);
+        $rota         = $req['rota'];
         
         $antecipacao     = false;
         $antercipacao131 = new Antecipacao13();
@@ -1154,7 +1162,13 @@ class DefaultController extends Controller
             $this->get("session")->getFlashBag()->add('danger', "Pelo menos um campo deve ser preenchido");  
         }
         
-        return $this->redirect($this->generateUrl("viewGridDados"));
+        //var_dump($rota);exit();
+        
+        if($rota == '1') {
+            return $this->redirect($this->generateUrl("viewGridDados"));
+        } else {
+            return $this->redirect($this->generateUrl("viewGridDadosTwo"));
+        }   
     }
     
     /**
