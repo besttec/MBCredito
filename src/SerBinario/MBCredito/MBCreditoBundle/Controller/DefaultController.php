@@ -493,6 +493,8 @@ class DefaultController extends Controller
                 $eventosArray[$i]['valorBruto']     =  $resultCliente[$i]->getValorBruto();
                 
                 $cpf                                = $resultCliente[$i]->getClientesCliente()->getCpfCliente();
+                $prefixoAg                          = $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
+                $contaCorrente                      = $resultCliente[$i]->getClientesCliente()->getContaCorrente();
                 $cpfLen                             = strlen($cpf);
                 
                 if($cpfLen < 11) {
@@ -500,6 +502,8 @@ class DefaultController extends Controller
                 }             
                 
                 $eventosArray[$i]['cpf']                    =  $cpf;
+                $eventosArray[$i]['prefixoAg']              =  $prefixoAg;
+                $eventosArray[$i]['contaCorrente']          =  $contaCorrente;
                 $eventosArray[$i]['valorDescontos']         =  $resultCliente[$i]->getValorDescontos();
                 $eventosArray[$i]['valorLiquido']           =  $resultCliente[$i]->getValorLiquido();
                 $eventosArray[$i]['qtdEmprestimos']         =  $resultCliente[$i]->getQtdEmprestimos();
@@ -699,6 +703,8 @@ class DefaultController extends Controller
                     $eventosArray[$count]['valorBruto']     =  $resultCliente[$i]->getValorBruto();
 
                     $cpf                                    = $resultCliente[$i]->getClientesCliente()->getCpfCliente();
+                    $prefixoAg                              = $resultCliente[$i]->getClientesCliente()->getAgAg()->getPrefixoAg();
+                    $contaCorrente                          = $resultCliente[$i]->getClientesCliente()->getContaCorrente();
                     $cpfLen                                 = strlen($cpf);
 
                     if($cpfLen < 11) {
@@ -706,6 +712,8 @@ class DefaultController extends Controller
                     }             
 
                     $eventosArray[$count]['cpf']                    =  $cpf;
+                    $eventosArray[$i]['prefixoAg']                  =  $prefixoAg;
+                    $eventosArray[$i]['contaCorrente']              =  $contaCorrente;
                     $eventosArray[$count]['valorDescontos']         =  $resultCliente[$i]->getValorDescontos();
                     $eventosArray[$count]['valorLiquido']           =  $resultCliente[$i]->getValorLiquido();
                     $eventosArray[$count]['qtdEmprestimos']         =  $resultCliente[$i]->getQtdEmprestimos();

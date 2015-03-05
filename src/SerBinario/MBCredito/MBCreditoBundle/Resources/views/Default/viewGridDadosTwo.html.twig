@@ -109,6 +109,9 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="myModalLabel"><b>NOME</b> : <span class="nomeExibicao"></span></h4>
+                            <h4 class="modal-title" id="myModalLabel1"><b>CPF</b> : <span class="cpfExibicao"></span></h4>
+                            <h4 class="modal-title" id="myModalLabel2"><b>Agência</b> : <span class="agenciaExibicao"></span></h4>
+                            <h4 class="modal-title" id="myModalLabel13"><b>Conta Corrente</b> : <span class="ccExibicao"></span></h4>
                         </div>
                         <form role="form" method="post" id="formModal" action="{{path('savarInfoAdicionais')}}">
                             <div class="modal-body">
@@ -455,6 +458,9 @@
                 }
                 
                 $(".nomeExibicao").text(d.nome);
+                $(".cpfExibicao").text(d.cpf);
+                $(".agenciaExibicao").text(d.prefixoAg);
+                $(".ccExibicao").text(d.contaCorrente);
                 
                 if (d.statusLigacao == '1') {
                     $('#ativo').prop('checked', true);
