@@ -1351,9 +1351,18 @@ class DefaultController extends Controller
         $roleId   = $dados['perfil'];
         $idUser   = $dados['userid'];
                
-        $userDAO  = new UserDAO($this->getDoctrine()->getManager());
-        
+        $userDAO  = new UserDAO($this->getDoctrine()->getManager());        
         $user     = $userDAO->findById($idUser);
+        
+        $valUser  = $userDAO->findByEmailOrUsename($username);
+        $valEmail = $userDAO->findByEmailOrUsename($email);
+            
+        if($valUser ||  $valEmail) {              
+            $this->get("session")->getFlashBag()->add('danger', "Email ou Login já existentes!");
+            
+            return $this->redirect($this->generateUrl("viewGridListaUser"));
+        }    
+        
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setIsActive(true);
