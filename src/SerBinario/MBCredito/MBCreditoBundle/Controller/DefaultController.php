@@ -665,8 +665,8 @@ class DefaultController extends Controller
             $entityJOIN = array(); 
             $eventosArray        = array();
             $parametros          = $request;
-            $count                = 0;
-            $countNot             = 0;
+            $count               = 0;
+            $countNot            = 0;
             $entity              = "SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente"; 
             $columnWhereMain     = "";
             $whereValueMain      = "";
@@ -1035,6 +1035,7 @@ class DefaultController extends Controller
         $id           = trim($req['idCliente']);
         $margem       = trim($req['margem']);
         $vDisponivel  = trim($req['vDisponivel']);
+        $rota         = $req['rota'];
         
         $antecipacao     = false;
         $antercipacao131 = new Antecipacao13();
@@ -1161,7 +1162,13 @@ class DefaultController extends Controller
             $this->get("session")->getFlashBag()->add('danger', "Pelo menos um campo deve ser preenchido");  
         }
         
-        return $this->redirect($this->generateUrl("viewGridDados"));
+        //var_dump($rota);exit();
+        
+        if($rota == '1') {
+            return $this->redirect($this->generateUrl("viewGridDados"));
+        } else {
+            return $this->redirect($this->generateUrl("viewGridDadosTwo"));
+        }   
     }
     
     /**
