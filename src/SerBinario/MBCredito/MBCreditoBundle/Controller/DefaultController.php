@@ -809,7 +809,7 @@ class DefaultController extends Controller
                     $countNot++;
                 }
             }
-            
+            exit();
             //var_dump($count);exit();
             //iiiiii
             //Se a variável $sqlFilter estiver vazio
