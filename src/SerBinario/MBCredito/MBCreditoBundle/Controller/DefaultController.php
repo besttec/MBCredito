@@ -460,7 +460,7 @@ class DefaultController extends Controller
                 );
             
                 $request = $request->request->all();
-                $request['order'][0]['column'] = 6;
+                $request['order'][0]['column'] = 2;
             
             $entityJOIN = array(); 
 
@@ -639,6 +639,7 @@ class DefaultController extends Controller
             
             $columns = array("a.id",
                 "a.valorBruto",
+                "a.statusLigacao",
                 "a.valorDescontos",
                 "a.valorLiquido",
                 "a.qtdEmprestimos",
@@ -660,7 +661,7 @@ class DefaultController extends Controller
                 );
             
             $request = $request->request->all();
-            $request['order'][0]['column'] = 6;
+            $request['order'][0]['column'] = 2;
             
             $entityJOIN = array(); 
             $eventosArray        = array();
