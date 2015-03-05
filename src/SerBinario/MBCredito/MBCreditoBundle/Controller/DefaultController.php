@@ -1822,7 +1822,7 @@ class DefaultController extends Controller
                 $chamadasArray[$i]['pendencia']     = $resultChamadas[$i]->getStatusPendencia() ? "SIM" : "NÂO";
                 $chamadasArray[$i]['finalizada']    = $resultChamadas[$i]->getStatusChamada() ? "SIM" : "NÂO";
                 $chamadasArray[$i]['dataChamada']   = is_object($resultChamadas[$i]->getDataChamada()) 
-                        ? $resultChamadas[$i]->getDataChamada()->format("d/m/Y") : "VAZIO";
+                        ? $resultChamadas[$i]->getDataChamada()->format("d/m/Y H:i") : "VAZIO";
                 $chamadasArray[$i]['dataPendencia'] = $resultChamadas[$i]->getDataPendencia()->format("d/m/Y");
                 $chamadasArray[$i]['usuario']       = $resultChamadas[$i]->getUser()->getUsername();
                 $chamadasArray[$i]['cliente']       = $resultChamadas[$i]->getConsultaCliente()->getClientesCliente()->getNomeCliente();
