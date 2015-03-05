@@ -57,8 +57,8 @@
                                         <input value="{{ cliente.agAg.prefixoAg }}" type="text" readonly class="form-control" name="tipoPagamento" id="tipoPagamento" />
                                     </div>
                                     <div class="form-group col-lg-6">
-                                        <label for="numBeneficio">CC - AG</label>
-                                        <input value="{{ cliente.agAg.ccAg }}" type="text" readonly class="form-control" name="especie" id="especie" />
+                                        <label for="contaCorrente">Conta Corrente</label>
+                                        <input value="{{ cliente.contaCorrente }}" type="text" readonly class="form-control" name="contaCorrente" id="contaCorrente" />
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="numBeneficio">Margem</label>
@@ -129,6 +129,9 @@
                                                 <th>
                                                     Situação
                                                 </th>
+                                                <th>
+                                                    Observação
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -145,6 +148,9 @@
                                                     </td>
                                                     <td>
                                                         {{ call.subrotinasSubrotina.subrotina }}
+                                                    </td>
+                                                    <td>
+                                                        {{ call.observacao }}
                                                     </td>
                                                 </tr>
                                             {% endfor %}
@@ -170,6 +176,10 @@
                             {% endif %}
                             <div class="panel panel-primary">
                                 {% if cliente is defined %}
+                                <div class="panel-heading">Observação da Consulta</div>
+                                <div class="panel-body">
+                                   {{ consulta.obsCliente }} 
+                                </div>
                                 <div class="panel-heading">Telefones</div>
                                 <div class="panel-body">
                                     <table class="table table-bordered">
