@@ -1730,7 +1730,7 @@ class DefaultController extends Controller
         
         #Instânciando o DAO e recuperando a Agência corrente
         $agenciaDAO = new AgenciaDAO($this->getDoctrine()->getManager());
-        $agencia    = $agenciaDAO->finById($idAg);
+        $agencia    = $agenciaDAO->findId($idAg);
         
         #Alterando o nome do convênio
         $agencia->setNomeAg($nomeAg);        
@@ -1740,7 +1740,7 @@ class DefaultController extends Controller
         
         if(count($valResult) == 0) {
             #atualizando o convenio
-            $result = $agencia->update($agencia);
+            $result = $agenciaDAO->update($agencia);
 
             if($result) {
                  $this->get("session")->getFlashBag()->add('success', "Dados Salvos com sucesso!");                     
@@ -1751,7 +1751,7 @@ class DefaultController extends Controller
             $this->get("session")->getFlashBag()->add('danger', (string) $valResult);
         }    
         
-        return $this->redirect($this->generateUrl("viewGridListaConvenio"));
+        return $this->redirect($this->generateUrl("viewGridListaAgencias"));
     }    
     
     /**
