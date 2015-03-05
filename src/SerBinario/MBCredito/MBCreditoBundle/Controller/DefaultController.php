@@ -435,8 +435,11 @@ class DefaultController extends Controller
         
         if(GridClass::isAjax()) {
             
+            
+            
             $columns = array("a.id",
                 "a.valorBruto",
+                "a.statusLigacao",
                 "a.valorDescontos",
                 "a.valorLiquido",
                 "a.qtdEmprestimos",
