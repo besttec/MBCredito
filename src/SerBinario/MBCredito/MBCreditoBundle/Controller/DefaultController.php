@@ -689,7 +689,6 @@ class DefaultController extends Controller
             {
                 $consultaChamada = $consultaDAO->ConsultaClienteChamadasGrid($resultCliente[$i]->getId());
                 
-                var_dump($consultaChamada);
                 
                 if(!$consultaChamada) {
                                    
@@ -809,8 +808,6 @@ class DefaultController extends Controller
                     $countNot++;
                 }
             }
-            exit();
-            //var_dump($count);exit();
             //iiiiii
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()){
