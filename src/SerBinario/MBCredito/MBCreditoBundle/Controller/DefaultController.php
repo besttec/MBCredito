@@ -807,6 +807,8 @@ class DefaultController extends Controller
                     $countNot++;
                 }
             }
+            
+            var_dump($eventosArray);exit();
             //iiiiii
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()){
