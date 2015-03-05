@@ -1812,7 +1812,7 @@ class DefaultController extends Controller
             
             $usuarioRoles    = $this->get("security.context")->getToken()->getUser()->getRoles();
             $usuario    = $this->get("security.context")->getToken()->getUser();
-            //var_dump($usuario->getId());exit();
+            //var_dump($usuarioRoles);exit();
 
             $entityJOIN = array("a.consultaCliente", "a.user"); 
 
@@ -1822,8 +1822,8 @@ class DefaultController extends Controller
             $columnWhereMain  = "";
             $whereValueMain   = "";
             
-            if($usuarioRoles[0]->getRole() == "ROLE_PA" && $usuarioRoles[0]->getRole() == "ROLE_PA_CONSULTA") {
-                $whereFull        = "c.id = {$usuario->getId()}";
+            if($usuarioRoles[0]->getRole() == "ROLE_PA" || $usuarioRoles[0]->getRole() == "ROLE_PA_CONSULTA") {
+                $whereFull        = "a.user = c.id and c.id = {$usuario->getId()}";
             } else {
                 $whereFull        = "";
             }
