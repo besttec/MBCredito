@@ -1809,6 +1809,10 @@ class DefaultController extends Controller
                     "b.nomeSegurado",
                     "c.username",
                 );
+            
+            $usuarioRoles    = $this->get("security.context")->getToken()->getUser()->getRoles();
+            $usuario    = $this->get("security.context")->getToken()->getUser();
+            //var_dump($usuario->getId());exit();
 
             $entityJOIN = array("a.consultaCliente", "a.user"); 
 
@@ -1817,6 +1821,12 @@ class DefaultController extends Controller
             $entity           = "SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente"; 
             $columnWhereMain  = "";
             $whereValueMain   = "";
+            
+            if($usuarioRoles[0]->getRole() == "ROLE_PA" && $usuarioRoles[0]->getRole() == "ROLE_PA_CONSULTA") {
+                $whereFull        = "c.id = {$usuario->getId()}";
+            } else {
+                $whereFull        = "";
+            }
             
             $gridClass = new GridClass($this->getDoctrine()->getManager(), 
                     $parametros,
