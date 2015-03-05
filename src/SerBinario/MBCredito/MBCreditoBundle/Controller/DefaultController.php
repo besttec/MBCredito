@@ -1354,14 +1354,29 @@ class DefaultController extends Controller
         $userDAO  = new UserDAO($this->getDoctrine()->getManager());        
         $user     = $userDAO->findById($idUser);
         
-        $valUser  = $userDAO->findByEmailOrUsename($username);
-        $valEmail = $userDAO->findByEmailOrUsename($email);
+        
+        if($user->getUsername() !== $username) {
+            $valUser  = $userDAO->findByEmailOrUsename($username);
             
-        if($valUser ||  $valEmail) {              
-            $this->get("session")->getFlashBag()->add('danger', "Email ou Login já existentes!");
+            if($valUser) {           
+                $this->get("session")->getFlashBag()->add('danger', "Login já existentes!");
+
+                return $this->redirect($this->generateUrl("viewGridListaUser"));
+            }    
+        }
+        
+        if($user->getEmail() !== $email) {
+            $valEmail = $userDAO->findByEmailOrUsename($email);
             
-            return $this->redirect($this->generateUrl("viewGridListaUser"));
-        }    
+            if($valEmail) {
+                $this->get("session")->getFlashBag()->add('danger', "Email existentes!");
+
+                return $this->redirect($this->generateUrl("viewGridListaUser"));
+            }    
+        }
+        
+        
+          
         
         $user->setUsername($username);
         $user->setEmail($email);
