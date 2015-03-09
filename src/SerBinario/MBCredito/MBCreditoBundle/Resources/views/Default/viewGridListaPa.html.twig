@@ -236,9 +236,10 @@
             });
             
             $(document).on('change', "#estado", function () {
-                var estado = $("#estado").val();
-                console.log(estado);
-                if (estado !== "") {
+                var estado    = $("#estado").val();
+               console.log(estado);
+                
+                if (estado != "") {
                     var dados = {
                         idEstado: estado
                     } 
@@ -265,9 +266,7 @@
                         }
 
                     });
-                } else {
-                    $('#agencia option').remove();
-                }
+                } 
             });
 
         });
