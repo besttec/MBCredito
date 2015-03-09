@@ -295,8 +295,6 @@ class DefaultController extends Controller
                 "a.dataNascCliente",
                 );
             
-            
-            
             if($this->get("session")->get('estado') && !($this->get("session")->get('agencia'))) {
                 $entityJOIN  = array("agAg", "b.uf");
             } else if ($this->get("session")->get('agencia')) {
@@ -1043,8 +1041,8 @@ class DefaultController extends Controller
         
         $obs          = trim($req['obs']);
         $id           = trim($req['idCliente']);
-        $margem       = trim($req['margem']);
-        $vDisponivel  = trim($req['vDisponivel']);
+        $margem       = trim(str_replace(array("$", "_"), "", $req['margem']));
+        $vDisponivel  = trim(str_replace(array("$", "_"), "", $req['vDisponivel']));
         $rota         = $req['rota'];
         
         $antecipacao     = false;
