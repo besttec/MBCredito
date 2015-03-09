@@ -147,6 +147,7 @@ class DiscagemRN
                 if(($status->getIdStatus() == 1 && $subrotina->getCodigoSubrotina() == '1') 
                         ||  empty($dtProxLig)) {
                    $consulta->setStatusLigacao(false); 
+                   $consulta->setStatusPendencia(false);
                    $objChamada->setStatusChamada(true);
                 }
 
