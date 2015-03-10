@@ -166,8 +166,16 @@ class DefaultController extends Controller
                     $cliente->setContaCorrente($columns[9]);
                     
                     $cliente->setAgAg($agencia);
-                    $cliente->setNomeCliente($columns[10]);                    
-                    $cliente->setCpfCliente($columns[11]);
+                    $cliente->setNomeCliente($columns[10]); 
+                    
+                    #Tratamento do cpf
+                    $cpf                                    = $columns[11];
+                    $cpfLen                                 = strlen($cpf);
+
+                    if($cpfLen < 11) {
+                        $cpf = str_repeat("0", 11 - $cpfLen) .  $cpf;
+                    }     
+                    $cliente->setCpfCliente($cpf);
                     $cliente->setMciCliente($columns[12]);
                     $cliente->setDddFoneResidCliente($columns[13]);
                     $cliente->setFoneResidCliente($columns[14]);
@@ -437,30 +445,21 @@ class DefaultController extends Controller
             $columns = array("a.id",
                 "a.valorBruto",
                 "a.statusLigacao",
-                "a.valorDescontos",
-                "a.valorLiquido",
-                "a.qtdEmprestimos",
                 "a.nomeSegurado",
-                "a.competencia",
-                "a.pagtoAtravez",
-                "a.periodoIni",
-                "a.periodoFin",
-                "a.especie",
                 "a.banco",
                 "a.agencia",
                 "a.codigoAgencia",
                 "a.enderecoBanco",
-                "a.margemCliente",
-                "a.valorDisponivelCliente",
-                "a.tipoCreditoCliente",
-                "a.tipoCreditoConsignado",
-                "a.statusGerarArquiRetorno",       
+                "b.cpfCliente",
+                "b.numBeneficioComp",
+                "c.prefixoAg",
+                "d.uf",
                 );
             
                 $request = $request->request->all();
                 $request['order'][0]['column'] = 2;
-            
-            $entityJOIN = array(); 
+               
+            $entityJOIN = array("clientesCliente", "b.agAg", "c.uf"); 
 
             $eventosArray        = array();
             $parametros          = $request;        
@@ -642,30 +641,21 @@ class DefaultController extends Controller
             $columns = array("a.id",
                 "a.valorBruto",
                 "a.statusLigacao",
-                "a.valorDescontos",
-                "a.valorLiquido",
-                "a.qtdEmprestimos",
                 "a.nomeSegurado",
-                "a.competencia",
-                "a.pagtoAtravez",
-                "a.periodoIni",
-                "a.periodoFin",
-                "a.especie",
                 "a.banco",
                 "a.agencia",
                 "a.codigoAgencia",
                 "a.enderecoBanco",
-                "a.margemCliente",
-                "a.valorDisponivelCliente",
-                "a.tipoCreditoCliente",
-                "a.tipoCreditoConsignado",
-                "a.statusGerarArquiRetorno",
+                "b.cpfCliente",
+                "b.numBeneficioComp",
+                "c.prefixoAg",
+                "d.uf",
                 );
             
             $request = $request->request->all();
             $request['order'][0]['column'] = 2;
             
-            $entityJOIN = array(); 
+            $entityJOIN          = array("clientesCliente", "b.agAg", "c.uf"); 
             $eventosArray        = array();
             $parametros          = $request;
             $count               = 0;
