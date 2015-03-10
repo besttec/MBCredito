@@ -247,8 +247,9 @@ class GridClass
                     $query->setParameter($index, strtoupper("%{$filterValue[$i]}%"));
                 }
             } 
+            //print_r($dqlFilter); exit();
             $result = $query->getResult();
-                  
+            //var_dump($query);            exit();
             return $result;
         } catch (Exception $ex) {
             print_r($ex);
