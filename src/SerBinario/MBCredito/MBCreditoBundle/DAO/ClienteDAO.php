@@ -5,9 +5,6 @@ use SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes;
 use SerBinario\MBCredito\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 
-
-
-
 /**
  * 
  */
@@ -146,13 +143,13 @@ class ClienteDAO
                 );
             
             #Verifica se ha filtro por agência
-            if($idAgencia != "") {
+            if($idAgencia) {
                $qb->andWhere("b.idAg = ?6");
                $qb->setParameter(6, $idAgencia);
             }
             
             #Verifica se ha filtro por estado
-            if($estado != "") {
+            if($estado) {
                 $qb->andWhere("u.uf = ?7");
                 $qb->setParameter(7, $estado);
             }

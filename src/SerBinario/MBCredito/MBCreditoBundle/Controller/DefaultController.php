@@ -1387,10 +1387,7 @@ class DefaultController extends Controller
 
                 return $this->redirect($this->generateUrl("viewGridListaUser"));
             }    
-        }
-        
-        
-          
+        }   
         
         $user->setUsername($username);
         $user->setEmail($email);
@@ -1556,7 +1553,7 @@ class DefaultController extends Controller
                             $nomeAgencia = "TODOS";
                         }
                         
-                        if($objAgenciaPA->getEstado()->getUf() != "") {
+                        if($objAgenciaPA->getEstado()) {
                             $estado = $objAgenciaPA->getEstado()->getUf();  
                         } else {
                             $estado = "TODOS";
@@ -1626,7 +1623,7 @@ class DefaultController extends Controller
             $ufDAO    = new UFDAO($this->getDoctrine()->getManager());
             $resultUf = $ufDAO->findId($estado);
             
-            $agenciaPA->setEstado(is_object($resultUf) ? $resultUf : "");    
+            $agenciaPA->setEstado(is_object($resultUf) ? $resultUf : null);    
             $agenciaPA->setUser($usuario);
             
             $AgenciaPaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\AgenciaPaDAO($this->getDoctrine()->getManager());
