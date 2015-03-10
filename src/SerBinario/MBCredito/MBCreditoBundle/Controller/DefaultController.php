@@ -1683,7 +1683,7 @@ class DefaultController extends Controller
                 $this->get("session")->getFlashBag()->add('danger', (string) $valResult);
             }
         } else {
-            $this->get("session")->getFlashBag()->add('danger', "Você deve informar o convênio");
+            $this->get("session")->getFlashBag()->add('danger', "Você deve informar uma Agência");
         }           
         
         return $this->redirect($this->generateUrl("viewGridListaPa"));
