@@ -113,8 +113,7 @@ class DiscagemRN
             if($dtProxLig) {
                 $date = \DateTime::createFromFormat("Y/m/d H:i", $dtProxLig);
                 $objChamada->setDataChamada($date);
-                $consulta->setStatusPendencia(true);
-                $consulta->setStatusPendencia(true);
+                $consulta->setStatusPendencia(true);    
             } else {
                 $consulta->setStatusPendencia(false);
             }
@@ -144,7 +143,7 @@ class DiscagemRN
                 $cliente  = $consulta->getClientesCliente();
 
                 #Verifica se o status é finalizado e encerra as chamadas para essa consulta
-                if(($status->getIdStatus() == 1 && $subrotina->getCodigoSubrotina() == '1') 
+                if(($status->getIdStatus() == 1 && $subrotina->getCodigoSubrotina() == 1) 
                         ||  empty($dtProxLig)) {
                    $consulta->setStatusLigacao(false); 
                    $consulta->setStatusPendencia(false);
