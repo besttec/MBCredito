@@ -110,7 +110,12 @@ class HandlePendecia implements IHandle
         }       
         
         #Recupera todas as chamadas do cliente = $cliente
-        $calls    = $this->clienteDAO->findCallsCliente($consulta);        
+        $calls       = $this->clienteDAO->findCallsCliente($consulta); 
+        $chamadaAnt  = null;
+        
+        if(count($calls) > 1) {
+            $chamadaAnt = $calls[count($calls) - 2];
+        }
         
         #Retorno 
         return array(
@@ -119,7 +124,7 @@ class HandlePendecia implements IHandle
                 "calls"           => $calls,
                 "chamadaAtual"    => $resultDados,
                 "consulta"        => $consulta,
-                "chamadaAnterior" => null,
+                "chamadaAnterior" => $chamadaAnt,
                 "error"           => null,
                 "type"            => null,
                 "tipoCredito"     => $valorTipoCredito,
