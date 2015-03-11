@@ -112,6 +112,10 @@
                             <h4 class="modal-title" id="myModalLabel1"><b>CPF</b> : <span class="cpfExibicao"></span></h4>
                             <h4 class="modal-title" id="myModalLabel2"><b>Agência</b> : <span class="agenciaExibicao"></span></h4>
                             <h4 class="modal-title" id="myModalLabel13"><b>Conta Corrente</b> : <span class="ccExibicao"></span></h4>
+                            <h4 class="modal-title" id="myModalLabel13"><b>Fone Residencial</b> : <span class="foneResidencial"></span></h4>
+                            <h4 class="modal-title" id="myModalLabel13"><b>Fone Comercial</b> : <span class="foneComercial"></span></h4>
+                            <h4 class="modal-title" id="myModalLabel13"><b>Fone Celular</b> : <span class="foneCelular"></span></h4>
+                            <h4 class="modal-title" id="myModalLabel13"><b>Fone Preferencial</b> : <span class="fonePreferencial"></span></h4>         
                         </div>
                         <form role="form" method="post" id="formModal" action="{{path('savarInfoAdicionais')}}">
                             <div class="modal-body">
@@ -463,6 +467,10 @@
                 $(".cpfExibicao").text(d.cpf);
                 $(".agenciaExibicao").text(d.prefixoAg);
                 $(".ccExibicao").text(d.contaCorrente);
+                $(".foneResidencial").text("("+d.dddFoneResid+")"+d.foneResidencial);
+                $(".foneComercial").text("("+d.dddFoneComer+")"+d.foneComercial);
+                $(".fonePreferencial").text("("+d.dddFonePref+")"+d.fonePreferencial);
+                $(".foneCelular").text("("+d.dddFoneCel+")"+d.foneCelular);
                 
                 if (d.statusLigacao == '1') {
                     $('#ativo').prop('checked', true);

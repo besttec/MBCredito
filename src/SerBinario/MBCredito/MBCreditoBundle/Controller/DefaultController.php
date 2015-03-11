@@ -507,6 +507,14 @@ class DefaultController extends Controller
                 $eventosArray[$i]['competencia']            =  $resultCliente[$i]->getCompetencia();
                 $eventosArray[$i]['pagtoAtravez']           =  $resultCliente[$i]->getPagtoAtravez();
                 $eventosArray[$i]['dataConsulta']           =  $resultCliente[$i]->getDataConsulta()->format("d/m/Y");
+                $eventosArray[$i]['foneResidencial']        =  $resultCliente[$i]->getClientesCliente()->getFoneResidCliente();
+                $eventosArray[$i]['dddFoneResid']           =  $resultCliente[$i]->getClientesCliente()->getDddFoneResidCliente();
+                $eventosArray[$i]['dddFoneComer']           =  $resultCliente[$i]->getClientesCliente()->getDddFoneComerCliente();
+                $eventosArray[$i]['foneComercial']          =  $resultCliente[$i]->getClientesCliente()->getFoneComerCliente();
+                $eventosArray[$i]['dddFoneCel']             =  $resultCliente[$i]->getClientesCliente()->getDddFoneCelCliente();
+                $eventosArray[$i]['foneCelular']            =  $resultCliente[$i]->getClientesCliente()->getFoneCelCliente();
+                $eventosArray[$i]['dddFonePref']            =  $resultCliente[$i]->getClientesCliente()->getDddFonePrefCliente();
+                $eventosArray[$i]['fonePreferencial']       =  $resultCliente[$i]->getClientesCliente()->getFonePrefCliente();
                 
                 if($resultCliente[$i]->getPeriodoIni()){
                     $eventosArray[$i]['periodoIni']         =  $resultCliente[$i]->getPeriodoIni()->format('d/m/Y');
@@ -708,6 +716,14 @@ class DefaultController extends Controller
                     $eventosArray[$count]['competencia']            =  $resultCliente[$i]->getCompetencia();
                     $eventosArray[$count]['pagtoAtravez']           =  $resultCliente[$i]->getPagtoAtravez();
                     $eventosArray[$count]['dataConsulta']           =  $resultCliente[$i]->getDataConsulta()->format("d/m/Y");
+                    $eventosArray[$i]['foneResidencial']            =  $resultCliente[$i]->getClientesCliente()->getFoneResidCliente();
+                    $eventosArray[$i]['dddFoneResid']               =  $resultCliente[$i]->getClientesCliente()->getDddFoneResidCliente();
+                    $eventosArray[$i]['dddFoneComer']               =  $resultCliente[$i]->getClientesCliente()->getDddFoneComerCliente();
+                    $eventosArray[$i]['foneComercial']              =  $resultCliente[$i]->getClientesCliente()->getFoneComerCliente();
+                    $eventosArray[$i]['dddFoneCel']                 =  $resultCliente[$i]->getClientesCliente()->getDddFoneCelCliente();
+                    $eventosArray[$i]['foneCelular']                =  $resultCliente[$i]->getClientesCliente()->getFoneCelCliente();
+                    $eventosArray[$i]['dddFonePref']                =  $resultCliente[$i]->getClientesCliente()->getDddFonePrefCliente();
+                    $eventosArray[$i]['fonePreferencial']           =  $resultCliente[$i]->getClientesCliente()->getFonePrefCliente();
 
                     if($resultCliente[$i]->getPeriodoIni()){
                         $eventosArray[$count]['periodoIni']         =  $resultCliente[$i]->getPeriodoIni()->format('d/m/Y');
