@@ -708,22 +708,22 @@ class DefaultController extends Controller
                     }             
 
                     $eventosArray[$count]['cpf']                    =  $cpf;
-                    $eventosArray[$i]['prefixoAg']                  =  $prefixoAg;
-                    $eventosArray[$i]['contaCorrente']              =  $contaCorrente;
+                    $eventosArray[$count]['prefixoAg']                  =  $prefixoAg;
+                    $eventosArray[$count]['contaCorrente']              =  $contaCorrente;
                     $eventosArray[$count]['valorDescontos']         =  $resultCliente[$i]->getValorDescontos();
                     $eventosArray[$count]['valorLiquido']           =  $resultCliente[$i]->getValorLiquido();
                     $eventosArray[$count]['qtdEmprestimos']         =  $resultCliente[$i]->getQtdEmprestimos();
                     $eventosArray[$count]['competencia']            =  $resultCliente[$i]->getCompetencia();
                     $eventosArray[$count]['pagtoAtravez']           =  $resultCliente[$i]->getPagtoAtravez();
                     $eventosArray[$count]['dataConsulta']           =  $resultCliente[$i]->getDataConsulta()->format("d/m/Y");
-                    $eventosArray[$i]['foneResidencial']            =  $resultCliente[$i]->getClientesCliente()->getFoneResidCliente();
-                    $eventosArray[$i]['dddFoneResid']               =  $resultCliente[$i]->getClientesCliente()->getDddFoneResidCliente();
-                    $eventosArray[$i]['dddFoneComer']               =  $resultCliente[$i]->getClientesCliente()->getDddFoneComerCliente();
-                    $eventosArray[$i]['foneComercial']              =  $resultCliente[$i]->getClientesCliente()->getFoneComerCliente();
-                    $eventosArray[$i]['dddFoneCel']                 =  $resultCliente[$i]->getClientesCliente()->getDddFoneCelCliente();
-                    $eventosArray[$i]['foneCelular']                =  $resultCliente[$i]->getClientesCliente()->getFoneCelCliente();
-                    $eventosArray[$i]['dddFonePref']                =  $resultCliente[$i]->getClientesCliente()->getDddFonePrefCliente();
-                    $eventosArray[$i]['fonePreferencial']           =  $resultCliente[$i]->getClientesCliente()->getFonePrefCliente();
+                    $eventosArray[$count]['foneResidencial']            =  $resultCliente[$i]->getClientesCliente()->getFoneResidCliente();
+                    $eventosArray[$count]['dddFoneResid']               =  $resultCliente[$i]->getClientesCliente()->getDddFoneResidCliente();
+                    $eventosArray[$count]['dddFoneComer']               =  $resultCliente[$i]->getClientesCliente()->getDddFoneComerCliente();
+                    $eventosArray[$count]['foneComercial']              =  $resultCliente[$i]->getClientesCliente()->getFoneComerCliente();
+                    $eventosArray[$count]['dddFoneCel']                 =  $resultCliente[$i]->getClientesCliente()->getDddFoneCelCliente();
+                    $eventosArray[$count]['foneCelular']                =  $resultCliente[$i]->getClientesCliente()->getFoneCelCliente();
+                    $eventosArray[$count]['dddFonePref']                =  $resultCliente[$i]->getClientesCliente()->getDddFonePrefCliente();
+                    $eventosArray[$count]['fonePreferencial']           =  $resultCliente[$i]->getClientesCliente()->getFonePrefCliente();
 
                     if($resultCliente[$i]->getPeriodoIni()){
                         $eventosArray[$count]['periodoIni']         =  $resultCliente[$i]->getPeriodoIni()->format('d/m/Y');
@@ -796,6 +796,8 @@ class DefaultController extends Controller
                     }
 
                     $emprestimos = array();
+                    
+                    
 
                     foreach ($resultCliente[$i]->getEmprestimos() as $index => $emprestimo) {
 
@@ -821,7 +823,7 @@ class DefaultController extends Controller
                     $countNot++;
                 }
             }
-            
+            //var_dump($eventosArray);exit;
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()){
                 $countEventos = $countTotal - $countNot;

@@ -114,7 +114,8 @@ class HandlePendecia implements IHandle
         $chamadaAnt  = null;
         
         if(count($calls) > 1) {
-            $chamadaAnt = $calls[count($calls) - 2];
+            $chamadaAntObgj =  $calls[(count($calls) - 1)];
+            $chamadaAnt     =  $chamadaAntObgj->getIdChamadaCliente();
         }
         
         #Retorno 

@@ -34,7 +34,7 @@
                             {% if cliente is defined %}
                                 <form role="form" method="POST" action="{{ path('saveDiscagem') }}">
                                     <input type="hidden" name="chamadaAtual" value="{{ chamadaAtual.idChamadaCliente }}" />
-                                    <input type="hidden" name="chamadaAnterior" {% if chamadaAnterior is not null %} value="{{chamadaAnterior}}" {% endif %} />
+                                    <input type="hidden" name="chamadaAnterior" {% if chamadaAnterior is not null %} value="{{ chamadaAnterior }}" {% endif %} />
                                     <div class="form-group col-lg-12">
                                         <label for="nome">Nome</label>
                                         <input value="{{ cliente.nomeCliente }}" type="text" readonly="" class="form-control" name="nomeSegurado" id="nomeSegurado" />
