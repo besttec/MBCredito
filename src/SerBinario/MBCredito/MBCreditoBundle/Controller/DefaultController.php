@@ -90,13 +90,13 @@ class DefaultController extends Controller
             
             $valDoc = $documentoDAO->findByName($documento->getName());
             
-            if($valDoc) {
+            if(!$valDoc) {
                 $this->get("session")->getFlashBag()->add('danger', "Esse arquivo já foi importado!");   
 
                 return $this->redirect($this->generateUrl("importarArquivo"));  
             }
             
-            //$result = $documentoDAO->save($documento);    
+            $result = $documentoDAO->save($documento);    
             
             if($result) {
                 $fileString = file($documento->getWebPath());
