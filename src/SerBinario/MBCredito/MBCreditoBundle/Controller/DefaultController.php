@@ -93,8 +93,9 @@ class DefaultController extends Controller
      
                 for($i = 0; $i < count($fileString); $i++) {
                     $columns = explode(";", $fileString[$i]);
-                    //var_dump($columns);exit;
+                    
                     $cliente = new Clientes();
+                    $cliente->setDocumento($documento);
                     $cliente->setCoc($columns[0]);
                     $cliente->setMciCorrespondente($columns[1]);
                     
@@ -160,11 +161,9 @@ class DefaultController extends Controller
                         $agencia->setPrefixoAg($columns[8]);                   
                         $agencia->setNomeAg("NENHUM");
                         $agencia->setUf($uf);
-                    }
+                    }                    
                     
-                    
-                    $cliente->setContaCorrente($columns[9]);
-                    
+                    $cliente->setContaCorrente($columns[9]);                    
                     $cliente->setAgAg($agencia);
                     $cliente->setNomeCliente($columns[10]); 
                     

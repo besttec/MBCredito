@@ -298,7 +298,19 @@ class Clientes
     /**
      * @ORM\OneToMany(targetEntity="ConsultaCliente", mappedBy="clientesCliente")
      **/
-    private $consultas;    
+    private $consultas;  
+    
+    /**
+     * @var \Documento
+     * 
+     * @Assert\Type(type="object", message="Valor informado para Documento não é um objeto")
+     *
+     * @ORM\ManyToOne(targetEntity="Documento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_documento", referencedColumnName="id")
+     * })
+     */
+    private $documento;
     
     
     /**
@@ -1004,8 +1016,27 @@ class Clientes
         $this->contaCorrente = $contaCorrente;
         return $this;
     }
-
-
     
+    /**
+     * 
+     * @return type
+     */
+    public function getDocumento() 
+    {
+        return $this->documento;
+    }
+    
+    /**
+     * 
+     * @param type $documento
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\Clientes
+     */
+    public function setDocumento($documento) 
+    {
+        $this->documento = $documento;
+        return $this;
+    }
+
+
    
 }
