@@ -80,13 +80,23 @@ class DefaultController extends Controller
         $documento->setFile($uploadfile);
         $documento->setData(new \DateTime("now", new \DateTimeZone("America/Recife")));
         
+        
+        
         $erros = $validator->validate($documento);
         
         if(! count($erros)) {
             $documentoDAO = new DocumentoDAO($this->getDoctrine()->getManager());            
-            $documento->upload();
+            //$documento->upload();
             
-            $result = $documentoDAO->save($documento);    
+            $valDoc = $documentoDAO->findByName($documento->getName());
+            
+            if($valDoc) {
+                $this->get("session")->getFlashBag()->add('danger', "Esse arquivo já foi importado!");   
+
+                return $this->redirect($this->generateUrl("importarArquivo"));  
+            }
+            
+            //$result = $documentoDAO->save($documento);    
             
             if($result) {
                 $fileString = file($documento->getWebPath());
@@ -208,7 +218,7 @@ class DefaultController extends Controller
                     
                     #Verifica se houve alguma violação na validação
                     if(count($clienteVal) === 0) {                        
-                        $clienteDAO->insertCliente($cliente);
+                        //$clienteDAO->insertCliente($cliente);
                     } else {
                         $this->get("session")->getFlashBag()->add('danger', (string) $clienteVal);
                         break;
