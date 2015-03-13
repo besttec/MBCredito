@@ -78,15 +78,14 @@ class DefaultController extends Controller
         $documento = new Documento();
         $documento->setName($nameFile);
         $documento->setFile($uploadfile);
-        $documento->setData(new \DateTime("now", new \DateTimeZone("America/Recife")));
-        
+        $documento->setData(new \DateTime("now", new \DateTimeZone("America/Recife"))); 
         
         
         $erros = $validator->validate($documento);
         
         if(! count($erros)) {
             $documentoDAO = new DocumentoDAO($this->getDoctrine()->getManager());            
-            //$documento->upload();
+            $documento->upload();
             
             $valDoc = $documentoDAO->findByName($documento->getName());
             
@@ -218,7 +217,7 @@ class DefaultController extends Controller
                     
                     #Verifica se houve alguma violação na validação
                     if(count($clienteVal) === 0) {                        
-                        //$clienteDAO->insertCliente($cliente);
+                        $clienteDAO->insertCliente($cliente);
                     } else {
                         $this->get("session")->getFlashBag()->add('danger', (string) $clienteVal);
                         break;
