@@ -35,9 +35,9 @@
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <li><a href="{{path('importarArquivo')}}">Importar Arquivo</a></li>
                                     {% endif %}
-                                    {% if is_granted('ROLE_ADMIN') %}
+                                    
                                         <li><a href="{{path('inserirDados')}}">Consulta DataPrev</a></li>
-                                    {% endif %}
+                                    
                                     {% if is_granted('ROLE_PA_CONSULTA')%}
                                         <li><a href="{{path('viewGridDados')}}">Visualizar Dados Todos</a></li>
                                     {% endif %}
