@@ -70,10 +70,13 @@ class ClienteDAO
         $qb->select("a");       
         $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");
         $qb->join("a.user", "u");
+        $qb->join("a.consultaCliente", "c");
         $qb->where("TimestampDiff(DAY, a.dataChamada, CURRENT_TIMESTAMP()) >= 0 AND TimestampDiff(SECOND, a.dataChamada, CURRENT_TIMESTAMP()) >= 0 AND a.statusChamada = ?1"); 
         $qb->andWhere("u.id = ?2");
+        $qb->andWhere("c.statusPendencia = ?3");
         $qb->setParameter(1, false);
         $qb->setParameter(2, $user->getId());
+        $qb->setParameter(3, true);
         $qb->setMaxResults(1);
         
         $result  = $qb->getQuery()->getResult();
@@ -285,6 +288,7 @@ class ClienteDAO
             return false;
         }
                
-    }
+    }    
+    
 }
 

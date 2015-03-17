@@ -133,12 +133,14 @@ class DiscagemRN
             if( !count($valResult) > 0) {
 
                 #Se for remarcação
-                if($chamadaAnt) {
+                /**if($chamadaAnt) {
                     $objChamadaAnt = $chamadaDAO->findById($chamadaAnt);
                     $objChamadaAnt->setStatusChamada(true);
                     $chamadaDAO->update($objChamadaAnt);
-                }                  
-
+                }  */                
+                
+                $chamadaDAO->updateChamadasAnteriores($objChamada->getIdChamadaCliente(), $consulta->getId());
+                
                 #Recuoerando o cliente dessa consulta
                 $cliente  = $consulta->getClientesCliente();
 

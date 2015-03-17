@@ -92,6 +92,31 @@ class ChamadaDAO
     
     /**
      * 
+     * @param type $id
+     * @return boolean
+     */
+    public function updateChamadasAnteriores($idChamada, $idConsulta)
+    {
+        try {
+            $q = $this->manager->createQueryBuilder()
+                    ->update("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "c")                    
+                    ->set("c.statusChamada", true)
+                    ->where("c.idChamadaCliente != ?1")
+                    ->andWhere("c.consultaCliente = ?2")
+                    ->setParameter(1, $idChamada)
+                    ->setParameter(2, $idConsulta)
+                    ->getQuery();
+            
+            $result = $q->execute();
+            
+            return $result;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
+    
+    /**
+     * 
      * @return type
      */
     public function getManager() 

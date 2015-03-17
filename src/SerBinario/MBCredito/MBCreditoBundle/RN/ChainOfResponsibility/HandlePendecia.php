@@ -67,7 +67,7 @@ class HandlePendecia implements IHandle
         $consulta = $resultDados->getConsultaCliente();
         
         #Recuperando o cliente
-        $cliente     = $consulta->getClientesCliente();
+        $cliente  = $consulta->getClientesCliente();
         
         //tipos dos créditos
         $valorTipoCredito = array();
