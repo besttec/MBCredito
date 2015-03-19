@@ -1055,6 +1055,9 @@ class DefaultController extends Controller
     {
         $req = $request->request->all();
         
+        #Recupera o usuário da sessão
+        $usuario    = $this->get("security.context")->getToken()->getUser();
+        
         $obs          = trim($req['obs']);
         $id           = trim($req['idCliente']);
         $margem       = trim(str_replace(array("$", "_"), "", $req['margem']));
@@ -1133,6 +1136,8 @@ class DefaultController extends Controller
                 //
                 $cliente[0]->setValorDisponivelCliente($vDisponivel);
                 //
+                $cliente[0]->setUser($usuario);
+               
                 if($tCreditoPess){                    
                     $cliente[0]->setTipoCreditoCliente($tCreditoPess);
                     $cliente[0]->setTipoCreditoConsignado(0);
