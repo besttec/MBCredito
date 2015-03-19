@@ -1835,7 +1835,7 @@ class DefaultController extends Controller
             $usuario    = $this->get("security.context")->getToken()->getUser();
             //var_dump($usuarioRoles);exit();
 
-            $entityJOIN = array("a.consultaCliente", "a.user"); 
+            $entityJOIN = array("consultaCliente", "b.user"); 
 
             $chamadasArray    = array();
             $parametros       = $request->request->all();        
@@ -1844,7 +1844,7 @@ class DefaultController extends Controller
             $whereValueMain   = "";
             
             if($usuarioRoles[0]->getRole() == "ROLE_PA" || $usuarioRoles[0]->getRole() == "ROLE_PA_CONSULTA") {
-                $whereFull        = "a.user = c.id and c.id = {$usuario->getId()}";
+                $whereFull        = "c.id = {$usuario->getId()}";
             } else {
                 $whereFull        = "";
             }
@@ -1862,7 +1862,7 @@ class DefaultController extends Controller
             $resultChamadas     = $gridClass->builderQuery();
             
             if($usuarioRoles[0]->getRole() == "ROLE_PA" || $usuarioRoles[0]->getRole() == "ROLE_PA_CONSULTA") {
-                $countTotal     = $gridClass->getCountByWhereFull(array("c" => "user"), array(), $whereFull);
+                $countTotal     = $gridClass->getCountByWhereFull(array("b" => "consultaCliente"), array("c" => "b.user"), $whereFull);
             } else {
                 $countTotal     = $gridClass->getCount();
             }
@@ -1877,7 +1877,7 @@ class DefaultController extends Controller
                 $chamadasArray[$i]['dataChamada']   = is_object($resultChamadas[$i]->getDataChamada()) 
                         ? $resultChamadas[$i]->getDataChamada()->format("d/m/Y H:i") : "VAZIO";
                 $chamadasArray[$i]['dataPendencia'] = $resultChamadas[$i]->getDataPendencia()->format("d/m/Y");
-                $chamadasArray[$i]['usuario']       = $resultChamadas[$i]->getUser()->getUsername();
+                $chamadasArray[$i]['usuario']       = $resultChamadas[$i]->getConsultaCliente()->getUser()->getUsername();
                 $chamadasArray[$i]['cliente']       = $resultChamadas[$i]->getConsultaCliente()->getClientesCliente()->getNomeCliente();
                 $chamadasArray[$i]['observacao']    = $resultChamadas[$i]->getObservacao();
                 

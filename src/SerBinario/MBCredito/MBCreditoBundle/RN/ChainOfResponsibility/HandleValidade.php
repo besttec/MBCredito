@@ -93,7 +93,7 @@ class HandleValidade implements IHandle
         $chamada->setStatusPendencia(true);
         $chamada->setStatusChamada(false);
         $chamada->setDataPendencia(new \DateTime("now", new \DateTimeZone("America/Recife")));
-        $chamada->setUser($this->user);
+        //$chamada->setUser($this->user);
         $chamada->setConsultaCliente($consulta);
         
         #Validando o objeto chamada

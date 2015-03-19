@@ -64,13 +64,12 @@ class ClienteDAO
     public function findCallDate($user)
     {
         $conf = $this->manager->getConfiguration();
-        $conf->addCustomDatetimeFunction("TimestampDiff", "DoctrineExtensions\Query\Mysql\TimestampDiff");
-        
-        $qb  = $this->manager->createQueryBuilder();
+        $conf->addCustomDatetimeFunction("TimestampDiff", "DoctrineExtensions\Query\Mysql\TimestampDiff");        
+        $qb   = $this->manager->createQueryBuilder();
         $qb->select("a");       
-        $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");
-        $qb->join("a.user", "u");
+        $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "a");        
         $qb->join("a.consultaCliente", "c");
+        $qb->join("c.user", "u");
         $qb->where("TimestampDiff(DAY, a.dataChamada, CURRENT_TIMESTAMP()) >= 0 AND TimestampDiff(SECOND, a.dataChamada, CURRENT_TIMESTAMP()) >= 0 AND a.statusChamada = ?1"); 
         $qb->andWhere("u.id = ?2");
         $qb->andWhere("c.statusPendencia = ?3");
@@ -98,8 +97,10 @@ class ClienteDAO
     public function findCallPen(User $usuario)
     {
        #Seleciona os Registros com Pendências.
-        $queryPendencia = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente a "
-                . "JOIN a.user c  WHERE a.statusPendencia =?1 AND c.id =?2")
+        $queryPendencia = $this->manager->createQuery("SELECT a FROM SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente a "                
+                . "JOIN a.consultaCliente b "
+                . "JOIN b.user c"
+                . " WHERE a.statusPendencia =?1 AND c.id =?2")
                             ->setParameter(1, true)
                             ->setParameter(2, $usuario->getId())
                             ->setMaxResults(1);
@@ -121,7 +122,7 @@ class ClienteDAO
      * @param type $estado
      * @return type
      */
-    public function findNotUse($idAgencia, $estado)
+    public function findNotUse($idAgencia, $estado, User $user)
     {
         try {
             
@@ -130,10 +131,11 @@ class ClienteDAO
             $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ConsultaCliente", "a");
             $qb->join("a.clientesCliente", "cliente");
             $qb->join("cliente.agAg", "b");
-            $qb->join("b.uf", "u");                       
+            $qb->join("b.uf", "u"); 
+            $qb->join("a.user", "user"); 
             $qb->where("cliente.statusEmChamada =?1 AND a.statusConsulta = ?2 "
                     . " AND a.statusErro = ?3 AND a.statusLigacao = ?4 "
-                    . " AND a.statusPendencia = ?5");
+                    . " AND a.statusPendencia = ?5 AND user.id=?6");
             $qb->setMaxResults(1);
             $qb->setParameters(
                     array(
@@ -141,20 +143,21 @@ class ClienteDAO
                         2 => true,
                         3 => false,
                         4 => true,                        
-                        5 => false
+                        5 => false,
+                        6 => $user->getId()
                     )
                 );
             
             #Verifica se ha filtro por agência
             if($idAgencia) {
-               $qb->andWhere("b.idAg = ?6");
-               $qb->setParameter(6, $idAgencia);
+               $qb->andWhere("b.idAg = ?7");
+               $qb->setParameter(7, $idAgencia);
             }
             
             #Verifica se ha filtro por estado
             if($estado) {
-                $qb->andWhere("u.uf = ?7");
-                $qb->setParameter(7, $estado);
+                $qb->andWhere("u.uf = ?8");
+                $qb->setParameter(8, $estado);
             }
             
             $result = $qb->getQuery()->getResult(); 

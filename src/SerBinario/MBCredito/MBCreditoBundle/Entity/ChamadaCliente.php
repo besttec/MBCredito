@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * ChamadaCliente
  *
- * @ORM\Table(name="chamada_cliente", indexes={@ORM\Index(name="fk_chamada_cliente_status1_idx", columns={"status_id_status"}), @ORM\Index(name="fk_chamada_cliente_user1_idx", columns={"user_id_user"}), @ORM\Index(name="fk_chamada_cliente_subrotinas1_idx", columns={"subrotinas_id_subrotina"})})
+ * @ORM\Table(name="chamada_cliente", indexes={@ORM\Index(name="fk_chamada_cliente_status1_idx", columns={"status_id_status"}), @ORM\Index(name="fk_chamada_cliente_subrotinas1_idx", columns={"subrotinas_id_subrotina"})})
  * @ORM\Entity
  */
 class ChamadaCliente
@@ -94,20 +94,7 @@ class ChamadaCliente
      *   @ORM\JoinColumn(name="status_id_status", referencedColumnName="id_status")
      * })
      */
-    private $statusStatus;
-
-    /**
-     * @var \User
-     *
-     * @Assert\NotNull(message="Usuário não informado")
-     * @Assert\Type(type="object", message="Valor informado para User não é um objeto")
-     * 
-     * @ORM\ManyToOne(targetEntity="SerBinario\MBCredito\UserBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id_user", referencedColumnName="id")
-     * })
-     */
-    private $user;
+    private $statusStatus;   
 
     /**
      * @var \ConsultaClientes
@@ -190,30 +177,7 @@ class ChamadaCliente
     public function getStatusStatus()
     {
         return $this->statusStatus;
-    }
-
-    /**
-     * Set callcenterCallcenter
-     *
-     * @param \SerBinario\MBCredito\UserBundle\Entity\User $user
-     * @return ChamadaCliente
-     */
-    public function setUser(\SerBinario\MBCredito\UserBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get callcenterCallcenter
-     *
-     * @return \SerBinario\MBCredito\UserBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
+    }  
 
     /**
      * Set subrotinasSubrotina
