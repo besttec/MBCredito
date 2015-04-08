@@ -122,6 +122,8 @@ class DiscagemRN
             $objChamada->setNovoDDD($chamadaDados->getNovoDDD());
             $objChamada->setNovoFone($chamadaDados->getNovoFone());
             $objChamada->setObservacao($chamadaDados->getObservacao());
+            $objChamada->setNumContrato($chamadaDados->getNumContrato());
+            $objChamada->setValorContratado($chamadaDados->getValorContratado());
             $objChamada->setStatusStatus($status);
             $objChamada->setSubrotinasSubrotina($subrotina);
             $objChamada->setStatusPendencia(false);

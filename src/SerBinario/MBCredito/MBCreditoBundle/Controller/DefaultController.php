@@ -1243,20 +1243,24 @@ class DefaultController extends Controller
         $validator  = $this->get("validator");
         
         #Recupera os parâmetros da requisição
-        $statusId     = $dados['status'];
-        $subrotinaId  = $dados['subrotinas'];
-        $dtProxLig    = $dados['dataProxLiguacao'];
-        $obs          = $dados['obs'];
-        $chamadaAtual = $dados['chamadaAtual'];
-        $newDDD       = $dados['newDDD'];
-        $newFone      = $dados['newFone'];
-        $chamadaAnt   = $dados['chamadaAnterior'];
+        $statusId        = $dados['status'];
+        $subrotinaId     = $dados['subrotinas'];
+        $dtProxLig       = $dados['dataProxLiguacao'];
+        $obs             = $dados['obs'];
+        $chamadaAtual    = $dados['chamadaAtual'];
+        $newDDD          = $dados['newDDD'];
+        $newFone         = $dados['newFone'];
+        $chamadaAnt      = $dados['chamadaAnterior'];
+        $numContrato     = $dados['nContrato'];
+        $valorContratado = $dados['vContrato'];
         
         #Criação de um objeto chamada
         $chamadaDados = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente();
         $chamadaDados->setObservacao($obs);
         $chamadaDados->setNovoDDD($newDDD);
         $chamadaDados->setNovoFone($newFone);
+        $chamadaDados->setNumContrato($numContrato);
+        $chamadaDados->setValorContratado($valorContratado);
         
         #Criação do objeto discagemRN.
         $discagemRN  = new DiscagemRN($this->getDoctrine()->getManager(), $usuario, $validator);
@@ -1930,6 +1934,81 @@ class DefaultController extends Controller
         );
         
         return new JsonResponse($dados);
+    }
+    
+    /**
+     * @Route("/viewRelatorioLigacoes", name="viewRelatorioLigacoes")
+     * @Template()
+     */
+    public function viewRelatorioLigacoesAction()
+    {
+        $userDAO = new UserDAO($this->getDoctrine()->getManager());
+        $users   = $userDAO->findAll();  
+        
+        return array("users" => $users);
+    }
+    
+    /**
+     * @Route("/relatorioLigacoes", name="relatorioLigacoes")
+     * @Template()
+     */
+    public function relatorioLigacoesAction(Request $request) 
+    {   
+        #Recuperar dados da requisição
+        $dados   = $request->request->all();        
+        
+        #Recupera o usuário da sessão
+        $usuario = $this->get("security.context")->getToken()->getUser();        
+        
+        #Dados da requisição
+        $dataInicial   = $dados["dataInicial"];
+        $dataFinal     = $dados["dataFinal"];
+        $usuarioBusca  = "";
+        $arrayResponse = array();
+       
+        #DAOS
+        $chamadaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ChamadaDAO($this->getDoctrine()->getManager());
+        $userDAO    = new UserDAO($this->getDoctrine()->getManager());
+        
+        #Se for administrador
+        if($this->get('security.context')->isGranted('ROLE_ADMIN', $usuario)) {
+            $usuarioBusca  = $dados["usuario"];
+            $users         = array();
+            
+            if($usuarioBusca !== "todos") {              
+                $users = $userDAO->findLikeUsername($usuarioBusca);
+            } else {
+                $users = $userDAO->findAll();  
+            }    
+            
+            for($i = 0; $i < count($users); $i++) {  
+                $arrayRoles = array();
+                
+                foreach($users[$i]->getRoles() as  $role) {
+                    $arrayRoles[] = $role->getRole();
+                }
+               
+                if(!is_numeric(\array_search("ROLE_ADMIN", $arrayRoles))) {
+                    $arrayResponse[$i]["usuario"]      = $users[$i]->getUsername();                    
+                    $arrayResponse[$i]["finalizadas"]  = $chamadaDAO->findByFinalizada($users[$i]->getId(), 1, $dataInicial, $dataFinal);
+                    $arrayResponse[$i]["nContadados"]  = $chamadaDAO->findByFinalizada($users[$i]->getId(), 2, $dataInicial, $dataFinal);
+                    $arrayResponse[$i]["contratados"]  = $chamadaDAO->findByContratada($users[$i]->getId(), $dataInicial, $dataFinal);
+                }                
+            }
+            
+            #Retorno
+            return new JsonResponse($arrayResponse);            
+        }  
+        #Se não for administrador
+        $user = $userDAO->findById($usuario->getId());    
+        
+        $arrayResponse[0]["usuario"]      = $user->getUsername();        
+        $arrayResponse[0]["finalizadas"]  = $chamadaDAO->findByFinalizada($user->getId(), 1, $dataInicial, $dataFinal);
+        $arrayResponse[0]["nContadados"]  = $chamadaDAO->findByFinalizada($user->getId(), 2, $dataInicial, $dataFinal);
+        $arrayResponse[0]["contratados"]  = $chamadaDAO->findByContratada($user->getId(), $dataInicial, $dataFinal);
+       
+        #Retorno
+        return new JsonResponse($arrayResponse);  
     }
     
  }

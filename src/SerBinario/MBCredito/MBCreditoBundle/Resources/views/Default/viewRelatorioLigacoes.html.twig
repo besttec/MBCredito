@@ -1,0 +1,168 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css" class="init">
+        
+        .consultado {
+             background-color: #45d823; color: #FFFFFF; font-weight: bold;
+        }
+
+	        
+        .consultado-bloq {
+             background-color: #FF0000; color: #FFFFFF; font-weight: bold;
+        }
+        
+	td.details-control {
+            background: url({{asset("imagens/icone-produto-plus.png")}}) no-repeat center center;
+            cursor: pointer;
+        }
+        tr.details td.details-control {
+            background: url({{asset("imagens/icone-produto-minus.png")}}) no-repeat center center;
+        }
+
+        a.editar {
+            background: url({{asset("imagens/icone-editar.png")}}) no-repeat 0 0;
+            width: 22px;
+        }
+
+        a.visualizar {
+            background: url({{asset("imagens/icone-visualizar.png")}}) no-repeat 0 0;
+            width: 23px;
+        }
+
+        a.excluir {
+            background: url({{asset("imagens/icone-excluir.png")}}) no-repeat 0 0;
+            width: 21px;
+        }
+
+        td.bt {
+            padding: 10px 0;
+            width: 126px;
+        }
+
+        td.bt a {
+            float: left;
+            height: 22px;
+            margin: 0 10px;
+        }
+        .highlight {
+            background-color: #FE8E8E;
+        }
+    </style>
+
+{% endblock %}
+
+
+{% block body %}
+    {{parent()}}
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-10 column">
+                <fieldset>
+                    <legend>RELATÓRIO DE LIGAÇÕES</legend>
+                    <form class="form-inline" id="formRelatorioLigacoes">
+                        <div class="form-group">
+                          <label for="dataInicial">Data Inicial:</label>
+                          <input type="text" class="form-control datepicker" id="dataInicial" name="dataInicial">
+                        </div>
+                        <div class="form-group">
+                          <label for="dataFinal">Data Final:</label>
+                          <input type="text" class="form-control datepicker" id="dataFinal" name="dataFinal">
+                        </div>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <div class="form-group">
+                          <label for="usuario">Usuário</label>
+                          <select class="form-control" id="usuario" name="usuario">
+                              <option value="todos">Todos</option>
+                              {% for user in users%}
+                                   <option value="{{user.username}}">{{user.username}}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                        {%endif%}                    
+                        <button type="submit" class="btn btn-default">Buscar</button>
+                    </form><br><br>           
+
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Usuário</th>
+                            <th>Quantidade Total</th>
+                            <th>Ligações Finalizadas</th>
+                            <th>Ligações não Contatadas</th>                        
+                            <th>Ligações Contratadas</th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <th>Usuário</th>
+                            <th>Quantidade Total</th>
+                            <th>Ligações Finalizadas</th>
+                            <th>Ligações não Contatadas</th>                        
+                            <th>Ligações Contratadas</th>
+                        </tfoot>
+                    </table> 
+                </fieldset>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{asset('js/jquery.inputmask.bundle.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/components_form_tools.js')}}"></script> 
+    <script type="text/javascript" language="javascript" class="init">
+        $(document).ready(function() {
+            $('.datepicker').datetimepicker({
+                        format: 'Y-m-d H:i',
+                        mask: false,
+                        lang: 'pt-BR'
+            });
+        });
+        
+        $("#formRelatorioLigacoes").submit(function(event) {
+            event.preventDefault(); 
+            
+            var dataInicial = $("#dataInicial").val();
+            var dataFinal   = $("#dataFinal").val();
+            var usario      = $("#usuario").val();
+            
+            if(dataInicial == "" || dataFinal == "") {
+                alert("Você deve preencher a data inicial e final");
+                return false;
+            }
+            
+             var dados = {
+                "dataInicial" : dataInicial,
+                "dataFinal"   : dataFinal,
+                "usuario"      : usario                
+            };
+
+            $.ajax({
+                method: "POST",
+                url: "{{ path('relatorioLigacoes') }}",
+                data: dados,
+                dataType: "json",
+                success: function(retorno) {
+                    
+                    var rows = "";
+                    $.each(retorno, function(chave, valor) {
+                        var valorTotal = parseInt(valor.finalizadas) + parseInt(valor.nContadados);
+                        
+                        rows += "<tr>";
+                        rows += "<td>"+valor.usuario+"</td>";
+                        rows += "<td>"+valorTotal+"</td>";
+                        rows += "<td>"+valor.finalizadas+"</td>";
+                        rows += "<td>"+valor.nContadados+"</td>";
+                        rows += "<td>"+valor.contratados+"</td>";
+                        rows += "</tr>";
+                    });
+                    
+                    $("table tbody").empty();
+                    $("table tbody").append(rows);
+                }
+            });
+            
+        });
+    </script>
+{% endblock %}

@@ -2,6 +2,7 @@
 namespace SerBinario\MBCredito\MBCreditoBundle\DAO;
 
 use SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente;
+use \SerBinario\MBCredito\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of ChamadaDAO
@@ -113,6 +114,101 @@ class ChamadaDAO
         } catch (Exception $ex) {
             return false;
         }
+    }
+    
+    /**
+     * 
+     * @param User $usuario
+     * @param type $usuarioBusca
+     */
+    public function findByUsers($dataInicial, $dataFinal, User $usuario = null, $usuarioBusca = "")
+    {
+        $qb = $this->manager->createQueryBuilder();
+        $qb->select("u.id, u.username, s.status, count(c) as quantidade");
+        $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "c");
+        $qb->join("c.consultaCliente", "b");
+        $qb->join("b.user", "u");
+        $qb->join("c.statusStatus", "s");
+        $qb->join("c.subrotinasSubrotina", "sub");
+        $qb->where("c.dataPendencia BETWEEN :inicial AND :final");
+        $qb->setParameter("inicial", $dataInicial);
+        $qb->setParameter("final", $dataFinal);
+        
+        if($usuarioBusca) {
+            $qb->andWhere("u.username like '%:user%'");
+            $qb->setParameter("user", $usuarioBusca);
+        }
+        
+        if($usuario) {
+            $qb->andWhere("u.id = :user");
+            $qb->setParameter("user", $usuario->getId());
+        }
+        
+        $qb->groupBy("s.status");
+        
+        return $qb->getQuery()->getArrayResult();
+    }
+    
+    /**
+     * 
+     * @param type $idUser
+     * @param type $dataInicial
+     * @param type $dataFinal
+     * @return type
+     */
+    public function findByContratada($idUser, $dataInicial, $dataFinal)
+    {
+        $qb = $this->manager->createQueryBuilder();
+        $qb->select("count(c) as quantidade");
+        $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "c");
+        $qb->join("c.consultaCliente", "b");
+        $qb->join("b.user", "u");
+        $qb->join("c.subrotinasSubrotina", "sub");
+        $qb->where("c.dataPendencia BETWEEN :inicial AND :final");
+        $qb->setParameter("inicial", $dataInicial);
+        $qb->setParameter("final", $dataFinal);
+        $qb->andWhere("u.id = :id AND sub.codigoSubrotina = 1");
+        $qb->setParameter("id", $idUser);
+ 
+        $result = $qb->getQuery()->getSingleResult();
+        
+        if($result) {
+            $result = $result['quantidade'];
+        }       
+        
+        return $result;
+        
+    }    
+    
+    /**
+     * 
+     * @param type $idUser
+     * @param type $finalizada
+     * @param type $dataInicial
+     * @param type $dataFinal
+     * @return type
+     */
+    public function findByFinalizada($idUser, $finalizada, $dataInicial, $dataFinal)
+    {
+        $qb = $this->manager->createQueryBuilder();
+        $qb->select("count(c) as quantidade");
+        $qb->from("SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente", "c");
+        $qb->join("c.consultaCliente", "b");
+        $qb->join("b.user", "u");
+        $qb->join("c.statusStatus", "s");
+        $qb->where("c.dataPendencia BETWEEN :inicial AND :final");
+        $qb->setParameter("inicial", $dataInicial);
+        $qb->setParameter("final", $dataFinal);
+        $qb->andWhere("u.id = :id AND s.idStatus = {$finalizada}");
+        $qb->setParameter("id", $idUser);
+ 
+        $result = $qb->getQuery()->getSingleResult();
+        
+        if($result) {
+            $result = $result['quantidade'];
+        }       
+        
+        return $result;        
     }
     
     /**

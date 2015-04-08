@@ -99,4 +99,38 @@ class UserDAO
             return null;
         }
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function findLikeUsername($username) 
+    {
+        try {
+            $qb = $this->manager->createQueryBuilder();
+            $qb->select('u');
+            $qb->from("SerBinario\MBCredito\UserBundle\Entity\User", "u");
+            $qb->where("u.username = :username");
+            $qb->setParameter("username", $username);
+            
+            return $qb->getQuery()->getResult();
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function findAll() 
+    {
+        try {
+            $result = $this->manager->getRepository("SerBinario\MBCredito\UserBundle\Entity\User")->findAll();
+            
+            return $result;
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
 }

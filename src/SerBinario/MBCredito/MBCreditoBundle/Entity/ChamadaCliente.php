@@ -73,7 +73,25 @@ class ChamadaCliente
      * 
      * @ORM\Column(name="data_pendencia", type="datetime", nullable=false)
      */
-    private $dataPendencia;
+    private $dataPendencia;  
+        
+    /**
+     * @var integer
+     * 
+     * 
+     * 
+     * @ORM\Column(name="num_contrato", type="float", nullable=true)
+     */
+    private $numContrato;
+    
+    /**
+     * @var float
+     * 
+     * 
+     * 
+     * @ORM\Column(name="valor_contrato", type="float", nullable=true)
+     */
+    private $valorContratado;
 
     /**
      * @var string
@@ -327,6 +345,48 @@ class ChamadaCliente
     {
         $this->consultaCliente = $consultaCliente;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getNumContrato() 
+    {
+        return $this->numContrato;
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function getValorContratado() 
+    {
+        return $this->valorContratado;
+    }
+
+    /**
+     * 
+     * @param type $numContrato
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente
+     */
+    public function setNumContrato($numContrato) 
+    {
+        $this->numContrato = $numContrato;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param type $valorContratado
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente
+     */
+    public function setValorContratado($valorContratado) 
+    {
+        $this->valorContratado = $valorContratado;
+        return $this;
+    }
+
+
    
 
 }

@@ -94,7 +94,15 @@
                                     <div class="form-group col-lg-6">
                                         <label for="newFone">Novo fone</label>
                                         <input type="text" class="form-control" name="newFone" id="newFone" maxlength="8" />
-                                    </div>       
+                                    </div> 
+                                    <div class="form-group col-lg-6">
+                                        <label for="nContrato">Número do Contrato</label>
+                                        <input type="text" class="form-control" readonly name="nContrato" id="nContrato" maxlength="8" />
+                                    </div> 
+                                    <div class="form-group col-lg-6">
+                                        <label for="vContrato">Valor Contratado</label>
+                                        <input type="text" class="form-control" readonly name="vContrato" id="vContrato" maxlength="8" />
+                                    </div> 
                                     <div class="form-group col-lg-12">
                                         <label for="obs">Observação</label>
                                         <textarea class="form-control" id="obs" name="obs" rows="4" cols="7"></textarea>
@@ -282,7 +290,19 @@
     <script type="text/javascript" language="javascript" class="init">
         $(document).ready(function() {
             $('#datepicker').datetimepicker();
-        })
+        });
+        
+        $("#subrotinas").change(function () {
+            var valueOpcao = $('#subrotinas option:selected').attr("value");
+            console.log(valueOpcao);
+            if(valueOpcao == 6) {
+                $('#nContrato').removeAttr("readonly");
+                $('#vContrato').removeAttr("readonly");
+            } else {
+                $('#nContrato').attr("readonly", "readonly");
+                $('#vContrato').attr("readonly", "readonly");
+            }
+        });
         
         $('#status').change(function () {
             var valueOpcao = $('#status option:selected').attr("value");     
@@ -304,7 +324,7 @@
                 dataType: "json",
                 data: dados,
                 success: function (data) {
-                    var option = '';
+                    var option = '<option value="">Selecione um Sub-resultado:</option>';
 
                     for (var i = 0; i < data.subrotinas.length; i++) {
                         option += '<option value="' + data.subrotinas[i]['idSubrotina'] + '">' + data.subrotinas[i]['subrotina'] + '</option>';
