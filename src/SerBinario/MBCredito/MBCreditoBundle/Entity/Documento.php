@@ -38,7 +38,7 @@ class Documento
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime(message="Esse valor não é uma data válida.")
      */
-    private $data;
+    private $data;    
     
     /**
      * Get id

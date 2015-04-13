@@ -67,7 +67,7 @@ class HandlePendecia implements IHandle
         $consulta = $resultDados->getConsultaCliente();
         
         #Recuperando o cliente
-        $cliente     = $consulta->getClientesCliente();
+        $cliente  = $consulta->getClientesCliente();
         
         //tipos dos créditos
         $valorTipoCredito = array();
@@ -110,7 +110,13 @@ class HandlePendecia implements IHandle
         }       
         
         #Recupera todas as chamadas do cliente = $cliente
-        $calls    = $this->clienteDAO->findCallsCliente($consulta);        
+        $calls       = $this->clienteDAO->findCallsCliente($consulta); 
+        $chamadaAnt  = null;
+        
+        if(count($calls) > 1) {
+            $chamadaAntObgj =  $calls[(count($calls) - 1)];
+            $chamadaAnt     =  $chamadaAntObgj->getIdChamadaCliente();
+        }
         
         #Retorno 
         return array(
@@ -119,7 +125,7 @@ class HandlePendecia implements IHandle
                 "calls"           => $calls,
                 "chamadaAtual"    => $resultDados,
                 "consulta"        => $consulta,
-                "chamadaAnterior" => null,
+                "chamadaAnterior" => $chamadaAnt,
                 "error"           => null,
                 "type"            => null,
                 "tipoCredito"     => $valorTipoCredito,

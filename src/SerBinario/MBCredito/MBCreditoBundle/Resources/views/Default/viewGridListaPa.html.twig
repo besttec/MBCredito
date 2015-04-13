@@ -254,6 +254,7 @@
                         console.log(json);
                         if (json['msg'] === "sucesso") {
                             option += '<option value="">Selecione</option>';
+                            option += '<option value="todos">Todos</option>';
                             for (var i = 0; i < json['dados'].length; i++) {
                                 option += '<option value="' + json['dados'][i]['idAg'] + '">' + json['dados'][i]['prefixoAg'] + ' ' + json['dados'][i]['nomeAg'] + '</option>';
                             }

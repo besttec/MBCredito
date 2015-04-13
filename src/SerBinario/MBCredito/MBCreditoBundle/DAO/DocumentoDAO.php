@@ -43,4 +43,21 @@ class DocumentoDAO
         }
         
     }
+    
+    /**
+     * 
+     * @param type $name
+     * @return type
+     */
+    public function findByName($name)
+    {
+        try {
+            $result = $this->manager->getRepository("SerBinario\MBCredito\MBCreditoBundle\Entity\Documento")
+                    ->findBy(array("name"=> $name));
+            
+            return $result;
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
 }

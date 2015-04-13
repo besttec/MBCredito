@@ -291,6 +291,19 @@ class ConsultaCliente
      */
     private $clientesCliente;
     
+    /**
+     * @var \User
+     *
+     * @Assert\NotNull(message="Usuário não informado")
+     * @Assert\Type(type="object", message="Valor informado para User não é um objeto")
+     * 
+     * @ORM\ManyToOne(targetEntity="SerBinario\MBCredito\UserBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id_user", referencedColumnName="id")
+     * })
+     */
+    private $user;
+    
      /**
      * @ORM\OneToMany(targetEntity="ChamadaCliente", mappedBy="consultaCliente")
      **/
@@ -1081,6 +1094,26 @@ class ConsultaCliente
         return $this;
     }
 
+    /**
+     * Set callcenterCallcenter
+     *
+     * @param \SerBinario\MBCredito\UserBundle\Entity\User $user
+     * @return ChamadaCliente
+     */
+    public function setUser(\SerBinario\MBCredito\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
 
+        return $this;
+    }
 
+    /**
+     * Get callcenterCallcenter
+     *
+     * @return \SerBinario\MBCredito\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

@@ -54,6 +54,18 @@ $("#vDisponivel").inputmask('$ 999999999.99', {
     greedy: true
 });
 
+//Form view discagem
+$("#vContrato").inputmask('$ 999999999.99', {
+    numericInput: true,
+    rightAlignNumerics: false,
+    greedy: true
+});
+
+$("#nContrato").inputmask({
+    "mask": "999999999999999999999999999999",
+    placeholder: "" // remove underscores from the input mask
+});
+
 //$("#cola_num_conta").inputmask({
 //    "mask": "999999999999999999999999999999",
 //    placeholder: "" // remove underscores from the input mask

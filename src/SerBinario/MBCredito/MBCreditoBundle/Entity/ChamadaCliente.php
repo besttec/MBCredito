@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * ChamadaCliente
  *
- * @ORM\Table(name="chamada_cliente", indexes={@ORM\Index(name="fk_chamada_cliente_status1_idx", columns={"status_id_status"}), @ORM\Index(name="fk_chamada_cliente_user1_idx", columns={"user_id_user"}), @ORM\Index(name="fk_chamada_cliente_subrotinas1_idx", columns={"subrotinas_id_subrotina"})})
+ * @ORM\Table(name="chamada_cliente", indexes={@ORM\Index(name="fk_chamada_cliente_status1_idx", columns={"status_id_status"}), @ORM\Index(name="fk_chamada_cliente_subrotinas1_idx", columns={"subrotinas_id_subrotina"})})
  * @ORM\Entity
  */
 class ChamadaCliente
@@ -73,7 +73,25 @@ class ChamadaCliente
      * 
      * @ORM\Column(name="data_pendencia", type="datetime", nullable=false)
      */
-    private $dataPendencia;
+    private $dataPendencia;  
+        
+    /**
+     * @var integer
+     * 
+     * 
+     * 
+     * @ORM\Column(name="num_contrato", type="float", nullable=true)
+     */
+    private $numContrato;
+    
+    /**
+     * @var float
+     * 
+     * 
+     * 
+     * @ORM\Column(name="valor_contrato", type="float", nullable=true)
+     */
+    private $valorContratado;
 
     /**
      * @var string
@@ -94,20 +112,7 @@ class ChamadaCliente
      *   @ORM\JoinColumn(name="status_id_status", referencedColumnName="id_status")
      * })
      */
-    private $statusStatus;
-
-    /**
-     * @var \User
-     *
-     * @Assert\NotNull(message="Usuário não informado")
-     * @Assert\Type(type="object", message="Valor informado para User não é um objeto")
-     * 
-     * @ORM\ManyToOne(targetEntity="SerBinario\MBCredito\UserBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id_user", referencedColumnName="id")
-     * })
-     */
-    private $user;
+    private $statusStatus;   
 
     /**
      * @var \ConsultaClientes
@@ -190,30 +195,7 @@ class ChamadaCliente
     public function getStatusStatus()
     {
         return $this->statusStatus;
-    }
-
-    /**
-     * Set callcenterCallcenter
-     *
-     * @param \SerBinario\MBCredito\UserBundle\Entity\User $user
-     * @return ChamadaCliente
-     */
-    public function setUser(\SerBinario\MBCredito\UserBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get callcenterCallcenter
-     *
-     * @return \SerBinario\MBCredito\UserBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
+    }  
 
     /**
      * Set subrotinasSubrotina
@@ -363,6 +345,48 @@ class ChamadaCliente
     {
         $this->consultaCliente = $consultaCliente;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getNumContrato() 
+    {
+        return $this->numContrato;
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function getValorContratado() 
+    {
+        return $this->valorContratado;
+    }
+
+    /**
+     * 
+     * @param type $numContrato
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente
+     */
+    public function setNumContrato($numContrato) 
+    {
+        $this->numContrato = $numContrato;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param type $valorContratado
+     * @return \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente
+     */
+    public function setValorContratado($valorContratado) 
+    {
+        $this->valorContratado = $valorContratado;
+        return $this;
+    }
+
+
    
 
 }

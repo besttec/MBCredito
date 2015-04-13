@@ -78,13 +78,22 @@ class DefaultController extends Controller
         $documento = new Documento();
         $documento->setName($nameFile);
         $documento->setFile($uploadfile);
-        $documento->setData(new \DateTime("now", new \DateTimeZone("America/Recife")));
+        $documento->setData(new \DateTime("now", new \DateTimeZone("America/Recife"))); 
+        
         
         $erros = $validator->validate($documento);
         
         if(! count($erros)) {
             $documentoDAO = new DocumentoDAO($this->getDoctrine()->getManager());            
             $documento->upload();
+            
+            $valDoc = $documentoDAO->findByName($documento->getName());
+            
+            //if(!$valDoc) {
+            //    $this->get("session")->getFlashBag()->add('danger', "Esse arquivo já foi importado!");   
+
+            //    return $this->redirect($this->generateUrl("importarArquivo"));  
+            //}
             
             $result = $documentoDAO->save($documento);    
             
@@ -93,8 +102,9 @@ class DefaultController extends Controller
      
                 for($i = 0; $i < count($fileString); $i++) {
                     $columns = explode(";", $fileString[$i]);
-                    //var_dump($columns);exit;
+                    
                     $cliente = new Clientes();
+                    $cliente->setDocumento($documento);
                     $cliente->setCoc($columns[0]);
                     $cliente->setMciCorrespondente($columns[1]);
                     
@@ -160,11 +170,9 @@ class DefaultController extends Controller
                         $agencia->setPrefixoAg($columns[8]);                   
                         $agencia->setNomeAg("NENHUM");
                         $agencia->setUf($uf);
-                    }
+                    }                    
                     
-                    
-                    $cliente->setContaCorrente($columns[9]);
-                    
+                    $cliente->setContaCorrente($columns[9]);                    
                     $cliente->setAgAg($agencia);
                     $cliente->setNomeCliente($columns[10]); 
                     
@@ -507,6 +515,14 @@ class DefaultController extends Controller
                 $eventosArray[$i]['competencia']            =  $resultCliente[$i]->getCompetencia();
                 $eventosArray[$i]['pagtoAtravez']           =  $resultCliente[$i]->getPagtoAtravez();
                 $eventosArray[$i]['dataConsulta']           =  $resultCliente[$i]->getDataConsulta()->format("d/m/Y");
+                $eventosArray[$i]['foneResidencial']        =  $resultCliente[$i]->getClientesCliente()->getFoneResidCliente();
+                $eventosArray[$i]['dddFoneResid']           =  $resultCliente[$i]->getClientesCliente()->getDddFoneResidCliente();
+                $eventosArray[$i]['dddFoneComer']           =  $resultCliente[$i]->getClientesCliente()->getDddFoneComerCliente();
+                $eventosArray[$i]['foneComercial']          =  $resultCliente[$i]->getClientesCliente()->getFoneComerCliente();
+                $eventosArray[$i]['dddFoneCel']             =  $resultCliente[$i]->getClientesCliente()->getDddFoneCelCliente();
+                $eventosArray[$i]['foneCelular']            =  $resultCliente[$i]->getClientesCliente()->getFoneCelCliente();
+                $eventosArray[$i]['dddFonePref']            =  $resultCliente[$i]->getClientesCliente()->getDddFonePrefCliente();
+                $eventosArray[$i]['fonePreferencial']       =  $resultCliente[$i]->getClientesCliente()->getFonePrefCliente();
                 
                 if($resultCliente[$i]->getPeriodoIni()){
                     $eventosArray[$i]['periodoIni']         =  $resultCliente[$i]->getPeriodoIni()->format('d/m/Y');
@@ -700,14 +716,22 @@ class DefaultController extends Controller
                     }             
 
                     $eventosArray[$count]['cpf']                    =  $cpf;
-                    $eventosArray[$i]['prefixoAg']                  =  $prefixoAg;
-                    $eventosArray[$i]['contaCorrente']              =  $contaCorrente;
+                    $eventosArray[$count]['prefixoAg']                  =  $prefixoAg;
+                    $eventosArray[$count]['contaCorrente']              =  $contaCorrente;
                     $eventosArray[$count]['valorDescontos']         =  $resultCliente[$i]->getValorDescontos();
                     $eventosArray[$count]['valorLiquido']           =  $resultCliente[$i]->getValorLiquido();
                     $eventosArray[$count]['qtdEmprestimos']         =  $resultCliente[$i]->getQtdEmprestimos();
                     $eventosArray[$count]['competencia']            =  $resultCliente[$i]->getCompetencia();
                     $eventosArray[$count]['pagtoAtravez']           =  $resultCliente[$i]->getPagtoAtravez();
                     $eventosArray[$count]['dataConsulta']           =  $resultCliente[$i]->getDataConsulta()->format("d/m/Y");
+                    $eventosArray[$count]['foneResidencial']            =  $resultCliente[$i]->getClientesCliente()->getFoneResidCliente();
+                    $eventosArray[$count]['dddFoneResid']               =  $resultCliente[$i]->getClientesCliente()->getDddFoneResidCliente();
+                    $eventosArray[$count]['dddFoneComer']               =  $resultCliente[$i]->getClientesCliente()->getDddFoneComerCliente();
+                    $eventosArray[$count]['foneComercial']              =  $resultCliente[$i]->getClientesCliente()->getFoneComerCliente();
+                    $eventosArray[$count]['dddFoneCel']                 =  $resultCliente[$i]->getClientesCliente()->getDddFoneCelCliente();
+                    $eventosArray[$count]['foneCelular']                =  $resultCliente[$i]->getClientesCliente()->getFoneCelCliente();
+                    $eventosArray[$count]['dddFonePref']                =  $resultCliente[$i]->getClientesCliente()->getDddFonePrefCliente();
+                    $eventosArray[$count]['fonePreferencial']           =  $resultCliente[$i]->getClientesCliente()->getFonePrefCliente();
 
                     if($resultCliente[$i]->getPeriodoIni()){
                         $eventosArray[$count]['periodoIni']         =  $resultCliente[$i]->getPeriodoIni()->format('d/m/Y');
@@ -780,6 +804,8 @@ class DefaultController extends Controller
                     }
 
                     $emprestimos = array();
+                    
+                    
 
                     foreach ($resultCliente[$i]->getEmprestimos() as $index => $emprestimo) {
 
@@ -805,7 +831,7 @@ class DefaultController extends Controller
                     $countNot++;
                 }
             }
-            //iiiiii
+            //var_dump($eventosArray);exit;
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()){
                 $countEventos = $countTotal - $countNot;
@@ -1029,6 +1055,9 @@ class DefaultController extends Controller
     {
         $req = $request->request->all();
         
+        #Recupera o usuário da sessão
+        $usuario    = $this->get("security.context")->getToken()->getUser();
+        
         $obs          = trim($req['obs']);
         $id           = trim($req['idCliente']);
         $margem       = trim(str_replace(array("$", "_"), "", $req['margem']));
@@ -1107,6 +1136,8 @@ class DefaultController extends Controller
                 //
                 $cliente[0]->setValorDisponivelCliente($vDisponivel);
                 //
+                $cliente[0]->setUser($usuario);
+               
                 if($tCreditoPess){                    
                     $cliente[0]->setTipoCreditoCliente($tCreditoPess);
                     $cliente[0]->setTipoCreditoConsignado(0);
@@ -1212,20 +1243,24 @@ class DefaultController extends Controller
         $validator  = $this->get("validator");
         
         #Recupera os parâmetros da requisição
-        $statusId     = $dados['status'];
-        $subrotinaId  = $dados['subrotinas'];
-        $dtProxLig    = $dados['dataProxLiguacao'];
-        $obs          = $dados['obs'];
-        $chamadaAtual = $dados['chamadaAtual'];
-        $newDDD       = $dados['newDDD'];
-        $newFone      = $dados['newFone'];
-        $chamadaAnt   = $dados['chamadaAnterior'];
+        $statusId        = $dados['status'];
+        $subrotinaId     = $dados['subrotinas'];
+        $dtProxLig       = $dados['dataProxLiguacao'];
+        $obs             = $dados['obs'];
+        $chamadaAtual    = $dados['chamadaAtual'];
+        $newDDD          = $dados['newDDD'];
+        $newFone         = $dados['newFone'];
+        $chamadaAnt      = $dados['chamadaAnterior'];
+        $numContrato     = trim(str_replace(array("_"), "", $dados['nContrato']));
+        $valorContratado = trim(str_replace(array("$", "_"), "", $dados['vContrato']));
         
         #Criação de um objeto chamada
         $chamadaDados = new \SerBinario\MBCredito\MBCreditoBundle\Entity\ChamadaCliente();
         $chamadaDados->setObservacao($obs);
         $chamadaDados->setNovoDDD($newDDD);
         $chamadaDados->setNovoFone($newFone);
+        $chamadaDados->setNumContrato($numContrato);
+        $chamadaDados->setValorContratado($valorContratado);
         
         #Criação do objeto discagemRN.
         $discagemRN  = new DiscagemRN($this->getDoctrine()->getManager(), $usuario, $validator);
@@ -1673,7 +1708,7 @@ class DefaultController extends Controller
                 $this->get("session")->getFlashBag()->add('danger', (string) $valResult);
             }
         } else {
-            $this->get("session")->getFlashBag()->add('danger', "Você deve informar o convênio");
+            $this->get("session")->getFlashBag()->add('danger', "Você deve informar uma Agência");
         }           
         
         return $this->redirect($this->generateUrl("viewGridListaPa"));
@@ -1809,7 +1844,7 @@ class DefaultController extends Controller
             $usuario    = $this->get("security.context")->getToken()->getUser();
             //var_dump($usuarioRoles);exit();
 
-            $entityJOIN = array("a.consultaCliente", "a.user"); 
+            $entityJOIN = array("consultaCliente", "b.user"); 
 
             $chamadasArray    = array();
             $parametros       = $request->request->all();        
@@ -1818,7 +1853,7 @@ class DefaultController extends Controller
             $whereValueMain   = "";
             
             if($usuarioRoles[0]->getRole() == "ROLE_PA" || $usuarioRoles[0]->getRole() == "ROLE_PA_CONSULTA") {
-                $whereFull        = "a.user = c.id and c.id = {$usuario->getId()}";
+                $whereFull        = "c.id = {$usuario->getId()}";
             } else {
                 $whereFull        = "";
             }
@@ -1836,7 +1871,7 @@ class DefaultController extends Controller
             $resultChamadas     = $gridClass->builderQuery();
             
             if($usuarioRoles[0]->getRole() == "ROLE_PA" || $usuarioRoles[0]->getRole() == "ROLE_PA_CONSULTA") {
-                $countTotal     = $gridClass->getCountByWhereFull(array("c" => "user"), array(), $whereFull);
+                $countTotal     = $gridClass->getCountByWhereFull(array("b" => "consultaCliente"), array("c" => "b.user"), $whereFull);
             } else {
                 $countTotal     = $gridClass->getCount();
             }
@@ -1851,7 +1886,7 @@ class DefaultController extends Controller
                 $chamadasArray[$i]['dataChamada']   = is_object($resultChamadas[$i]->getDataChamada()) 
                         ? $resultChamadas[$i]->getDataChamada()->format("d/m/Y H:i") : "VAZIO";
                 $chamadasArray[$i]['dataPendencia'] = $resultChamadas[$i]->getDataPendencia()->format("d/m/Y");
-                $chamadasArray[$i]['usuario']       = $resultChamadas[$i]->getUser()->getUsername();
+                $chamadasArray[$i]['usuario']       = $resultChamadas[$i]->getConsultaCliente()->getUser()->getUsername();
                 $chamadasArray[$i]['cliente']       = $resultChamadas[$i]->getConsultaCliente()->getClientesCliente()->getNomeCliente();
                 $chamadasArray[$i]['observacao']    = $resultChamadas[$i]->getObservacao();
                 
@@ -1899,6 +1934,81 @@ class DefaultController extends Controller
         );
         
         return new JsonResponse($dados);
+    }
+    
+    /**
+     * @Route("/viewRelatorioLigacoes", name="viewRelatorioLigacoes")
+     * @Template()
+     */
+    public function viewRelatorioLigacoesAction()
+    {
+        $userDAO = new UserDAO($this->getDoctrine()->getManager());
+        $users   = $userDAO->findAll();  
+        
+        return array("users" => $users);
+    }
+    
+    /**
+     * @Route("/relatorioLigacoes", name="relatorioLigacoes")
+     * @Template()
+     */
+    public function relatorioLigacoesAction(Request $request) 
+    {   
+        #Recuperar dados da requisição
+        $dados   = $request->request->all();        
+        
+        #Recupera o usuário da sessão
+        $usuario = $this->get("security.context")->getToken()->getUser();        
+        
+        #Dados da requisição
+        $dataInicial   = $dados["dataInicial"];
+        $dataFinal     = $dados["dataFinal"];
+        $usuarioBusca  = "";
+        $arrayResponse = array();
+       
+        #DAOS
+        $chamadaDAO = new \SerBinario\MBCredito\MBCreditoBundle\DAO\ChamadaDAO($this->getDoctrine()->getManager());
+        $userDAO    = new UserDAO($this->getDoctrine()->getManager());
+        
+        #Se for administrador
+        if($this->get('security.context')->isGranted('ROLE_ADMIN', $usuario)) {
+            $usuarioBusca  = $dados["usuario"];
+            $users         = array();
+            
+            if($usuarioBusca !== "todos") {              
+                $users = $userDAO->findLikeUsername($usuarioBusca);
+            } else {
+                $users = $userDAO->findAll();  
+            }    
+            
+            for($i = 0; $i < count($users); $i++) {  
+                $arrayRoles = array();
+                
+                foreach($users[$i]->getRoles() as  $role) {
+                    $arrayRoles[] = $role->getRole();
+                }
+               
+                if(!is_numeric(\array_search("ROLE_ADMIN", $arrayRoles))) {
+                    $arrayResponse[$i]["usuario"]      = $users[$i]->getUsername();                    
+                    $arrayResponse[$i]["finalizadas"]  = $chamadaDAO->findByFinalizada($users[$i]->getId(), 1, $dataInicial, $dataFinal);
+                    $arrayResponse[$i]["nContadados"]  = $chamadaDAO->findByFinalizada($users[$i]->getId(), 2, $dataInicial, $dataFinal);
+                    $arrayResponse[$i]["contratados"]  = $chamadaDAO->findByContratada($users[$i]->getId(), $dataInicial, $dataFinal);
+                }                
+            }
+            
+            #Retorno
+            return new JsonResponse($arrayResponse);            
+        }  
+        #Se não for administrador
+        $user = $userDAO->findById($usuario->getId());    
+        
+        $arrayResponse[0]["usuario"]      = $user->getUsername();        
+        $arrayResponse[0]["finalizadas"]  = $chamadaDAO->findByFinalizada($user->getId(), 1, $dataInicial, $dataFinal);
+        $arrayResponse[0]["nContadados"]  = $chamadaDAO->findByFinalizada($user->getId(), 2, $dataInicial, $dataFinal);
+        $arrayResponse[0]["contratados"]  = $chamadaDAO->findByContratada($user->getId(), $dataInicial, $dataFinal);
+       
+        #Retorno
+        return new JsonResponse($arrayResponse);  
     }
     
  }

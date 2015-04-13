@@ -30,24 +30,23 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Opções <span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">OPÇÕES <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     {% if is_granted('ROLE_ADMIN') %}
-                                        <li><a href="{{path('importarArquivo')}}">Importar Arquivo</a></li>
+                                        <li><a href="{{path('importarArquivo')}}">IMPORTAR ARQUIVO</a></li>
                                     {% endif %}
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <li><a href="{{path('inserirDados')}}">Consulta DataPrev</a></li>
-                                    {% endif %}
+                                    
+                                        <li><a href="{{path('inserirDados')}}">CONSULTA DATAPREV</a></li>
+                                    
                                     {% if is_granted('ROLE_PA_CONSULTA')%}
-                                        <li><a href="{{path('viewGridDados')}}">Visualizar Dados Todos</a></li>
+                                        <li><a href="{{path('viewGridDados')}}">SIMULAÇÃO TODOS</a></li>
                                     {% endif %}
                                     {% if is_granted('ROLE_ADMIN')%}
-                                        <li><a href="{{path('viewGridDadosTwo')}}">Visualizar Dados</a></li>
+                                        <li><a href="{{path('viewGridDadosTwo')}}">SIMULAÇÃO</a></li>
                                     {% endif %}
                                     {% if not is_granted('ROLE_ADMIN') and is_granted('ROLE_PA') %}
-                                    <li><a href="{{path('viewDiscagem')}}">Tela Discagem</a></li>
-                                    {% endif %}
-                                    <li><a href="{{ path('viewGridHistorico') }}">Histórico de Ligações</a></li>
+                                    <li><a href="{{path('viewDiscagem')}}">TELA DISCAGEM</a></li>
+                                    {% endif %}                                    
                                 </ul>                                
                             </li>
                         </ul>
@@ -56,13 +55,22 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administrador <span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{{path('viewGridListaUser')}}">Cadastro de Usuários</a></li>
-                                        <li><a href="{{path('viewGridListaPa')}}">Agência\PA</a></li>
-                                        <li><a href="{{ path('viewGridListaAgencias') }}">Lista de Agências</a></li>
+                                        <li><a href="{{path('viewGridListaUser')}}">CADASTRO DE USUÁRIOS</a></li>
+                                        <li><a href="{{path('viewGridListaPa')}}">AGÊNCIA\PA</a></li>
+                                        <li><a href="{{ path('viewGridListaAgencias') }}">LISTA DE AGÊNCIAS</a></li>
                                     </ul>
                                 </li>
                             </ul>
                         {% endif %}
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">RELATÓRIOS <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">                       
+                                     <li><a href="{{path('viewRelatorioLigacoes')}}">LIGAÇÕES</a></li>  
+                                     <li><a href="{{ path('viewGridHistorico') }}">HISTÓRICO DE LIGAÇÕES</a></li>
+                                </ul>                                
+                            </li>
+                        </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="#">{{ app.security.getToken().getUser().getUsername() }}</a></li>
                             <li><a href="{{path('logout')}}">Sair</a></li>

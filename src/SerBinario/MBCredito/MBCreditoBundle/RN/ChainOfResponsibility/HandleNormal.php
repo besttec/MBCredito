@@ -100,7 +100,7 @@ class HandleNormal implements IHandle
         }
         
         #Recupera uma consulta que já foi consultado e não está sendo atendido por nenhum callcenter
-        $consulta = $this->clienteDAO->findNotUse($idAgenciaPA, $estadoAgenciaPA);       
+        $consulta = $this->clienteDAO->findNotUse($idAgenciaPA, $estadoAgenciaPA, $this->user);       
         
         #Verifica se existe cliente.
         if( !$consulta) {
@@ -123,7 +123,7 @@ class HandleNormal implements IHandle
         $chamada->setStatusChamada(false);
         $chamada->setDataPendencia(new \DateTime("now", new \DateTimeZone("America/Recife")));
         $chamada->setConsultaCliente($consulta);
-        $chamada->setUser($this->user);
+        //$chamada->setUser($this->user);
         
         #Validando o objeto chamada
         $valResult = $this->validador->validate($chamada);
@@ -177,13 +177,13 @@ class HandleNormal implements IHandle
         }
         
         #Recupera todas as chamadas do cliente = $cliente
-        $calls    = $this->clienteDAO->findCallsCliente($consulta);
+       //$calls    = $this->clienteDAO->findCallsCliente($consulta);
         
         #Retorno 
         return array(
                 "cliente"         => $cliente,
                 "status"          => $this->statusArray,
-                "calls"           => $calls,
+                "calls"           => null,
                 "chamadaAtual"    => $chamada,
                 "consulta"        => $consulta,
                 "chamadaAnterior" => null,
