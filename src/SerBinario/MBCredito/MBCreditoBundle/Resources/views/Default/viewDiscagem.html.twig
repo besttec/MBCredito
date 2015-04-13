@@ -287,6 +287,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript" src="{{asset('js/jquery.inputmask.bundle.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/components_form_tools.js')}}"></script>
     <script type="text/javascript" language="javascript" class="init">
         $(document).ready(function() {
